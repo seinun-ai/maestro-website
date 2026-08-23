@@ -1,69 +1,301 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import Divider from "@mui/material/Divider";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import FunctionsIcon from "@mui/icons-material/FunctionsOutlined";
+import VerifiedIcon from "@mui/icons-material/VerifiedOutlined";
+import LockOpenIcon from "@mui/icons-material/LockOpenOutlined";
+import ShieldIcon from "@mui/icons-material/ShieldOutlined";
 
-export default function Home() {
+import Hero from "@/components/Hero";
+import Section, { Eyebrow } from "@/components/Section";
+import Reveal from "@/components/Reveal";
+import ShotFrame from "@/components/ShotFrame";
+import ComparisonTable from "@/components/ComparisonTable";
+import FeatureRow from "@/components/FeatureRow";
+import Faq from "@/components/Faq";
+import CtaBand from "@/components/CtaBand";
+import StructuredData from "@/components/StructuredData";
+import CodeBlock from "@/components/CodeBlock";
+import { LinkButton } from "@/components/NextMui";
+import { IconTile, TintBand, TintPaper } from "@/components/Surfaces";
+import { agents, features, pillars, privacy, problem, quickstart, steps } from "@/content/site";
+
+const pillarIcons: Record<string, React.ReactElement> = {
+  determinism: <FunctionsIcon />,
+  evidence: <VerifiedIcon />,
+  ownership: <LockOpenIcon />,
+};
+
+export default function HomePage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <StructuredData />
+      <Hero />
+
+      {/* The premise — why any of this exists */}
+      <Section tone="raised">
+        <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: "flex-start" }}>
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Reveal>
+              <Eyebrow>{problem.eyebrow}</Eyebrow>
+              <Typography variant="h2">{problem.title}</Typography>
+            </Reveal>
+          </Grid>
+          <Grid size={{ xs: 12, md: 7 }}>
+            <Reveal delay={80}>
+              <Stack spacing={2.5}>
+                {problem.body.map((p) => (
+                  <Typography key={p.slice(0, 24)} variant="body1" sx={{ color: "text.secondary" }}>
+                    {p}
+                  </Typography>
+                ))}
+                <Typography
+                  variant="h3"
+                  component="p"
+                  sx={{ pl: 2.5, borderLeft: 3, borderColor: "primary.main", color: "text.primary", mt: 1 }}
+                >
+                  {problem.pull}
+                </Typography>
+              </Stack>
+            </Reveal>
+          </Grid>
+        </Grid>
+      </Section>
+
+      {/* Three pillars */}
+      <Section
+        eyebrow="What makes it different"
+        title="Three commitments, and everything else follows from them"
+        lede="These are the parts other tools in this category do not do — not because they are hard to copy, but because each one costs something a subscription product is unwilling to pay."
+      >
+        <Grid container spacing={3}>
+          {pillars.map((p, i) => (
+            <Grid size={{ xs: 12, md: 4 }} key={p.title}>
+              <Reveal delay={i * 90} sx={{ height: "100%" }}>
+                <Paper sx={{ p: { xs: 3, md: 3.5 }, height: "100%", borderRadius: 3 }}>
+                  <Stack spacing={2}>
+                    <IconTile>{pillarIcons[p.icon]}</IconTile>
+                    <Typography variant="h4" component="h3">
+                      {p.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                      {p.body}
+                    </Typography>
+                    <Divider sx={{ pt: 0.5 }} />
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                      {p.proof}
+                    </Typography>
+                  </Stack>
+                </Paper>
+              </Reveal>
+            </Grid>
+          ))}
+        </Grid>
+      </Section>
+
+      {/* The loop, compressed */}
+      <Section
+        tone="raised"
+        eyebrow="The loop"
+        title="Five steps, and the fourth one is where the value is"
+        lede="Built for few, well-evidenced applications rather than volume — because depth per application is the only lever left when a single opening draws around 240 of them."
+      >
+        <Grid container spacing={{ xs: 2.5, md: 3 }}>
+          {steps.map((s, i) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={s.n}>
+              <Reveal delay={i * 70} sx={{ height: "100%" }}>
+                <Paper sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default" }}>
+                  <Stack spacing={1.5}>
+                    <Typography
+                      sx={{ fontFamily: "var(--font-mono)", fontSize: "0.8125rem", fontWeight: 700, color: "primary.main" }}
+                    >
+                      {s.n}
+                    </Typography>
+                    <Typography variant="h4" component="h3">
+                      {s.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                      {s.summary}
+                    </Typography>
+                  </Stack>
+                </Paper>
+              </Reveal>
+            </Grid>
+          ))}
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <Reveal delay={350} sx={{ height: "100%" }}>
+              <TintPaper
+                sx={{
+                  p: 3,
+                  height: "100%",
+                  borderRadius: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography variant="h4" component="p" sx={{ mb: 2 }}>
+                  Walk the whole loop, step by step.
+                </Typography>
+                <LinkButton
+                  href="/how-it-works"
+                  endIcon={<ArrowForwardIcon />}
+                  sx={{ alignSelf: "flex-start", px: 0 }}
+                >
+                  How it works
+                </LinkButton>
+              </TintPaper>
+            </Reveal>
+          </Grid>
+        </Grid>
+      </Section>
+
+      {/* Two flagship features, the rest live on /features */}
+      <Section
+        eyebrow="Inside the studio"
+        title="The parts you will actually live in"
+        lede="Everything below is in the shipped app — these are real captures, not mockups."
+      >
+        <Stack spacing={{ xs: 8, md: 12 }}>
+          <FeatureRow feature={features[0]} />
+          <FeatureRow feature={features[1]} flip />
+        </Stack>
+        <Reveal>
+          <Stack direction="row"  sx={{ justifyContent: "center", mt: { xs: 6, md: 8 } }}>
+            <LinkButton href="/features" variant="outlined" size="large" endIcon={<ArrowForwardIcon />}>
+              See every feature
+            </LinkButton>
+          </Stack>
+        </Reveal>
+      </Section>
+
+      {/* Comparison */}
+      <Section
+        tone="raised"
+        eyebrow="How it compares"
+        title="The rows a subscription product cannot fill in"
+        lede="No vibes, no vendor asterisks — every claim here is one you can check against the source in an afternoon."
+      >
+        <Reveal>
+          <ComparisonTable />
+        </Reveal>
+      </Section>
+
+      {/* Agents */}
+      <Section eyebrow={agents.hero.eyebrow} title={agents.hero.title} lede={agents.hero.lede}>
+        <Grid container spacing={{ xs: 4, md: 6 }} sx={{ alignItems: "center" }}>
+          <Grid size={{ xs: 12, md: 7 }}>
+            <Reveal>
+              <ShotFrame src={agents.hero.image} alt={agents.hero.imageAlt} sizes="(max-width: 900px) 100vw, 640px" />
+            </Reveal>
+          </Grid>
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Reveal delay={80}>
+              <Stack spacing={3}>
+                <Box>
+                  <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
+                    One command sets it up
+                  </Typography>
+                  <CodeBlock code={quickstart.mcp} />
+                </Box>
+                <Box>
+                  <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
+                    Six profiles keep the tool list relevant per chat — enable one at a time.
+                  </Typography>
+                  <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
+                    {agents.profiles.map((p) => (
+                      <Chip key={p.name} label={p.name} size="small" variant="outlined" sx={{ fontFamily: "var(--font-mono)" }} />
+                    ))}
+                  </Stack>
+                </Box>
+                <LinkButton href="/agents" endIcon={<ArrowForwardIcon />} sx={{ alignSelf: "flex-start", px: 0 }}>
+                  Agents, hunting and the consent ledger
+                </LinkButton>
+              </Stack>
+            </Reveal>
+          </Grid>
+        </Grid>
+      </Section>
+
+      {/* Privacy strip */}
+      <TintBand>
+          <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: "flex-start" }}>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <Reveal>
+                <ShieldIcon sx={{ fontSize: 34, color: "primary.main", mb: 1.5 }} />
+                <Typography variant="h2">{privacy.hero.title}</Typography>
+                <Typography variant="subtitle1" sx={{ color: "text.secondary", mt: 2 }}>
+                  {privacy.hero.lede}
+                </Typography>
+                <LinkButton href="/privacy" endIcon={<ArrowForwardIcon />} sx={{ mt: 3, px: 0 }}>
+                  Read the honest version
+                </LinkButton>
+              </Reveal>
+            </Grid>
+            <Grid size={{ xs: 12, md: 7 }}>
+              <Grid container spacing={2.5}>
+                {privacy.facts.map((f, i) => (
+                  <Grid size={{ xs: 12, sm: 6 }} key={f.title}>
+                    <Reveal delay={i * 70}>
+                      <Stack spacing={1}>
+                        <Typography variant="h5" component="h3">
+                          {f.title}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                          {f.body}
+                        </Typography>
+                      </Stack>
+                    </Reveal>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+      </TintBand>
+
+      {/* Quickstart */}
+      <Section
+        eyebrow="Get running"
+        title="Clone, copy the env file, up."
+        lede="First build takes several minutes — it installs TeX Live and downloads the embedding model. After that it is one command."
+        maxWidth={640}
+      >
+        <Grid container spacing={{ xs: 3, md: 6 }} sx={{ alignItems: "center" }}>
+          <Grid size={{ xs: 12, md: 7 }}>
+            <Reveal>
+              <CodeBlock code={quickstart.clone} />
+            </Reveal>
+          </Grid>
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Reveal delay={80}>
+              <Stack spacing={2}>
+                <Typography variant="body1" sx={{ color: "text.secondary" }}>
+                  Then open <Box component="code" sx={{ fontWeight: 600 }}>http://localhost:3000</Box>. No key needed to
+                  start — scoring, rendering, tracking and analytics never call a model.
+                </Typography>
+                <LinkButton href="/start" variant="contained" endIcon={<ArrowForwardIcon />} sx={{ alignSelf: "flex-start" }}>
+                  Full setup guide
+                </LinkButton>
+              </Stack>
+            </Reveal>
+          </Grid>
+        </Grid>
+      </Section>
+
+      {/* FAQ */}
+      <Section tone="raised" eyebrow="Questions" title="The ones worth answering up front" maxWidth={640}>
+        <Reveal>
+          <Faq />
+        </Reveal>
+      </Section>
+
+      <CtaBand />
+    </>
   );
 }
