@@ -69,6 +69,19 @@ const theme = createTheme({
         code: { fontFamily: "var(--font-mono), ui-monospace, SFMono-Regular, monospace" },
       },
     },
+    MuiTypography: {
+      defaultProps: {
+        // MUI maps subtitle1/subtitle2 to <h6>. Every section lede on this site
+        // uses subtitle1, so the shipped pages carried up to eight phantom
+        // headings each: prose announced as headings to a screen reader, and a
+        // heading outline that jumped h2 -> h6 at every section. They are
+        // paragraphs; say so once, here.
+        variantMapping: {
+          subtitle1: "p",
+          subtitle2: "p",
+        },
+      },
+    },
     MuiContainer: { defaultProps: { maxWidth: "lg" } },
     MuiButton: {
       defaultProps: { disableElevation: true },

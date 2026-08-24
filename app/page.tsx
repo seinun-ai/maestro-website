@@ -100,19 +100,9 @@ export default function HomePage() {
         </Reveal>
       </Section>
 
-      {/* Economics — the number that reframes the category */}
-      <Section
-        tone="raised"
-        eyebrow={economics.eyebrow}
-        title={economics.title}
-        lede={economics.lede}
-        maxWidth={760}
-      >
-        <Economics />
-      </Section>
-
       {/* Three pillars */}
       <Section
+        tone="raised"
         eyebrow="What makes it different"
         title="Three commitments, and everything else follows from them"
         lede="These are the parts other tools in this category do not do — not because they are hard to copy, but because each one costs something a subscription product is unwilling to pay."
@@ -144,7 +134,6 @@ export default function HomePage() {
 
       {/* The loop */}
       <Section
-        tone="raised"
         eyebrow="The loop"
         title="Five steps, and the fourth one is where the value is"
         lede="Built for few, well-evidenced applications rather than volume — because depth per application is the only lever left when a single opening draws around 240 of them."
@@ -197,6 +186,7 @@ export default function HomePage() {
 
       {/* Two flagship features */}
       <Section
+        tone="raised"
         eyebrow="Inside the studio"
         title="The parts you will actually live in"
         lede="Everything below is in the shipped app — these are real captures, not mockups."
@@ -212,6 +202,16 @@ export default function HomePage() {
             </LinkButton>
           </Stack>
         </Reveal>
+      </Section>
+
+      {/* Economics — the number that reframes the category */}
+      <Section
+        eyebrow={economics.eyebrow}
+        title={economics.title}
+        lede={economics.lede}
+        maxWidth={760}
+      >
+        <Economics />
       </Section>
 
       {/* Model profiles */}

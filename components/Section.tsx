@@ -5,10 +5,18 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { SxProps, Theme } from "@mui/material/styles";
 import Reveal from "./Reveal";
+import { brand } from "@/lib/theme";
 
 export function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <Typography variant="overline" component="p" sx={{ color: "primary.main", mb: 1.25 }}>
+    <Typography
+      variant="overline"
+      component="p"
+      // Eyebrows are 11px with wide tracking. primary.main clears AA at 4.86:1,
+      // but small tracked-out caps deserve more headroom than the minimum, so
+      // they take the darker brand blue: 6.31:1.
+      sx={{ color: brand.blueFacet, mb: 1.25 }}
+    >
       {children}
     </Typography>
   );
