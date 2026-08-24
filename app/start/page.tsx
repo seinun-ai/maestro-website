@@ -5,11 +5,6 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Button from "@mui/material/Button";
@@ -23,15 +18,18 @@ import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
 import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
+import MakerNote from "@/components/MakerNote";
+import Economics from "@/components/Economics";
+import ModelProfiles from "@/components/ModelProfiles";
 import GitHubMark from "@/components/GitHubMark";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
-import { quickstart, site } from "@/content/site";
+import { modelProfiles, quickstart, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Get started",
   description:
-    "Prerequisites, the four-line quickstart, what works with zero API keys, how to run it fully offline against a local model server, and how to wire up the MCP server.",
+    "Four pieces and only the first is required: the stack, one API key, the MCP script, the browser extension. Plus what runs with no key at all, and what a tailored application actually costs.",
 };
 
 const firstBoot = [
@@ -46,26 +44,42 @@ export default function StartPage() {
     <>
       <PageHero
         eyebrow="Get started"
-        title="Four lines to a running studio."
+        title="Four pieces. Only the first is required."
         lede="Everything runs in three containers on your machine. The first build takes several minutes because it installs TeX Live and downloads the pinned embedding model; after that, it is one command."
       >
         <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", pt: 1 }}>
           <Chip label="Apache-2.0" size="small" variant="outlined" />
           <Chip label="No account" size="small" variant="outlined" />
-          <Chip label="No API key needed to start" size="small" variant="outlined" />
+          <Chip label="≈1¢ per application" size="small" variant="outlined" />
           <Chip label="127.0.0.1 only" size="small" variant="outlined" />
         </Stack>
       </PageHero>
 
-      <Section eyebrow="Step 1" title="Prerequisites" maxWidth={620}>
+      {/* The four pieces */}
+      <Section eyebrow="The shape of it" title="What a complete setup looks like" maxWidth={620}>
         <Grid container spacing={2.5}>
-          {quickstart.prerequisites.map((p, i) => (
-            <Grid size={{ xs: 12, md: 4 }} key={p.title}>
+          {quickstart.pieces.map((p, i) => (
+            <Grid size={{ xs: 12, sm: 6 }} key={p.n}>
               <Reveal delay={i * 70} sx={{ height: "100%" }}>
                 <Paper sx={{ p: 3, height: "100%", borderRadius: 3 }}>
-                  <Typography variant="h5" component="h3" sx={{ mb: 1 }}>
-                    {p.title}
-                  </Typography>
+                  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
+                    <Chip
+                      label={p.n}
+                      size="small"
+                      color={p.required ? "primary" : "default"}
+                      variant={p.required ? "filled" : "outlined"}
+                      sx={{ fontFamily: "var(--font-mono)", minWidth: 26 }}
+                    />
+                    <Typography variant="h5" component="h3">
+                      {p.title}
+                    </Typography>
+                    <Chip
+                      label={p.required ? "required" : "optional"}
+                      size="small"
+                      variant="outlined"
+                      sx={{ ml: "auto", opacity: 0.75 }}
+                    />
+                  </Stack>
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     {p.body}
                   </Typography>
@@ -76,9 +90,10 @@ export default function StartPage() {
         </Grid>
       </Section>
 
+      {/* Prerequisites + clone */}
       <Section
         tone="raised"
-        eyebrow="Step 2"
+        eyebrow="Step 1"
         title="Clone and start the stack"
         lede="Then open http://localhost:3000."
         maxWidth={620}
@@ -89,7 +104,13 @@ export default function StartPage() {
               <CodeBlock code={quickstart.clone} />
             </Reveal>
             <Reveal>
-              <Alert severity="info" variant="outlined" sx={{ mt: 3, borderRadius: 3 }}>
+              <Alert severity="warning" variant="outlined" sx={{ mt: 3, borderRadius: 3 }}>
+                <AlertTitle sx={{ fontWeight: 700 }}>{quickstart.earlyRelease.title}</AlertTitle>
+                {quickstart.earlyRelease.body}
+              </Alert>
+            </Reveal>
+            <Reveal>
+              <Alert severity="info" variant="outlined" sx={{ mt: 2, borderRadius: 3 }}>
                 <AlertTitle sx={{ fontWeight: 700 }}>Port already allocated?</AlertTitle>
                 All three host ports are overridable in <code>.env</code> — <code>BACKEND_HOST_PORT</code> (8001),{" "}
                 <code>FRONTEND_HOST_PORT</code> (3000) and <code>POSTGRES_HOST_PORT</code> (55432). Only the host side of
@@ -99,6 +120,21 @@ export default function StartPage() {
           </Grid>
           <Grid size={{ xs: 12, md: 5 }}>
             <Reveal delay={80}>
+              <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
+                You will need
+              </Typography>
+              <Stack spacing={2} sx={{ mb: 4 }}>
+                {quickstart.prerequisites.map((p) => (
+                  <Box key={p.title}>
+                    <Typography variant="body2" sx={{ fontWeight: 700 }}>
+                      {p.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                      {p.body}
+                    </Typography>
+                  </Box>
+                ))}
+              </Stack>
               <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
                 On first boot, Docker will:
               </Typography>
@@ -115,11 +151,32 @@ export default function StartPage() {
         </Grid>
       </Section>
 
+      {/* Step 2 — the key, the cost, the profiles */}
       <Section
-        eyebrow="Step 3 — optional"
-        title={quickstart.noKey.title}
-        lede="Maestro CS is fully operational with zero API keys configured — rare in this category, and deliberate."
-        maxWidth={660}
+        eyebrow="Step 2"
+        title="Bring one API key"
+        lede="OpenAI or Gemini — either one alone is a complete setup. The parts that make Maestro CS fastest day to day run on it: in-app tailoring, the extension's tailor-on-the-go and AI form filling, cover letters and screening answers, KB consolidation, and chat."
+        maxWidth={760}
+      >
+        <Economics />
+      </Section>
+
+      <Section
+        tone="raised"
+        eyebrow={modelProfiles.eyebrow}
+        title={modelProfiles.title}
+        lede={modelProfiles.lede}
+        maxWidth={800}
+      >
+        <ModelProfiles />
+      </Section>
+
+      {/* No key */}
+      <Section
+        eyebrow="No key yet?"
+        title={quickstart.keyless.title}
+        lede="Two honest tiers: the deterministic core always works, and over MCP your assistant supplies the model itself."
+        maxWidth={680}
       >
         <Grid container spacing={3}>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -129,7 +186,7 @@ export default function StartPage() {
                   Works immediately, no key
                 </Typography>
                 <Stack spacing={1.5}>
-                  {quickstart.noKey.works.map((w) => (
+                  {quickstart.keyless.works.map((w) => (
                     <Stack key={w} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
                       <CheckIcon sx={{ fontSize: 19, color: "success.main", mt: "2px", flexShrink: 0 }} />
                       <Typography variant="body2">{w}</Typography>
@@ -146,7 +203,7 @@ export default function StartPage() {
                   Degrades or defers cleanly
                 </Typography>
                 <Stack spacing={1.5}>
-                  {quickstart.noKey.defers.map((d) => (
+                  {quickstart.keyless.defers.map((d) => (
                     <Stack key={d} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
                       <PauseIcon sx={{ fontSize: 19, color: "text.secondary", mt: "2px", flexShrink: 0 }} />
                       <Typography variant="body2">{d}</Typography>
@@ -157,90 +214,73 @@ export default function StartPage() {
             </Reveal>
           </Grid>
         </Grid>
+
+        <Reveal>
+          <Alert severity="info" variant="outlined" sx={{ mt: 3, borderRadius: 3 }}>
+            <AlertTitle sx={{ fontWeight: 700 }}>{quickstart.localModels.title}</AlertTitle>
+            {quickstart.localModels.body} {quickstart.localModels.ask}
+          </Alert>
+        </Reveal>
       </Section>
 
+      {/* Steps 3 and 4 */}
       <Section
         tone="raised"
-        eyebrow="Step 4 — choose your models"
-        title="Three tiers, configured independently"
-        lede="Press Test on each in Settings → Models to measure what it actually does. Because the tiers are separate, running Fast and Smart locally while Chat points at a hosted model is a supported — and often optimal — setup."
-        maxWidth={720}
+        eyebrow="Steps 3 & 4"
+        title="Attach your assistant, and your browser"
+        lede="Both are optional, and both take about a minute."
+        maxWidth={640}
       >
-        <Reveal>
-          <Paper sx={{ borderRadius: 3, overflowX: "auto", mb: 4 }}>
-            <Table sx={{ minWidth: 560 }} aria-label="Model tiers">
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ width: "16%" }}>Tier</TableCell>
-                  <TableCell sx={{ width: "48%" }}>Used for</TableCell>
-                  <TableCell>Wants</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {quickstart.tiers.map((t) => (
-                  <TableRow key={t.tier} sx={{ "&:last-of-type td": { borderBottom: 0 } }}>
-                    <TableCell sx={{ fontWeight: 700, color: "primary.main" }}>{t.tier}</TableCell>
-                    <TableCell sx={{ color: "text.secondary" }}>{t.used}</TableCell>
-                    <TableCell>{t.wants}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
-        </Reveal>
-
-        <Grid container spacing={{ xs: 3, md: 6 }} sx={{ alignItems: "center" }}>
-          <Grid size={{ xs: 12, md: 5 }}>
+        <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Reveal>
               <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
-                Run it fully offline
+                MCP for your assistant
               </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Point the OpenAI-compatible client at any local server and no resume text leaves your machine. Model ids
-                become free text once that is set, because we cannot enumerate what your server has pulled.
-              </Typography>
-            </Reveal>
-          </Grid>
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Reveal delay={80}>
-              <CodeBlock code={quickstart.offline} />
-            </Reveal>
-          </Grid>
-        </Grid>
-      </Section>
-
-      <Section
-        eyebrow="Step 5 — optional"
-        title="Wire it up to your assistant"
-        lede="With the backend already running, one command registers the MCP server and prints ready-to-paste config for every client."
-        maxWidth={660}
-      >
-        <Grid container spacing={{ xs: 3, md: 6 }} sx={{ alignItems: "center" }}>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Reveal>
               <CodeBlock code={quickstart.mcp} />
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
+                Registers the server with Claude Code and prints paste-ready config for Claude Desktop and the ChatGPT
+                desktop app / Codex CLI, every path already filled in. Add <code>--profile hunt</code> for a scoped
+                profile, or <code>--print-only</code> to change nothing and just see the config. Restart Claude Desktop
+                with Cmd+Q after pasting — closing the window is not enough.
+              </Typography>
+              <LinkButton href="/agents" sx={{ px: 0, mt: 1 }}>
+                What agents can do with it
+              </LinkButton>
             </Reveal>
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <Reveal delay={80}>
-              <Stack spacing={2}>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  Add <code>--profile hunt</code> to register a scoped profile instead, or <code>--print-only</code> to
-                  change nothing and just see the config. Restart Claude Desktop with Cmd+Q after pasting — closing the
-                  window is not enough.
-                </Typography>
-                <Box>
-                  <LinkButton href="/agents" variant="outlined">
-                    What agents can do with it
-                  </LinkButton>
-                </Box>
-              </Stack>
+              <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
+                The browser extension
+              </Typography>
+              <Paper sx={{ p: 3, borderRadius: 3 }}>
+                <Stack spacing={1.5}>
+                  {[
+                    "Open chrome://extensions",
+                    "Turn on Developer mode",
+                    "Load unpacked → the repo's extension/ folder",
+                  ].map((s, i) => (
+                    <Stack key={s} direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+                      <Chip label={i + 1} size="small" variant="outlined" sx={{ fontFamily: "var(--font-mono)" }} />
+                      <Typography variant="body2" sx={{ fontFamily: i === 0 ? "var(--font-mono)" : undefined }}>
+                        {s}
+                      </Typography>
+                    </Stack>
+                  ))}
+                </Stack>
+              </Paper>
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
+                <strong>No ID to copy, nothing to configure.</strong> The extension pins its identity, so the backend
+                already allowlists it out of the box.
+              </Typography>
             </Reveal>
           </Grid>
         </Grid>
       </Section>
 
-      <Section tone="raised" eyebrow="Before you file a bug" title="Read the known issues first" maxWidth={640}>
+      {/* Known issues */}
+      <Section eyebrow="Before you file a bug" title="Read the known issues first" maxWidth={640}>
         <Reveal>
           <Stack spacing={3} sx={{ maxWidth: 820 }}>
             <Typography variant="body1" sx={{ color: "text.secondary" }}>
@@ -276,12 +316,13 @@ export default function StartPage() {
         </Reveal>
       </Section>
 
-      <Section eyebrow="Questions" title="Common ones, answered" maxWidth={620}>
+      <Section tone="raised" eyebrow="Questions" title="Common ones, answered" maxWidth={620}>
         <Reveal>
           <Faq />
         </Reveal>
       </Section>
 
+      <MakerNote />
       <CtaBand />
     </>
   );

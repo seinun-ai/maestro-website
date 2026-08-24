@@ -18,13 +18,30 @@ import Reveal from "@/components/Reveal";
 import ShotFrame from "@/components/ShotFrame";
 import ComparisonTable from "@/components/ComparisonTable";
 import FeatureRow from "@/components/FeatureRow";
+import PainPoint from "@/components/PainPoint";
+import Economics from "@/components/Economics";
+import ModelProfiles from "@/components/ModelProfiles";
 import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
-import StructuredData from "@/components/StructuredData";
 import CodeBlock from "@/components/CodeBlock";
-import { LinkButton } from "@/components/NextMui";
+import MakerNote from "@/components/MakerNote";
+import Mark from "@/components/Mark";
+import StructuredData from "@/components/StructuredData";
 import { IconTile, TintBand, TintPaper } from "@/components/Surfaces";
-import { agents, features, pillars, privacy, problem, quickstart, steps } from "@/content/site";
+import { LinkButton } from "@/components/NextMui";
+import {
+  agents,
+  economics,
+  features,
+  modelProfiles,
+  painPoints,
+  pillars,
+  privacy,
+  problem,
+  quickstart,
+  steps,
+  whyIntro,
+} from "@/content/site";
 
 const pillarIcons: Record<string, React.ReactElement> = {
   determinism: <FunctionsIcon />,
@@ -32,13 +49,16 @@ const pillarIcons: Record<string, React.ReactElement> = {
   ownership: <LockOpenIcon />,
 };
 
+/** The home page shows the five sharpest pains; /why carries all eleven. */
+const HOME_PAINS = [0, 1, 3, 4, 8];
+
 export default function HomePage() {
   return (
     <>
       <StructuredData />
       <Hero />
 
-      {/* The premise — why any of this exists */}
+      {/* The premise */}
       <Section tone="raised">
         <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: "flex-start" }}>
           <Grid size={{ xs: 12, md: 5 }}>
@@ -55,17 +75,40 @@ export default function HomePage() {
                     {p}
                   </Typography>
                 ))}
-                <Typography
-                  variant="h3"
-                  component="p"
-                  sx={{ pl: 2.5, borderLeft: 3, borderColor: "primary.main", color: "text.primary", mt: 1 }}
-                >
-                  {problem.pull}
+                <Typography variant="h3" component="p" sx={{ mt: 1 }}>
+                  <Mark>{problem.pull}</Mark>
                 </Typography>
               </Stack>
             </Reveal>
           </Grid>
         </Grid>
+      </Section>
+
+      {/* Pain points — the reader recognises themselves before we explain anything */}
+      <Section eyebrow={whyIntro.eyebrow} title={whyIntro.title} lede={whyIntro.lede} maxWidth={720}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          {HOME_PAINS.map((idx, i) => (
+            <PainPoint key={painPoints[idx].pain} item={painPoints[idx]} index={i} />
+          ))}
+        </Box>
+        <Reveal>
+          <Stack direction="row" sx={{ justifyContent: "center", mt: { xs: 5, md: 6 } }}>
+            <LinkButton href="/why" variant="outlined" size="large" endIcon={<ArrowForwardIcon />}>
+              All eleven reasons
+            </LinkButton>
+          </Stack>
+        </Reveal>
+      </Section>
+
+      {/* Economics — the number that reframes the category */}
+      <Section
+        tone="raised"
+        eyebrow={economics.eyebrow}
+        title={economics.title}
+        lede={economics.lede}
+        maxWidth={760}
+      >
+        <Economics />
       </Section>
 
       {/* Three pillars */}
@@ -99,7 +142,7 @@ export default function HomePage() {
         </Grid>
       </Section>
 
-      {/* The loop, compressed */}
+      {/* The loop */}
       <Section
         tone="raised"
         eyebrow="The loop"
@@ -143,11 +186,7 @@ export default function HomePage() {
                 <Typography variant="h4" component="p" sx={{ mb: 2 }}>
                   Walk the whole loop, step by step.
                 </Typography>
-                <LinkButton
-                  href="/how-it-works"
-                  endIcon={<ArrowForwardIcon />}
-                  sx={{ alignSelf: "flex-start", px: 0 }}
-                >
+                <LinkButton href="/how-it-works" endIcon={<ArrowForwardIcon />} sx={{ alignSelf: "flex-start", px: 0 }}>
                   How it works
                 </LinkButton>
               </TintPaper>
@@ -156,7 +195,7 @@ export default function HomePage() {
         </Grid>
       </Section>
 
-      {/* Two flagship features, the rest live on /features */}
+      {/* Two flagship features */}
       <Section
         eyebrow="Inside the studio"
         title="The parts you will actually live in"
@@ -167,7 +206,7 @@ export default function HomePage() {
           <FeatureRow feature={features[1]} flip />
         </Stack>
         <Reveal>
-          <Stack direction="row"  sx={{ justifyContent: "center", mt: { xs: 6, md: 8 } }}>
+          <Stack direction="row" sx={{ justifyContent: "center", mt: { xs: 6, md: 8 } }}>
             <LinkButton href="/features" variant="outlined" size="large" endIcon={<ArrowForwardIcon />}>
               See every feature
             </LinkButton>
@@ -175,9 +214,19 @@ export default function HomePage() {
         </Reveal>
       </Section>
 
-      {/* Comparison */}
+      {/* Model profiles */}
       <Section
         tone="raised"
+        eyebrow={modelProfiles.eyebrow}
+        title={modelProfiles.title}
+        lede={modelProfiles.lede}
+        maxWidth={800}
+      >
+        <ModelProfiles />
+      </Section>
+
+      {/* Comparison */}
+      <Section
         eyebrow="How it compares"
         title="The rows a subscription product cannot fill in"
         lede="No vibes, no vendor asterisks — every claim here is one you can check against the source in an afternoon."
@@ -188,7 +237,7 @@ export default function HomePage() {
       </Section>
 
       {/* Agents */}
-      <Section eyebrow={agents.hero.eyebrow} title={agents.hero.title} lede={agents.hero.lede}>
+      <Section tone="raised" eyebrow={agents.hero.eyebrow} title={agents.hero.title} lede={agents.hero.lede}>
         <Grid container spacing={{ xs: 4, md: 6 }} sx={{ alignItems: "center" }}>
           <Grid size={{ xs: 12, md: 7 }}>
             <Reveal>
@@ -214,6 +263,9 @@ export default function HomePage() {
                     ))}
                   </Stack>
                 </Box>
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  <strong>No API key?</strong> {agents.keyless.body.split(".")[0]}.
+                </Typography>
                 <LinkButton href="/agents" endIcon={<ArrowForwardIcon />} sx={{ alignSelf: "flex-start", px: 0 }}>
                   Agents, hunting and the consent ledger
                 </LinkButton>
@@ -225,48 +277,48 @@ export default function HomePage() {
 
       {/* Privacy strip */}
       <TintBand>
-          <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: "flex-start" }}>
-            <Grid size={{ xs: 12, md: 5 }}>
-              <Reveal>
-                <ShieldIcon sx={{ fontSize: 34, color: "primary.main", mb: 1.5 }} />
-                <Typography variant="h2">{privacy.hero.title}</Typography>
-                <Typography variant="subtitle1" sx={{ color: "text.secondary", mt: 2 }}>
-                  {privacy.hero.lede}
-                </Typography>
-                <LinkButton href="/privacy" endIcon={<ArrowForwardIcon />} sx={{ mt: 3, px: 0 }}>
-                  Read the honest version
-                </LinkButton>
-              </Reveal>
-            </Grid>
-            <Grid size={{ xs: 12, md: 7 }}>
-              <Grid container spacing={2.5}>
-                {privacy.facts.map((f, i) => (
-                  <Grid size={{ xs: 12, sm: 6 }} key={f.title}>
-                    <Reveal delay={i * 70}>
-                      <Stack spacing={1}>
-                        <Typography variant="h5" component="h3">
-                          {f.title}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                          {f.body}
-                        </Typography>
-                      </Stack>
-                    </Reveal>
-                  </Grid>
-                ))}
-              </Grid>
+        <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: "flex-start" }}>
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Reveal>
+              <ShieldIcon sx={{ fontSize: 34, color: "primary.main", mb: 1.5 }} />
+              <Typography variant="h2">{privacy.hero.title}</Typography>
+              <Typography variant="subtitle1" sx={{ color: "text.secondary", mt: 2 }}>
+                {privacy.hero.lede}
+              </Typography>
+              <LinkButton href="/privacy" endIcon={<ArrowForwardIcon />} sx={{ mt: 3, px: 0 }}>
+                Read the honest version
+              </LinkButton>
+            </Reveal>
+          </Grid>
+          <Grid size={{ xs: 12, md: 7 }}>
+            <Grid container spacing={2.5}>
+              {privacy.facts.map((f, i) => (
+                <Grid size={{ xs: 12, sm: 6 }} key={f.title}>
+                  <Reveal delay={i * 70}>
+                    <Stack spacing={1}>
+                      <Typography variant="h5" component="h3">
+                        {f.title}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                        {f.body}
+                      </Typography>
+                    </Stack>
+                  </Reveal>
+                </Grid>
+              ))}
             </Grid>
           </Grid>
+        </Grid>
       </TintBand>
 
       {/* Quickstart */}
       <Section
         eyebrow="Get running"
-        title="Clone, copy the env file, up."
-        lede="First build takes several minutes — it installs TeX Live and downloads the embedding model. After that it is one command."
+        title="Four pieces, and only the first is required."
+        lede="The rest attach whenever you want them."
         maxWidth={640}
       >
-        <Grid container spacing={{ xs: 3, md: 6 }} sx={{ alignItems: "center" }}>
+        <Grid container spacing={{ xs: 3, md: 5 }} sx={{ alignItems: "flex-start" }}>
           <Grid size={{ xs: 12, md: 7 }}>
             <Reveal>
               <CodeBlock code={quickstart.clone} />
@@ -275,11 +327,29 @@ export default function HomePage() {
           <Grid size={{ xs: 12, md: 5 }}>
             <Reveal delay={80}>
               <Stack spacing={2}>
-                <Typography variant="body1" sx={{ color: "text.secondary" }}>
-                  Then open <Box component="code" sx={{ fontWeight: 600 }}>http://localhost:3000</Box>. No key needed to
-                  start — scoring, rendering, tracking and analytics never call a model.
-                </Typography>
-                <LinkButton href="/start" variant="contained" endIcon={<ArrowForwardIcon />} sx={{ alignSelf: "flex-start" }}>
+                {quickstart.pieces.map((p) => (
+                  <Stack key={p.n} direction="row" spacing={1.75} sx={{ alignItems: "flex-start" }}>
+                    <Chip
+                      label={p.n}
+                      size="small"
+                      color={p.required ? "primary" : "default"}
+                      variant={p.required ? "filled" : "outlined"}
+                      sx={{ minWidth: 26, fontFamily: "var(--font-mono)" }}
+                    />
+                    <Box>
+                      <Typography variant="h6" component="p">
+                        {p.title}
+                        {!p.required && (
+                          <Typography component="span" variant="body2" sx={{ color: "text.secondary", fontWeight: 400 }}>
+                            {" "}
+                            · optional
+                          </Typography>
+                        )}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                ))}
+                <LinkButton href="/start" variant="contained" endIcon={<ArrowForwardIcon />} sx={{ alignSelf: "flex-start", mt: 1 }}>
                   Full setup guide
                 </LinkButton>
               </Stack>
@@ -295,6 +365,7 @@ export default function HomePage() {
         </Reveal>
       </Section>
 
+      <MakerNote />
       <CtaBand />
     </>
   );

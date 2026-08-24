@@ -124,6 +124,14 @@ export default function PrivacyPage() {
         </Reveal>
       </Section>
 
+      <Section eyebrow="Tracing" title={privacy.tracing.title} maxWidth={720}>
+        <Reveal>
+          <Typography variant="subtitle1" sx={{ color: "text.secondary", maxWidth: 860 }}>
+            {privacy.tracing.body}
+          </Typography>
+        </Reveal>
+      </Section>
+
       <Section
         tone="raised"
         eyebrow="Leaving"

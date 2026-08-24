@@ -12,7 +12,8 @@ import FeatureRow from "@/components/FeatureRow";
 import ComparisonTable from "@/components/ComparisonTable";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
-import { features } from "@/content/site";
+import MakerNote from "@/components/MakerNote";
+import { featureExtras, features } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Features",
@@ -20,33 +21,6 @@ export const metadata: Metadata = {
     "A Career KB that resolves your history, deterministic ATS scoring, a job-independent health report, real LaTeX and Typst typesetting, a browser extension that stores no field values, and analytics on the market you are applying into.",
 };
 
-/** The smaller capabilities that deserve a line but not a whole capture. */
-const extras = [
-  {
-    title: "Chat scoped by what you pin",
-    body: "Pin a base resume and the chat works on that one. Pin a section, an experience entry or a single bullet, and edits outside that scope are refused, not merely discouraged. Proposed edits arrive as an approval card — nothing lands silently.",
-  },
-  {
-    title: "Quick Tailor",
-    body: "For when you already know the answer: one request against a job, resolutions planned from your saved preferences, tailored and rendered without opening a tailoring session at all. The honesty rules survive the shortcut.",
-  },
-  {
-    title: "Knock-out pre-scan",
-    body: "Work authorization, OPT policy, salary and years of experience, checked against your profile at capture time — so a disqualifier surfaces before you spend an evening on the application, not at the screening call.",
-  },
-  {
-    title: "Resume versions, all the way down",
-    body: "Every write path records an append-only snapshot. That is the undo story: nothing an agent, the chat, or you can do to a resume is one-way.",
-  },
-  {
-    title: "career.md export",
-    body: "Your entire career record as one deterministic Markdown file, with no model involved. Downloadable from the Career KB page or over MCP.",
-  },
-  {
-    title: "Application artifacts on disk",
-    body: "Every render lands in applications/ in its own company-and-role-named folder holding the typeset source and the exact PDF — so verifying what you actually sent is opening a folder, not querying a database.",
-  },
-];
 
 export default function FeaturesPage() {
   return (
@@ -72,10 +46,10 @@ export default function FeaturesPage() {
         maxWidth={680}
       >
         <Grid container spacing={2.5}>
-          {extras.map((e, i) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={e.title}>
+          {featureExtras.map((e, i) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={e.id}>
               <Reveal delay={(i % 3) * 70} sx={{ height: "100%" }}>
-                <Paper sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default" }}>
+                <Paper id={e.id} sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default", scrollMarginTop: 96 }}>
                   <Typography variant="h5" component="h3" sx={{ mb: 1.25 }}>
                     {e.title}
                   </Typography>
@@ -111,6 +85,7 @@ export default function FeaturesPage() {
         </Reveal>
       </Section>
 
+      <MakerNote />
       <CtaBand />
     </>
   );

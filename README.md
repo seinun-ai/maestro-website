@@ -85,14 +85,40 @@ Both bit during the build and are easy to reintroduce:
 
 ## Captures
 
-The screenshots and GIFs in `public/media/` are copied from the product repo's
-`docs/assets/`. They are real captures of the shipped app, already reviewed and
-cleared for publication there — re-copy them rather than re-recording, and keep
-`lib/media.ts` in step with any change in pixel dimensions.
+The stills in `public/media/` are copied from the product repo's `docs/assets/`.
+They are real captures of the shipped app, already reviewed and cleared for
+publication there — re-copy them rather than re-recording, and keep `lib/media.ts`
+in step with any change in pixel dimensions.
 
-`kb-onboarding.png` is the one exception: the copy here is cropped to remove the
-black letterbox bars the original capture carries, which read as a rendering fault
-inside the site's window chrome.
+Two exceptions:
+
+- **`kb-onboarding.png`** is cropped here to remove the black letterbox bars the
+  original capture carries, which read as a rendering fault inside the window chrome.
+- **`hero.mp4`** is *not* from `docs/assets/`. The product repo ships `hero.gif`
+  at 1000px / 10fps / 64 colours for GitHub; this site encodes the original
+  `hero_mcs.mov` master to H.264 at 1512px / 30fps instead — **1.3 MB against the
+  GIF's 1.9 MB, at 1.5× the resolution and 3× the frame rate.** It is trimmed to
+  31.0s because the macOS screen-recording control bar enters the frame at ~31.3s.
+
+### Re-encoding a master
+
+```bash
+ffmpeg -i master.mov -t <seconds> \
+  -vf "scale=1512:-2:flags=lanczos,fps=30" -an \
+  -c:v libx264 -profile:v high -crf 26 -preset slow \
+  -pix_fmt yuv420p -movflags +faststart public/media/<name>.mp4
+ffmpeg -ss 0.3 -i public/media/<name>.mp4 -frames:v 1 -q:v 3 public/media/<name>-poster.jpg
+```
+
+Then add the output's pixel size to `mediaSize` and its poster to `videoPoster`
+in `lib/media.ts`; `ShotFrame` switches to `<video>` on the file extension alone.
+
+> **Review every frame of a master before publishing it.** The `docs/assets/`
+> GIFs went through a publication review; the `.mov` masters did not, and they
+> are not always the same take. `extention_quicktailor.mov` is a different,
+> **unscrubbed** recording whose rendered-PDF preview shows a real phone number
+> and a personal email from ~28.5s — which is why the extension capture on this
+> site is still the cleared GIF.
 
 ## Licence
 

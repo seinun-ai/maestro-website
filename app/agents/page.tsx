@@ -17,6 +17,7 @@ import ShotFrame from "@/components/ShotFrame";
 import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
+import MakerNote from "@/components/MakerNote";
 import { TintPaper } from "@/components/Surfaces";
 import { agents, quickstart } from "@/content/site";
 
@@ -96,6 +97,14 @@ export default function AgentsPage() {
         </Reveal>
       </Section>
 
+      <Section eyebrow="No key required" title={agents.keyless.title} maxWidth={760}>
+        <Reveal>
+          <TintPaper sx={{ p: { xs: 3, md: 4.5 }, borderRadius: 4, maxWidth: 900 }}>
+            <Typography variant="subtitle1">{agents.keyless.body}</Typography>
+          </TintPaper>
+        </Reveal>
+      </Section>
+
       <Section tone="raised" eyebrow="Hunting" title={agents.hunt.title} lede={agents.hunt.body} maxWidth={760}>
         <Grid container spacing={{ xs: 4, md: 7 }} sx={{ alignItems: "center" }}>
           <Grid size={{ xs: 12, md: 7 }}>
@@ -172,6 +181,7 @@ export default function AgentsPage() {
         </Reveal>
       </Section>
 
+      <MakerNote />
       <CtaBand />
     </>
   );
