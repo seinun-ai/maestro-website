@@ -27,17 +27,49 @@ Every route prerenders to static HTML, so the built output drops onto any static
 host or CDN. There is no API, no database, and no runtime environment beyond the
 one variable below.
 
-## Before deploying
+## Deploying
 
-Set the canonical origin — `metadataBase`, Open Graph URLs, `sitemap.xml` and
-`robots.txt` all derive from it:
+The production domain is **maestrocareerstudio.com**, registered at Spaceship
+(auto-renew on, expires 2027-08-24).
+
+**Set the origin before the production build.** `metadataBase`, every canonical
+URL, the Open Graph tags, `sitemap.xml` and `robots.txt` all derive from it:
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://your-domain.example
+NEXT_PUBLIC_SITE_URL=https://maestrocareerstudio.com
 ```
 
-Without it the site falls back to a placeholder origin, which is fine locally and
-wrong in production.
+Set it in the host's environment variables, not just `.env.example`. With the
+fallback origin the `og:image` URL points at a domain that doesn't exist, and
+LinkedIn renders a bare text link instead of the preview card.
+
+Verify after any build:
+
+```bash
+grep -o 'og:image" content="[^"]*"' .next/server/app/index.html
+cat .next/server/app/robots.txt.body
+```
+
+### DNS at Spaceship
+
+Spaceship holds the nameservers, so the records go in its DNS editor. For Vercel:
+
+| Type | Host | Value |
+|---|---|---|
+| `A` | `@` | `76.76.21.21` |
+| `CNAME` | `www` | `cname.vercel-dns.com` |
+
+Confirm both against the host's current docs at setup time — these values do
+change. Then add the domain in the host's dashboard so it can issue the
+certificate, and let it redirect `www` to the apex (or the reverse; just pick one
+and keep the other a redirect, so there is a single canonical origin).
+
+### After the domain is live, before posting
+
+LinkedIn caches Open Graph data hard, and a preview scraped before the site is up
+will stick. Run the URL through **LinkedIn Post Inspector** to force a re-scrape,
+and check the card renders. The image it uses is `public/brand/social-preview.png`
+(1280x640).
 
 ## How it is organised
 
