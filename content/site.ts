@@ -71,7 +71,8 @@ export const painPoints = [
   {
     pain: "You hate that resume tailoring is a slot machine.",
     answer: "A score that never guesses.",
-    body: "Most checkers ask an LLM. One popular tool scored the same resume anywhere from 66 to 99 across a hundred runs. Maestro has no LLM in the scoring path at all, so the same resume and posting give you the same number and the same breakdown every time.",
+    body: "Most checkers ask an LLM. One popular tool scored the same resume anywhere from 66 to 99 across a hundred runs. Maestro has no LLM in the scoring path at all, so the same resume and posting score the same, run after run. Recency is part of the score, so a document scored months apart can move as its work ages. Nothing else does.",
+    source: { label: "the 66–99 test", href: "https://danunparsed.com/p/hackerrank-open-source-ats" },
     feature: "Deterministic ATS engine",
     href: "/features#scoring",
   },
@@ -160,7 +161,7 @@ export const problem = {
   title: "Your effort should compound. Right now it evaporates.",
   body: [
     "You rebuild your resume for every role. You rewrite the cover letter from memory. You answer “tell us about a time you…” for the fourth time. Then the next posting arrives and you start from nothing.",
-    "Meanwhile the average opening draws around 240 applicants, and screens increasingly flag resumes that read like a machine wrote them. Volume stopped working. Depth is the only lever left, and depth is only affordable when last month's work is still sitting there.",
+    "Meanwhile the average opening draws around 240 applications, and screens increasingly flag resumes that read like a machine wrote them. Volume stopped working. Depth is the only lever left, and depth is only affordable when last month's work is still sitting there.",
   ],
   pull: "Write it once. Reuse it forever.",
 } as const;
@@ -169,8 +170,9 @@ export const pillars = [
   {
     icon: "determinism",
     title: "Scoring that can't drift",
-    body: "No LLM anywhere in the scoring path. Deterministic lexical layers plus a pinned embedding model running on your CPU. Same resume, same posting, same config, same number.",
+    body: "No LLM anywhere in the scoring path. Deterministic lexical layers plus a pinned embedding model running on your CPU. Same resume, same posting, same config: the same number and the same breakdown, run after run.",
     proof: "One popular LLM-judged checker scored the same resume 66–99 across a hundred runs.",
+    proofHref: "https://danunparsed.com/p/hackerrank-open-source-ats",
   },
   {
     icon: "evidence",
@@ -253,7 +255,7 @@ export const steps = [
     title: "Feed the Career KB, once",
     summary: "Every resume variant you own. The old ones, the role-specific ones, the one that runs to three pages.",
     body: "Maestro resolves duplicate entities across them, clusters the bullets and builds one Career Knowledge Base. This is the step that keeps paying: everything downstream composes from it, so its quality is the ceiling on everything else.",
-    note: "Imported points need your approval before they can compose into a resume. Fix a duplicate once and it's fixed for every future application.",
+    note: "Bullets that arrive unchanged from a file you wrote are approved on import. Anything merged across resumes, or written by a model, waits in the review inbox for you. Fix a duplicate once and it is fixed for every future application.",
     image: "/media/kb-onboarding.png",
     imageAlt: "The Career KB import dialog consolidating several resume variants into one knowledge base",
   },
@@ -305,6 +307,7 @@ export const features = [
     body: "Add your resume variants and Maestro performs entity resolution, deduplication, bullet clustering and profile synthesis. What comes out is one structured record of your work, projects and skills. Certifications, project write-ups and review notes belong in there too.",
     bullets: [
       "Approved points compose word for word into resumes and applications",
+      "Verbatim bullets from your own files import approved; merged and model-written points wait for review",
       "Every point keeps provenance back to the document it came from",
       "Seeding defers cleanly with no API key and retries on a later boot",
     ],
@@ -317,7 +320,8 @@ export const features = [
     title: "Deterministic scoring, and a measured lift",
     body: "Deterministic lexical layers plus a pinned embedding model for semantics. Soft matches need both a shared lexical anchor and embedding proximity, so “container orchestration” earns credit against Kubernetes without inventing a skill you don't have.",
     bullets: [
-      "Same resume, posting and config version gives an identical score and breakdown",
+      "Same resume, posting and config version gives an identical score and breakdown, run after run",
+      "Recency is one of the inputs, so a document scored months apart can move as its work ages — the only thing that does",
       "Base-to-tailored delta recorded per application, so you can see if tailoring did anything",
       "Runs offline on CPU. Scoring never calls a model.",
     ],
@@ -642,7 +646,7 @@ export const faqs = [
   },
   {
     q: "Is the score a real ATS score?",
-    a: "It's our score: deterministic, versioned, reproducible. It doesn't predict what an employer's ATS shows them, and no consumer tool can. Use it to compare your own drafts and to catch parsing and coverage problems. Chasing 100 gets you a keyword-stuffed resume that modern screens flag.",
+    a: "It's our score: deterministic, versioned, reproducible. It doesn't predict what an employer's ATS shows them, and no consumer tool can. One caveat worth knowing: recency is part of the score and it is measured against today, so the same document can score slightly differently months apart as its work ages. Everything else holds still. Use it to compare your own drafts and to catch parsing and coverage problems — chasing 100 gets you a keyword-stuffed resume that modern screens flag.",
   },
   {
     q: "Will it apply to jobs for me?",

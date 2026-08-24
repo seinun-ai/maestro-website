@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { alpha } from "@mui/material/styles";
 import { LinkButton } from "./NextMui";
@@ -16,6 +17,9 @@ export type Pain = {
   body: string;
   feature: string;
   href: string;
+  /** Citation for a competitive claim. If we say a number about someone
+   *  else's tool, the reader gets to check it. */
+  source?: { label: string; href: string };
 };
 
 /**
@@ -84,14 +88,27 @@ export default function PainPoint({
               <Typography variant="body1" sx={{ color: "text.secondary" }}>
                 {item.body}
               </Typography>
-              <LinkButton
-                href={item.href}
-                size="small"
-                endIcon={<ArrowForwardIcon sx={{ fontSize: 15 }} />}
-                sx={{ px: 0, mt: 1, color: "text.secondary", "&:hover": { color: "primary.main", background: "none" } }}
-              >
-                {item.feature}
-              </LinkButton>
+              <Stack direction="row" spacing={2.5} sx={{ alignItems: "center", flexWrap: "wrap", mt: 1 }}>
+                <LinkButton
+                  href={item.href}
+                  size="small"
+                  endIcon={<ArrowForwardIcon sx={{ fontSize: 15 }} />}
+                  sx={{ px: 0, color: "text.secondary", "&:hover": { color: "primary.main", background: "none" } }}
+                >
+                  {item.feature}
+                </LinkButton>
+                {item.source && (
+                  <Link
+                    href={item.source.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="body2"
+                    sx={{ color: "text.secondary" }}
+                  >
+                    Source: {item.source.label}
+                  </Link>
+                )}
+              </Stack>
             </Box>
           </Grid>
         </Grid>

@@ -6,6 +6,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
+import Link from "@mui/material/Link";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import FunctionsIcon from "@mui/icons-material/FunctionsOutlined";
 import VerifiedIcon from "@mui/icons-material/VerifiedOutlined";
@@ -122,7 +123,13 @@ export default function HomePage() {
                     </Typography>
                     <Divider sx={{ pt: 0.5 }} />
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {p.proof}
+                      {"proofHref" in p && p.proofHref ? (
+                        <Link href={p.proofHref} target="_blank" rel="noopener noreferrer" color="inherit">
+                          {p.proof}
+                        </Link>
+                      ) : (
+                        p.proof
+                      )}
                     </Typography>
                   </Stack>
                 </Paper>
