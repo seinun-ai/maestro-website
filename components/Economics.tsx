@@ -56,11 +56,16 @@ export default function Economics() {
       <Grid size={{ xs: 12, md: 7 }}>
         <Reveal delay={80}>
           <Paper sx={{ borderRadius: 3, overflowX: "auto" }}>
-            <Table sx={{ minWidth: 520 }} aria-label="Measured token cost per operation">
+            <Table sx={{ minWidth: 580 }} aria-label="Measured token cost per operation">
               <TableHead>
                 <TableRow>
                   <TableCell>Operation</TableCell>
-                  <TableCell sx={{ whiteSpace: "nowrap" }}>Tokens (in / out)</TableCell>
+                  <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+                    Input tokens
+                  </TableCell>
+                  <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+                    Output tokens
+                  </TableCell>
                   <TableCell align="right">Cost</TableCell>
                 </TableRow>
               </TableHead>
@@ -68,8 +73,17 @@ export default function Economics() {
                 {economics.rows.map((r) => (
                   <TableRow key={r.op}>
                     <TableCell sx={{ color: "text.secondary" }}>{r.op}</TableCell>
-                    <TableCell sx={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem", color: "text.secondary" }}>
-                      {r.tokens}
+                    <TableCell
+                      align="right"
+                      sx={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem", color: "text.secondary" }}
+                    >
+                      {r.tokensIn}
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem", color: "text.secondary" }}
+                    >
+                      {r.tokensOut}
                     </TableCell>
                     <TableCell align="right" sx={{ fontWeight: 600, whiteSpace: "nowrap" }}>
                       {r.cost}
@@ -82,7 +96,7 @@ export default function Economics() {
                     "& td": { borderBottom: 0 },
                   })}
                 >
-                  <TableCell sx={{ fontWeight: 700 }} colSpan={2}>
+                  <TableCell sx={{ fontWeight: 700 }} colSpan={3}>
                     {economics.total.op}
                   </TableCell>
                   <TableCell align="right" sx={{ fontWeight: 800, color: "primary.main", whiteSpace: "nowrap" }}>

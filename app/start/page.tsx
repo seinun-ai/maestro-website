@@ -256,6 +256,13 @@ export default function StartPage() {
               <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
                 {agents.setup.manual} {agents.setup.flags}
               </Typography>
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
+                <strong>Or skip the pasting.</strong> Hand the <code>--print-only</code> output to Claude Code or the
+                Codex CLI and ask it to merge the server into your config — it knows where those files live.{" "}
+                <LinkButton href="/agents" size="small" sx={{ px: 0, verticalAlign: "baseline" }}>
+                  The prompt to use
+                </LinkButton>
+              </Typography>
               <LinkButton href="/agents" sx={{ px: 0, mt: 1 }}>
                 What agents can do with it
               </LinkButton>

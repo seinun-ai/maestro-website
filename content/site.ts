@@ -191,34 +191,37 @@ export const pillars = [
 export const economics = {
   eyebrow: "What it costs",
   title: "A tailored application costs about a penny.",
-  lede: "We traced real applications end to end with Langfuse in August 2026, on the default model profile, priced at list. Your payloads will vary. Not by an order of magnitude.",
+  lede: "We traced real applications end to end with Langfuse in August 2026, on the model profile a fresh install ships with, priced at list. Your payloads will vary. Not by an order of magnitude.",
   headline: {
     stat: "≈1¢",
     label: "per tailored application",
     body: "Capture the posting, score it, close the gaps, tailor, render the PDF, and write the cover letter and screening answers. All of it.",
     aside: "My whole search so far has cost under $2 in tokens. Hosted tools charge $15–75 a month.",
   },
+  // Input and output are priced ~6x apart, so a combined token count can't be
+  // checked against the provider's rate card. Keeping them split is what makes
+  // the row verifiable rather than merely stated.
   rows: [
-    { op: "JD extraction", tokens: "~3k / ~1.5k", cost: "~¼¢" },
-    { op: "Gap enrichment", tokens: "~7k / ~3k", cost: "~½¢" },
-    { op: "Tailoring pass", tokens: "~11k / ~0.6k", cost: "~¼¢" },
-    { op: "Cover letter + screening answers", tokens: "~8k / ~0.9k", cost: "~¼¢" },
-    { op: "Career KB consolidation, per resume (one-time)", tokens: "~7k / ~1.5k", cost: "~⅓¢" },
+    { op: "JD extraction", tokensIn: "~3k", tokensOut: "~1.5k", cost: "~¼¢" },
+    { op: "Gap enrichment", tokensIn: "~7k", tokensOut: "~3k", cost: "~½¢" },
+    { op: "Tailoring pass", tokensIn: "~11k", tokensOut: "~0.6k", cost: "~¼¢" },
+    { op: "Cover letter + screening answers", tokensIn: "~8k", tokensOut: "~0.9k", cost: "~¼¢" },
+    { op: "Career KB consolidation, per resume (one-time)", tokensIn: "~7k", tokensOut: "~1.5k", cost: "~⅓¢" },
   ],
   total: { op: "Capture → tailored resume → full apply package", cost: "≈1.3¢" },
-  note: "Priced against GPT-5.6 Luna at $0.20/M input and $1.20/M output.",
+  note: "Priced against GPT-5.6 Luna at $0.20 per million input tokens and $1.20 per million output. Multiply it out yourself — that is the point of showing the split.",
 } as const;
 
 export const modelProfiles = {
   eyebrow: "Choose your models",
-  title: "One key. Two profiles we measured.",
-  lede: "We benchmarked the combinations on real postings with every call traced. The Fast tier turned out to decide almost everything: how much of a posting gets extracted, how honest your base score is, and most of the waiting. The Smart tier barely moved the result. So the choice comes down to which key you already have.",
+  title: "Two setups we measured. Both work well.",
+  lede: "Any OpenAI-compatible model can be configured. These are simply the two we benchmarked on real postings with every call traced, one per API key, so you can start from a known-good setup instead of guessing. The Fast tier turned out to decide almost everything — how much of a posting gets extracted, how honest your base score is, and most of the waiting — while the Smart tier barely moved the result.",
   columns: [
     {
-      name: "Thorough",
-      badge: "default",
+      name: "OpenAI",
+      badge: "depth",
       model: "gpt-5.6-luna",
-      key: "OpenAI",
+      key: "One OpenAI key",
       extraction: "The most complete extraction we measured",
       speed: "~40 seconds",
       cost: "about a penny",
@@ -227,10 +230,10 @@ export const modelProfiles = {
       recommended: true,
     },
     {
-      name: "Snappy",
-      badge: "when speed wins",
+      name: "Gemini",
+      badge: "speed",
       model: "gemini-3.7-flash",
-      key: "Gemini",
+      key: "One Gemini key",
       extraction: "About ¾ of that, strongest on named tools",
       speed: "~10 seconds",
       cost: "under 3¢",
@@ -239,7 +242,7 @@ export const modelProfiles = {
       recommended: false,
     },
   ],
-  why: "Thorough ships as the default because honest scoring starts at extraction. A fast model that misses requirements inflates your fit score, in our tests by about nine points. You can mix tiers across providers, but it bought us nothing these two don't already give you.",
+  why: "A fresh install ships with the OpenAI one already set, because honest scoring starts at extraction: a fast model that misses requirements inflates your fit score, in our tests by about nine points. Neither is a tier above the other, and switching is three dropdowns in Settings → Models. Mixing tiers across providers works too; it just bought us nothing these two don't already give you.",
 } as const;
 
 /* ---------------------------- steps ---------------------------- */
@@ -447,6 +450,12 @@ export const agents = {
       { client: "ChatGPT desktop / Codex CLI", how: "Prints a block for ~/.codex/config.toml", auto: false },
     ],
     flags: "Add --profile hunt for a scoped profile, or --print-only to change nothing and just see the config. Restart Claude Desktop with Cmd+Q after pasting. Closing the window isn't enough.",
+    delegate: {
+      title: "Or just ask the assistant to do it",
+      body: "Agents that can edit files and run commands are perfectly capable of wiring this up themselves. Run the script with --print-only, hand the output to Claude Code or the Codex CLI, and ask it to add the server to your config. It knows where those files live and it can merge into them without clobbering your other MCP servers.",
+      prompt: "Run ./scripts/setup-mcp.sh --print-only, then add the maestro-career-studio server to my MCP config. Merge it in — don't overwrite the servers already there.",
+      caveat: "Read the diff before you accept it. It is editing a config file that other tools depend on.",
+    },
   },
   keyless: {
     title: "No API key? Your assistant is the model.",

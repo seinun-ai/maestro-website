@@ -27,7 +27,7 @@ export default function WhyPage() {
 
       <Box component="section" sx={{ py: { xs: 5, md: 8 } }}>
         <Container>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Box sx={{ "& > *:not(:first-of-type)": { borderTop: 1, borderColor: "divider" } }}>
             {painPoints.map((p, i) => (
               <PainPoint key={p.pain} item={p} index={i} />
             ))}

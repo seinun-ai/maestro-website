@@ -107,6 +107,21 @@ export default function AgentsPage() {
           </Grid>
         </Grid>
 
+
+        <Reveal>
+          <TintPaper sx={{ mt: { xs: 4, md: 5 }, p: { xs: 3, md: 4 }, borderRadius: 4 }}>
+            <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
+              {agents.setup.delegate.title}
+            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary", mb: 2.5 }}>
+              {agents.setup.delegate.body}
+            </Typography>
+            <CodeBlock code={agents.setup.delegate.prompt} label="prompt" />
+            <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
+              {agents.setup.delegate.caveat}
+            </Typography>
+          </TintPaper>
+        </Reveal>
         <Reveal>
           <Alert severity="warning" variant="outlined" sx={{ mt: { xs: 6, md: 8 }, borderRadius: 3 }}>
             <AlertTitle sx={{ fontWeight: 700 }}>Keep the transport STDIO</AlertTitle>

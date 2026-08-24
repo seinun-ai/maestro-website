@@ -86,7 +86,7 @@ export default function HomePage() {
 
       {/* Pain points — the reader recognises themselves before we explain anything */}
       <Section eyebrow={whyIntro.eyebrow} title={whyIntro.title} lede={whyIntro.lede} maxWidth={720}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box sx={{ "& > *:not(:first-of-type)": { borderTop: 1, borderColor: "divider" } }}>
           {HOME_PAINS.map((idx, i) => (
             <PainPoint key={painPoints[idx].pain} item={painPoints[idx]} index={i} />
           ))}
