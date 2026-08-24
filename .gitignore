@@ -12,3 +12,6 @@ yarn-error.log*
 .vercel
 next-env.d.ts
 *.tsbuildinfo
+
+# npm writes its cache here when a project-local cache is configured.
+.npm-cache/

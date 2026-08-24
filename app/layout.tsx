@@ -52,7 +52,14 @@ export const metadata: Metadata = {
     description: site.description,
     images: ["/brand/social-preview.png"],
   },
-  icons: { icon: [{ url: "/brand/maestro_mark_small.svg", type: "image/svg+xml" }] },
+  icons: {
+    icon: [
+      { url: "/brand/maestro_mark_small.svg", type: "image/svg+xml" },
+      // Fallback for clients that don't take SVG favicons. Lives in public/,
+      // so /favicon.ico resolves even for crawlers that request it blindly.
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+  },
 };
 
 export const viewport: Viewport = { themeColor: "#F7F8FA" };
