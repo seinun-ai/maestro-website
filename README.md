@@ -50,6 +50,19 @@ grep -o 'og:image" content="[^"]*"' .next/server/app/index.html
 cat .next/server/app/robots.txt.body
 ```
 
+### Vercel, once
+
+1. vercel.com → **Add New… → Project** → import `seinun-ai/maestro-website`.
+   Next.js is detected; no build settings to change.
+2. **Settings → Environment Variables**, Production:
+   `NEXT_PUBLIC_SITE_URL = https://maestrocareerstudio.com`.
+   Add it *before* the first production build, or redeploy after.
+3. **Settings → Domains** → add `maestrocareerstudio.com` and `www.maestrocareerstudio.com`,
+   keeping one as a redirect to the other.
+4. Add the DNS records below at Spaceship, then let Vercel issue the certificate.
+
+Every push to `main` redeploys.
+
 ### DNS at Spaceship
 
 Spaceship holds the nameservers, so the records go in its DNS editor. For Vercel:
