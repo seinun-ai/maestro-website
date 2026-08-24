@@ -20,14 +20,23 @@ export type Feature = {
 
 /** Alternating text/capture row. Image always renders after the copy on
  *  narrow screens, whatever side it takes on desktop. */
-export default function FeatureRow({ feature, flip = false }: { feature: Feature; flip?: boolean }) {
+export default function FeatureRow({
+  feature,
+  flip = false,
+  headingLevel = "h3",
+}: {
+  feature: Feature;
+  flip?: boolean;
+  /** h2 when this list sits directly under the page h1; h3 under a Section h2. */
+  headingLevel?: "h2" | "h3";
+}) {
   return (
     <Grid container spacing={{ xs: 4, md: 7 }}  id={feature.id} sx={{ alignItems: "center", scrollMarginTop: 96 }}>
       <Grid size={{ xs: 12, md: 5 }} sx={{ order: { xs: 1, md: flip ? 2 : 1 } }}>
         <Reveal>
           <Box>
             <Eyebrow>{feature.eyebrow}</Eyebrow>
-            <Typography variant="h3" component="h3" sx={{ mb: 2 }}>
+            <Typography variant="h3" component={headingLevel} sx={{ mb: 2 }}>
               {feature.title}
             </Typography>
             <Typography variant="body1" sx={{ color: "text.secondary" }}>

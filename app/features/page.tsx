@@ -34,7 +34,7 @@ export default function FeaturesPage() {
       <Section>
         <Stack spacing={{ xs: 9, md: 14 }}>
           {features.map((f, i) => (
-            <FeatureRow key={f.id} feature={f} flip={i % 2 === 1} />
+            <FeatureRow key={f.id} feature={f} flip={i % 2 === 1} headingLevel="h2" />
           ))}
         </Stack>
       </Section>

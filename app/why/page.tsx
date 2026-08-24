@@ -29,7 +29,7 @@ export default function WhyPage() {
         <Container>
           <Box sx={{ "& > *:not(:first-of-type)": { borderTop: 1, borderColor: "divider" } }}>
             {painPoints.map((p, i) => (
-              <PainPoint key={p.pain} item={p} index={i} />
+              <PainPoint key={p.pain} item={p} index={i} headingLevel="h2" />
             ))}
           </Box>
         </Container>

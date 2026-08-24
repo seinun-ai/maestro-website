@@ -28,7 +28,16 @@ export type Pain = {
  * so the pairing reads as one unit, and the vertical rhythm stays tight
  * whatever the length of either half.
  */
-export default function PainPoint({ item, index }: { item: Pain; index: number }) {
+export default function PainPoint({
+  item,
+  index,
+  headingLevel = "h3",
+}: {
+  item: Pain;
+  index: number;
+  /** h2 when this list sits directly under the page h1; h3 under a Section h2. */
+  headingLevel?: "h2" | "h3";
+}) {
   return (
     <Reveal>
       <Box sx={{ py: { xs: 3, md: 3.5 } }}>
@@ -50,7 +59,7 @@ export default function PainPoint({ item, index }: { item: Pain; index: number }
               </Typography>
               <Typography
                 variant="h3"
-                component="h3"
+                component={headingLevel}
                 sx={{ fontSize: { xs: "1.3rem", md: "1.55rem" }, lineHeight: 1.25 }}
               >
                 {item.pain}
