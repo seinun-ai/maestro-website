@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
 import PauseIcon from "@mui/icons-material/PauseCircleOutlined";
+import ContentPasteIcon from "@mui/icons-material/ContentPasteOutlined";
 
 import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
@@ -24,7 +25,7 @@ import ModelProfiles from "@/components/ModelProfiles";
 import GitHubMark from "@/components/GitHubMark";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
-import { modelProfiles, quickstart, site } from "@/content/site";
+import { agents, modelProfiles, quickstart, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Get started",
@@ -238,11 +239,22 @@ export default function StartPage() {
                 MCP for your assistant
               </Typography>
               <CodeBlock code={quickstart.mcp} />
+              <Stack spacing={1.25} sx={{ mt: 2.5 }}>
+                {agents.setup.targets.map((t) => (
+                  <Stack key={t.client} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
+                    {t.auto ? (
+                      <CheckIcon sx={{ fontSize: 18, color: "success.main", mt: "3px", flexShrink: 0 }} />
+                    ) : (
+                      <ContentPasteIcon sx={{ fontSize: 18, color: "text.secondary", mt: "3px", flexShrink: 0 }} />
+                    )}
+                    <Typography variant="body2">
+                      <strong>{t.client}</strong> · {t.how}
+                    </Typography>
+                  </Stack>
+                ))}
+              </Stack>
               <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
-                Registers the server with Claude Code and prints paste-ready config for Claude Desktop and the ChatGPT
-                desktop app / Codex CLI, every path already filled in. Add <code>--profile hunt</code> for a scoped
-                profile, or <code>--print-only</code> to change nothing and just see the config. Restart Claude Desktop
-                with Cmd+Q after pasting — closing the window is not enough.
+                {agents.setup.manual} {agents.setup.flags}
               </Typography>
               <LinkButton href="/agents" sx={{ px: 0, mt: 1 }}>
                 What agents can do with it

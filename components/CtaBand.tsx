@@ -31,7 +31,7 @@ export default function CtaBand() {
               backgroundColor: "background.paper",
               backgroundImage: `radial-gradient(120% 140% at 50% -30%, ${alpha(
                 t.palette.primary.main,
-                t.palette.mode === "dark" ? 0.24 : 0.12,
+                0.12,
               )} 0%, transparent 62%)`,
             })}
           >

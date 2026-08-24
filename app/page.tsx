@@ -249,9 +249,13 @@ export default function HomePage() {
               <Stack spacing={3}>
                 <Box>
                   <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
-                    One command sets it up
+                    {agents.setup.title}
                   </Typography>
                   <CodeBlock code={quickstart.mcp} />
+                  <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                    Registers Claude Code for you. Prints ready-to-paste config for Claude Desktop and ChatGPT desktop /
+                    Codex CLI.
+                  </Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
@@ -264,7 +268,8 @@ export default function HomePage() {
                   </Stack>
                 </Box>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  <strong>No API key?</strong> {agents.keyless.body.split(".")[0]}.
+                  <strong>No API key?</strong> Over MCP your assistant is the model, so tailoring and KB upkeep still
+                  work.
                 </Typography>
                 <LinkButton href="/agents" endIcon={<ArrowForwardIcon />} sx={{ alignSelf: "flex-start", px: 0 }}>
                   Agents, hunting and the consent ledger

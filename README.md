@@ -53,18 +53,35 @@ public/brand/       the brand package (lockups, marks, social preview)
 
 **Copy lives in `content/site.ts`, not in JSX.** Every claim on the site is
 traceable to the product repo's `README.md`, `SYSTEM.md` or `KNOWN_ISSUES.md`; when
-a number changes there (tool count, test count, tool profiles), it changes in that
+a number changes there (tool count, test count, cost figures), it changes in that
 one file here. Pages read from it and never restate a figure inline.
+
+Two rules that file's header states and this one repeats, because getting either
+wrong makes the site lie:
+
+1. **Positioning is bring-a-key.** One OpenAI *or* Gemini key is the recommended
+   setup. "No key" is two honest tiers: the deterministic core always works, and
+   over MCP the client agent supplies the model. Local model servers are
+   *configurable but untested* — never write "fully offline" anywhere.
+2. **Costs are cited as "about a penny" / "under 3¢" / "under $2 total", with
+   "in our tests" and never a sample count.**
+
+**Voice.** Short sentences, concrete nouns, second person. No em-dash pile-ups, no
+"not X but Y" scaffolding, no throat-clearing. If a sentence has three clauses and
+two dashes, it is not finished.
 
 ## Design notes
 
 - **Brand tokens are locked** (`docs/assets/brand/brand-tokens.json` in the product
   repo): blue `#2563EB`, yellow `#FBBF24`, navy `#0F172A`. `lib/theme.ts` mirrors
   them; do not invent new brand colours here.
+- **Light only, by decision.** A marketing page is read once, in daylight, from a
+  link. A theme toggle is app furniture: it costs a fifth of the styling budget and
+  earns nothing here. There is no `colorSchemes` block, no `InitColorSchemeScript`
+  and no `palette.mode` branching anywhere — if you reintroduce dark mode, all
+  three come back together.
 - **The tonal ladder matches the app** — the page sits *below* the card, so
-  containment reads as tone rather than as a hairline border. Light and dark are
-  both first-class, and the toggle writes the colour-scheme class before hydration
-  so there is no flash.
+  containment reads as tone rather than as a hairline border.
 - **The window chrome around each capture is deliberately quiet** — three dots and
   a hairline. It says "this is the real app" without competing with it.
 - **Motion is decoration.** `Reveal` fades content in on first entry and starts

@@ -29,7 +29,7 @@ export default function MakerNote() {
               borderRadius: 4,
               border: 1,
               borderColor: alpha(t.palette.warning.main, 0.35),
-              backgroundColor: alpha(t.palette.warning.main, t.palette.mode === "dark" ? 0.07 : 0.08),
+              backgroundColor: alpha(t.palette.warning.main, 0.08),
             })}
           >
             <Typography variant="h3" component="h2" sx={{ mb: 2 }}>

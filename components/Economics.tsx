@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import { alpha } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
 import Reveal from "./Reveal";
 import { economics } from "@/content/site";
 
@@ -23,23 +24,30 @@ export default function Economics() {
               p: { xs: 3, md: 4 },
               borderRadius: 4,
               borderColor: alpha(t.palette.warning.main, 0.35),
-              backgroundColor: alpha(t.palette.warning.main, t.palette.mode === "dark" ? 0.08 : 0.1),
+              backgroundColor: alpha(t.palette.warning.main, 0.1),
             })}
           >
             <Typography
               component="p"
-              sx={(t) => ({
-                fontSize: { xs: "3rem", md: "3.75rem" },
+              sx={{
+                fontSize: { xs: "3.4rem", md: "4.25rem" },
                 fontWeight: 800,
-                letterSpacing: "-0.05em",
+                letterSpacing: "-0.055em",
                 lineHeight: 1,
-                color: t.palette.mode === "dark" ? "#FBBF24" : "#8A5A00",
-              })}
+                color: "#8A5A00",
+              }}
             >
               {economics.headline.stat}
             </Typography>
-            <Typography variant="body1" sx={{ mt: 2 }}>
+            <Typography variant="h5" component="p" sx={{ mt: 0.75, color: "#8A5A00" }}>
+              {economics.headline.label}
+            </Typography>
+            <Typography variant="body1" sx={{ mt: 2.5 }}>
               {economics.headline.body}
+            </Typography>
+            <Divider sx={{ my: 2.5, borderColor: "rgba(138,90,0,0.22)" }} />
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              {economics.headline.aside}
             </Typography>
           </Paper>
         </Reveal>

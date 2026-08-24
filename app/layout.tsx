@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 import Box from "@mui/material/Box";
 import ThemeRegistry from "@/components/ThemeRegistry";
 import SiteHeader from "@/components/SiteHeader";
@@ -56,18 +55,12 @@ export const metadata: Metadata = {
   icons: { icon: [{ url: "/brand/maestro_mark_small.svg", type: "image/svg+xml" }] },
 };
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F7F8FA" },
-    { media: "(prefers-color-scheme: dark)", color: "#0A0F1C" },
-  ],
-};
+export const viewport: Viewport = { themeColor: "#F7F8FA" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${mono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${mono.variable}`}>
       <body>
-        <InitColorSchemeScript attribute="class" defaultMode="system" />
         <ThemeRegistry>
           <SkipLink />
           <SiteHeader />

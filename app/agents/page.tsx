@@ -9,6 +9,8 @@ import Chip from "@mui/material/Chip";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import WarningAmberIcon from "@mui/icons-material/WarningAmberOutlined";
+import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
+import ContentPasteIcon from "@mui/icons-material/ContentPasteOutlined";
 import GavelIcon from "@mui/icons-material/GavelOutlined";
 
 import PageHero from "@/components/PageHero";
@@ -50,15 +52,32 @@ export default function AgentsPage() {
               <Stack spacing={3}>
                 <Box>
                   <Typography variant="h3" component="h2" sx={{ mb: 1.5 }}>
-                    One command, every path filled in
+                    {agents.setup.title}
                   </Typography>
                   <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
-                    MCP clients need an absolute path to the server binary, and GUI apps do not inherit your shell PATH.
-                    The setup script creates the host venv, reads your backend port out of <code>.env</code>, registers
-                    the server with Claude Code, and prints ready-to-paste blocks for Claude Desktop and the ChatGPT
-                    desktop app / Codex CLI.
+                    {agents.setup.body}
                   </Typography>
                   <CodeBlock code={quickstart.mcp} />
+                  <Stack spacing={1.25} sx={{ mt: 2.5 }}>
+                    {agents.setup.targets.map((t) => (
+                      <Stack key={t.client} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
+                        {t.auto ? (
+                          <CheckIcon sx={{ fontSize: 18, color: "success.main", mt: "3px", flexShrink: 0 }} />
+                        ) : (
+                          <ContentPasteIcon sx={{ fontSize: 18, color: "text.secondary", mt: "3px", flexShrink: 0 }} />
+                        )}
+                        <Typography variant="body2">
+                          <strong>{t.client}</strong> · {t.how}
+                        </Typography>
+                      </Stack>
+                    ))}
+                  </Stack>
+                  <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
+                    {agents.setup.manual}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                    {agents.setup.flags}
+                  </Typography>
                 </Box>
                 <Box>
                   <Typography variant="h5" component="h3" sx={{ mb: 1.5 }}>

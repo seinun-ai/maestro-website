@@ -14,16 +14,16 @@ export default function Mark({ children }: { children: React.ReactNode }) {
   return (
     <Box
       component="span"
-      sx={(t) => ({
+      sx={{
         position: "relative",
         display: "inline",
-        backgroundImage: `linear-gradient(to top, ${alpha(
-          t.palette.mode === "dark" ? "#FBBF24" : "#FBBF24",
-          t.palette.mode === "dark" ? 0.28 : 0.5,
-        )} 0%, ${alpha("#FBBF24", t.palette.mode === "dark" ? 0.28 : 0.5)} 34%, transparent 34%)`,
+        backgroundImage: `linear-gradient(to top, ${alpha("#FBBF24", 0.5)} 0%, ${alpha(
+          "#FBBF24",
+          0.5,
+        )} 34%, transparent 34%)`,
         backgroundRepeat: "no-repeat",
         paddingInline: "0.08em",
-      })}
+      }}
     >
       {children}
     </Box>

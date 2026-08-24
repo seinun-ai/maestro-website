@@ -26,22 +26,22 @@ export default function StatBadge({
     <Stack spacing={0.75}>
       <Typography
         component="p"
-        sx={(t) => ({
+        sx={{
           fontSize: { xs: "2.4rem", md: "3rem" },
           fontWeight: 800,
           letterSpacing: "-0.045em",
           lineHeight: 1,
-          color: accent ? (t.palette.mode === "dark" ? "#FBBF24" : "#B4790B") : "text.primary",
+          color: accent ? "#B4790B" : "text.primary",
           ...(accent
             ? {
                 width: "fit-content",
                 px: 1,
                 mx: -1,
                 borderRadius: 1.5,
-                backgroundColor: alpha("#FBBF24", t.palette.mode === "dark" ? 0.14 : 0.22),
+                backgroundColor: alpha("#FBBF24", 0.22),
               }
             : null),
-        })}
+        }}
       >
         {value}
       </Typography>

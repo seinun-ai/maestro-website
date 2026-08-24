@@ -19,7 +19,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { alpha } from "@mui/material/styles";
 import Logo from "./Logo";
-import ColorModeToggle from "./ColorModeToggle";
 import GitHubMark from "./GitHubMark";
 import { nav, site } from "@/content/site";
 
@@ -82,7 +81,6 @@ export default function SiteHeader() {
             </Stack>
 
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-              <ColorModeToggle />
               <Button
                 href={site.repo}
                 target="_blank"

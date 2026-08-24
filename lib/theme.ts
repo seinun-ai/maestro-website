@@ -4,8 +4,8 @@ import { createTheme, alpha } from "@mui/material/styles";
 
 /**
  * Brand tokens are locked in the product repo
- * (docs/assets/brand/brand-tokens.json). Do not invent new brand colours here —
- * mirror that file, and let the surface/neutral ladder below do the work.
+ * (docs/assets/brand/brand-tokens.json). Mirror that file; don't invent new
+ * brand colours here.
  */
 export const brand = {
   blue: "#2563EB",
@@ -14,66 +14,35 @@ export const brand = {
   yellowFacet: "#D99A00",
   navy: "#0F172A",
   grey: "#64748B",
-  darkTagline: "#CBD5E1",
 } as const;
 
-/**
- * The app's own tonal rule (frontend/app/globals.css): the page sits BELOW the
- * card, so containment reads as tone rather than as a hairline. Keep the ladder
- * page < raised < card, in both schemes.
- */
-const light = {
+/** Light only, by decision. A marketing page is read once, in daylight, from a
+ *  link — a theme toggle is app furniture that costs a fifth of the styling
+ *  budget and earns nothing here. */
+const surface = {
   page: "#F7F8FA",
-  raised: "#FBFCFD",
   card: "#FFFFFF",
   border: "#E3E7EE",
   text: "#0F172A",
   muted: "#5A6678",
 };
 
-const dark = {
-  page: "#0A0F1C",
-  raised: "#0E1526",
-  card: "#131C30",
-  border: "#22304C",
-  text: "#F1F5F9",
-  muted: "#98A5BA",
-};
-
 const theme = createTheme({
-  cssVariables: { colorSchemeSelector: "class" },
-  colorSchemes: {
-    light: {
-      palette: {
-        mode: "light",
-        primary: { main: brand.blue, dark: brand.blueFacet, contrastText: "#FFFFFF" },
-        secondary: { main: brand.yellowFacet, light: brand.yellow, contrastText: brand.navy },
-        warning: { main: brand.yellowFacet },
-        success: { main: "#188038" },
-        error: { main: "#D93025" },
-        background: { default: light.page, paper: light.card },
-        text: { primary: light.text, secondary: light.muted },
-        divider: light.border,
-      },
-    },
-    dark: {
-      palette: {
-        mode: "dark",
-        primary: { main: "#7BA5F7", dark: "#5B8DEF", contrastText: "#0A1024" },
-        secondary: { main: brand.yellow, contrastText: brand.navy },
-        warning: { main: brand.yellow },
-        success: { main: "#5BD07E" },
-        error: { main: "#F2857A" },
-        background: { default: dark.page, paper: dark.card },
-        text: { primary: dark.text, secondary: dark.muted },
-        divider: dark.border,
-      },
-    },
+  cssVariables: true,
+  palette: {
+    mode: "light",
+    primary: { main: brand.blue, dark: brand.blueFacet, contrastText: "#FFFFFF" },
+    secondary: { main: brand.yellowFacet, light: brand.yellow, contrastText: brand.navy },
+    warning: { main: brand.yellowFacet },
+    success: { main: "#188038" },
+    error: { main: "#D93025" },
+    background: { default: surface.page, paper: surface.card },
+    text: { primary: surface.text, secondary: surface.muted },
+    divider: surface.border,
   },
   shape: { borderRadius: 10 },
   typography: {
     fontFamily: "var(--font-inter), Inter, system-ui, -apple-system, Segoe UI, sans-serif",
-    // Minimalist scale: few sizes, wide leading, tight tracking on the big ones.
     h1: { fontSize: "clamp(2.5rem, 6vw, 4.25rem)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.04 },
     h2: { fontSize: "clamp(1.9rem, 3.6vw, 2.75rem)", fontWeight: 700, letterSpacing: "-0.028em", lineHeight: 1.12 },
     h3: { fontSize: "clamp(1.35rem, 2.2vw, 1.7rem)", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 },
@@ -94,8 +63,8 @@ const theme = createTheme({
           "html, body": { scrollBehavior: "auto" },
           "*": { animationDuration: "0.01ms !important", transitionDuration: "0.01ms !important" },
         },
-        // Anchor targets must clear the fixed header, or a deep link lands
-        // with its own heading hidden behind the AppBar.
+        // Anchor targets must clear the fixed header, or a deep link lands with
+        // its own heading hidden behind the AppBar.
         "[id]": { scrollMarginTop: "88px" },
         code: { fontFamily: "var(--font-mono), ui-monospace, SFMono-Regular, monospace" },
       },
@@ -119,10 +88,7 @@ const theme = createTheme({
     MuiPaper: {
       defaultProps: { elevation: 0 },
       styleOverrides: {
-        root: ({ theme: t }) => ({
-          backgroundImage: "none",
-          border: `1px solid ${t.palette.divider}`,
-        }),
+        root: ({ theme: t }) => ({ backgroundImage: "none", border: `1px solid ${t.palette.divider}` }),
         rounded: { borderRadius: 14 },
       },
     },

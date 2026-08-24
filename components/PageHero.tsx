@@ -30,7 +30,7 @@ export default function PageHero({
         borderColor: "divider",
         backgroundImage: `radial-gradient(80% 90% at 12% -30%, ${alpha(
           t.palette.primary.main,
-          t.palette.mode === "dark" ? 0.2 : 0.09,
+          0.09,
         )} 0%, transparent 58%)`,
       })}
     >

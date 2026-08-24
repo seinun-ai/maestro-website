@@ -27,7 +27,7 @@ export function TintPaper({
     <Paper
       sx={[
         (t) => ({
-          backgroundColor: alpha(t.palette[tone].main, t.palette.mode === "dark" ? 0.1 : 0.07),
+          backgroundColor: alpha(t.palette[tone].main, 0.07),
           borderColor: alpha(t.palette[tone].main, 0.24),
         }),
         ...(Array.isArray(sx) ? sx : [sx]),
@@ -56,7 +56,7 @@ export function TintBand({
         py: { xs: 8, md: 12 },
         borderBlock: 1,
         borderColor: "divider",
-        backgroundColor: alpha(t.palette[tone].main, t.palette.mode === "dark" ? 0.09 : 0.06),
+        backgroundColor: alpha(t.palette[tone].main, 0.06),
       })}
     >
       <Container>{children}</Container>
@@ -82,7 +82,7 @@ export function GlowBox({
         (t) => ({
           backgroundImage: `radial-gradient(${radius} at ${origin}, ${alpha(
             t.palette.primary.main,
-            t.palette.mode === "dark" ? 0.22 : 0.1,
+            0.1,
           )} 0%, transparent 60%)`,
         }),
         ...(Array.isArray(sx) ? sx : [sx]),

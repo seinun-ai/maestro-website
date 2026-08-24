@@ -30,9 +30,9 @@ export default function Hero() {
         // right so the yellow in the stat row doesn't arrive from nowhere.
         backgroundImage: `radial-gradient(80% 60% at 50% -12%, ${alpha(
           t.palette.primary.main,
-          t.palette.mode === "dark" ? 0.26 : 0.12,
+          0.12,
         )} 0%, transparent 62%),
-        radial-gradient(50% 40% at 92% 4%, ${alpha("#FBBF24", t.palette.mode === "dark" ? 0.1 : 0.14)} 0%, transparent 70%)`,
+        radial-gradient(50% 40% at 92% 4%, ${alpha("#FBBF24", 0.14)} 0%, transparent 70%)`,
       })}
     >
       <Container>

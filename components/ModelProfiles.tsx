@@ -35,7 +35,7 @@ export default function ModelProfiles() {
                   ...(c.recommended
                     ? {
                         borderColor: alpha(t.palette.primary.main, 0.4),
-                        backgroundColor: alpha(t.palette.primary.main, t.palette.mode === "dark" ? 0.09 : 0.05),
+                        backgroundColor: alpha(t.palette.primary.main, 0.05),
                       }
                     : null),
                 })}
@@ -53,22 +53,17 @@ export default function ModelProfiles() {
                 </Stack>
 
                 <Box
-                  sx={(t) => ({
-                    mb: 3,
-                    p: 2,
-                    borderRadius: 2.5,
-                    backgroundColor: alpha(t.palette.warning.main, t.palette.mode === "dark" ? 0.1 : 0.14),
-                  })}
+                  sx={{ mb: 3, p: 2, borderRadius: 2.5, backgroundColor: alpha("#D99A00", 0.14) }}
                 >
                   <Typography
                     component="p"
-                    sx={(t) => ({
+                    sx={{
                       fontSize: "1.9rem",
                       fontWeight: 800,
                       letterSpacing: "-0.04em",
                       lineHeight: 1.1,
-                      color: t.palette.mode === "dark" ? "#FBBF24" : "#8A5A00",
-                    })}
+                      color: "#8A5A00",
+                    }}
                   >
                     {c.cost}
                   </Typography>

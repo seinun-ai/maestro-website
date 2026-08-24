@@ -46,10 +46,10 @@ export default function ShotFrame({
           borderColor: "divider",
           backgroundColor: "background.paper",
           boxShadow: glow
-            ? `0 2px 6px ${alpha(t.palette.common.black, t.palette.mode === "dark" ? 0.6 : 0.07)},
-               0 40px 90px -40px ${alpha(t.palette.primary.main, t.palette.mode === "dark" ? 0.9 : 0.45)}`
-            : `0 1px 2px ${alpha(t.palette.common.black, t.palette.mode === "dark" ? 0.5 : 0.05)},
-               0 18px 44px -22px ${alpha(t.palette.common.black, t.palette.mode === "dark" ? 0.8 : 0.22)}`,
+            ? `0 2px 6px ${alpha(t.palette.common.black, 0.07)},
+               0 40px 90px -40px ${alpha(t.palette.primary.main, 0.45)}`
+            : `0 1px 2px ${alpha(t.palette.common.black, 0.05)},
+               0 18px 44px -22px ${alpha(t.palette.common.black, 0.22)}`,
         })}
       >
         <Stack
