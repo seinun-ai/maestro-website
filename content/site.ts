@@ -35,6 +35,7 @@ export const nav = [
   { label: "Agents & MCP", href: "/agents" },
   { label: "Privacy", href: "/privacy" },
   { label: "Get started", href: "/start" },
+  { label: "Guide", href: "/guide" },
 ] as const;
 
 export const hero = {
@@ -56,7 +57,7 @@ export const heroStats = [
   },
   { value: "83", label: "MCP tools", detail: "Run the whole pipeline from Claude, Codex or ChatGPT desktop." },
   { value: "3", label: "local containers", detail: "Bound to 127.0.0.1. No account, no cloud, no upload." },
-  { value: "4,023", label: "tests passing", detail: "Scoring determinism is enforced in CI, not claimed in a README." },
+  { value: "4,086", label: "tests passing", detail: "Scoring determinism is enforced in CI, not claimed in a README." },
 ] as const;
 
 /* --------------------------- the why --------------------------- */
@@ -142,7 +143,7 @@ export const painPoints = [
   {
     pain: "You wish the form-filler knew everything your resume knows.",
     answer: "It does, per application.",
-    body: "The extension fills from your Autofill Profile and grounds each answer in the application on screen, not a generic saved blob. Its telemetry logs which fields it met and whether they filled. It can't log what you typed, because the table has no column for it.",
+    body: "The side panel fills from your Autofill Profile and grounds each answer in the application on screen, not a generic saved blob. Its telemetry logs which fields it met and whether they filled. It can't log what you typed, because the table has no column for it.",
     feature: "AI-grounded autofill",
     href: "/features#extension",
   },
@@ -358,7 +359,7 @@ export const features = [
     id: "extension",
     eyebrow: "The capture",
     title: "An extension that never stores what you typed",
-    body: "A floating widget on the job page. Capture the posting, score it against every base resume, tailor on the spot, fill the form from your Autofill Profile. Its telemetry records which fields it met and whether they filled. It cannot record a value you typed, because the table has no column for one.",
+    body: "A browser side panel. Capture the posting, score it against every base resume, tailor on the spot, fill the form from your Autofill Profile, and mark it applied — without leaving the tab. Its telemetry records which fields it met and whether they filled. It cannot record a value you typed, because the table has no column for one.",
     bullets: [
       "Zero-config install. The extension pins its identity, so the backend already trusts it.",
       "Signatures, attestations, consent boxes, credentials and government IDs are deny-listed",
@@ -449,11 +450,11 @@ export const agents = {
     manual:
       "Claude Desktop and the ChatGPT desktop app / Codex CLI get a ready-to-paste block instead, every path already filled in. Those two you paste yourself, because both config files are shared with your other MCP servers and the script won't edit them behind your back.",
     targets: [
-      { client: "Claude Code", how: "Registered automatically", auto: true },
+      { client: "Claude Code", how: "Nothing to do — the script writes a repo-level .mcp.json", auto: true },
       { client: "Claude Desktop", how: "Prints a block for claude_desktop_config.json", auto: false },
       { client: "ChatGPT desktop / Codex CLI", how: "Prints a block for ~/.codex/config.toml", auto: false },
     ],
-    flags: "Add --profile hunt for a scoped profile, or --print-only to change nothing and just see the config. Restart Claude Desktop with Cmd+Q after pasting. Closing the window isn't enough.",
+    flags: "Add --profile hunt for a scoped profile, or --print-only to change nothing and just see the config. Quit Claude Desktop before you edit its config — the running app rewrites that file on exit and will silently drop your change.",
     delegate: {
       title: "Or just ask the assistant to do it",
       body: "Agents that can edit files and run commands are perfectly capable of wiring this up themselves. Run the script with --print-only, hand the output to Claude Code or the Codex CLI, and ask it to add the server to your config. It knows where those files live and it can merge into them without clobbering your other MCP servers.",
@@ -567,7 +568,7 @@ export const quickstart = {
       n: "2",
       title: "One API key",
       required: false,
-      body: "Paste it into .env or Settings → Models. OpenAI or Gemini. Either one alone is a complete setup, and each maps to a profile we measured.",
+      body: "Add it in Settings → Models after first boot. OpenAI or Gemini — either alone is a complete setup. A key saved in the app always wins over one in .env, so pick one place and stay there.",
     },
     {
       n: "3",
@@ -665,6 +666,187 @@ export const faqs = [
     a: "Early, and the repo says so. The fresh-clone compose boot especially. KNOWN_ISSUES.md lists what's solid, what's rough and what's a deliberate limitation: the tracker doesn't paginate server-side, scores aren't re-derived when a base resume changes, and autofill isn't first-try-clean on every ATS. If something breaks, a clear bug report is the most useful thing you can send.",
   },
 ] as const;
+
+export const guide = {
+  hero: {
+    eyebrow: "The guide",
+    title: "From zero to your first tailored PDF.",
+    lede: "The rest of this site explains why Maestro works the way it does. This is the how: install it, find your way around, and run one real application through it — in the order that actually works. It assumes no Docker or terminal experience beyond copy-pasting.",
+  },
+
+  agentPath: {
+    eyebrow: "Start here",
+    title: "The fastest path: let an agent do it",
+    body: "If you already use a coding agent or AI IDE — Claude Code, the Codex CLI, Cursor — you can skip most of the mechanics below. Open a session and paste this:",
+    prompt:
+      "Clone https://github.com/seinun-ai/maestro-career-studio, check that the prerequisites in docs/GETTING_STARTED.md are present on this machine, set up the .env, and start the stack with docker compose. Then tell me what still needs me.",
+    second:
+      "Later, from a session opened inside the cloned repo, this wires the server into your assistant:",
+    secondPrompt:
+      "Set up this repo's MCP server for my assistant. Run ./scripts/setup-mcp.sh and apply its output; docs/GETTING_STARTED.md §6 has the per-client paths.",
+    limits: {
+      title: "Two things an agent can't do for you",
+      items: [
+        "Install and start Docker Desktop. It needs an admin password and a GUI first run.",
+        "Decide where your API key goes. That one is a judgement call, and it's yours.",
+      ],
+    },
+  },
+
+  prerequisites: {
+    eyebrow: "Step 1",
+    title: "What you need first",
+    items: [
+      {
+        title: "Docker",
+        body: "Docker Desktop on macOS or Windows; Docker Engine with Compose v2 on Linux. Start it and leave it running — the most common first-run error, “Cannot connect to the Docker daemon”, just means Docker Desktop isn't open.",
+        check: "docker info",
+        checkNote: "Any output that ends without an error means you're fine.",
+      },
+      {
+        title: "About 4 GB of disk",
+        body: "For the three images. The backend carries a minimal TeX Live, Typst and the pinned embedding model, which is most of it.",
+      },
+      {
+        title: "An API key — not yet, though",
+        body: "OpenAI or Gemini. You add it inside the app after first boot, not now. Without one the deterministic core still runs: ATS scoring, PDF rendering, tracking.",
+      },
+      {
+        title: "Python 3.12+ — only for MCP",
+        body: "Needed for the MCP server in step 6. The app itself doesn't need it.",
+      },
+    ],
+  },
+
+  install: {
+    eyebrow: "Step 2",
+    title: "Install and first boot",
+    clone: `git clone https://github.com/seinun-ai/maestro-career-studio.git
+cd maestro-career-studio
+cp .env.example .env`,
+    keyNote:
+      "Don't put your API key in .env yet. The recommended place is Settings → Models inside the app, after first boot. A key saved in the app always wins over one in .env, so keeping both is how you end up staring at a stale key you forgot about.",
+    up: "docker compose up -d --build",
+    upNote:
+      "The first build takes several minutes — it installs TeX Live and downloads the embedding model, once. Then open http://localhost:3000.",
+    firstBoot:
+      "First boot starts PostgreSQL on port 55432, runs migrations, seeds a demo resume with rendered previews, and — if a key is present — builds a demo Career KB from it.",
+  },
+
+  troubleshooting: {
+    title: "If something goes wrong",
+    columns: ["You see", "It means", "Do"],
+    rows: [
+      ["Cannot connect to the Docker daemon", "Docker isn't running", "Start Docker Desktop, wait for “running”, re-run the command"],
+      ["port is already allocated", "Another app owns 3000, 8001 or 55432", "Change the matching *_HOST_PORT in .env"],
+      ["Build sits at TeX Live or the model download", "Normal on a first build", "Wait it out. Later builds are fast."],
+      ["Page loads but everything errors", "Backend still starting", "curl -s localhost:8001/health answers {\"status\":\"ok\"} when it's ready"],
+      ["Added a key to .env after starting", "Keys are read at process start", "docker compose restart backend — and remember an in-app key overrides .env"],
+      ["Calls fail 401 though Settings says Configured", "A stale key. The label says where it lives.", "Re-enter it in Settings → Models and press Test"],
+    ],
+  },
+
+  cleanSlate: {
+    title: "Starting over, properly",
+    body: "Deleting the project folder does not delete your data, and neither does docker compose down. The database lives in a Docker volume named after the folder, inside Docker itself.",
+    consequences: [
+      "Re-cloning into a folder with the same name re-attaches the old database. Your resumes, applications and even a saved key come back. That's the right default — an accidental deletion never costs you data — but it means “delete and clone again” is not a fresh install. Clone into a differently named folder to test one.",
+      "Deleting only the folder leaves your state half-gone: the database survives, but rendered PDFs under applications/ and base_resumes/ don't, so the app may list documents whose files are missing. Re-render them; the content is safe.",
+    ],
+    nuke: "docker compose down -v",
+    nukeNote: "When you do want everything gone — demo data, your data, stored keys — this is the one command. Run it from the project folder. It cannot be undone.",
+  },
+
+  tour: {
+    eyebrow: "Step 3",
+    title: "Find your way around",
+    lede: "The sidebar, top to bottom.",
+    items: [
+      { name: "New application", body: "Capture a job and start tailoring against it." },
+      { name: "Applications", body: "Every job you've captured, from saved to signed." },
+      { name: "Agent Proposals", body: "The triage inbox for jobs an agent hunted." },
+      { name: "Referrals", body: "Contacts and their company careers pages." },
+      { name: "Career KB", body: "Your evidence: work history as approved, reusable points." },
+      { name: "Base Resumes", body: "One resume per career track, composed from the KB." },
+      { name: "Templates", body: "The LaTeX and Typst designs your PDFs render through." },
+      { name: "Chat", body: "The scoped in-app assistant. Pin a resume, section or bullet." },
+      { name: "Analytics", body: "What the market you're applying into keeps asking for." },
+      { name: "Profile", body: "Persona, job preferences, and your autofill contact details." },
+      { name: "Settings", body: "Models and keys, prompts, quick-tailor defaults, hunt caps." },
+    ],
+  },
+
+  firstSession: {
+    eyebrow: "Step 4",
+    title: "Your first session, in order",
+    lede: "The order matters. Everything downstream composes from the Career KB, so feed that first and the rest gets easier.",
+    steps: [
+      { t: "Import every resume you have", b: "Up to 10 files a batch. Old versions, role-specific variants, the too-long one — they all carry evidence." },
+      { t: "Approve the KB inbox", b: "Imported points arrive as drafts. Only approved points ever land on a resume. Merge the duplicates once and every future application benefits." },
+      { t: "Fill in your Profile", b: "Contact details, persona, and job preferences — roles, seniority, location, work authorization. Those drive scoring warnings and agent hunts." },
+      { t: "Add your API key and pick models", b: "Settings → Models. Press Test on each: it measures what the model can actually do before you depend on it." },
+      { t: "Pick a default template", b: "Every render uses it unless a resume overrides it. You can switch any time without touching content." },
+      { t: "Build a base resume per career track", b: "Base Resumes → New → From Career KB. Then run the Health check: fixing its findings now beats fixing them after every tailoring run." },
+      { t: "Capture a job", b: "Paste the posting text or URL, or use the side panel. Extraction structures it; the deterministic engine scores it against every base." },
+      { t: "Tailor through the gap workflow", b: "Each gap names a requirement your resume doesn't evidence. Answer honestly and true-but-unwritten material becomes permanent KB evidence. Every AI edit is a revertible diff — read it." },
+      { t: "Set quick-tailor preferences", b: "Once you've done a few manual passes. Then Quick Tailor handles the already-know-the-answer cases in one step." },
+      { t: "Generate the package and read it", b: "Cover letter, screening answers, the PDF. Every render is filed on disk under applications/ in a company-and-role folder, so you can verify exactly what you sent." },
+      { t: "Track it", b: "Mark applied, record outcomes. Analytics starts paying off after about ten captured jobs." },
+    ],
+  },
+
+  extension: {
+    eyebrow: "Step 5",
+    title: "The browser side panel",
+    lede: "Save the posting in front of you, score your bases against it, fill the form from your autofill profile, and mark it applied — without leaving the tab.",
+    steps: [
+      "Open chrome://extensions and switch on Developer mode, top right.",
+      "Load unpacked → select the repo's extension/ folder.",
+      "Pin the icon, then click it on any job page to open the panel.",
+    ],
+    note: "If you changed the app's ports in .env, set the backend and app URLs under the panel's ⋯ menu.",
+  },
+
+  mcp: {
+    eyebrow: "Step 6",
+    title: "Drive it from your assistant",
+    lede: "With the backend running, one command prepares everything. The venv it creates is the server — there's nothing else to install.",
+    cmd: "./scripts/setup-mcp.sh",
+    clients: [
+      { name: "Claude Code", body: "Nothing more to do for sessions opened in this repo — the script writes a repo-level .mcp.json and the session offers the server automatically. Approve it when prompted. It registers user-wide too, for sessions elsewhere." },
+      { name: "Claude Desktop", body: "Quit the app first with Cmd+Q. Then Settings → Developer → Edit Config, paste the block the script printed into mcpServers, save, and reopen. Quitting first matters: a running app rewrites that file on exit and will silently drop your edit." },
+      { name: "ChatGPT desktop / Codex CLI", body: "Both read ~/.codex/config.toml. Append the TOML block the script printed, then restart the app." },
+    ],
+  },
+
+  next: {
+    eyebrow: "Step 7",
+    title: "Where it can go next",
+    lede: "Once the server is registered, your assistant can run the whole loop. The repo ships the author's own prompts as adaptable starting points.",
+    items: [
+      { t: "A scheduled daily hunt", b: "Capture, score and propose only. You triage the results on Agent Proposals." },
+      { t: "Referral-first hunting", b: "Add contacts and their careers pages under Referrals, then point a hunt at those URLs specifically." },
+      { t: "Attended apply runs", b: "Working the accepted-proposal queue with a browser, one consent per application, always stopping before submit." },
+    ],
+    closing: "Whatever the agent does, the consent posture holds: nothing is submitted without your explicit per-application yes, and everything is written down.",
+  },
+
+  updating: {
+    eyebrow: "Step 8",
+    title: "Keeping it up to date",
+    lede: "One command, from the folder you cloned. It takes a database backup, moves your checkout to the newest released version, brings the images to that same version, and waits until the stack is healthy again.",
+    cmd: "./scripts/update.sh",
+    check: "./scripts/update.sh --check",
+    checkNote: "Changes nothing. Answers only: am I up to date?",
+    facts: [
+      { t: "Your data is not involved", b: "Resumes, applications, KB documents and settings are files on disk no update step touches, and the database lives in a Docker volume that survives all of this. The backup guards the migration specifically." },
+      { t: "Migrations run themselves", b: "They run when the backend starts, so the first boot after an update takes longer than usual. The script tells you it's waiting." },
+      { t: "Two things stay manual", b: "Docker can't reach them: reload the extension at chrome://extensions and reload any open job tab, then restart your MCP client. The script prints both reminders when it finishes." },
+    ],
+    why: "Your checkout and your images move together, always. An install here is a git checkout — the unpacked extension loads from extension/ and the MCP server's venv sits over backend/. Pulling images alone would update two of the four surfaces and leave the extension and MCP client running code your API no longer has.",
+    windows: "It's bash, so on Windows run it under WSL — or use the manual command-by-command form in the README.",
+  },
+} as const;
 
 export const makerNote = {
   title: "It's early. I'd rather hear about it.",

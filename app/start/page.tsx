@@ -23,6 +23,7 @@ import MakerNote from "@/components/MakerNote";
 import Economics from "@/components/Economics";
 import ModelProfiles from "@/components/ModelProfiles";
 import GitHubMark from "@/components/GitHubMark";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
 import { agents, modelProfiles, quickstart, site } from "@/content/site";
@@ -299,6 +300,38 @@ export default function StartPage() {
       </Section>
 
       {/* Known issues */}
+      <Section
+        eyebrow="Then what?"
+        title="The guide walks you through the first hour."
+        lede="This page is the decision: what you need, what it costs, what runs without a key. The guide is the doing — install, first boot, the order to set things up in, and how to keep it updated. It assumes no Docker or terminal experience."
+        maxWidth={700}
+      >
+        <Reveal>
+          <TintPaper sx={{ p: { xs: 3, md: 4 }, borderRadius: 4, maxWidth: 900 }}>
+            <Grid container spacing={2.5}>
+              {[
+                ["Let an agent install it", "Paste one prompt into Claude Code or Codex and it clones, configures and starts the stack."],
+                ["Your first session, in order", "Eleven steps from importing resumes to tracking the application. The order is the point."],
+                ["When something breaks", "A symptom-to-fix table for the errors a first boot actually produces."],
+                ["Keeping it up to date", "One command that backs up, moves your checkout to the newest release, and waits for healthy."],
+              ].map(([t, b]) => (
+                <Grid size={{ xs: 12, sm: 6 }} key={t}>
+                  <Typography variant="h6" component="h3">
+                    {t}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary", mt: 0.5 }}>
+                    {b}
+                  </Typography>
+                </Grid>
+              ))}
+            </Grid>
+            <LinkButton href="/guide" variant="contained" endIcon={<ArrowForwardIcon />} sx={{ mt: 3.5 }}>
+              Open the guide
+            </LinkButton>
+          </TintPaper>
+        </Reveal>
+      </Section>
+
       <Section eyebrow="Before you file a bug" title="Read the known issues first" maxWidth={640}>
         <Reveal>
           <Stack spacing={3} sx={{ maxWidth: 820 }}>
