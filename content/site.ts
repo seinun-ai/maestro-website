@@ -622,9 +622,9 @@ docker compose up -d --build`,
     body: "The client speaks to any OpenAI-compatible endpoint, so Ollama, LM Studio or vLLM can be pointed at with OPENAI_BASE_URL. We haven't validated a local model end to end yet, and the heavy asks — long tailoring prompts, strict JSON, streaming tool calls — are exactly where small models struggle. So we make no offline promise until we can stand behind one.",
     ask: "If you try it, tell us what worked and what broke, with the model name. That's a genuinely useful contribution.",
   },
-  earlyRelease: {
-    title: "The compose path is the least-tested part of this release",
-    body: "The stack runs daily on my machine, but a fresh-clone first boot has had little outside testing. If it fails on yours, open an issue with the log. Right now that's one of the most valuable things anyone can send.",
+  freshInstall: {
+    title: "A fresh clone has been walked twice, on clean machines",
+    body: "Both runs turned up rough edges and both sets are fixed — that is why the troubleshooting table in the guide is specific rather than generic. If your install still finds something new, an issue with the log is genuinely useful.",
   },
 } as const;
 
@@ -675,8 +675,8 @@ export const guide = {
   },
 
   agentPath: {
-    eyebrow: "Start here",
-    title: "The fastest path: let an agent do it",
+    eyebrow: "The fastest path",
+    title: "Let an agent install it",
     body: "If you already use a coding agent or AI IDE — Claude Code, the Codex CLI, Cursor — you can skip most of the mechanics below. Open a session and paste this:",
     prompt:
       "Clone https://github.com/seinun-ai/maestro-career-studio, check that the prerequisites in docs/GETTING_STARTED.md are present on this machine, set up the .env, and start the stack with docker compose. Then tell me what still needs me.",
@@ -693,8 +693,15 @@ export const guide = {
     },
   },
 
+  agentShortcut: {
+    title: "Had an agent do the install?",
+    body: "Then steps 1 and 2 are already done — the clone, the .env and the running stack. Skip to Find your way around, and come back here only if something looks wrong.",
+    cta: "Jump to the tour",
+    href: "/guide#tour",
+  },
+
   prerequisites: {
-    eyebrow: "Step 1",
+    eyebrow: "Step 1 — doing it yourself",
     title: "What you need first",
     items: [
       {
@@ -719,7 +726,7 @@ export const guide = {
   },
 
   install: {
-    eyebrow: "Step 2",
+    eyebrow: "Step 2 — doing it yourself",
     title: "Install and first boot",
     clone: `git clone https://github.com/seinun-ai/maestro-career-studio.git
 cd maestro-career-studio
@@ -834,8 +841,11 @@ cp .env.example .env`,
   updating: {
     eyebrow: "Step 8",
     title: "Keeping it up to date",
-    lede: "One command, from the folder you cloned. It takes a database backup, moves your checkout to the newest released version, brings the images to that same version, and waits until the stack is healthy again.",
-    cmd: "./scripts/update.sh",
+    lede: "One command, run from inside the folder you cloned. It takes a database backup, moves your checkout to the newest released version, brings the images to that same version, and waits until the stack is healthy again.",
+    cmd: `cd ~/maestro-career-studio      # wherever you cloned it
+./scripts/update.sh`,
+    cmdNote:
+      "The path matters: an install here is a git checkout, so the script has to be run from the repo it is updating. It resolves the repo from its own location, so an absolute path — /path/to/maestro-career-studio/scripts/update.sh — works from anywhere too.",
     check: "./scripts/update.sh --check",
     checkNote: "Changes nothing. Answers only: am I up to date?",
     facts: [

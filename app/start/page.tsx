@@ -12,6 +12,7 @@ import Chip from "@mui/material/Chip";
 import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
 import PauseIcon from "@mui/icons-material/PauseCircleOutlined";
 import ContentPasteIcon from "@mui/icons-material/ContentPasteOutlined";
+import BlockIcon from "@mui/icons-material/BlockOutlined";
 
 import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
@@ -26,7 +27,7 @@ import GitHubMark from "@/components/GitHubMark";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
-import { agents, modelProfiles, quickstart, site } from "@/content/site";
+import { agents, guide, modelProfiles, quickstart, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Get started",
@@ -57,8 +58,50 @@ export default function StartPage() {
         </Stack>
       </PageHero>
 
+      {/* The fastest path comes first: most readers never need the rest. */}
+      <Section
+        id="fastest-path"
+        eyebrow={guide.agentPath.eyebrow}
+        title={guide.agentPath.title}
+        lede={guide.agentPath.body}
+        maxWidth={720}
+      >
+        <Grid container spacing={{ xs: 3, md: 5 }} sx={{ alignItems: "flex-start" }}>
+          <Grid size={{ xs: 12, md: 7 }}>
+            <Reveal>
+              <CodeBlock code={guide.agentPath.prompt} label="paste into your agent" wrap />
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2.5, mb: 1.5 }}>
+                {guide.agentPath.second}
+              </Typography>
+              <CodeBlock code={guide.agentPath.secondPrompt} label="later, inside the repo" wrap />
+            </Reveal>
+          </Grid>
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Reveal delay={80}>
+              <TintPaper tone="warning" sx={{ p: 3, borderRadius: 3 }}>
+                <Typography variant="h5" component="h3" sx={{ mb: 1.5 }}>
+                  {guide.agentPath.limits.title}
+                </Typography>
+                <Stack spacing={1.5}>
+                  {guide.agentPath.limits.items.map((i) => (
+                    <Stack key={i} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
+                      <BlockIcon sx={{ fontSize: 18, color: "warning.main", mt: "3px", flexShrink: 0 }} />
+                      <Typography variant="body2">{i}</Typography>
+                    </Stack>
+                  ))}
+                </Stack>
+              </TintPaper>
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
+                Everything below is the same install, done by hand. Read it if you would rather drive, or if the agent
+                stops and asks.
+              </Typography>
+            </Reveal>
+          </Grid>
+        </Grid>
+      </Section>
+
       {/* The four pieces */}
-      <Section eyebrow="The shape of it" title="What a complete setup looks like" maxWidth={620}>
+      <Section tone="raised" eyebrow="The shape of it" title="What a complete setup looks like" maxWidth={620}>
         <Grid container spacing={2.5}>
           {quickstart.pieces.map((p, i) => (
             <Grid size={{ xs: 12, sm: 6 }} key={p.n}>
@@ -94,7 +137,6 @@ export default function StartPage() {
 
       {/* Prerequisites + clone */}
       <Section
-        tone="raised"
         eyebrow="Step 1"
         title="Clone and start the stack"
         lede="Then open http://localhost:3000."
@@ -106,9 +148,9 @@ export default function StartPage() {
               <CodeBlock code={quickstart.clone} />
             </Reveal>
             <Reveal>
-              <Alert severity="warning" variant="outlined" sx={{ mt: 3, borderRadius: 3 }}>
-                <AlertTitle sx={{ fontWeight: 700 }}>{quickstart.earlyRelease.title}</AlertTitle>
-                {quickstart.earlyRelease.body}
+              <Alert severity="success" variant="outlined" sx={{ mt: 3, borderRadius: 3 }}>
+                <AlertTitle sx={{ fontWeight: 700 }}>{quickstart.freshInstall.title}</AlertTitle>
+                {quickstart.freshInstall.body}
               </Alert>
             </Reveal>
             <Reveal>

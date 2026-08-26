@@ -10,7 +10,17 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopyOutlined";
 import CheckIcon from "@mui/icons-material/CheckOutlined";
 import TerminalIcon from "@mui/icons-material/TerminalOutlined";
 
-export default function CodeBlock({ code, label = "bash" }: { code: string; label?: string }) {
+export default function CodeBlock({
+  code,
+  label = "bash",
+  wrap = false,
+}: {
+  code: string;
+  label?: string;
+  /** Prose prompts wrap; shell commands scroll. A wrapped command reads as two
+   *  commands, and a scrolled paragraph hides most of itself. */
+  wrap?: boolean;
+}) {
   const [copied, setCopied] = React.useState(false);
 
   const copy = async () => {
@@ -51,7 +61,9 @@ export default function CodeBlock({ code, label = "bash" }: { code: string; labe
         sx={{
           m: 0,
           p: 2.25,
-          overflowX: "auto",
+          overflowX: wrap ? "visible" : "auto",
+          whiteSpace: wrap ? "pre-wrap" : "pre",
+          overflowWrap: wrap ? "anywhere" : "normal",
           fontFamily: "var(--font-mono), ui-monospace, monospace",
           fontSize: "0.8375rem",
           lineHeight: 1.75,

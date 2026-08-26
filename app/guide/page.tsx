@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Metadata } from "next";
 import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
@@ -10,7 +11,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
-import BlockIcon from "@mui/icons-material/BlockOutlined";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
@@ -35,37 +36,36 @@ export default function GuidePage() {
     <>
       <PageHero eyebrow={guide.hero.eyebrow} title={guide.hero.title} lede={guide.hero.lede} />
 
-      {/* 0 — the easiest door first */}
-      <Section eyebrow={guide.agentPath.eyebrow} title={guide.agentPath.title} lede={guide.agentPath.body} maxWidth={720}>
-        <Grid container spacing={{ xs: 3, md: 5 }} sx={{ alignItems: "flex-start" }}>
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Reveal>
-              <CodeBlock code={guide.agentPath.prompt} label="paste into your agent" />
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2.5, mb: 1.5 }}>
-                {guide.agentPath.second}
-              </Typography>
-              <CodeBlock code={guide.agentPath.secondPrompt} label="later, inside the repo" />
-            </Reveal>
-          </Grid>
-          <Grid size={{ xs: 12, md: 5 }}>
-            <Reveal delay={80}>
-              <TintPaper tone="warning" sx={{ p: 3, borderRadius: 3 }}>
-                <Typography variant="h5" component="h3" sx={{ mb: 1.5 }}>
-                  {guide.agentPath.limits.title}
-                </Typography>
-                <Stack spacing={1.5}>
-                  {guide.agentPath.limits.items.map((i) => (
-                    <Stack key={i} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
-                      <BlockIcon sx={{ fontSize: 18, color: "warning.main", mt: "3px", flexShrink: 0 }} />
-                      <Typography variant="body2">{i}</Typography>
-                    </Stack>
-                  ))}
-                </Stack>
-              </TintPaper>
-            </Reveal>
-          </Grid>
-        </Grid>
-      </Section>
+      {/* The install itself lives on /start; here we only need to tell a
+          reader who used it which steps they can skip. */}
+      <Box component="section" sx={{ pt: { xs: 5, md: 7 } }}>
+        <Container>
+          <Reveal>
+            <TintPaper sx={{ p: { xs: 3, md: 3.5 }, borderRadius: 4 }}>
+              <Grid container spacing={2} sx={{ alignItems: "center" }}>
+                <Grid size={{ xs: 12, md: 8 }}>
+                  <Typography variant="h4" component="h2" sx={{ mb: 0.75 }}>
+                    {guide.agentShortcut.title}
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: "text.secondary" }}>
+                    {guide.agentShortcut.body}
+                  </Typography>
+                </Grid>
+                <Grid size={{ xs: 12, md: 4 }}>
+                  <Stack spacing={1} sx={{ alignItems: { md: "flex-end" } }}>
+                    <LinkButton href={guide.agentShortcut.href} variant="contained" endIcon={<ArrowForwardIcon />}>
+                      {guide.agentShortcut.cta}
+                    </LinkButton>
+                    <LinkButton href="/start#fastest-path" size="small" sx={{ px: 0, color: "text.secondary" }}>
+                      Or see the agent prompt
+                    </LinkButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </TintPaper>
+          </Reveal>
+        </Container>
+      </Box>
 
       {/* 1 — prerequisites */}
       <Section tone="raised" eyebrow={guide.prerequisites.eyebrow} title={guide.prerequisites.title} maxWidth={620}>
@@ -158,7 +158,7 @@ export default function GuidePage() {
       </Section>
 
       {/* 3 — orient */}
-      <Section tone="raised" eyebrow={guide.tour.eyebrow} title={guide.tour.title} lede={guide.tour.lede} maxWidth={620}>
+      <Section id="tour" tone="raised" eyebrow={guide.tour.eyebrow} title={guide.tour.title} lede={guide.tour.lede} maxWidth={620}>
         <Grid container spacing={2}>
           {guide.tour.items.map((t, i) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={t.name}>
@@ -267,6 +267,10 @@ export default function GuidePage() {
               <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
                 {guide.updating.checkNote}
               </Typography>
+              <Alert severity="info" variant="outlined" sx={{ mt: 2.5, borderRadius: 3 }}>
+                <AlertTitle sx={{ fontWeight: 700 }}>Run it from the repo you cloned</AlertTitle>
+                {guide.updating.cmdNote}
+              </Alert>
               <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
                 {guide.updating.windows}
               </Typography>
