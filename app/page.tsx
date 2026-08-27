@@ -6,7 +6,6 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
-import Link from "@mui/material/Link";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import FunctionsIcon from "@mui/icons-material/FunctionsOutlined";
 import VerifiedIcon from "@mui/icons-material/VerifiedOutlined";
@@ -21,7 +20,6 @@ import ComparisonTable from "@/components/ComparisonTable";
 import FeatureRow from "@/components/FeatureRow";
 import PainPoint from "@/components/PainPoint";
 import Economics from "@/components/Economics";
-import ModelProfiles from "@/components/ModelProfiles";
 import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
 import CodeBlock from "@/components/CodeBlock";
@@ -34,7 +32,6 @@ import {
   agents,
   economics,
   features,
-  modelProfiles,
   painPoints,
   pillars,
   privacy,
@@ -85,7 +82,7 @@ export default function HomePage() {
         </Grid>
       </Section>
 
-      {/* Pain points — the reader recognises themselves before we explain anything */}
+      {/* Pain points: the reader recognises themselves before we explain anything */}
       <Section eyebrow={whyIntro.eyebrow} title={whyIntro.title} lede={whyIntro.lede} maxWidth={720}>
         <Box sx={{ "& > *:not(:first-of-type)": { borderTop: 1, borderColor: "divider" } }}>
           {HOME_PAINS.map((idx, i) => (
@@ -106,7 +103,7 @@ export default function HomePage() {
         tone="raised"
         eyebrow="What makes it different"
         title="Three commitments, and everything else follows from them"
-        lede="These are the parts other tools in this category do not do — not because they are hard to copy, but because each one costs something a subscription product is unwilling to pay."
+        lede="Each one costs something a subscription product is unwilling to pay. That is why nothing else in this category does all three."
       >
         <Grid container spacing={3}>
           {pillars.map((p, i) => (
@@ -123,13 +120,7 @@ export default function HomePage() {
                     </Typography>
                     <Divider sx={{ pt: 0.5 }} />
                     <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {"proofHref" in p && p.proofHref ? (
-                        <Link href={p.proofHref} target="_blank" rel="noopener noreferrer" color="inherit">
-                          {p.proof}
-                        </Link>
-                      ) : (
-                        p.proof
-                      )}
+                      {p.proof}
                     </Typography>
                   </Stack>
                 </Paper>
@@ -143,7 +134,7 @@ export default function HomePage() {
       <Section
         eyebrow="The loop"
         title="Five steps, and the fourth one is where the value is"
-        lede="Built for few, well-evidenced applications rather than volume — because depth per application is the only lever left when a single opening draws around 240 of them."
+        lede="Built for few, well-evidenced applications rather than volume. Depth per application is the only lever left."
       >
         <Grid container spacing={{ xs: 2.5, md: 3 }}>
           {steps.map((s, i) => (
@@ -196,7 +187,7 @@ export default function HomePage() {
         tone="raised"
         eyebrow="Inside the studio"
         title="The parts you will actually live in"
-        lede="Everything below is in the shipped app — these are real captures, not mockups."
+        lede="Everything below is in the shipped app. These are real captures, not mockups."
       >
         <Stack spacing={{ xs: 8, md: 12 }}>
           <FeatureRow feature={features[0]} />
@@ -211,40 +202,8 @@ export default function HomePage() {
         </Reveal>
       </Section>
 
-      {/* Economics — the number that reframes the category */}
-      <Section
-        eyebrow={economics.eyebrow}
-        title={economics.title}
-        lede={economics.lede}
-        maxWidth={760}
-      >
-        <Economics />
-      </Section>
-
-      {/* Model profiles */}
-      <Section
-        tone="raised"
-        eyebrow={modelProfiles.eyebrow}
-        title={modelProfiles.title}
-        lede={modelProfiles.lede}
-        maxWidth={800}
-      >
-        <ModelProfiles />
-      </Section>
-
-      {/* Comparison */}
-      <Section
-        eyebrow="How it compares"
-        title="The rows a subscription product cannot fill in"
-        lede="No vibes, no vendor asterisks — every claim here is one you can check against the source in an afternoon."
-      >
-        <Reveal>
-          <ComparisonTable />
-        </Reveal>
-      </Section>
-
       {/* Agents */}
-      <Section tone="raised" eyebrow={agents.hero.eyebrow} title={agents.hero.title} lede={agents.hero.lede}>
+      <Section eyebrow={agents.hero.eyebrow} title={agents.hero.title} lede={agents.hero.lede}>
         <Grid container spacing={{ xs: 4, md: 6 }} sx={{ alignItems: "center" }}>
           <Grid size={{ xs: 12, md: 7 }}>
             <Reveal>
@@ -266,7 +225,7 @@ export default function HomePage() {
                 </Box>
                 <Box>
                   <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
-                    Six profiles keep the tool list relevant per chat — enable one at a time.
+                    Six profiles keep the tool list relevant per chat. Enable one at a time.
                   </Typography>
                   <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
                     {agents.profiles.map((p) => (
@@ -285,6 +244,28 @@ export default function HomePage() {
             </Reveal>
           </Grid>
         </Grid>
+      </Section>
+
+      {/* Economics: the number that reframes the category */}
+      <Section
+        tone="raised"
+        eyebrow={economics.eyebrow}
+        title={economics.title}
+        lede={economics.lede}
+        maxWidth={760}
+      >
+        <Economics />
+      </Section>
+
+      {/* Comparison */}
+      <Section
+        eyebrow="How it compares"
+        title="The rows a subscription product cannot fill in"
+        lede="No vibes, no vendor asterisks. Every claim here is one you can check against the source in an afternoon."
+      >
+        <Reveal>
+          <ComparisonTable />
+        </Reveal>
       </Section>
 
       {/* Privacy strip */}

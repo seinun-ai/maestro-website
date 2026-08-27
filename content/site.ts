@@ -4,7 +4,7 @@
  * changes there, change it here. This is the only place any of them are written.
  *
  * Positioning (owner's call, 2026-08-23): the recommended setup is BRING A KEY.
- * "No key" is two honest tiers — the deterministic core always works, and over
+ * "No key" is two honest tiers. The deterministic core always works, and over
  * MCP the client agent supplies the model. Local model servers are
  * "configurable but untested". Never claim "fully offline" anywhere.
  *
@@ -34,7 +34,7 @@ export const nav = [
   { label: "How it works", href: "/how-it-works" },
   { label: "Agents & MCP", href: "/agents" },
   { label: "Privacy", href: "/privacy" },
-  { label: "Get started", href: "/start" },
+  { label: "Install", href: "/start" },
   { label: "Guide", href: "/guide" },
 ] as const;
 
@@ -57,7 +57,7 @@ export const heroStats = [
   },
   { value: "83", label: "MCP tools", detail: "Run the whole pipeline from Claude, Codex or ChatGPT desktop." },
   { value: "3", label: "local containers", detail: "Bound to 127.0.0.1. No account, no cloud, no upload." },
-  { value: "4,086", label: "tests passing", detail: "Scoring determinism is enforced in CI, not claimed in a README." },
+  { value: "0", label: "LLM calls in scoring", detail: "Same resume, same posting, same number. Enforced in CI, not claimed in a README." },
 ] as const;
 
 /* --------------------------- the why --------------------------- */
@@ -72,7 +72,7 @@ export const painPoints = [
   {
     pain: "You hate that resume tailoring is a slot machine.",
     answer: "A score that never guesses.",
-    body: "Most checkers ask an LLM. One popular tool scored the same resume anywhere from 66 to 99 across a hundred runs. Maestro has no LLM in the scoring path at all, so the same resume and posting score the same, run after run. Recency is part of the score, so a document scored months apart can move as its work ages. Nothing else does.",
+    body: "Most checkers ask an LLM. One popular tool scored the same resume anywhere from 66 to 99 across a hundred runs. Maestro has no LLM in the scoring path at all, so the same resume against the same posting returns the same number and the same breakdown. Every time.",
     source: { label: "the 66–99 test", href: "https://danunparsed.com/p/hackerrank-open-source-ats" },
     feature: "Deterministic ATS engine",
     href: "/features#scoring",
@@ -152,7 +152,7 @@ export const painPoints = [
 export const whyClose = {
   title: "And if you walk away, you keep everything.",
   body: "Your Career KB exports to one career.md. Plain Markdown, no model involved, readable and diffable. Resumes are JSON on your disk. Every render sits in its own company-and-role folder with the source and the exact PDF you sent.",
-  kicker: "Here, all you have is control.",
+  kicker: "The record is yours. That is the whole design.",
 } as const;
 
 /* --------------------------- premise --------------------------- */
@@ -161,8 +161,7 @@ export const problem = {
   eyebrow: "The premise",
   title: "Your effort should compound. Right now it evaporates.",
   body: [
-    "You rebuild your resume for every role. You rewrite the cover letter from memory. You answer “tell us about a time you…” for the fourth time. Then the next posting arrives and you start from nothing.",
-    "Meanwhile the average opening draws around 240 applications, and screens increasingly flag resumes that read like a machine wrote them. Volume stopped working. Depth is the only lever left, and depth is only affordable when last month's work is still sitting there.",
+    "A single opening now routinely draws hundreds of applications, and screens increasingly flag resumes that read like a machine wrote them. Volume stopped working. Depth is the only lever left, and depth is only affordable when last month's work is still sitting there.",
   ],
   pull: "Write it once. Reuse it forever.",
 } as const;
@@ -172,8 +171,7 @@ export const pillars = [
     icon: "determinism",
     title: "Scoring that can't drift",
     body: "No LLM anywhere in the scoring path. Deterministic lexical layers plus a pinned embedding model running on your CPU. Same resume, same posting, same config: the same number and the same breakdown, run after run.",
-    proof: "One popular LLM-judged checker scored the same resume 66–99 across a hundred runs.",
-    proofHref: "https://danunparsed.com/p/hackerrank-open-source-ats",
+    proof: "Determinism is enforced by the test suite in CI, not asserted in a README.",
   },
   {
     icon: "evidence",
@@ -212,13 +210,13 @@ export const economics = {
     { op: "Career KB consolidation, per resume (one-time)", tokensIn: "~7k", tokensOut: "~1.5k", cost: "~⅓¢" },
   ],
   total: { op: "Capture → tailored resume → full apply package", cost: "≈1.3¢" },
-  note: "Priced against GPT-5.6 Luna at $0.20 per million input tokens and $1.20 per million output. Multiply it out yourself — that is the point of showing the split.",
+  note: "Priced against GPT-5.6 Luna at $0.20 per million input tokens and $1.20 per million output. Multiply it out yourself. That is the point of showing the split.",
 } as const;
 
 export const modelProfiles = {
   eyebrow: "Choose your models",
-  title: "Two setups we measured. Both work well.",
-  lede: "Any OpenAI-compatible model can be configured. These are simply the two we benchmarked on real postings with every call traced, one per API key, so you can start from a known-good setup instead of guessing. The Fast tier turned out to decide almost everything — how much of a posting gets extracted, how honest your base score is, and most of the waiting — while the Smart tier barely moved the result.",
+  title: "Two setups, measured on real postings.",
+  lede: "Any OpenAI-compatible model can be configured. These two are benchmarked end to end with every call traced, one per API key, so you can start from a known-good setup instead of guessing. The Fast tier decides almost everything: how much of a posting gets extracted, how honest your base score is, and most of the waiting.",
   columns: [
     {
       name: "OpenAI",
@@ -245,7 +243,7 @@ export const modelProfiles = {
       recommended: false,
     },
   ],
-  why: "A fresh install ships with the OpenAI one already set, because honest scoring starts at extraction: a fast model that misses requirements inflates your fit score, in our tests by about nine points. Neither is a tier above the other, and switching is three dropdowns in Settings → Models. Mixing tiers across providers works too; it just bought us nothing these two don't already give you.",
+  why: "A fresh install ships with the OpenAI one already set, because honest scoring starts at extraction: a fast model that misses requirements inflates your fit score, in our tests by about nine points. Neither is a tier above the other, and switching is three dropdowns in Settings → Models. Mixing tiers across providers works too. These two already cover what it would buy you.",
 } as const;
 
 /* ---------------------------- steps ---------------------------- */
@@ -273,7 +271,7 @@ export const steps = [
     n: "03",
     title: "Capture the job, then pre-scan it",
     summary: "Paste the posting, or grab it with the extension from the board you're already reading.",
-    body: "Score it against every base. Then the knock-out pre-scan checks what the posting actually states — work authorization, OPT policy, salary, years of experience — against your profile.",
+    body: "Score it against every base. Then the knock-out pre-scan checks your profile against what the posting actually states: work authorization, OPT policy, salary, years of experience.",
     note: "You find out about a disqualifier before you spend the evening, not at the screening call.",
     image: "/media/job-overview.png",
     imageAlt: "A captured job with its extracted fields and a knock-out pre-scan of the stated requirements",
@@ -322,7 +320,7 @@ export const features = [
     body: "Deterministic lexical layers plus a pinned embedding model for semantics. Soft matches need both a shared lexical anchor and embedding proximity, so “container orchestration” earns credit against Kubernetes without inventing a skill you don't have.",
     bullets: [
       "Same resume, posting and config version gives an identical score and breakdown, run after run",
-      "Recency is one of the inputs, so a document scored months apart can move as its work ages — the only thing that does",
+      "Recency is one of the inputs, so a document scored months apart can move as its work ages. Nothing else does.",
       "Base-to-tailored delta recorded per application, so you can see if tailoring did anything",
       "Runs offline on CPU. Scoring never calls a model.",
     ],
@@ -333,7 +331,7 @@ export const features = [
     id: "health",
     eyebrow: "The pre-flight",
     title: "Health Report: is this document sound at all?",
-    body: "A gap needs a job description. A Health Report doesn't. It checks one resume on its own merits — parsing, dates, evidence quality, format gates — and hands back a letter grade with a fix list ranked by what each flaw costs you.",
+    body: "A gap needs a job description. A Health Report doesn't. It checks one resume on its own merits: parsing, dates, evidence quality, format gates. Back comes a letter grade with a fix list ranked by what each flaw costs you.",
     bullets: [
       "A failing fatal gate blocks tailoring outright",
       "Tailoring reorders a healthy document. It can't repair a broken one.",
@@ -359,7 +357,7 @@ export const features = [
     id: "extension",
     eyebrow: "The capture",
     title: "An extension that never stores what you typed",
-    body: "A browser side panel. Capture the posting, score it against every base resume, tailor on the spot, fill the form from your Autofill Profile, and mark it applied — without leaving the tab. Its telemetry records which fields it met and whether they filled. It cannot record a value you typed, because the table has no column for one.",
+    body: "A browser side panel. Capture the posting, score it against every base resume, tailor on the spot, fill the form from your Autofill Profile, and mark it applied, without leaving the tab. Its telemetry records which fields it met and whether they filled. It cannot record a value you typed, because the table has no column for one.",
     bullets: [
       "Zero-config install. The extension pins its identity, so the backend already trusts it.",
       "Signatures, attestations, consent boxes, credentials and government IDs are deny-listed",
@@ -431,7 +429,7 @@ export const comparison = {
     { label: "Auto-submits for you", cells: ["N/A", "Never (stated)", "Never. Consent ledger, enforced."] },
     { label: "Cost", cells: ["$15–75/month", "Free + tokens", "Free, Apache-2.0, plus ≈1¢ an application in tokens"] },
   ],
-  footnote: "Only checkable claims. Verify any row yourself. Columns describe the categories as of August 2026; tell us if one has gone stale.",
+  footnote: "Only checkable claims. Verify any row yourself. Columns describe the categories as of August 2026.",
 } as const;
 
 /* ---------------------------- agents --------------------------- */
@@ -450,21 +448,21 @@ export const agents = {
     manual:
       "Claude Desktop and the ChatGPT desktop app / Codex CLI get a ready-to-paste block instead, every path already filled in. Those two you paste yourself, because both config files are shared with your other MCP servers and the script won't edit them behind your back.",
     targets: [
-      { client: "Claude Code", how: "Nothing to do — the script writes a repo-level .mcp.json", auto: true },
+      { client: "Claude Code", how: "Nothing to do. The script writes a repo-level .mcp.json", auto: true },
       { client: "Claude Desktop", how: "Prints a block for claude_desktop_config.json", auto: false },
       { client: "ChatGPT desktop / Codex CLI", how: "Prints a block for ~/.codex/config.toml", auto: false },
     ],
-    flags: "Add --profile hunt for a scoped profile, or --print-only to change nothing and just see the config. Quit Claude Desktop before you edit its config — the running app rewrites that file on exit and will silently drop your change.",
+    flags: "Add --profile hunt for a scoped profile, or --print-only to change nothing and just see the config. Quit Claude Desktop before you edit its config. The running app rewrites that file on exit and will silently drop your change.",
     delegate: {
       title: "Or just ask the assistant to do it",
       body: "Agents that can edit files and run commands are perfectly capable of wiring this up themselves. Run the script with --print-only, hand the output to Claude Code or the Codex CLI, and ask it to add the server to your config. It knows where those files live and it can merge into them without clobbering your other MCP servers.",
-      prompt: "Run ./scripts/setup-mcp.sh --print-only, then add the maestro-career-studio server to my MCP config. Merge it in — don't overwrite the servers already there.",
+      prompt: "Run ./scripts/setup-mcp.sh --print-only, then add the maestro-career-studio server to my MCP config. Merge it in. Don't overwrite the servers already there.",
       caveat: "Read the diff before you accept it. It is editing a config file that other tools depend on.",
     },
   },
   keyless: {
     title: "No API key? Your assistant is the model.",
-    body: "Over MCP, Claude or Codex extracts the posting and authors the tailoring edits, and the server applies them through the same honesty gates. The whole capture, score, tailor, render arc plus Career KB and resume upkeep, with no in-house LLM calls at all. If that's how you work anyway, it's a complete setup on its own.",
+    body: "Over MCP, Claude or Codex extracts the posting and authors the tailoring edits, and the server applies them through the same honesty gates. The whole capture, score, tailor, render arc plus Career KB and resume upkeep, with no in-house LLM calls at all. If that is how you already work, it is a complete setup on its own.",
   },
   profiles: [
     { name: "full", detail: "All 83 tools" },
@@ -568,7 +566,7 @@ export const quickstart = {
       n: "2",
       title: "One API key",
       required: false,
-      body: "Add it in Settings → Models after first boot. OpenAI or Gemini — either alone is a complete setup. A key saved in the app always wins over one in .env, so pick one place and stay there.",
+      body: "Add it in Settings → Models after first boot. OpenAI or Gemini. Either alone is a complete setup. A key saved in the app always wins over one in .env, so pick one place and stay there.",
     },
     {
       n: "3",
@@ -619,12 +617,12 @@ docker compose up -d --build`,
   },
   localModels: {
     title: "Local model servers: configurable, untested",
-    body: "The client speaks to any OpenAI-compatible endpoint, so Ollama, LM Studio or vLLM can be pointed at with OPENAI_BASE_URL. We haven't validated a local model end to end yet, and the heavy asks — long tailoring prompts, strict JSON, streaming tool calls — are exactly where small models struggle. So we make no offline promise until we can stand behind one.",
+    body: "The client speaks to any OpenAI-compatible endpoint, so Ollama, LM Studio or vLLM can be pointed at with OPENAI_BASE_URL. We haven't validated a local model end to end yet, and the heavy asks are exactly where small models struggle: long tailoring prompts, strict JSON, streaming tool calls. So we make no offline promise until we can stand behind one.",
     ask: "If you try it, tell us what worked and what broke, with the model name. That's a genuinely useful contribution.",
   },
   freshInstall: {
-    title: "A fresh clone has been walked twice, on clean machines",
-    body: "Both runs turned up rough edges and both sets are fixed — that is why the troubleshooting table in the guide is specific rather than generic. If your install still finds something new, an issue with the log is genuinely useful.",
+    title: "If your install turns up something new",
+    body: "The troubleshooting table in the guide covers what real installs have hit. This is early software, so if yours finds something that isn't in there, an issue with the log is genuinely useful.",
   },
 } as const;
 
@@ -647,7 +645,7 @@ export const faqs = [
   },
   {
     q: "Is the score a real ATS score?",
-    a: "It's our score: deterministic, versioned, reproducible. It doesn't predict what an employer's ATS shows them, and no consumer tool can. One caveat worth knowing: recency is part of the score and it is measured against today, so the same document can score slightly differently months apart as its work ages. Everything else holds still. Use it to compare your own drafts and to catch parsing and coverage problems — chasing 100 gets you a keyword-stuffed resume that modern screens flag.",
+    a: "It's our score: deterministic, versioned, reproducible. It doesn't predict what an employer's ATS shows them, and no consumer tool can. One caveat worth knowing: recency is part of the score and it is measured against today, so the same document can score slightly differently months apart as its work ages. Everything else holds still. Use it to compare your own drafts and to catch parsing and coverage problems. Chasing 100 gets you a keyword-stuffed resume that modern screens flag.",
   },
   {
     q: "Will it apply to jobs for me?",
@@ -671,17 +669,16 @@ export const guide = {
   hero: {
     eyebrow: "The guide",
     title: "From zero to your first tailored PDF.",
-    lede: "The rest of this site explains why Maestro works the way it does. This is the how: install it, find your way around, and run one real application through it — in the order that actually works. It assumes no Docker or terminal experience beyond copy-pasting.",
+    lede: "The rest of this site explains why Maestro works the way it does. This is the how: install it, find your way around, and run one real application through it, in the order that actually works. It assumes no Docker or terminal experience beyond copy-pasting.",
   },
 
   agentPath: {
     eyebrow: "The fastest path",
     title: "Let an agent install it",
-    body: "If you already use a coding agent or AI IDE — Claude Code, the Codex CLI, Cursor — you can skip most of the mechanics below. Open a session and paste this:",
+    body: "Already using Claude Code, the Codex CLI or Cursor? Open a session in the folder you want it in and paste this. It clones, configures and starts the stack for you.",
     prompt:
       "Clone https://github.com/seinun-ai/maestro-career-studio, check that the prerequisites in docs/GETTING_STARTED.md are present on this machine, set up the .env, and start the stack with docker compose. Then tell me what still needs me.",
-    second:
-      "Later, from a session opened inside the cloned repo, this wires the server into your assistant:",
+    second: "From a session opened inside the cloned repo, this wires the server into your assistant for you:",
     secondPrompt:
       "Set up this repo's MCP server for my assistant. Run ./scripts/setup-mcp.sh and apply its output; docs/GETTING_STARTED.md §6 has the per-client paths.",
     limits: {
@@ -695,18 +692,18 @@ export const guide = {
 
   agentShortcut: {
     title: "Had an agent do the install?",
-    body: "Then steps 1 and 2 are already done — the clone, the .env and the running stack. Skip to Find your way around, and come back here only if something looks wrong.",
+    body: "Then steps 1 and 2 are already done: the clone, the .env and the running stack. Skip to Find your way around, and come back here only if something looks wrong.",
     cta: "Jump to the tour",
     href: "/guide#tour",
   },
 
   prerequisites: {
-    eyebrow: "Step 1 — doing it yourself",
+    eyebrow: "Step 1 · doing it yourself",
     title: "What you need first",
     items: [
       {
         title: "Docker",
-        body: "Docker Desktop on macOS or Windows; Docker Engine with Compose v2 on Linux. Start it and leave it running — the most common first-run error, “Cannot connect to the Docker daemon”, just means Docker Desktop isn't open.",
+        body: "Docker Desktop on macOS or Windows; Docker Engine with Compose v2 on Linux. Start it and leave it running. The most common first-run error, “Cannot connect to the Docker daemon”, just means Docker Desktop isn't open.",
         check: "docker info",
         checkNote: "Any output that ends without an error means you're fine.",
       },
@@ -715,18 +712,18 @@ export const guide = {
         body: "For the three images. The backend carries a minimal TeX Live, Typst and the pinned embedding model, which is most of it.",
       },
       {
-        title: "An API key — not yet, though",
+        title: "An API key, but not yet",
         body: "OpenAI or Gemini. You add it inside the app after first boot, not now. Without one the deterministic core still runs: ATS scoring, PDF rendering, tracking.",
       },
       {
-        title: "Python 3.12+ — only for MCP",
+        title: "Python 3.12+, only for MCP",
         body: "Needed for the MCP server in step 6. The app itself doesn't need it.",
       },
     ],
   },
 
   install: {
-    eyebrow: "Step 2 — doing it yourself",
+    eyebrow: "Step 2 · doing it yourself",
     title: "Install and first boot",
     clone: `git clone https://github.com/seinun-ai/maestro-career-studio.git
 cd maestro-career-studio
@@ -735,9 +732,9 @@ cp .env.example .env`,
       "Don't put your API key in .env yet. The recommended place is Settings → Models inside the app, after first boot. A key saved in the app always wins over one in .env, so keeping both is how you end up staring at a stale key you forgot about.",
     up: "docker compose up -d --build",
     upNote:
-      "The first build takes several minutes — it installs TeX Live and downloads the embedding model, once. Then open http://localhost:3000.",
+      "The first build takes several minutes. It installs TeX Live and downloads the embedding model, once. Then open http://localhost:3000.",
     firstBoot:
-      "First boot starts PostgreSQL on port 55432, runs migrations, seeds a demo resume with rendered previews, and — if a key is present — builds a demo Career KB from it.",
+      "First boot starts PostgreSQL on port 55432, runs migrations, and seeds a demo resume with rendered previews. If a key is present, it also builds a demo Career KB from it.",
   },
 
   troubleshooting: {
@@ -748,7 +745,7 @@ cp .env.example .env`,
       ["port is already allocated", "Another app owns 3000, 8001 or 55432", "Change the matching *_HOST_PORT in .env"],
       ["Build sits at TeX Live or the model download", "Normal on a first build", "Wait it out. Later builds are fast."],
       ["Page loads but everything errors", "Backend still starting", "curl -s localhost:8001/health answers {\"status\":\"ok\"} when it's ready"],
-      ["Added a key to .env after starting", "Keys are read at process start", "docker compose restart backend — and remember an in-app key overrides .env"],
+      ["Added a key to .env after starting", "Keys are read at process start", "docker compose restart backend. Remember that an in-app key overrides .env"],
       ["Calls fail 401 though Settings says Configured", "A stale key. The label says where it lives.", "Re-enter it in Settings → Models and press Test"],
     ],
   },
@@ -757,11 +754,11 @@ cp .env.example .env`,
     title: "Starting over, properly",
     body: "Deleting the project folder does not delete your data, and neither does docker compose down. The database lives in a Docker volume named after the folder, inside Docker itself.",
     consequences: [
-      "Re-cloning into a folder with the same name re-attaches the old database. Your resumes, applications and even a saved key come back. That's the right default — an accidental deletion never costs you data — but it means “delete and clone again” is not a fresh install. Clone into a differently named folder to test one.",
+      "Re-cloning into a folder with the same name re-attaches the old database. Your resumes, applications and even a saved key come back. That's the right default, since an accidental deletion never costs you data, but it means “delete and clone again” is not a fresh install. Clone into a differently named folder to test one.",
       "Deleting only the folder leaves your state half-gone: the database survives, but rendered PDFs under applications/ and base_resumes/ don't, so the app may list documents whose files are missing. Re-render them; the content is safe.",
     ],
     nuke: "docker compose down -v",
-    nukeNote: "When you do want everything gone — demo data, your data, stored keys — this is the one command. Run it from the project folder. It cannot be undone.",
+    nukeNote: "This is the one command that removes everything: demo data, your data, stored keys. Run it from the project folder. It cannot be undone.",
   },
 
   tour: {
@@ -788,14 +785,14 @@ cp .env.example .env`,
     title: "Your first session, in order",
     lede: "The order matters. Everything downstream composes from the Career KB, so feed that first and the rest gets easier.",
     steps: [
-      { t: "Import every resume you have", b: "Up to 10 files a batch. Old versions, role-specific variants, the too-long one — they all carry evidence." },
+      { t: "Import every resume you have", b: "Up to 10 files a batch. Old versions, role-specific variants, the too-long one. They all carry evidence." },
       { t: "Approve the KB inbox", b: "Imported points arrive as drafts. Only approved points ever land on a resume. Merge the duplicates once and every future application benefits." },
-      { t: "Fill in your Profile", b: "Contact details, persona, and job preferences — roles, seniority, location, work authorization. Those drive scoring warnings and agent hunts." },
+      { t: "Fill in your Profile", b: "Contact details, persona, and job preferences: roles, seniority, location, work authorization. Those drive scoring warnings and agent hunts." },
       { t: "Add your API key and pick models", b: "Settings → Models. Press Test on each: it measures what the model can actually do before you depend on it." },
       { t: "Pick a default template", b: "Every render uses it unless a resume overrides it. You can switch any time without touching content." },
       { t: "Build a base resume per career track", b: "Base Resumes → New → From Career KB. Then run the Health check: fixing its findings now beats fixing them after every tailoring run." },
       { t: "Capture a job", b: "Paste the posting text or URL, or use the side panel. Extraction structures it; the deterministic engine scores it against every base." },
-      { t: "Tailor through the gap workflow", b: "Each gap names a requirement your resume doesn't evidence. Answer honestly and true-but-unwritten material becomes permanent KB evidence. Every AI edit is a revertible diff — read it." },
+      { t: "Tailor through the gap workflow", b: "Each gap names a requirement your resume doesn't evidence. Answer honestly and true-but-unwritten material becomes permanent KB evidence. Every AI edit is a revertible diff. Read it." },
       { t: "Set quick-tailor preferences", b: "Once you've done a few manual passes. Then Quick Tailor handles the already-know-the-answer cases in one step." },
       { t: "Generate the package and read it", b: "Cover letter, screening answers, the PDF. Every render is filed on disk under applications/ in a company-and-role folder, so you can verify exactly what you sent." },
       { t: "Track it", b: "Mark applied, record outcomes. Analytics starts paying off after about ten captured jobs." },
@@ -805,7 +802,7 @@ cp .env.example .env`,
   extension: {
     eyebrow: "Step 5",
     title: "The browser side panel",
-    lede: "Save the posting in front of you, score your bases against it, fill the form from your autofill profile, and mark it applied — without leaving the tab.",
+    lede: "Save the posting in front of you, score your bases against it, fill the form from your autofill profile, and mark it applied, without leaving the tab.",
     steps: [
       "Open chrome://extensions and switch on Developer mode, top right.",
       "Load unpacked → select the repo's extension/ folder.",
@@ -817,10 +814,10 @@ cp .env.example .env`,
   mcp: {
     eyebrow: "Step 6",
     title: "Drive it from your assistant",
-    lede: "With the backend running, one command prepares everything. The venv it creates is the server — there's nothing else to install.",
+    lede: "With the backend running, one command prepares everything. The venv it creates is the server. There's nothing else to install.",
     cmd: "./scripts/setup-mcp.sh",
     clients: [
-      { name: "Claude Code", body: "Nothing more to do for sessions opened in this repo — the script writes a repo-level .mcp.json and the session offers the server automatically. Approve it when prompted. It registers user-wide too, for sessions elsewhere." },
+      { name: "Claude Code", body: "Nothing more to do for sessions opened in this repo. The script writes a repo-level .mcp.json and the session offers the server automatically. Approve it when prompted. It registers user-wide too, for sessions elsewhere." },
       { name: "Claude Desktop", body: "Quit the app first with Cmd+Q. Then Settings → Developer → Edit Config, paste the block the script printed into mcpServers, save, and reopen. Quitting first matters: a running app rewrites that file on exit and will silently drop your edit." },
       { name: "ChatGPT desktop / Codex CLI", body: "Both read ~/.codex/config.toml. Append the TOML block the script printed, then restart the app." },
     ],
@@ -845,7 +842,7 @@ cp .env.example .env`,
     cmd: `cd ~/maestro-career-studio      # wherever you cloned it
 ./scripts/update.sh`,
     cmdNote:
-      "The path matters: an install here is a git checkout, so the script has to be run from the repo it is updating. It resolves the repo from its own location, so an absolute path — /path/to/maestro-career-studio/scripts/update.sh — works from anywhere too.",
+      "The path matters: an install here is a git checkout, so the script has to be run from the repo it is updating. It resolves the repo from its own location, so an absolute path like /path/to/maestro-career-studio/scripts/update.sh works from anywhere too.",
     check: "./scripts/update.sh --check",
     checkNote: "Changes nothing. Answers only: am I up to date?",
     facts: [
@@ -853,14 +850,14 @@ cp .env.example .env`,
       { t: "Migrations run themselves", b: "They run when the backend starts, so the first boot after an update takes longer than usual. The script tells you it's waiting." },
       { t: "Two things stay manual", b: "Docker can't reach them: reload the extension at chrome://extensions and reload any open job tab, then restart your MCP client. The script prints both reminders when it finishes." },
     ],
-    why: "Your checkout and your images move together, always. An install here is a git checkout — the unpacked extension loads from extension/ and the MCP server's venv sits over backend/. Pulling images alone would update two of the four surfaces and leave the extension and MCP client running code your API no longer has.",
-    windows: "It's bash, so on Windows run it under WSL — or use the manual command-by-command form in the README.",
+    why: "Your checkout and your images move together, always. An install here is a git checkout. The unpacked extension loads from extension/ and the MCP server's venv sits over backend/. Pulling images alone would update two of the four surfaces and leave the extension and MCP client running code your API no longer has.",
+    windows: "It's bash, so on Windows run it under WSL, or use the manual command-by-command form in the README.",
   },
 } as const;
 
 export const makerNote = {
   title: "It's early. I'd rather hear about it.",
-  body: "I built this because I needed it, and I use it every day. It also has the rough edges of software with one user, especially that first boot from a fresh clone. If something breaks, tell me. A clear bug report is a contribution and right now it's the most useful kind. Pull requests welcome too.",
+  body: "I built this because I needed it, and I use it every day. It is early, and early software has edges. If something breaks, tell me. A clear bug report is a contribution and right now it's the most useful kind. Pull requests welcome too.",
   signature: "Ajey Dhayashanker Loganathan",
 } as const;
 
