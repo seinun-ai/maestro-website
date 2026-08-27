@@ -19,9 +19,6 @@ export const site = {
   description:
     "Write down what you did once. Maestro builds every tailored resume, cover letter and screening answer from that record, scores it with an engine that never guesses, and typesets it locally into a real PDF. About a penny an application.",
   repo: "https://github.com/seinun-ai/maestro-career-studio",
-  // This site. Every string on it lives in this one file, so "edit this page"
-  // points at the file rather than at a per-route source path.
-  siteRepo: "https://github.com/seinun-ai/maestro-website",
   issues: "https://github.com/seinun-ai/maestro-career-studio/issues",
   contact: "ajey@seinun.com",
   license: "Apache-2.0",
@@ -604,18 +601,28 @@ docker compose up -d --build`,
       body: "OpenAI or Gemini. Without one you still get the deterministic core, and over MCP your assistant supplies the model.",
     },
   ],
+  // Three tiers, not two. The middle one is the easiest to undersell: over MCP
+  // the assistant is the model, and the server takes what it authored through
+  // the same gates. kb_ingest_resume says "No in-house LLM" in as many words.
   keyless: {
     title: "What runs with no key at all",
     works: [
       "Deterministic ATS scoring across every base resume",
-      "Gap diagnostics, health reports, full manual tailoring",
+      "Health reports, gap diagnostics and full manual tailoring",
       "The raw LaTeX and Typst editors, and PDF compilation",
       "Application tracking and analytics",
+      "Extension autofill in Rules-only mode, straight from your Autofill Profile",
     ],
-    defers: [
-      "Career KB seeding defers and retries on a later boot",
-      "Automatic JD field extraction falls back to manual entry",
-      "Cover letters, Q&A, guided gap resolution and chat ask for a key first",
+    overMcp: [
+      "Career KB building. Your assistant parses the resume, the server stores it with no in-house LLM.",
+      "Job capture. The agent reads the posting and stores the structured fields.",
+      "Tailoring edits and gap resolutions, authored by the agent, applied through the same honesty gates.",
+    ],
+    wantsKey: [
+      "In-app cover letters and screening answers",
+      "The extension's AI-assisted pass, which answers what the rules could not",
+      "In-app chat, and KB capture that files free text against the right entity",
+      "First-boot KB seeding, which defers and retries once a key is there",
     ],
   },
   localModels: {

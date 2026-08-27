@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import { site } from "@/content/site";
 
 type Item = { id: string; text: string };
 
@@ -154,18 +153,6 @@ export default function OnThisPage() {
           </Box>
         ))}
       </Stack>
-
-      <Box sx={{ mt: 2, pt: 2, borderTop: 1, borderColor: "divider" }}>
-        <Link
-          href={`${site.siteRepo}/blob/main/content/site.ts`}
-          target="_blank"
-          rel="noopener noreferrer"
-          underline="none"
-          sx={{ fontSize: "0.8125rem", color: "text.secondary", "&:hover": { color: "primary.main" } }}
-        >
-          Edit this page on GitHub
-        </Link>
-      </Box>
     </Box>
   );
 }

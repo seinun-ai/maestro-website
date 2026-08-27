@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
 import PauseIcon from "@mui/icons-material/PauseCircleOutlined";
+import TerminalIcon from "@mui/icons-material/TerminalOutlined";
 import ContentPasteIcon from "@mui/icons-material/ContentPasteOutlined";
 import BlockIcon from "@mui/icons-material/BlockOutlined";
 
@@ -213,11 +214,11 @@ export default function StartPage() {
       <Section
         eyebrow="No key yet?"
         title={quickstart.keyless.title}
-        lede="Two honest tiers: the deterministic core always works, and over MCP your assistant supplies the model itself."
-        maxWidth={680}
+        lede="Three tiers, and only the last one actually wants a key. The deterministic core never calls a model at all, and over MCP your assistant is the model."
+        maxWidth={720}
       >
         <Grid container spacing={3}>
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Reveal sx={{ height: "100%" }}>
               <TintPaper tone="success" sx={{ p: 3.5, height: "100%", borderRadius: 3 }}>
                 <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
@@ -234,14 +235,31 @@ export default function StartPage() {
               </TintPaper>
             </Reveal>
           </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Reveal delay={80} sx={{ height: "100%" }}>
-              <Paper sx={{ p: 3.5, height: "100%", borderRadius: 3 }}>
+              <TintPaper sx={{ p: 3.5, height: "100%", borderRadius: 3 }}>
                 <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
-                  Degrades or defers cleanly
+                  No key, over MCP
                 </Typography>
                 <Stack spacing={1.5}>
-                  {quickstart.keyless.defers.map((d) => (
+                  {quickstart.keyless.overMcp.map((m) => (
+                    <Stack key={m} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
+                      <TerminalIcon sx={{ fontSize: 19, color: "primary.main", mt: "2px", flexShrink: 0 }} />
+                      <Typography variant="body2">{m}</Typography>
+                    </Stack>
+                  ))}
+                </Stack>
+              </TintPaper>
+            </Reveal>
+          </Grid>
+          <Grid size={{ xs: 12, md: 4 }}>
+            <Reveal delay={160} sx={{ height: "100%" }}>
+              <Paper sx={{ p: 3.5, height: "100%", borderRadius: 3 }}>
+                <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
+                  Wants a key
+                </Typography>
+                <Stack spacing={1.5}>
+                  {quickstart.keyless.wantsKey.map((d) => (
                     <Stack key={d} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
                       <PauseIcon sx={{ fontSize: 19, color: "text.secondary", mt: "2px", flexShrink: 0 }} />
                       <Typography variant="body2">{d}</Typography>
