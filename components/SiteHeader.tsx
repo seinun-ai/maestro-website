@@ -20,7 +20,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import { alpha } from "@mui/material/styles";
 import Logo from "./Logo";
 import GitHubMark from "./GitHubMark";
-import { nav, site } from "@/content/site";
+import { headerCta, nav, site } from "@/content/site";
+
+/** The promoted destination renders as a button, so it must not also render as
+ *  a link beside it. Footer and sitemap keep the unfiltered list. */
+const navLinks = nav.filter((i) => i.href !== headerCta.href);
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -63,7 +67,7 @@ export default function SiteHeader() {
                 full bar left 16px of headroom, which one font-rendering
                 difference would eat. The drawer covers 900 to 1199. */}
             <Stack direction="row" spacing={0.5} sx={{ display: { xs: "none", lg: "flex" } }}>
-              {nav.map((item) => (
+              {navLinks.map((item) => (
                 <Button
                   key={item.href}
                   component={NextLink}
@@ -85,16 +89,34 @@ export default function SiteHeader() {
 
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
               <Button
+                component={NextLink}
+                href={headerCta.href}
+                variant="contained"
+                size="small"
+                aria-current={isActive(headerCta.href) ? "page" : undefined}
+                sx={{ px: 2 }}
+              >
+                {headerCta.label}
+              </Button>
+              {/* Demoted to an icon. A filled GitHub button made "leave the
+                  site" the loudest thing in the header. */}
+              <IconButton
                 href={site.repo}
                 target="_blank"
                 rel="noopener noreferrer"
-                variant="contained"
+                aria-label={`${site.name} on GitHub`}
                 size="small"
-                startIcon={<GitHubMark />}
-                sx={{ display: { xs: "none", sm: "inline-flex" } }}
+                sx={{
+                  display: { xs: "none", sm: "inline-flex" },
+                  border: 1,
+                  borderColor: "divider",
+                  borderRadius: 2,
+                  color: "text.secondary",
+                  "&:hover": { color: "text.primary" },
+                }}
               >
-                GitHub
-              </Button>
+                <GitHubMark />
+              </IconButton>
               <IconButton
                 onClick={() => setOpen(true)}
                 aria-label="Open navigation"
@@ -123,7 +145,7 @@ export default function SiteHeader() {
         </Stack>
         <Divider />
         <List sx={{ py: 1 }}>
-          {nav.map((item) => (
+          {navLinks.map((item) => (
             <ListItemButton
               key={item.href}
               component={NextLink}
@@ -137,10 +159,19 @@ export default function SiteHeader() {
           ))}
         </List>
         <Divider />
-        <Box sx={{ p: 2 }}>
+        <Stack spacing={1.25} sx={{ p: 2 }}>
           <Button
             fullWidth
             variant="contained"
+            component={NextLink}
+            href={headerCta.href}
+            onClick={() => setOpen(false)}
+          >
+            {headerCta.label}
+          </Button>
+          <Button
+            fullWidth
+            variant="outlined"
             href={site.repo}
             target="_blank"
             rel="noopener noreferrer"
@@ -148,7 +179,7 @@ export default function SiteHeader() {
           >
             View on GitHub
           </Button>
-        </Box>
+        </Stack>
       </Drawer>
     </>
   );

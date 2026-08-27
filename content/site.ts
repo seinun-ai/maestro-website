@@ -33,6 +33,11 @@ export const site = {
 // the middle rather than at the end, because a nav that puts its own conversion
 // destination seventh, behind six explanations, is arguing with itself. Models,
 // Agents and Privacy are all post-decision reading, so they follow.
+// Promoted out of the nav row into a filled button in the header. It stays in
+// `nav` so the footer and the sitemap still carry it; only the header treats it
+// specially, and it renders there exactly once.
+export const headerCta = { label: "Install", href: "/start" } as const;
+
 export const nav = [
   { label: "Why", href: "/why" },
   { label: "Features", href: "/features" },
