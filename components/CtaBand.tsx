@@ -15,7 +15,7 @@ import { closing, site } from "@/content/site";
 
 export default function CtaBand() {
   return (
-    <Box component="section" sx={{ py: { xs: 8, md: 12 } }}>
+    <Box component="section" data-toc="skip" sx={{ py: { xs: 8, md: 12 } }}>
       <Container>
         <Reveal>
           <Box

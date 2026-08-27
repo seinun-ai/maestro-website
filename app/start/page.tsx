@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Metadata } from "next";
 import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
@@ -27,6 +28,7 @@ import GitHubMark from "@/components/GitHubMark";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
+import OnThisPage from "@/components/OnThisPage";
 import { agents, guide, modelProfiles, quickstart, site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -57,6 +59,10 @@ export default function StartPage() {
           <Chip label="127.0.0.1 only" size="small" variant="outlined" />
         </Stack>
       </PageHero>
+
+      <Container sx={{ pt: { xs: 4, md: 5 } }}>
+        <OnThisPage />
+      </Container>
 
       {/* What you are installing comes before how to install it: the reader
           needs to know what an agent would be doing on their behalf. */}

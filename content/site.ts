@@ -19,6 +19,9 @@ export const site = {
   description:
     "Write down what you did once. Maestro builds every tailored resume, cover letter and screening answer from that record, scores it with an engine that never guesses, and typesets it locally into a real PDF. About a penny an application.",
   repo: "https://github.com/seinun-ai/maestro-career-studio",
+  // This site. Every string on it lives in this one file, so "edit this page"
+  // points at the file rather than at a per-route source path.
+  siteRepo: "https://github.com/seinun-ai/maestro-website",
   issues: "https://github.com/seinun-ai/maestro-career-studio/issues",
   contact: "ajey@seinun.com",
   license: "Apache-2.0",

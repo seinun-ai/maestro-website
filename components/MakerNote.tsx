@@ -18,7 +18,7 @@ import { makerNote, site } from "@/content/site";
  */
 export default function MakerNote() {
   return (
-    <Box component="section" sx={{ py: { xs: 7, md: 10 } }}>
+    <Box component="section" data-toc="skip" sx={{ py: { xs: 7, md: 10 } }}>
       <Container>
         <Reveal>
           <Box

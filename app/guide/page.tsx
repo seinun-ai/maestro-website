@@ -23,6 +23,7 @@ import MakerNote from "@/components/MakerNote";
 import CtaBand from "@/components/CtaBand";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
+import OnThisPage from "@/components/OnThisPage";
 import { guide } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -35,6 +36,10 @@ export default function GuidePage() {
   return (
     <>
       <PageHero eyebrow={guide.hero.eyebrow} title={guide.hero.title} lede={guide.hero.lede} />
+
+      <Container sx={{ pt: { xs: 4, md: 5 } }}>
+        <OnThisPage />
+      </Container>
 
       {/* The install itself lives on /start; here we only need to tell a
           reader who used it which steps they can skip. */}
