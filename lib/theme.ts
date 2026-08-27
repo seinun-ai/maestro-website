@@ -17,7 +17,7 @@ export const brand = {
 } as const;
 
 /** Light only, by decision. A marketing page is read once, in daylight, from a
- *  link — a theme toggle is app furniture that costs a fifth of the styling
+ *  link. A theme toggle is app furniture that costs a fifth of the styling
  *  budget and earns nothing here. */
 const surface = {
   page: "#F7F8FA",
@@ -58,9 +58,15 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        "html, body": { scrollBehavior: "smooth", WebkitFontSmoothing: "antialiased" },
+        // Deliberately NOT scroll-behavior: smooth. The App Router scrolls to
+        // the top of the new page on every client-side transition, and a global
+        // smooth makes that an animated glide, so leaving the home page from
+        // halfway down reads as scrolling *up the same page* rather than
+        // arriving somewhere new. The only same-page anchor here is the skip
+        // link, which must jump instantly anyway. If a single link ever needs
+        // an animated scroll, give it its own scrollIntoView handler.
+        "html, body": { WebkitFontSmoothing: "antialiased" },
         "@media (prefers-reduced-motion: reduce)": {
-          "html, body": { scrollBehavior: "auto" },
           "*": { animationDuration: "0.01ms !important", transitionDuration: "0.01ms !important" },
         },
         // Anchor targets must clear the fixed header, or a deep link lands with
