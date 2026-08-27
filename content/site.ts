@@ -28,15 +28,20 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://maestro-career-studio.example",
 } as const;
 
+// Order is the reader's journey: the argument, then the action, then the depth
+// they go looking for once they are already committed. Install and Guide sit in
+// the middle rather than at the end, because a nav that puts its own conversion
+// destination seventh, behind six explanations, is arguing with itself. Models,
+// Agents and Privacy are all post-decision reading, so they follow.
 export const nav = [
   { label: "Why", href: "/why" },
   { label: "Features", href: "/features" },
   { label: "How it works", href: "/how-it-works" },
+  { label: "Install", href: "/start" },
+  { label: "Guide", href: "/guide" },
   { label: "Models", href: "/models" },
   { label: "Agents & MCP", href: "/agents" },
   { label: "Privacy", href: "/privacy" },
-  { label: "Install", href: "/start" },
-  { label: "Guide", href: "/guide" },
 ] as const;
 
 export const hero = {
