@@ -20,22 +20,19 @@ import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
 import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
-import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
 import MakerNote from "@/components/MakerNote";
-import Economics from "@/components/Economics";
-import ModelProfiles from "@/components/ModelProfiles";
 import GitHubMark from "@/components/GitHubMark";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
 import OnThisPage from "@/components/OnThisPage";
-import { agents, guide, modelProfiles, quickstart, site } from "@/content/site";
+import { agents, guide, quickstart, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Install",
   description:
-    "Four pieces and only the first is required: the stack, one API key, the MCP script, the browser extension. Plus what runs with no key at all, and what a tailored application actually costs.",
+    "Four pieces and only the first is required: the stack, one API key, the MCP script, the browser extension. Let an agent install it or run the commands yourself, and see what runs with no key at all.",
 };
 
 const firstBoot = [
@@ -190,24 +187,29 @@ export default function StartPage() {
         </Reveal>
       </Section>
 
-      {/* Step 2: the key, the cost, the profiles */}
-      <Section
-        eyebrow="Step 2"
-        title="Bring one API key"
-        lede="OpenAI or Gemini. Either one alone is a complete setup. The parts that make Maestro CS fastest day to day run on it: in-app tailoring, the extension's tailor-on-the-go and AI form filling, cover letters and screening answers, KB consolidation, and chat."
-        maxWidth={760}
-      >
-        <Economics />
-      </Section>
-
+      {/* Step 2 is a decision, not a procedure. The profiles and the cost
+          breakdown behind it live on /models. */}
       <Section
         tone="raised"
-        eyebrow={modelProfiles.eyebrow}
-        title={modelProfiles.title}
-        lede={modelProfiles.lede}
-        maxWidth={800}
+        eyebrow="Step 2"
+        title="Bring one API key"
+        lede="OpenAI or Gemini. Either one alone is a complete setup. You add it in Settings → Models after first boot, not in .env, and a key saved in the app always wins over one in .env."
+        maxWidth={720}
       >
-        <ModelProfiles />
+        <Reveal>
+          <TintPaper sx={{ p: { xs: 3, md: 4 }, borderRadius: 4, maxWidth: 720 }}>
+            <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
+              About a penny a tailored application.
+            </Typography>
+            <Typography variant="body1" sx={{ color: "text.secondary" }}>
+              Measured with Langfuse on real postings at list prices, on the profile a fresh install ships with. The two
+              benchmarked profiles, the per-operation token split and the local-model position are all on one page.
+            </Typography>
+            <LinkButton href="/models" variant="contained" endIcon={<ArrowForwardIcon />} sx={{ mt: 3 }}>
+              Models and cost
+            </LinkButton>
+          </TintPaper>
+        </Reveal>
       </Section>
 
       {/* No key */}
@@ -270,13 +272,6 @@ export default function StartPage() {
             </Reveal>
           </Grid>
         </Grid>
-
-        <Reveal>
-          <Alert severity="info" variant="outlined" sx={{ mt: 3, borderRadius: 3 }}>
-            <AlertTitle sx={{ fontWeight: 700 }}>{quickstart.localModels.title}</AlertTitle>
-            {quickstart.localModels.body} {quickstart.localModels.ask}
-          </Alert>
-        </Reveal>
       </Section>
 
       {/* Steps 3 and 4 */}
@@ -426,12 +421,6 @@ export default function StartPage() {
               </Button>
             </Stack>
           </Stack>
-        </Reveal>
-      </Section>
-
-      <Section tone="raised" eyebrow="Questions" title="Common ones, answered" maxWidth={620}>
-        <Reveal>
-          <Faq />
         </Reveal>
       </Section>
 

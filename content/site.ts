@@ -32,6 +32,7 @@ export const nav = [
   { label: "Why", href: "/why" },
   { label: "Features", href: "/features" },
   { label: "How it works", href: "/how-it-works" },
+  { label: "Models", href: "/models" },
   { label: "Agents & MCP", href: "/agents" },
   { label: "Privacy", href: "/privacy" },
   { label: "Install", href: "/start" },
@@ -211,6 +212,12 @@ export const economics = {
   ],
   total: { op: "Capture → tailored resume → full apply package", cost: "≈1.3¢" },
   note: "Priced against GPT-5.6 Luna at $0.20 per million input tokens and $1.20 per million output. Multiply it out yourself. That is the point of showing the split.",
+} as const;
+
+export const modelsPage = {
+  eyebrow: "Models",
+  title: "Which model, and what it costs you.",
+  lede: "One key, OpenAI or Gemini, is a complete setup. This page is the reference behind that sentence: the two profiles benchmarked on real postings, what a tailored application actually costs, and where local models stand.",
 } as const;
 
 export const modelProfiles = {

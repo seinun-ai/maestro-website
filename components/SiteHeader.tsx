@@ -59,7 +59,10 @@ export default function SiteHeader() {
 
             <Box sx={{ flex: 1 }} />
 
-            <Stack direction="row" spacing={0.5} sx={{ display: { xs: "none", md: "flex" } }}>
+            {/* Eight items need more room than the md breakpoint has: at 900px the
+                full bar left 16px of headroom, which one font-rendering
+                difference would eat. The drawer covers 900 to 1199. */}
+            <Stack direction="row" spacing={0.5} sx={{ display: { xs: "none", lg: "flex" } }}>
               {nav.map((item) => (
                 <Button
                   key={item.href}
@@ -95,7 +98,7 @@ export default function SiteHeader() {
               <IconButton
                 onClick={() => setOpen(true)}
                 aria-label="Open navigation"
-                sx={{ display: { xs: "inline-flex", md: "none" }, border: 1, borderColor: "divider", borderRadius: 2 }}
+                sx={{ display: { xs: "inline-flex", lg: "none" }, border: 1, borderColor: "divider", borderRadius: 2 }}
                 size="small"
               >
                 <MenuIcon fontSize="small" />
