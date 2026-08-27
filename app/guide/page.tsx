@@ -28,7 +28,7 @@ import { guide } from "@/content/site";
 export const metadata: Metadata = {
   title: "Guide",
   description:
-    "From zero to your first tailored PDF. Install it, find your way around, run one real application through it, and keep it updated — assuming no Docker or terminal experience beyond copy-pasting.",
+    "From zero to your first tailored PDF. Install it, find your way around, run one real application through it, and keep it updated, assuming no Docker or terminal experience beyond copy-pasting.",
 };
 
 export default function GuidePage() {
@@ -67,7 +67,7 @@ export default function GuidePage() {
         </Container>
       </Box>
 
-      {/* 1 — prerequisites */}
+      {/* 1. prerequisites */}
       <Section tone="raised" eyebrow={guide.prerequisites.eyebrow} title={guide.prerequisites.title} maxWidth={620}>
         <Grid container spacing={2.5}>
           {guide.prerequisites.items.map((p, i) => (
@@ -95,7 +95,7 @@ export default function GuidePage() {
         </Grid>
       </Section>
 
-      {/* 2 — install */}
+      {/* 2. install */}
       <Section eyebrow={guide.install.eyebrow} title={guide.install.title} maxWidth={620}>
         <Grid container spacing={{ xs: 3, md: 5 }} sx={{ alignItems: "flex-start" }}>
           <Grid size={{ xs: 12, md: 7 }}>
@@ -157,7 +157,7 @@ export default function GuidePage() {
         </Reveal>
       </Section>
 
-      {/* 3 — orient */}
+      {/* 3. orient */}
       <Section id="tour" tone="raised" eyebrow={guide.tour.eyebrow} title={guide.tour.title} lede={guide.tour.lede} maxWidth={620}>
         <Grid container spacing={2}>
           {guide.tour.items.map((t, i) => (
@@ -177,14 +177,14 @@ export default function GuidePage() {
         </Grid>
       </Section>
 
-      {/* 4 — the heart of the guide */}
+      {/* 4. the heart of the guide */}
       <Section eyebrow={guide.firstSession.eyebrow} title={guide.firstSession.title} lede={guide.firstSession.lede} maxWidth={720}>
         <Box sx={{ maxWidth: 820 }}>
           <NumberedSteps steps={guide.firstSession.steps} />
         </Box>
       </Section>
 
-      {/* 5 + 6 — the two other surfaces */}
+      {/* 5 + 6. the two other surfaces */}
       <Section tone="raised" eyebrow={guide.extension.eyebrow} title={guide.extension.title} lede={guide.extension.lede} maxWidth={680}>
         <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -230,7 +230,7 @@ export default function GuidePage() {
         </Grid>
       </Section>
 
-      {/* 7 — the horizon */}
+      {/* 7. the horizon */}
       <Section eyebrow={guide.next.eyebrow} title={guide.next.title} lede={guide.next.lede} maxWidth={720}>
         <Grid container spacing={2.5}>
           {guide.next.items.map((n, i) => (
@@ -255,7 +255,7 @@ export default function GuidePage() {
         </Reveal>
       </Section>
 
-      {/* 8 — the part that keeps it alive */}
+      {/* 8. the part that keeps it alive */}
       <Section tone="raised" eyebrow={guide.updating.eyebrow} title={guide.updating.title} lede={guide.updating.lede} maxWidth={720}>
         <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
           <Grid size={{ xs: 12, md: 6 }}>

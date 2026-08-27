@@ -6,7 +6,7 @@ import { alpha } from "@mui/material/styles";
 
 /**
  * A highlighter stroke behind a phrase. The brand carries a yellow that the app
- * itself has no room for — a marketing page does, and one accent used sparingly
+ * itself has no room for. A marketing page does, and one accent used sparingly
  * on the single most important phrase per screen is what gives a landing page
  * its focal point.
  */

@@ -28,7 +28,7 @@ export type Pain = {
  * The earlier version put the two in bare columns and the short left-hand pain
  * left a well of dead space beside a long right-hand paragraph, with nothing
  * tying them together. Now the pain is a full-width line the reader meets
- * first, and the answer sits under it in a tinted panel with an accent edge —
+ * first, and the answer sits under it in a tinted panel with an accent edge,
  * so the pairing reads as one unit, and the vertical rhythm stays tight
  * whatever the length of either half.
  */

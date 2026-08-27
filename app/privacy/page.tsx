@@ -21,7 +21,7 @@ import { privacy, site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Privacy & security",
   description:
-    "Three containers on your machine, every port bound to 127.0.0.1, no account and no server holding your career history — plus the honest version of what that trade costs and what the extension keeps.",
+    "Three containers on your machine, every port bound to 127.0.0.1, no account and no server holding your career history, plus the honest version of what that trade costs and what the extension keeps.",
 };
 
 export default function PrivacyPage() {
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
         </Grid>
       </Section>
 
-      {/* The trade — the most important block on the site, so it gets the loudest treatment */}
+      {/* The trade: the most important block on the site, so it gets the loudest treatment */}
       <TintBand tone="warning">
           <Reveal>
             <Stack spacing={3} sx={{ maxWidth: 820 }}>
@@ -144,7 +144,7 @@ export default function PrivacyPage() {
             { t: "career.md", b: "Your whole career record as one deterministic Markdown file. No model involved, readable and diffable, downloadable from the Career KB page or over MCP." },
             { t: "applications/", b: "Every render filed in its own company-and-role-named folder with the typeset source and the exact PDF you sent." },
             { t: "base_resumes/", b: "Your resumes are JSON files on your disk, not rows in someone else's database." },
-            { t: "The database", b: "Postgres in a container you own. docker compose down -v is yours to run — and it deletes everything, which is the point." },
+            { t: "The database", b: "Postgres in a container you own. docker compose down -v is yours to run, and it deletes everything, which is the point." },
           ].map((c, i) => (
             <Grid size={{ xs: 12, sm: 6 }} key={c.t}>
               <Reveal delay={i * 60} sx={{ height: "100%" }}>

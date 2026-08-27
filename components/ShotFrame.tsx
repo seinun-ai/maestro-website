@@ -12,7 +12,7 @@ import { isVideo, mediaSize, videoPoster } from "@/lib/media";
  * A product capture inside a restrained window chrome. The frame exists to say
  * "this is the real app", so it stays quiet: three dots, a hairline, no gloss.
  *
- * Video sources render as a muted, looping, inline <video> — the same reading
+ * Video sources render as a muted, looping, inline <video>: the same reading
  * experience as a GIF at a fraction of the weight and several times the
  * resolution. `preload="none"` on non-priority clips keeps them off the
  * critical path until the reader scrolls near them.

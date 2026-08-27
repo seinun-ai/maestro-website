@@ -81,7 +81,7 @@ export default function AgentsPage() {
                 </Box>
                 <Box>
                   <Typography variant="h5" component="h3" sx={{ mb: 1.5 }}>
-                    Six profiles — enable one at a time
+                    Six profiles, one at a time
                   </Typography>
                   <Stack spacing={1}>
                     {agents.profiles.map((p) => (
@@ -99,7 +99,7 @@ export default function AgentsPage() {
                     ))}
                   </Stack>
                   <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
-                    <code>full</code> alongside a scoped profile registers each shared tool twice — pick one.
+                    <code>full</code> alongside a scoped profile registers each shared tool twice, so pick one.
                   </Typography>
                 </Box>
               </Stack>
@@ -156,8 +156,8 @@ export default function AgentsPage() {
                 {agents.hunt.kicker}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary", mt: 3 }}>
-                The author&apos;s own daily prompts — a scheduled hunt and two apply-session variants, with the personal
-                parts turned into placeholders — ship in <code>docs/agent-prompts/</code> as starting points to adapt.
+                The author&apos;s own daily prompts ship in <code>docs/agent-prompts/</code> as starting points to adapt: a
+                scheduled hunt and two apply-session variants, with the personal parts turned into placeholders.
               </Typography>
             </Reveal>
           </Grid>

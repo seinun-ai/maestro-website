@@ -6,8 +6,8 @@ import type { SxProps, Theme } from "@mui/material/styles";
 
 /**
  * Fade-rise on first entry, mirroring the app's `animate-fade-rise`. Elements
- * start visible for anyone without IntersectionObserver or with reduced motion
- * — the animation is decoration, never the thing that makes content readable.
+ * start visible for anyone without IntersectionObserver or with reduced motion.
+ * The animation is decoration, never the thing that makes content readable.
  */
 export default function Reveal({
   children,

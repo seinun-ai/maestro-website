@@ -23,8 +23,8 @@ export function Eyebrow({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * One vertical rhythm for the whole site. Pages never set their own paddings —
- * a per-page rhythm is how a marketing site drifts into six different ones.
+ * One vertical rhythm for the whole site. Pages never set their own paddings,
+ * because a per-page rhythm is how a marketing site drifts into six different ones.
  */
 export default function Section({
   id,

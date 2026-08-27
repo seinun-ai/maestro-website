@@ -10,7 +10,7 @@ import Reveal from "./Reveal";
 /**
  * An ordered walkthrough where the order is the point. The rail down the left
  * carries the eye between steps, so a reader who looks away mid-install can
- * find their place again — which is the whole job of a numbered list that runs
+ * find their place again, which is the whole job of a numbered list that runs
  * to eleven items.
  */
 export default function NumberedSteps({ steps }: { steps: readonly { t: string; b: string }[] }) {

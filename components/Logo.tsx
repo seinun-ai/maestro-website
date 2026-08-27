@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 
 /**
  * Header lockup. The brand package says not to shrink the full wordmark SVG
- * below legibility in compact headers — so the mark ships as the SVG master and
+ * below legibility in compact headers, so the mark ships as the SVG master and
  * the wordmark is set in Inter, which is what the SVG lockup is drawn in.
  */
 export default function Logo({ compact = false }: { compact?: boolean }) {

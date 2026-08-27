@@ -3,7 +3,7 @@ import { faqs, site } from "@/content/site";
 
 /**
  * Two schema.org graphs: the product itself, and the FAQ block that appears on
- * the home page. Both describe content that is actually on the page — a rich
+ * the home page. Both describe content that is actually on the page. A rich
  * result for an answer we do not show is the kind of thing that gets a site
  * demoted, not promoted.
  */

@@ -8,7 +8,7 @@ import { alpha } from "@mui/material/styles";
 
 /**
  * One oversized figure with its unit and a line of provenance. The accent
- * variant is reserved for the cost claim — it is the number that reframes the
+ * variant is reserved for the cost claim, the number that reframes the
  * whole category, so it gets the brand yellow and nothing else does.
  */
 export default function StatBadge({

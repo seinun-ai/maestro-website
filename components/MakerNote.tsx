@@ -13,7 +13,7 @@ import { makerNote, site } from "@/content/site";
 
 /**
  * One person built this and says so in the first person. On a page that will be
- * reached from a LinkedIn post, the signature is the credibility — and the ask
+ * reached from a LinkedIn post, the signature is the credibility, and the ask
  * for bug reports is the honest version of a launch CTA.
  */
 export default function MakerNote() {
@@ -46,7 +46,7 @@ export default function MakerNote() {
               <Typography
                 sx={{ fontSize: "1.35rem", fontWeight: 600, fontStyle: "italic", letterSpacing: "-0.02em" }}
               >
-                — {makerNote.signature}
+                {makerNote.signature}
               </Typography>
               <Stack direction="row" spacing={1.5}>
                 <Button href={site.issues} target="_blank" rel="noopener noreferrer" variant="contained" size="small">

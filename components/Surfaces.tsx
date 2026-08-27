@@ -10,7 +10,7 @@ type Tone = "primary" | "success" | "warning";
 
 /**
  * Tinted surfaces live here, together, because tinting needs the theme at
- * render time — and a theme callback cannot cross a server/client boundary.
+ * render time, and a theme callback cannot cross a server/client boundary.
  * Pages stay server components and reach for these instead of hand-rolling
  * an alpha() in an sx callback.
  */
