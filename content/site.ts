@@ -669,6 +669,23 @@ docker compose up -d`,
     },
   ],
   update: "./scripts/update.sh",
+  troubleshooting: {
+    title: "If something goes wrong",
+    columns: ["You see", "It means", "Do"],
+    rows: [
+      ["Cannot connect to the Docker daemon", "Docker isn't running", "Start Docker Desktop, wait for “running”, re-run the command"],
+      ["port is already allocated", "Another app owns 3000, 8001 or 55432", "Change the matching *_HOST_PORT in .env"],
+      ["Build sits at TeX Live or the model download", "Normal on a first build", "Wait it out. Later builds are fast."],
+      ["Page loads but everything errors", "Backend still starting", "curl -s localhost:8001/health answers {\"status\":\"ok\"} when it's ready"],
+      ["Added a key to .env after starting", "Keys are read at process start", "docker compose restart backend. Remember that an in-app key overrides .env"],
+      ["Calls fail 401 though Settings says Configured", "A stale key. The label says where it lives.", "Re-enter it in Settings → Models and press Test"],
+    ],
+  },
+  updateFacts: [
+    { t: "Your data is not involved", b: "Resumes, applications, KB documents and settings are files on disk no update step touches, and the database lives in a Docker volume that survives all of this. The backup guards the migration specifically." },
+    { t: "Migrations run themselves", b: "They run when the backend starts, so the first boot after an update takes longer than usual. The script tells you it's waiting." },
+    { t: "Two things stay manual", b: "Docker can't reach them: reload the extension at chrome://extensions and reload any open job tab, then restart your MCP client. The script prints both reminders when it finishes." },
+  ],
   prerequisites: [
     { title: "Docker Desktop", body: "Or Docker Engine with Compose v2. Start it and leave it running." },
     {
@@ -761,8 +778,8 @@ export const faqs = [
 export const guide = {
   hero: {
     eyebrow: "The guide",
-    title: "From zero to your first tailored PDF.",
-    lede: "The rest of this site explains why Maestro works the way it does. This is the how: install it, find your way around, and run one real application through it, in the order that actually works. It assumes no Docker or terminal experience beyond copy-pasting.",
+    title: "Your first hour, once it's running.",
+    lede: "Installing lives on the Install page. This is everything after: find your way around, run one real application through it in the order that works, work postings from the browser panel, and drive the whole loop from your assistant.",
   },
 
   agentPath: {
@@ -783,83 +800,13 @@ export const guide = {
     },
   },
 
-  agentShortcut: {
-    title: "Had an agent do the install?",
-    body: "Then steps 1 and 2 are already done: the clone, the .env and the running stack. Skip to Find your way around, and come back here only if something looks wrong.",
-    cta: "Jump to the tour",
-    href: "/guide#tour",
-  },
 
-  prerequisites: {
-    eyebrow: "Step 1 · doing it yourself",
-    title: "What you need first",
-    items: [
-      {
-        title: "Docker",
-        body: "Docker Desktop on macOS or Windows; Docker Engine with Compose v2 on Linux. Start it and leave it running. The most common first-run error, “Cannot connect to the Docker daemon”, just means Docker Desktop isn't open.",
-        check: "docker info",
-        checkNote: "Any output that ends without an error means you're fine.",
-      },
-      {
-        title: "Git",
-        body: "It's how you install, and later update. macOS offers to install it the first time you run git; Windows takes Git for Windows; Linux has it in the package manager.",
-      },
-      {
-        title: "About a 1 GB download",
-        body: "The three images, compressed; they unpack to roughly 3–4 GB. The backend carries a minimal TeX Live, Typst and the pinned embedding model, which is most of it.",
-      },
-      {
-        title: "An API key, but not yet",
-        body: "OpenAI or Gemini. You add it inside the app after first boot, not now. Without one the deterministic core still runs: ATS scoring, PDF rendering, tracking.",
-      },
-      {
-        title: "Python 3.12+, rarely",
-        body: "Only the setup-script route in step 6 needs it: Cursor, Windsurf, a backend outside Docker, or scoped profiles. The app and the two big MCP installs don't.",
-      },
-    ],
-  },
 
-  install: {
-    eyebrow: "Step 2 · doing it yourself",
-    title: "Install and first boot",
-    clone: `git clone https://github.com/seinun-ai/maestro-career-studio.git
-cd maestro-career-studio
-cp .env.example .env`,
-    keyNote:
-      "Don't put your API key in .env yet. The recommended place is Settings → Models inside the app, after first boot. A key saved in the app always wins over one in .env, so keeping both is how you end up staring at a stale key you forgot about.",
-    up: "docker compose up -d",
-    upNote:
-      "That downloads prebuilt images, about 1 GB — a few minutes on a normal connection. Compiling from your own checkout is the contributor path: comment out IMAGE_REGISTRY in .env and run docker compose up -d --build; that first build takes several minutes because it installs TeX Live and downloads the embedding model. Either way, then open http://localhost:3000.",
-    firstBoot:
-      "First boot starts PostgreSQL on port 55432, runs migrations, and seeds a demo resume with rendered previews. If a key is present, it also builds a demo Career KB from it.",
-  },
 
-  troubleshooting: {
-    title: "If something goes wrong",
-    columns: ["You see", "It means", "Do"],
-    rows: [
-      ["Cannot connect to the Docker daemon", "Docker isn't running", "Start Docker Desktop, wait for “running”, re-run the command"],
-      ["port is already allocated", "Another app owns 3000, 8001 or 55432", "Change the matching *_HOST_PORT in .env"],
-      ["Build sits at TeX Live or the model download", "Normal on a first build", "Wait it out. Later builds are fast."],
-      ["Page loads but everything errors", "Backend still starting", "curl -s localhost:8001/health answers {\"status\":\"ok\"} when it's ready"],
-      ["Added a key to .env after starting", "Keys are read at process start", "docker compose restart backend. Remember that an in-app key overrides .env"],
-      ["Calls fail 401 though Settings says Configured", "A stale key. The label says where it lives.", "Re-enter it in Settings → Models and press Test"],
-    ],
-  },
 
-  cleanSlate: {
-    title: "Starting over, properly",
-    body: "Deleting the project folder does not delete your data, and neither does docker compose down. The database lives in a Docker volume named after the folder, inside Docker itself.",
-    consequences: [
-      "Re-cloning into a folder with the same name re-attaches the old database. Your resumes, applications and even a saved key come back. That's the right default, since an accidental deletion never costs you data, but it means “delete and clone again” is not a fresh install. Clone into a differently named folder to test one.",
-      "Deleting only the folder leaves your state half-gone: the database survives, but rendered PDFs under applications/ and base_resumes/ don't, so the app may list documents whose files are missing. Re-render them; the content is safe.",
-    ],
-    nuke: "docker compose down -v",
-    nukeNote: "This is the one command that removes everything: demo data, your data, stored keys. Run it from the project folder. It cannot be undone.",
-  },
 
   tour: {
-    eyebrow: "Step 3",
+    eyebrow: "First, the map",
     title: "Find your way around",
     lede: "The sidebar, top to bottom.",
     items: [
@@ -878,7 +825,7 @@ cp .env.example .env`,
   },
 
   firstSession: {
-    eyebrow: "Step 4",
+    eyebrow: "The heart of it",
     title: "Your first session, in order",
     lede: "The order matters. Everything downstream composes from the Career KB, so feed that first and the rest gets easier.",
     steps: [
@@ -897,31 +844,33 @@ cp .env.example .env`,
   },
 
   extension: {
-    eyebrow: "Step 5",
-    title: "The browser side panel",
-    lede: "Save the posting in front of you, score your bases against it, fill the form from your autofill profile, and mark it applied, without leaving the tab.",
-    steps: [
-      "Open chrome://extensions and switch on Developer mode, top right.",
-      "Load unpacked → select the repo's extension/ folder.",
-      "Pin the icon, then click it on any job page to open the panel.",
+    eyebrow: "The browser panel",
+    title: "Working a posting from the side panel",
+    lede: "Installed in Part 3 of the Install page. On a job page the panel walks one ladder, and each stage opens when the one before it has an answer — so it always shows the next thing worth doing.",
+    flow: [
+      { t: "Job", b: "Capture the posting in front of you. Captures dedup against what you already track, so saving twice is safe." },
+      { t: "Score", b: "Every base resume scored against it, deterministically, without leaving the tab." },
+      { t: "Resume", b: "Pick the base to send — or tailor on the spot and render the PDF right there." },
+      { t: "Fill", b: "Fill the application form from your Autofill Profile. Signatures, credentials, government IDs and consent boxes sit on a deny-list the fill never touches; navigation and submit stay yours." },
+      { t: "Track", b: "Mark it applied before you close the tab, and the tracker row is already there when you get back to the app." },
     ],
-    note: "If you changed the app's ports in .env, set the backend and app URLs under the panel's ⋯ menu.",
+    note: "If you changed the app's ports in .env, set the backend and app URLs under the panel's ⋯ menu. What its telemetry does and doesn't store is on the Privacy page.",
   },
 
   mcp: {
-    eyebrow: "Step 6",
-    title: "Drive it from your assistant",
-    lede: "With the backend running, the two big clients install from their own settings — no terminal, no config file, no host Python, because the server runs inside the backend container you already started.",
-    cmd: "./scripts/setup-mcp.sh",
-    clients: [
-      { name: "Claude — Desktop, and Code inside the Claude app", body: "Settings → Extensions → Install Extension → pick mcpb/maestro-career-studio.mcpb inside the folder you cloned. Leave the fields at their defaults; Tool profile stays full unless you later want a scoped set. One install covers both surfaces." },
-      { name: "Codex / ChatGPT desktop", body: "Settings → Plugins → Add plugin marketplace → seinun-ai/maestro-career-studio, git ref main, sparse paths empty. Then open the Maestro Career Studio entry and press Install." },
-      { name: "Everything else, or when an install misbehaves", body: "The script below prints a paste-ready block per client — Cursor, Windsurf, a backend outside Docker, scoped profiles — and is the one route that needs a host Python 3.12+. Both big apps also accept a hand-written config entry; quit Claude Desktop fully (Cmd+Q) before editing its file, since the running app rewrites it on exit and silently drops your edit." },
+    eyebrow: "Your assistant",
+    title: "Driving it over MCP",
+    lede: "Registering the server is Part 2 of the Install page. Once it's there, your assistant can run the whole loop by conversation — the useful skill is knowing what to ask for.",
+    ideas: [
+      { t: "Work a posting end to end", b: "Paste a link or the JD text into chat: capture it, score it against every base, walk the gaps, tailor, and render the PDF — all by asking." },
+      { t: "Keep the record current", b: "Hand it a new resume or paste a review's wins: it drafts KB points, you approve them, and they compose into every future document." },
+      { t: "Ask the market questions", b: "The explore tools answer things like \"what keeps coming up in the jobs I save that I'm not showing?\" from your own captured postings." },
     ],
+    note: "Everything an agent authors passes the same honesty gates as the app: unevidenced keywords can only reach the skills list, and every edit lands as a revertible version.",
   },
 
   next: {
-    eyebrow: "Step 7",
+    eyebrow: "Where it can go next",
     title: "Where it can go next",
     lede: "Once the server is registered, your assistant can run the whole loop. The repo ships the author's own prompts as adaptable starting points.",
     items: [
@@ -932,24 +881,6 @@ cp .env.example .env`,
     closing: "Whatever the agent does, the consent posture holds: nothing is submitted without your explicit per-application yes, and everything is written down.",
   },
 
-  updating: {
-    eyebrow: "Step 8",
-    title: "Keeping it up to date",
-    lede: "One command, run from inside the folder you cloned. It takes a database backup, moves your checkout to the newest released version, brings the images to that same version, and waits until the stack is healthy again.",
-    cmd: `cd ~/maestro-career-studio      # wherever you cloned it
-./scripts/update.sh`,
-    cmdNote:
-      "The path matters: an install here is a git checkout, so the script has to be run from the repo it is updating. It resolves the repo from its own location, so an absolute path like /path/to/maestro-career-studio/scripts/update.sh works from anywhere too.",
-    check: "./scripts/update.sh --check",
-    checkNote: "Changes nothing. Answers only: am I up to date?",
-    facts: [
-      { t: "Your data is not involved", b: "Resumes, applications, KB documents and settings are files on disk no update step touches, and the database lives in a Docker volume that survives all of this. The backup guards the migration specifically." },
-      { t: "Migrations run themselves", b: "They run when the backend starts, so the first boot after an update takes longer than usual. The script tells you it's waiting." },
-      { t: "Two things stay manual", b: "Docker can't reach them: reload the extension at chrome://extensions and reload any open job tab, then restart your MCP client. The script prints both reminders when it finishes." },
-    ],
-    why: "Your checkout and your images move together, always. An install here is a git checkout. The unpacked extension loads from extension/ and the MCP server's venv sits over backend/. Pulling images alone would update two of the four surfaces and leave the extension and MCP client running code your API no longer has.",
-    windows: "It's bash, so on Windows run it under WSL, or use the manual command-by-command form in the README.",
-  },
 } as const;
 
 export const makerNote = {

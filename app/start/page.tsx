@@ -17,6 +17,7 @@ import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
 import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
+import TroubleTable from "@/components/TroubleTable";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
 import { agents, guide, quickstart } from "@/content/site";
@@ -190,6 +191,15 @@ export default function StartPage() {
             </Reveal>
           </Grid>
         </Grid>
+
+        <Reveal>
+          <Box sx={{ mt: { xs: 5, md: 6 } }}>
+            <Typography variant="h4" component="h3" sx={{ mb: 2 }}>
+              {quickstart.troubleshooting.title}
+            </Typography>
+            <TroubleTable columns={quickstart.troubleshooting.columns} rows={quickstart.troubleshooting.rows} />
+          </Box>
+        </Reveal>
       </Section>
 
       {/* Part 2: two client-native paths, profiles as a config customization,
@@ -341,7 +351,7 @@ export default function StartPage() {
           <Grid size={{ xs: 12, md: 6 }}>
             <Reveal delay={80}>
               <Stack spacing={2}>
-                {guide.updating.facts.map((f) => (
+                {quickstart.updateFacts.map((f) => (
                   <Stack key={f.t} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
                     <CheckIcon sx={{ fontSize: 19, color: "primary.main", mt: "3px", flexShrink: 0 }} />
                     <Box>
@@ -364,7 +374,7 @@ export default function StartPage() {
       <Section
         eyebrow="Then what?"
         title="The guide walks you through the first hour."
-        lede="This page installs it. The guide is the doing: the order to set things up in, a symptom-to-fix table for first-boot errors, and your first application end to end."
+        lede="This page installs it. The guide is the using: your first session in the order that works, the browser panel in action, and what to ask your assistant for."
         maxWidth={700}
       >
         <Reveal>
@@ -372,7 +382,7 @@ export default function StartPage() {
             <Grid container spacing={2.5}>
               {[
                 ["Your first session, in order", "Eleven steps from importing resumes to tracking the application. The order is the point."],
-                ["When something breaks", "A symptom-to-fix table for the errors a first boot actually produces."],
+                ["Driving it from your assistant", "What to ask for over MCP, and the panel's Job → Score → Resume → Fill → Track ladder."],
               ].map(([t, b]) => (
                 <Grid size={{ xs: 12, sm: 6 }} key={t}>
                   <Typography variant="h6" component="h3">

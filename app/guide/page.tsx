@@ -1,166 +1,38 @@
 import * as React from "react";
 import type { Metadata } from "next";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import Chip from "@mui/material/Chip";
-import Divider from "@mui/material/Divider";
-import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
-import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
 import NumberedSteps from "@/components/NumberedSteps";
-import TroubleTable from "@/components/TroubleTable";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
-import OnThisPage from "@/components/OnThisPage";
 import { guide } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Guide",
   description:
-    "From zero to your first tailored PDF. Install it, find your way around, run one real application through it, and keep it updated, assuming no Docker or terminal experience beyond copy-pasting.",
+    "Your first hour once Maestro CS is running: find your way around, run one real application through it in the order that works, work postings from the browser panel, and drive the whole loop from your assistant over MCP.",
 };
 
 export default function GuidePage() {
   return (
     <>
-      <PageHero eyebrow={guide.hero.eyebrow} title={guide.hero.title} lede={guide.hero.lede} />
+      <PageHero eyebrow={guide.hero.eyebrow} title={guide.hero.title} lede={guide.hero.lede}>
+        <Stack direction="row" spacing={1.5} useFlexGap sx={{ flexWrap: "wrap", pt: 1 }}>
+          <LinkButton href="/start" variant="outlined" size="small">
+            Not installed yet? Start there
+          </LinkButton>
+        </Stack>
+      </PageHero>
 
-      <Container sx={{ pt: { xs: 4, md: 5 } }}>
-        <OnThisPage />
-      </Container>
-
-      {/* The install itself lives on /start; here we only need to tell a
-          reader who used it which steps they can skip. */}
-      <Box component="section" sx={{ pt: { xs: 5, md: 7 } }}>
-        <Container>
-          <Reveal>
-            <TintPaper sx={{ p: { xs: 3, md: 3.5 }, borderRadius: 4 }}>
-              <Grid container spacing={2} sx={{ alignItems: "center" }}>
-                <Grid size={{ xs: 12, md: 8 }}>
-                  <Typography variant="h4" component="h2" sx={{ mb: 0.75 }}>
-                    {guide.agentShortcut.title}
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: "text.secondary" }}>
-                    {guide.agentShortcut.body}
-                  </Typography>
-                </Grid>
-                <Grid size={{ xs: 12, md: 4 }}>
-                  <Stack spacing={1} sx={{ alignItems: { md: "flex-end" } }}>
-                    <LinkButton href={guide.agentShortcut.href} variant="contained" endIcon={<ArrowForwardIcon />}>
-                      {guide.agentShortcut.cta}
-                    </LinkButton>
-                    <LinkButton href="/start#fastest-path" size="small" sx={{ px: 0, color: "text.secondary" }}>
-                      Or see the agent prompt
-                    </LinkButton>
-                  </Stack>
-                </Grid>
-              </Grid>
-            </TintPaper>
-          </Reveal>
-        </Container>
-      </Box>
-
-      {/* 1. prerequisites */}
-      <Section tone="raised" eyebrow={guide.prerequisites.eyebrow} title={guide.prerequisites.title} maxWidth={620}>
-        <Grid container spacing={2.5}>
-          {guide.prerequisites.items.map((p, i) => (
-            <Grid size={{ xs: 12, sm: 6 }} key={p.title}>
-              <Reveal delay={i * 60} sx={{ height: "100%" }}>
-                <Paper sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default" }}>
-                  <Typography variant="h5" component="h3" sx={{ mb: 1 }}>
-                    {p.title}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {p.body}
-                  </Typography>
-                  {"check" in p && p.check && (
-                    <Box sx={{ mt: 2 }}>
-                      <CodeBlock code={p.check} />
-                      <Typography variant="body2" sx={{ color: "text.secondary", mt: 1 }}>
-                        {p.checkNote}
-                      </Typography>
-                    </Box>
-                  )}
-                </Paper>
-              </Reveal>
-            </Grid>
-          ))}
-        </Grid>
-      </Section>
-
-      {/* 2. install */}
-      <Section eyebrow={guide.install.eyebrow} title={guide.install.title} maxWidth={620}>
-        <Grid container spacing={{ xs: 3, md: 5 }} sx={{ alignItems: "flex-start" }}>
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Reveal>
-              <CodeBlock code={guide.install.clone} />
-              <Alert severity="info" variant="outlined" sx={{ mt: 2.5, borderRadius: 3 }}>
-                <AlertTitle sx={{ fontWeight: 700 }}>Not the key, not yet</AlertTitle>
-                {guide.install.keyNote}
-              </Alert>
-              <Box sx={{ mt: 2.5 }}>
-                <CodeBlock code={guide.install.up} />
-              </Box>
-            </Reveal>
-          </Grid>
-          <Grid size={{ xs: 12, md: 5 }}>
-            <Reveal delay={80}>
-              <Stack spacing={2.5}>
-                <Typography variant="body1" sx={{ color: "text.secondary" }}>
-                  {guide.install.upNote}
-                </Typography>
-                <Divider />
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {guide.install.firstBoot}
-                </Typography>
-              </Stack>
-            </Reveal>
-          </Grid>
-        </Grid>
-
-        <Reveal>
-          <Box sx={{ mt: { xs: 5, md: 7 } }}>
-            <Typography variant="h3" component="h3" sx={{ mb: 2.5 }}>
-              {guide.troubleshooting.title}
-            </Typography>
-            <TroubleTable columns={guide.troubleshooting.columns} rows={guide.troubleshooting.rows} />
-          </Box>
-        </Reveal>
-
-        <Reveal>
-          <Box sx={{ mt: { xs: 5, md: 6 }, maxWidth: 860 }}>
-            <Typography variant="h3" component="h3" sx={{ mb: 2 }}>
-              {guide.cleanSlate.title}
-            </Typography>
-            <Typography variant="body1" sx={{ color: "text.secondary", mb: 2.5 }}>
-              {guide.cleanSlate.body}
-            </Typography>
-            <Stack spacing={2} sx={{ mb: 3 }}>
-              {guide.cleanSlate.consequences.map((c) => (
-                <Typography key={c.slice(0, 24)} variant="body2" sx={{ color: "text.secondary", pl: 2.5, borderLeft: 3, borderColor: "divider" }}>
-                  {c}
-                </Typography>
-              ))}
-            </Stack>
-            <CodeBlock code={guide.cleanSlate.nuke} />
-            <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
-              {guide.cleanSlate.nukeNote}
-            </Typography>
-          </Box>
-        </Reveal>
-      </Section>
-
-      {/* 3. orient */}
+      {/* 1. the map */}
       <Section id="tour" tone="raised" eyebrow={guide.tour.eyebrow} title={guide.tour.title} lede={guide.tour.lede} maxWidth={620}>
         <Grid container spacing={2}>
           {guide.tour.items.map((t, i) => (
@@ -180,68 +52,66 @@ export default function GuidePage() {
         </Grid>
       </Section>
 
-      {/* 4. the heart of the guide */}
+      {/* 2. the heart of the guide */}
       <Section eyebrow={guide.firstSession.eyebrow} title={guide.firstSession.title} lede={guide.firstSession.lede} maxWidth={720}>
         <Box sx={{ maxWidth: 820 }}>
           <NumberedSteps steps={guide.firstSession.steps} />
         </Box>
       </Section>
 
-      {/* 5 + 6. the two other surfaces */}
-      <Section tone="raised" eyebrow={guide.extension.eyebrow} title={guide.extension.title} lede={guide.extension.lede} maxWidth={680}>
-        <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Reveal>
-              <Paper sx={{ p: 3, borderRadius: 3, backgroundColor: "background.default" }}>
-                <Stack spacing={1.75}>
-                  {guide.extension.steps.map((s, i) => (
-                    <Stack key={s} direction="row" spacing={1.75} sx={{ alignItems: "flex-start" }}>
-                      <Chip label={i + 1} size="small" variant="outlined" sx={{ fontFamily: "var(--font-mono)", flexShrink: 0 }} />
-                      <Typography variant="body2">{s}</Typography>
-                    </Stack>
-                  ))}
-                </Stack>
-              </Paper>
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
-                {guide.extension.note}
-              </Typography>
-            </Reveal>
-          </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Reveal delay={80}>
-              <Typography variant="h4" component="h3" sx={{ mb: 1 }}>
-                {guide.mcp.title}
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
-                {guide.mcp.lede}
-              </Typography>
-              <Stack spacing={2}>
-                {guide.mcp.clients.map((c) => (
-                  <Box key={c.name}>
-                    <Typography variant="h6" component="h4">
-                      {c.name}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                      {c.body}
-                    </Typography>
-                  </Box>
-                ))}
-              </Stack>
-              <Box sx={{ mt: 2.5 }}>
-                <CodeBlock code={guide.mcp.cmd} />
-              </Box>
-            </Reveal>
-          </Grid>
-        </Grid>
+      {/* 3. the panel, in use */}
+      <Section
+        tone="raised"
+        eyebrow={guide.extension.eyebrow}
+        title={guide.extension.title}
+        lede={guide.extension.lede}
+        maxWidth={680}
+      >
+        <Box sx={{ maxWidth: 820 }}>
+          <NumberedSteps steps={guide.extension.flow} />
+        </Box>
+        <Reveal>
+          <Typography variant="body2" sx={{ color: "text.secondary", mt: 4, maxWidth: 760 }}>
+            {guide.extension.note}{" "}
+            <LinkButton href="/privacy" size="small" sx={{ px: 0, verticalAlign: "baseline" }}>
+              What the panel keeps, and what it can&apos;t
+            </LinkButton>
+          </Typography>
+        </Reveal>
       </Section>
 
-      {/* 7. the horizon */}
-      <Section eyebrow={guide.next.eyebrow} title={guide.next.title} lede={guide.next.lede} maxWidth={720}>
+      {/* 4. the assistant, in use */}
+      <Section eyebrow={guide.mcp.eyebrow} title={guide.mcp.title} lede={guide.mcp.lede} maxWidth={720}>
+        <Grid container spacing={2.5}>
+          {guide.mcp.ideas.map((n, i) => (
+            <Grid size={{ xs: 12, md: 4 }} key={n.t}>
+              <Reveal delay={i * 70} sx={{ height: "100%" }}>
+                <Paper sx={{ p: 3, height: "100%", borderRadius: 3 }}>
+                  <Typography variant="h5" component="h3" sx={{ mb: 1 }}>
+                    {n.t}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    {n.b}
+                  </Typography>
+                </Paper>
+              </Reveal>
+            </Grid>
+          ))}
+        </Grid>
+        <Reveal>
+          <Typography variant="body2" sx={{ color: "text.secondary", mt: 4, maxWidth: 760 }}>
+            {guide.mcp.note}
+          </Typography>
+        </Reveal>
+      </Section>
+
+      {/* 5. the horizon */}
+      <Section tone="raised" eyebrow={guide.next.eyebrow} title={guide.next.title} lede={guide.next.lede} maxWidth={720}>
         <Grid container spacing={2.5}>
           {guide.next.items.map((n, i) => (
             <Grid size={{ xs: 12, md: 4 }} key={n.t}>
               <Reveal delay={i * 70} sx={{ height: "100%" }}>
-                <Paper sx={{ p: 3, height: "100%", borderRadius: 3 }}>
+                <Paper sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default" }}>
                   <Typography variant="h5" component="h3" sx={{ mb: 1 }}>
                     {n.t}
                   </Typography>
@@ -258,67 +128,18 @@ export default function GuidePage() {
             {guide.next.closing}
           </Typography>
         </Reveal>
-      </Section>
-
-      {/* 8. the part that keeps it alive */}
-      <Section tone="raised" eyebrow={guide.updating.eyebrow} title={guide.updating.title} lede={guide.updating.lede} maxWidth={720}>
-        <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Reveal>
-              <CodeBlock code={guide.updating.cmd} />
-              <Box sx={{ mt: 2.5 }}>
-                <CodeBlock code={guide.updating.check} />
-              </Box>
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
-                {guide.updating.checkNote}
-              </Typography>
-              <Alert severity="info" variant="outlined" sx={{ mt: 2.5, borderRadius: 3 }}>
-                <AlertTitle sx={{ fontWeight: 700 }}>Run it from the repo you cloned</AlertTitle>
-                {guide.updating.cmdNote}
-              </Alert>
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
-                {guide.updating.windows}
-              </Typography>
-            </Reveal>
-          </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Reveal delay={80}>
-              <Stack spacing={2.25}>
-                {guide.updating.facts.map((f) => (
-                  <Stack key={f.t} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
-                    <CheckIcon sx={{ fontSize: 19, color: "primary.main", mt: "3px", flexShrink: 0 }} />
-                    <Box>
-                      <Typography variant="h6" component="h3">
-                        {f.t}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                        {f.b}
-                      </Typography>
-                    </Box>
-                  </Stack>
-                ))}
-              </Stack>
-            </Reveal>
-          </Grid>
-        </Grid>
         <Reveal>
-          <Box sx={{ mt: 4, maxWidth: 860 }}>
-            <Divider sx={{ mb: 3 }} />
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              {guide.updating.why}
+          <TintPaper sx={{ mt: { xs: 4, md: 5 }, p: { xs: 3, md: 3.5 }, borderRadius: 4, maxWidth: 820 }}>
+            <Typography variant="body1" sx={{ color: "text.secondary" }}>
+              The mechanics behind all three — the proposal ledger, the consent gate, and the risks stated plainly —
+              live on the Agents page.
             </Typography>
-            <Stack direction="row" spacing={1.5} sx={{ mt: 3, flexWrap: "wrap" }}>
-              <LinkButton href="/agents" variant="outlined">
-                What agents can do with it
-              </LinkButton>
-              <LinkButton href="/features" variant="outlined">
-                Every feature
-              </LinkButton>
-            </Stack>
-          </Box>
+            <LinkButton href="/agents" endIcon={<ArrowForwardIcon />} sx={{ px: 0, mt: 1.5 }}>
+              Agents, hunting and the consent ledger
+            </LinkButton>
+          </TintPaper>
         </Reveal>
       </Section>
-
     </>
   );
 }

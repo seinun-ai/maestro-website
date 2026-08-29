@@ -85,6 +85,25 @@ export default function SiteHeader() {
                   {item.label}
                 </Button>
               ))}
+              {/* The repo, restored as a nav item rather than a second CTA:
+                  it reads as navigation here, so it no longer competes with
+                  the Install button that now wears the mark. */}
+              <Button
+                href={site.repo}
+                target="_blank"
+                rel="noopener noreferrer"
+                size="small"
+                color="inherit"
+                startIcon={<GitHubMark />}
+                sx={{
+                  px: 1.5,
+                  fontWeight: 500,
+                  color: "text.secondary",
+                  "&:hover": { color: "text.primary", backgroundColor: "action.hover" },
+                }}
+              >
+                GitHub
+              </Button>
             </Stack>
 
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
