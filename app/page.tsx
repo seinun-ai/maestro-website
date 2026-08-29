@@ -217,15 +217,16 @@ export default function HomePage() {
                   <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
                     {agents.setup.title}
                   </Typography>
-                  <CodeBlock code={quickstart.mcp} />
-                  <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
-                    Registers Claude Code for you. Prints ready-to-paste config for Claude Desktop and ChatGPT desktop /
-                    Codex CLI.
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    Claude takes an extension file, Codex and the ChatGPT desktop app a plugin marketplace — both from
+                    their own settings, no terminal, no config file. <code>./scripts/setup-mcp.sh</code> covers every
+                    other client.
                   </Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
-                    Six profiles keep the tool list relevant per chat. Enable one at a time.
+                    Six profiles keep the tool list relevant per chat. Every install defaults to full; scope it later
+                    if you like, one at a time.
                   </Typography>
                   <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
                     {agents.profiles.map((p) => (
@@ -307,7 +308,7 @@ export default function HomePage() {
       {/* Quickstart */}
       <Section
         eyebrow="Get running"
-        title="Four pieces, and only the first is required."
+        title="Three parts, and only the first is required."
         lede="The rest attach whenever you want them."
         maxWidth={640}
       >

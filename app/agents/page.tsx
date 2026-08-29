@@ -57,8 +57,7 @@ export default function AgentsPage() {
                   <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
                     {agents.setup.body}
                   </Typography>
-                  <CodeBlock code={quickstart.mcp} />
-                  <Stack spacing={1.25} sx={{ mt: 2.5 }}>
+                  <Stack spacing={1.25}>
                     {agents.setup.targets.map((t) => (
                       <Stack key={t.client} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
                         {t.auto ? (
@@ -72,6 +71,9 @@ export default function AgentsPage() {
                       </Stack>
                     ))}
                   </Stack>
+                  <Box sx={{ mt: 2.5 }}>
+                    <CodeBlock code={quickstart.mcp} />
+                  </Box>
                   <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
                     {agents.setup.manual}
                   </Typography>

@@ -32,7 +32,7 @@ import { agents, guide, quickstart, site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Install",
   description:
-    "Four pieces and only the first is required: the stack, one API key, the MCP script, the browser extension. Let an agent install it or run the commands yourself, and see what runs with no key at all.",
+    "Three parts and only the first is required: the app, your assistant over MCP, the browser panel. Let an agent install it or run the commands yourself, and see what runs with no key at all.",
 };
 
 const firstBoot = [
@@ -47,8 +47,8 @@ export default function StartPage() {
     <>
       <PageHero
         eyebrow="Install"
-        title="Four pieces. Only the first is required."
-        lede="Everything runs in three containers on your machine. The first build takes several minutes because it installs TeX Live and downloads the pinned embedding model; after that, it is one command."
+        title="Three parts. Only the first is required."
+        lede="Everything runs in three containers on your machine — about a 1 GB download of prebuilt images, one command. Your assistant and the browser panel attach whenever you want them."
       >
         <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", pt: 1 }}>
           <Chip label="Apache-2.0" size="small" variant="outlined" />
@@ -67,7 +67,7 @@ export default function StartPage() {
       <Section tone="raised" eyebrow="The shape of it" title="What a complete setup looks like" maxWidth={620}>
         <Grid container spacing={2.5}>
           {quickstart.pieces.map((p, i) => (
-            <Grid size={{ xs: 12, sm: 6 }} key={p.n}>
+            <Grid size={{ xs: 12, md: 4 }} key={p.n}>
               <Reveal delay={i * 70} sx={{ height: "100%" }}>
                 <Paper sx={{ p: 3, height: "100%", borderRadius: 3 }}>
                   <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
@@ -102,7 +102,7 @@ export default function StartPage() {
           Keeps the #fastest-path anchor the guide deep-links to. */}
       <Section
         id="fastest-path"
-        eyebrow="Step 1"
+        eyebrow="Part 1 · install"
         title="Start the stack"
         lede="Two ways to the same place. Both end with the app running on http://localhost:3000."
         maxWidth={680}
@@ -110,7 +110,7 @@ export default function StartPage() {
         <Reveal>
           <Grid container spacing={2.5} sx={{ mb: { xs: 4, md: 5 } }}>
             {quickstart.prerequisites.map((p) => (
-              <Grid size={{ xs: 12, sm: 4 }} key={p.title}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }} key={p.title}>
                 <Typography variant="body2" sx={{ fontWeight: 700 }}>
                   {p.title}
                 </Typography>
@@ -154,8 +154,8 @@ export default function StartPage() {
                 Or do it yourself
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
-                Three commands and a wait. The first build takes several minutes because it installs TeX Live and
-                downloads the embedding model, once.
+                Three commands and a short download — about 1 GB of prebuilt images. Building from source instead is
+                the contributor path, and the only route that takes several minutes.
               </Typography>
               <CodeBlock code={quickstart.clone} />
               <Alert severity="info" variant="outlined" sx={{ mt: 2.5, borderRadius: 3 }}>
@@ -191,7 +191,7 @@ export default function StartPage() {
           breakdown behind it live on /models. */}
       <Section
         tone="raised"
-        eyebrow="Step 2"
+        eyebrow="Part 1 · the key"
         title="Bring one API key"
         lede="OpenAI or Gemini. Either one alone is a complete setup. You add it in Settings → Models after first boot, not in .env, and a key saved in the app always wins over one in .env."
         maxWidth={720}
@@ -277,9 +277,9 @@ export default function StartPage() {
       {/* Steps 3 and 4 */}
       <Section
         tone="raised"
-        eyebrow="Steps 3 & 4"
+        eyebrow="Parts 2 & 3"
         title="Attach your assistant, and your browser"
-        lede="Both are optional, and both take about a minute."
+        lede="Both are optional, and both take about a minute. Both need Part 1 running."
         maxWidth={640}
       >
         <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
@@ -288,8 +288,7 @@ export default function StartPage() {
               <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
                 MCP for your assistant
               </Typography>
-              <CodeBlock code={quickstart.mcp} />
-              <Stack spacing={1.25} sx={{ mt: 2.5 }}>
+              <Stack spacing={1.25}>
                 {agents.setup.targets.map((t) => (
                   <Stack key={t.client} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
                     {t.auto ? (
@@ -303,6 +302,9 @@ export default function StartPage() {
                   </Stack>
                 ))}
               </Stack>
+              <Box sx={{ mt: 2.5 }}>
+                <CodeBlock code={quickstart.mcp} />
+              </Box>
               <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
                 {agents.setup.manual} {agents.setup.flags}
               </Typography>

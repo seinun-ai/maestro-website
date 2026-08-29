@@ -460,16 +460,16 @@ export const agents = {
     imageAlt: "Claude pulling the whole pipeline over MCP and building its own view of it",
   },
   setup: {
-    title: "One script, then one paste",
-    body: "MCP clients need an absolute path to the server binary, and GUI apps don't inherit your shell PATH. The script handles that: it creates the host venv, reads your backend port out of .env, and registers the server with Claude Code directly.",
+    title: "Installed from your client's settings",
+    body: "The server runs inside the backend container you already started, which is why the two big clients need no terminal, no config file and no host Python: you pick something in their own settings, and the same declaration is correct on every machine.",
     manual:
-      "Claude Desktop and the ChatGPT desktop app / Codex CLI get a ready-to-paste block instead, every path already filled in. Those two you paste yourself, because both config files are shared with your other MCP servers and the script won't edit them behind your back.",
+      "If an install misbehaves, both apps also take a hand-written entry — claude_desktop_config.json for Claude Desktop (quit the app fully first: it rewrites that file on exit and silently drops your edit) or ~/.codex/config.toml for Codex. If the hand-written entry connects, the server is fine and the packaging was the problem.",
     targets: [
-      { client: "Claude Code", how: "Nothing to do. The script writes a repo-level .mcp.json", auto: true },
-      { client: "Claude Desktop", how: "Prints a block for claude_desktop_config.json", auto: false },
-      { client: "ChatGPT desktop / Codex CLI", how: "Prints a block for ~/.codex/config.toml", auto: false },
+      { client: "Claude Desktop & Claude Code", how: "Settings → Extensions → Install Extension → pick mcpb/maestro-career-studio.mcpb inside the cloned folder. One install covers both", auto: true },
+      { client: "Codex / ChatGPT desktop", how: "Settings → Plugins → add seinun-ai/maestro-career-studio as a marketplace, then Install", auto: true },
+      { client: "Cursor, Windsurf, other stdio clients", how: "./scripts/setup-mcp.sh prints a paste-ready block per client — the one route that needs a host Python 3.12+", auto: false },
     ],
-    flags: "Add --profile hunt for a scoped profile, or --print-only to change nothing and just see the config. Quit Claude Desktop before you edit its config. The running app rewrites that file on exit and will silently drop your change.",
+    flags: "Every route defaults to the full profile, and staying there is fine. Scoped profiles are an opt-in trim: the Claude extension's Tool profile field, the MAESTRO_CS_MCP_PROFILE value in a hand-written entry, or --profile hunt on the script. One profile at a time.",
     delegate: {
       title: "Or just ask the assistant to do it",
       body: "Agents that can edit files and run commands are perfectly capable of wiring this up themselves. Run the script with --print-only, hand the output to Claude Code or the Codex CLI, and ask it to add the server to your config. It knows where those files live and it can merge into them without clobbering your other MCP servers.",
@@ -575,25 +575,19 @@ export const quickstart = {
   pieces: [
     {
       n: "1",
-      title: "The stack",
+      title: "The app",
       required: true,
-      body: "One docker compose up -d. Three containers, all on localhost. The first build takes a few minutes because it installs TeX Live and downloads the embedding model.",
+      body: "git clone, then one docker compose up -d — about a 1 GB image download, three containers, all on localhost. Your API key goes in afterwards, inside the app: Settings → Models. OpenAI or Gemini, either alone is a complete setup.",
     },
     {
       n: "2",
-      title: "One API key",
+      title: "Your assistant",
       required: false,
-      body: "Add it in Settings → Models after first boot. OpenAI or Gemini. Either alone is a complete setup. A key saved in the app always wins over one in .env, so pick one place and stay there.",
+      body: "An MCP server, installed from your client's own settings: Claude takes an extension file from the cloned folder, Codex and the ChatGPT desktop app take a plugin marketplace. No terminal, no config file, no host Python.",
     },
     {
       n: "3",
-      title: "MCP for your assistant",
-      required: false,
-      body: "One script registers Claude Code for you and prints ready-to-paste config for Claude Desktop and ChatGPT desktop / Codex CLI.",
-    },
-    {
-      n: "4",
-      title: "The browser extension",
+      title: "The browser panel",
       required: false,
       body: "chrome://extensions → Developer mode → Load unpacked → the repo's extension/ folder. No ID to copy, nothing to configure.",
     },
@@ -602,20 +596,24 @@ export const quickstart = {
 cd maestro-career-studio
 cp .env.example .env
 
-# Recommended: open .env and paste an OPENAI_API_KEY (or GEMINI_API_KEY).
-# The deterministic core runs without one. The AI lanes want one.
+# Downloads prebuilt images, about 1 GB. Your API key comes later,
+# inside the app: Settings -> Models after first boot.
 
-docker compose up -d --build`,
+docker compose up -d`,
   mcp: "./scripts/setup-mcp.sh",
   prerequisites: [
-    { title: "Docker Desktop", body: "Or Docker Engine with Compose v2." },
+    { title: "Docker Desktop", body: "Or Docker Engine with Compose v2. Start it and leave it running." },
     {
-      title: "About 4 GB of disk",
-      body: "Backend ~1.9 GB (it carries a minimal TeX Live, Typst and the embedding model), frontend ~1.6 GB, PostgreSQL ~0.4 GB.",
+      title: "Git",
+      body: "It's how you install, and later update. macOS offers to install it on first use; Windows takes Git for Windows.",
+    },
+    {
+      title: "About a 1 GB download",
+      body: "The three images, compressed. They unpack to roughly 3–4 GB; the backend is the big one, carrying a minimal TeX Live, Typst and the embedding model.",
     },
     {
       title: "One API key, recommended",
-      body: "OpenAI or Gemini. Without one you still get the deterministic core, and over MCP your assistant supplies the model.",
+      body: "OpenAI or Gemini, added in Settings → Models after first boot. Without one you still get the deterministic core, and over MCP your assistant supplies the model.",
     },
   ],
   // Three tiers, not two. The middle one is the easiest to undersell: over MCP
@@ -711,7 +709,7 @@ export const guide = {
     limits: {
       title: "Two things an agent can't do for you",
       items: [
-        "Install and start Docker Desktop. It needs an admin password and a GUI first run.",
+        "Install and start Docker Desktop (and Git). They need an admin password and a GUI first run.",
         "Decide where your API key goes. That one is a judgement call, and it's yours.",
       ],
     },
@@ -735,16 +733,20 @@ export const guide = {
         checkNote: "Any output that ends without an error means you're fine.",
       },
       {
-        title: "About 4 GB of disk",
-        body: "For the three images. The backend carries a minimal TeX Live, Typst and the pinned embedding model, which is most of it.",
+        title: "Git",
+        body: "It's how you install, and later update. macOS offers to install it the first time you run git; Windows takes Git for Windows; Linux has it in the package manager.",
+      },
+      {
+        title: "About a 1 GB download",
+        body: "The three images, compressed; they unpack to roughly 3–4 GB. The backend carries a minimal TeX Live, Typst and the pinned embedding model, which is most of it.",
       },
       {
         title: "An API key, but not yet",
         body: "OpenAI or Gemini. You add it inside the app after first boot, not now. Without one the deterministic core still runs: ATS scoring, PDF rendering, tracking.",
       },
       {
-        title: "Python 3.12+, only for MCP",
-        body: "Needed for the MCP server in step 6. The app itself doesn't need it.",
+        title: "Python 3.12+, rarely",
+        body: "Only the setup-script route in step 6 needs it: Cursor, Windsurf, a backend outside Docker, or scoped profiles. The app and the two big MCP installs don't.",
       },
     ],
   },
@@ -757,9 +759,9 @@ cd maestro-career-studio
 cp .env.example .env`,
     keyNote:
       "Don't put your API key in .env yet. The recommended place is Settings → Models inside the app, after first boot. A key saved in the app always wins over one in .env, so keeping both is how you end up staring at a stale key you forgot about.",
-    up: "docker compose up -d --build",
+    up: "docker compose up -d",
     upNote:
-      "The first build takes several minutes. It installs TeX Live and downloads the embedding model, once. Then open http://localhost:3000.",
+      "That downloads prebuilt images, about 1 GB — a few minutes on a normal connection. Compiling from your own checkout is the contributor path: comment out IMAGE_REGISTRY in .env and run docker compose up -d --build; that first build takes several minutes because it installs TeX Live and downloads the embedding model. Either way, then open http://localhost:3000.",
     firstBoot:
       "First boot starts PostgreSQL on port 55432, runs migrations, and seeds a demo resume with rendered previews. If a key is present, it also builds a demo Career KB from it.",
   },
@@ -841,12 +843,12 @@ cp .env.example .env`,
   mcp: {
     eyebrow: "Step 6",
     title: "Drive it from your assistant",
-    lede: "With the backend running, one command prepares everything. The venv it creates is the server. There's nothing else to install.",
+    lede: "With the backend running, the two big clients install from their own settings — no terminal, no config file, no host Python, because the server runs inside the backend container you already started.",
     cmd: "./scripts/setup-mcp.sh",
     clients: [
-      { name: "Claude Code", body: "Nothing more to do for sessions opened in this repo. The script writes a repo-level .mcp.json and the session offers the server automatically. Approve it when prompted. It registers user-wide too, for sessions elsewhere." },
-      { name: "Claude Desktop", body: "Quit the app first with Cmd+Q. Then Settings → Developer → Edit Config, paste the block the script printed into mcpServers, save, and reopen. Quitting first matters: a running app rewrites that file on exit and will silently drop your edit." },
-      { name: "ChatGPT desktop / Codex CLI", body: "Both read ~/.codex/config.toml. Append the TOML block the script printed, then restart the app." },
+      { name: "Claude — Desktop, and Code inside the Claude app", body: "Settings → Extensions → Install Extension → pick mcpb/maestro-career-studio.mcpb inside the folder you cloned. Leave the fields at their defaults; Tool profile stays full unless you later want a scoped set. One install covers both surfaces." },
+      { name: "Codex / ChatGPT desktop", body: "Settings → Plugins → Add plugin marketplace → seinun-ai/maestro-career-studio, git ref main, sparse paths empty. Then open the Maestro Career Studio entry and press Install." },
+      { name: "Everything else, or when an install misbehaves", body: "The script below prints a paste-ready block per client — Cursor, Windsurf, a backend outside Docker, scoped profiles — and is the one route that needs a host Python 3.12+. Both big apps also accept a hand-written config entry; quit Claude Desktop fully (Cmd+Q) before editing its file, since the running app rewrites it on exit and silently drops your edit." },
     ],
   },
 

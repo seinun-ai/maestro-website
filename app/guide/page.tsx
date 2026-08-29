@@ -217,8 +217,7 @@ export default function GuidePage() {
               <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
                 {guide.mcp.lede}
               </Typography>
-              <CodeBlock code={guide.mcp.cmd} />
-              <Stack spacing={2} sx={{ mt: 2.5 }}>
+              <Stack spacing={2}>
                 {guide.mcp.clients.map((c) => (
                   <Box key={c.name}>
                     <Typography variant="h6" component="h4">
@@ -230,6 +229,9 @@ export default function GuidePage() {
                   </Box>
                 ))}
               </Stack>
+              <Box sx={{ mt: 2.5 }}>
+                <CodeBlock code={guide.mcp.cmd} />
+              </Box>
             </Reveal>
           </Grid>
         </Grid>
