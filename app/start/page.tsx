@@ -23,7 +23,7 @@ import { LinkButton } from "@/components/NextMui";
 import { agents, guide, quickstart } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Install",
+  title: "Get started",
   description:
     "Three parts and only the first is required: the app, your assistant over MCP, the browser panel. Numbered steps for each, the hand-written config fallbacks, and the one-command update.",
 };
@@ -44,7 +44,7 @@ export default function StartPage() {
   return (
     <>
       <PageHero
-        eyebrow="Install"
+        eyebrow="Get started"
         title="Three parts. Only the first is required."
         lede="Everything runs in three containers on your machine — about a 1 GB download of prebuilt images, one command. Your assistant and the browser panel attach whenever you want them."
       >

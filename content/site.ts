@@ -36,12 +36,12 @@ export const site = {
 // Promoted out of the nav row into a filled button in the header. It stays in
 // `nav` so the footer and the sitemap still carry it; only the header treats it
 // specially, and it renders there exactly once.
-export const headerCta = { label: "Install", href: "/start" } as const;
+export const headerCta = { label: "Get started", href: "/start" } as const;
 
 export const nav = [
   { label: "Why & how", href: "/why" },
   { label: "Features", href: "/features" },
-  { label: "Install", href: "/start" },
+  { label: "Get started", href: "/start" },
   { label: "Guide", href: "/guide" },
   { label: "Models", href: "/models" },
   { label: "Agents & MCP", href: "/agents" },
@@ -779,7 +779,7 @@ export const guide = {
   hero: {
     eyebrow: "The guide",
     title: "Your first hour, once it's running.",
-    lede: "Installing lives on the Install page. This is everything after: find your way around, run one real application through it in the order that works, work postings from the browser panel, and drive the whole loop from your assistant.",
+    lede: "Installing lives on the Get started page. This is everything after: find your way around, run one real application through it in the order that works, work postings from the browser panel, and drive the whole loop from your assistant.",
   },
 
   agentPath: {
@@ -846,7 +846,7 @@ export const guide = {
   extension: {
     eyebrow: "The browser panel",
     title: "Working a posting from the side panel",
-    lede: "Installed in Part 3 of the Install page. On a job page the panel walks one ladder, and each stage opens when the one before it has an answer — so it always shows the next thing worth doing.",
+    lede: "Installed in Part 3 of the Get started page. On a job page the panel walks one ladder, and each stage opens when the one before it has an answer — so it always shows the next thing worth doing.",
     flow: [
       { t: "Job", b: "Capture the posting in front of you. Captures dedup against what you already track, so saving twice is safe." },
       { t: "Score", b: "Every base resume scored against it, deterministically, without leaving the tab." },
@@ -860,7 +860,7 @@ export const guide = {
   mcp: {
     eyebrow: "Your assistant",
     title: "Driving it over MCP",
-    lede: "Registering the server is Part 2 of the Install page. Once it's there, your assistant can run the whole loop by conversation — the useful skill is knowing what to ask for.",
+    lede: "Registering the server is Part 2 of the Get started page. Once it's there, your assistant can run the whole loop by conversation — the useful skill is knowing what to ask for.",
     ideas: [
       { t: "Work a posting end to end", b: "Paste a link or the JD text into chat: capture it, score it against every base, walk the gaps, tailor, and render the PDF — all by asking." },
       { t: "Keep the record current", b: "Hand it a new resume or paste a review's wins: it drafts KB points, you approve them, and they compose into every future document." },
