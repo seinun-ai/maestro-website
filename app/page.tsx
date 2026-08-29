@@ -215,8 +215,8 @@ export default function HomePage() {
                     {agents.setup.title}
                   </Typography>
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    Claude takes an extension file, Codex and the ChatGPT desktop app a plugin marketplace — both from
-                    their own settings, no terminal, no config file. <code>./scripts/setup-mcp.sh</code> covers every
+                    Claude takes an extension file, Codex and the ChatGPT desktop app a plugin marketplace. Both install
+                    from their own settings: no terminal, no config file. <code>./scripts/setup-mcp.sh</code> covers every
                     other client.
                   </Typography>
                 </Box>

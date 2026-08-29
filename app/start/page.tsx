@@ -46,7 +46,7 @@ export default function StartPage() {
       <PageHero
         eyebrow="Get started"
         title="Three parts. Only the first is required."
-        lede="Everything runs in three containers on your machine — about a 1 GB download of prebuilt images, one command. Your assistant and the browser panel attach whenever you want them."
+        lede="Everything runs in three containers on your machine: about a 1 GB download of prebuilt images, one command. Your assistant and the browser panel attach whenever you want them."
       >
         <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", pt: 1 }}>
           <Chip label="Apache-2.0" size="small" variant="outlined" />
@@ -208,7 +208,7 @@ export default function StartPage() {
         tone="raised"
         eyebrow="Part 2 · optional"
         title="Attach your assistant (MCP)"
-        lede="Two paths, both from the client's own settings — no terminal, no config file, no host Python, because the server runs inside the backend container Part 1 started."
+        lede="Two paths, both from the client's own settings. No terminal, no config file, no host Python: the server runs inside the backend container Part 1 started."
         maxWidth={720}
       >
         <Grid container spacing={2.5}>
@@ -247,7 +247,7 @@ export default function StartPage() {
         <Reveal>
           <TintPaper sx={{ p: 3, borderRadius: 3, mt: 3 }}>
             <Typography variant="h6" component="h3" sx={{ mb: 0.75 }}>
-              Six profiles — full by default, scoped when you customize
+              Six profiles: full by default, scoped when you customize
             </Typography>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
               {agents.setup.profilesNote}

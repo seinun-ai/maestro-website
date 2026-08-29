@@ -21,7 +21,7 @@ import { painPoints, steps, whyClose, whyIntro } from "@/content/site";
 export const metadata: Metadata = {
   title: "Why, and how it works",
   description:
-    "Eleven specific pains a job search actually has, what answers each one, and the five-step loop underneath — evidence, base resume, application, typeset PDF — with real captures at each step.",
+    "Eleven specific pains a job search actually has, what answers each one, and the five-step loop underneath it: evidence, base resume, application, typeset PDF, with real captures at each step.",
 };
 
 export default function WhyPage() {

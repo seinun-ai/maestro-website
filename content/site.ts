@@ -8,8 +8,10 @@
  * MCP the client agent supplies the model. Local model servers are
  * "configurable but untested". Never claim "fully offline" anywhere.
  *
- * Voice: short sentences, concrete nouns, second person. No em-dash pile-ups,
- * no "not X but Y" scaffolding, no throat-clearing.
+ * Voice: short sentences, concrete nouns, second person. NO EM DASHES in
+ * rendered copy, ever (readers filter AI text by them, and the product scrubs
+ * them from its own output); en dashes in numeric ranges are fine. No
+ * "not X but Y" scaffolding, no throat-clearing.
  */
 
 export const site = {
@@ -462,17 +464,17 @@ export const agents = {
     title: "Installed from your client's settings",
     body: "The server runs inside the backend container you already started, which is why the two big clients need no terminal, no config file and no host Python: you pick something in their own settings, and the same declaration is correct on every machine.",
     manual:
-      "If an install misbehaves, both apps also take a hand-written entry — claude_desktop_config.json for Claude Desktop (quit the app fully first: it rewrites that file on exit and silently drops your edit) or ~/.codex/config.toml for Codex. If the hand-written entry connects, the server is fine and the packaging was the problem.",
+      "If an install misbehaves, both apps also take a hand-written entry: claude_desktop_config.json for Claude Desktop (quit the app fully first: it rewrites that file on exit and silently drops your edit) or ~/.codex/config.toml for Codex. If the hand-written entry connects, the server is fine and the packaging was the problem.",
     targets: [
       { client: "Claude Desktop & Claude Code", how: "Settings → Extensions → Install Extension → pick mcpb/maestro-career-studio.mcpb inside the cloned folder. One install covers both", auto: true },
       { client: "Codex / ChatGPT desktop", how: "Settings → Plugins → add seinun-ai/maestro-career-studio as a marketplace, then Install", auto: true },
-      { client: "Cursor, Windsurf, other stdio clients", how: "./scripts/setup-mcp.sh prints a paste-ready block per client — the one route that needs a host Python 3.12+", auto: false },
+      { client: "Cursor, Windsurf, other stdio clients", how: "./scripts/setup-mcp.sh prints a paste-ready block per client, the one route that needs a host Python 3.12+", auto: false },
     ],
     flags: "Every route defaults to the full profile, and staying there is fine. Scoped profiles are an opt-in trim: the Claude extension's Tool profile field, the MAESTRO_CS_MCP_PROFILE value in a hand-written entry, or --profile hunt on the script. One profile at a time.",
     paths: [
       {
         name: "Claude",
-        covers: "Claude Desktop, and Claude Code inside the Claude app — one install covers both",
+        covers: "Claude Desktop, and Claude Code inside the Claude app. One install covers both",
         steps: [
           "Settings → Extensions → Install Extension",
           "Pick mcpb/maestro-career-studio.mcpb inside the folder Part 1 created",
@@ -492,13 +494,13 @@ export const agents = {
       },
     ],
     profilesNote:
-      "Both installs load all 83 tools — the full profile, and the right default. The five scoped trims (hunt, apply, explore, templates, career) are a customization you add by editing the config directly: change MAESTRO_CS_MCP_PROFILE in the JSON or TOML below, or set the Claude extension's Tool profile field. One profile at a time.",
+      "Both installs load all 83 tools: the full profile, and the right default. The five scoped trims (hunt, apply, explore, templates, career) are a customization you add by editing the config directly: change MAESTRO_CS_MCP_PROFILE in the JSON or TOML below, or set the Claude extension's Tool profile field. One profile at a time.",
     fallback: {
       title: "If an install misbehaves, write the config by hand",
       body: "Both apps read a plain config file, and a hand-written entry always works: if it connects, the server is fine and the packaging was the problem. Both entries run the server inside the backend container, so neither needs a host Python.",
       claude: {
         title: "Claude Desktop · claude_desktop_config.json",
-        note: "Fully quit Claude first (Cmd+Q — closing the window is not enough): the running app rewrites this file on exit and silently drops your edit. Reach it via Settings → Developer → Edit Config, add the entry under mcpServers, save, reopen.",
+        note: "Fully quit Claude first (Cmd+Q; closing the window is not enough): the running app rewrites this file on exit and silently drops your edit. Reach it via Settings → Developer → Edit Config, add the entry under mcpServers, save, reopen.",
         code: `"maestro-career-studio": {
   "command": "docker",
   "args": ["exec", "-i",
@@ -522,7 +524,7 @@ enabled = true`,
       },
     },
     otherClients:
-      "Cursor, Windsurf, another stdio client, or a backend outside Docker? ./scripts/setup-mcp.sh prints a paste-ready block per client — the one route that needs a host Python 3.12+.",
+      "Cursor, Windsurf, another stdio client, or a backend outside Docker? ./scripts/setup-mcp.sh prints a paste-ready block per client, the one route that needs a host Python 3.12+.",
     delegate: {
       title: "Or just ask the assistant to do it",
       body: "Agents that can edit files and run commands are perfectly capable of wiring this up themselves. Run the script with --print-only, hand the output to Claude Code or the Codex CLI, and ask it to add the server to your config. It knows where those files live and it can merge into them without clobbering your other MCP servers.",
@@ -630,7 +632,7 @@ export const quickstart = {
       n: "1",
       title: "The app",
       required: true,
-      body: "git clone, then one docker compose up -d — about a 1 GB image download, three containers, all on localhost. Your API key goes in afterwards, inside the app: Settings → Models. OpenAI or Gemini, either alone is a complete setup.",
+      body: "git clone, then one docker compose up -d: about a 1 GB image download, three containers, all on localhost. Your API key goes in afterwards, inside the app: Settings → Models. OpenAI or Gemini, either alone is a complete setup.",
     },
     {
       n: "2",
@@ -657,7 +659,7 @@ docker compose up -d`,
   appSteps: [
     {
       t: "Clone and start",
-      b: "Three commands. The images arrive prebuilt — about a 1 GB download, a few minutes on a normal connection.",
+      b: "Three commands. The images arrive prebuilt: about a 1 GB download, a few minutes on a normal connection.",
     },
     {
       t: "Open the app",
@@ -846,11 +848,11 @@ export const guide = {
   extension: {
     eyebrow: "The browser panel",
     title: "Working a posting from the side panel",
-    lede: "Installed in Part 3 of the Get started page. On a job page the panel walks one ladder, and each stage opens when the one before it has an answer — so it always shows the next thing worth doing.",
+    lede: "Installed in Part 3 of the Get started page. On a job page the panel walks one ladder, and each stage opens when the one before it has an answer, so it always shows the next thing worth doing.",
     flow: [
       { t: "Job", b: "Capture the posting in front of you. Captures dedup against what you already track, so saving twice is safe." },
       { t: "Score", b: "Every base resume scored against it, deterministically, without leaving the tab." },
-      { t: "Resume", b: "Pick the base to send — or tailor on the spot and render the PDF right there." },
+      { t: "Resume", b: "Pick the base to send, or tailor on the spot and render the PDF right there." },
       { t: "Fill", b: "Fill the application form from your Autofill Profile. Signatures, credentials, government IDs and consent boxes sit on a deny-list the fill never touches; navigation and submit stay yours." },
       { t: "Track", b: "Mark it applied before you close the tab, and the tracker row is already there when you get back to the app." },
     ],
@@ -860,9 +862,9 @@ export const guide = {
   mcp: {
     eyebrow: "Your assistant",
     title: "Driving it over MCP",
-    lede: "Registering the server is Part 2 of the Get started page. Once it's there, your assistant can run the whole loop by conversation — the useful skill is knowing what to ask for.",
+    lede: "Registering the server is Part 2 of the Get started page. Once it's there, your assistant can run the whole loop by conversation. The useful skill is knowing what to ask for.",
     ideas: [
-      { t: "Work a posting end to end", b: "Paste a link or the JD text into chat: capture it, score it against every base, walk the gaps, tailor, and render the PDF — all by asking." },
+      { t: "Work a posting end to end", b: "Paste a link or the JD text into chat: capture it, score it against every base, walk the gaps, tailor, and render the PDF, all by asking." },
       { t: "Keep the record current", b: "Hand it a new resume or paste a review's wins: it drafts KB points, you approve them, and they compose into every future document." },
       { t: "Ask the market questions", b: "The explore tools answer things like \"what keeps coming up in the jobs I save that I'm not showing?\" from your own captured postings." },
     ],

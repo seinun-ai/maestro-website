@@ -131,7 +131,7 @@ export default function GuidePage() {
         <Reveal>
           <TintPaper sx={{ mt: { xs: 4, md: 5 }, p: { xs: 3, md: 3.5 }, borderRadius: 4, maxWidth: 820 }}>
             <Typography variant="body1" sx={{ color: "text.secondary" }}>
-              The mechanics behind all three — the proposal ledger, the consent gate, and the risks stated plainly —
+              The mechanics behind all three (the proposal ledger, the consent gate, the risks stated plainly)
               live on the Agents page.
             </Typography>
             <LinkButton href="/agents" endIcon={<ArrowForwardIcon />} sx={{ px: 0, mt: 1.5 }}>
