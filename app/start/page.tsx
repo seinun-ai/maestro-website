@@ -1,46 +1,44 @@
 import * as React from "react";
 import type { Metadata } from "next";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
+import Divider from "@mui/material/Divider";
 import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
-import PauseIcon from "@mui/icons-material/PauseCircleOutlined";
-import TerminalIcon from "@mui/icons-material/TerminalOutlined";
-import ContentPasteIcon from "@mui/icons-material/ContentPasteOutlined";
 import BlockIcon from "@mui/icons-material/BlockOutlined";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
 import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
-import MakerNote from "@/components/MakerNote";
-import GitHubMark from "@/components/GitHubMark";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
-import OnThisPage from "@/components/OnThisPage";
-import { agents, guide, quickstart, site } from "@/content/site";
+import { agents, guide, quickstart } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Install",
   description:
-    "Three parts and only the first is required: the app, your assistant over MCP, the browser panel. Let an agent install it or run the commands yourself, and see what runs with no key at all.",
+    "Three parts and only the first is required: the app, your assistant over MCP, the browser panel. Numbered steps for each, the hand-written config fallbacks, and the one-command update.",
 };
 
-const firstBoot = [
-  "Launches PostgreSQL on host port 55432, chosen to dodge any Postgres you already run",
-  "Runs database migrations via Alembic",
-  "Seeds demonstration base resumes, compiles initial PDF previews, and seeds the default AI prompts",
-  "Serves the UI on 127.0.0.1:3000 and the API on 127.0.0.1:8001",
-];
+/** The rail number every step on this page wears. */
+function StepNumber({ n }: { n: number }) {
+  return (
+    <Chip
+      label={n}
+      size="small"
+      color="primary"
+      sx={{ fontFamily: "var(--font-mono)", fontWeight: 700, minWidth: 30, flexShrink: 0 }}
+    />
+  );
+}
 
 export default function StartPage() {
   return (
@@ -58,12 +56,7 @@ export default function StartPage() {
         </Stack>
       </PageHero>
 
-      <Container sx={{ pt: { xs: 4, md: 5 } }}>
-        <OnThisPage />
-      </Container>
-
-      {/* What you are installing comes before how to install it: the reader
-          needs to know what an agent would be doing on their behalf. */}
+      {/* The map before the territory: three cards, one required. */}
       <Section tone="raised" eyebrow="The shape of it" title="What a complete setup looks like" maxWidth={620}>
         <Grid container spacing={2.5}>
           {quickstart.pieces.map((p, i) => (
@@ -98,13 +91,12 @@ export default function StartPage() {
         </Grid>
       </Section>
 
-      {/* Step 1: one step, two ways to do it, presented as an actual choice.
-          Keeps the #fastest-path anchor the guide deep-links to. */}
+      {/* Part 1: the numbered rail, with the agent path beside it. */}
       <Section
         id="fastest-path"
-        eyebrow="Part 1 · install"
-        title="Start the stack"
-        lede="Two ways to the same place. Both end with the app running on http://localhost:3000."
+        eyebrow="Part 1 · required"
+        title="Install the app"
+        lede="Three steps, in order. Before you start, you need exactly two tools and one download's worth of patience."
         maxWidth={680}
       >
         <Reveal>
@@ -123,16 +115,67 @@ export default function StartPage() {
         </Reveal>
 
         <Grid container spacing={{ xs: 4, md: 4 }} sx={{ alignItems: "flex-start" }}>
-          <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 7 }}>
             <Reveal>
-              <Typography variant="h4" component="h3" sx={{ mb: 1 }}>
-                {guide.agentPath.title}
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
-                {guide.agentPath.body}
-              </Typography>
-              <CodeBlock code={guide.agentPath.prompt} label="paste into your agent" wrap />
-              <TintPaper tone="warning" sx={{ p: 2.5, borderRadius: 3, mt: 2.5 }}>
+              <Stack spacing={3.5}>
+                <Stack direction="row" spacing={2} sx={{ alignItems: "flex-start" }}>
+                  <StepNumber n={1} />
+                  <Box sx={{ minWidth: 0, flex: 1 }}>
+                    <Typography variant="h5" component="h3" sx={{ mb: 0.5 }}>
+                      {quickstart.appSteps[0].t}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
+                      {quickstart.appSteps[0].b}
+                    </Typography>
+                    <CodeBlock code={quickstart.clone} />
+                  </Box>
+                </Stack>
+                <Stack direction="row" spacing={2} sx={{ alignItems: "flex-start" }}>
+                  <StepNumber n={2} />
+                  <Box>
+                    <Typography variant="h5" component="h3" sx={{ mb: 0.5 }}>
+                      {quickstart.appSteps[1].t}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                      {quickstart.appSteps[1].b}
+                    </Typography>
+                  </Box>
+                </Stack>
+                <Stack direction="row" spacing={2} sx={{ alignItems: "flex-start" }}>
+                  <StepNumber n={3} />
+                  <Box>
+                    <Typography variant="h5" component="h3" sx={{ mb: 0.5 }}>
+                      {quickstart.appSteps[2].t}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                      {quickstart.appSteps[2].b}{" "}
+                      <LinkButton href="/models" size="small" sx={{ px: 0, verticalAlign: "baseline" }}>
+                        Which key, and what it costs
+                      </LinkButton>
+                    </Typography>
+                  </Box>
+                </Stack>
+              </Stack>
+              <Alert severity="info" variant="outlined" sx={{ mt: 3, borderRadius: 3 }}>
+                <AlertTitle sx={{ fontWeight: 700 }}>Port already allocated?</AlertTitle>
+                All three host ports are overridable in <code>.env</code>: <code>BACKEND_HOST_PORT</code> (8001),{" "}
+                <code>FRONTEND_HOST_PORT</code> (3000) and <code>POSTGRES_HOST_PORT</code> (55432). Only the host side
+                of the mapping moves.
+              </Alert>
+            </Reveal>
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Reveal delay={80}>
+              <TintPaper sx={{ p: 3, borderRadius: 3 }}>
+                <Typography variant="h5" component="h3" sx={{ mb: 1 }}>
+                  {guide.agentPath.title}
+                </Typography>
+                <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
+                  {guide.agentPath.body}
+                </Typography>
+                <CodeBlock code={guide.agentPath.prompt} label="paste into your agent" wrap />
+                <Divider sx={{ my: 2 }} />
                 <Typography variant="h6" component="h4" sx={{ mb: 1.25 }}>
                   {guide.agentPath.limits.title}
                 </Typography>
@@ -147,228 +190,190 @@ export default function StartPage() {
               </TintPaper>
             </Reveal>
           </Grid>
+        </Grid>
+      </Section>
 
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Reveal delay={80}>
-              <Typography variant="h4" component="h3" sx={{ mb: 1 }}>
-                Or do it yourself
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
-                Three commands and a short download — about 1 GB of prebuilt images. Building from source instead is
-                the contributor path, and the only route that takes several minutes.
-              </Typography>
-              <CodeBlock code={quickstart.clone} />
-              <Alert severity="info" variant="outlined" sx={{ mt: 2.5, borderRadius: 3 }}>
-                <AlertTitle sx={{ fontWeight: 700 }}>Port already allocated?</AlertTitle>
-                All three host ports are overridable in <code>.env</code>: <code>BACKEND_HOST_PORT</code> (8001),{" "}
-                <code>FRONTEND_HOST_PORT</code> (3000) and <code>POSTGRES_HOST_PORT</code> (55432). Only the host side of
-                the mapping moves; the containers keep their internal ports.
-              </Alert>
-            </Reveal>
-          </Grid>
+      {/* Part 2: two client-native paths, profiles as a config customization,
+          and the hand-written fallbacks in full. The setup script is a footnote. */}
+      <Section
+        tone="raised"
+        eyebrow="Part 2 · optional"
+        title="Attach your assistant (MCP)"
+        lede="Two paths, both from the client's own settings — no terminal, no config file, no host Python, because the server runs inside the backend container Part 1 started."
+        maxWidth={720}
+      >
+        <Grid container spacing={2.5}>
+          {agents.setup.paths.map((path, i) => (
+            <Grid size={{ xs: 12, md: 6 }} key={path.name}>
+              <Reveal delay={i * 70} sx={{ height: "100%" }}>
+                <Paper sx={{ p: 3, height: "100%", borderRadius: 3 }}>
+                  <Typography variant="h5" component="h3" sx={{ mb: 0.5 }}>
+                    {path.name}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
+                    {path.covers}
+                  </Typography>
+                  <Stack spacing={1.5}>
+                    {path.steps.map((s, j) => (
+                      <Stack key={s} direction="row" spacing={1.5} sx={{ alignItems: "flex-start" }}>
+                        <Chip
+                          label={j + 1}
+                          size="small"
+                          variant="outlined"
+                          sx={{ fontFamily: "var(--font-mono)", flexShrink: 0 }}
+                        />
+                        <Typography variant="body2">{s}</Typography>
+                      </Stack>
+                    ))}
+                  </Stack>
+                  <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
+                    {path.note}
+                  </Typography>
+                </Paper>
+              </Reveal>
+            </Grid>
+          ))}
         </Grid>
 
         <Reveal>
-          <Box sx={{ mt: { xs: 5, md: 6 } }}>
-            <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
-              Either way, on first boot Docker will:
+          <TintPaper sx={{ p: 3, borderRadius: 3, mt: 3 }}>
+            <Typography variant="h6" component="h3" sx={{ mb: 0.75 }}>
+              Six profiles — full by default, scoped when you customize
             </Typography>
-            <Grid container spacing={2}>
-              {firstBoot.map((f) => (
-                <Grid size={{ xs: 12, sm: 6 }} key={f}>
-                  <Stack direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
-                    <CheckIcon sx={{ fontSize: 19, color: "primary.main", mt: "2px", flexShrink: 0 }} />
-                    <Typography variant="body2">{f}</Typography>
-                  </Stack>
-                </Grid>
-              ))}
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              {agents.setup.profilesNote}
+            </Typography>
+          </TintPaper>
+        </Reveal>
+
+        <Reveal>
+          <Box sx={{ mt: { xs: 5, md: 6 } }}>
+            <Typography variant="h4" component="h3" sx={{ mb: 1 }}>
+              {agents.setup.fallback.title}
+            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary", mb: 3, maxWidth: 760 }}>
+              {agents.setup.fallback.body}
+            </Typography>
+            <Grid container spacing={2.5}>
+              <Grid size={{ xs: 12, md: 6 }}>
+                <Typography variant="h6" component="h4" sx={{ mb: 1 }}>
+                  {agents.setup.fallback.claude.title}
+                </Typography>
+                <CodeBlock code={agents.setup.fallback.claude.code} label="add under mcpServers" />
+                <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                  {agents.setup.fallback.claude.note}
+                </Typography>
+              </Grid>
+              <Grid size={{ xs: 12, md: 6 }}>
+                <Typography variant="h6" component="h4" sx={{ mb: 1 }}>
+                  {agents.setup.fallback.codex.title}
+                </Typography>
+                <CodeBlock code={agents.setup.fallback.codex.code} label="append to the file" />
+                <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                  {agents.setup.fallback.codex.note}
+                </Typography>
+              </Grid>
             </Grid>
+            <Typography variant="body2" sx={{ color: "text.secondary", mt: 3 }}>
+              {agents.setup.otherClients}{" "}
+              <LinkButton href="/agents" size="small" sx={{ px: 0, verticalAlign: "baseline" }}>
+                What agents can do with it
+              </LinkButton>
+            </Typography>
           </Box>
         </Reveal>
       </Section>
 
-      {/* Step 2 is a decision, not a procedure. The profiles and the cost
-          breakdown behind it live on /models. */}
+      {/* Part 3: three clicks. */}
       <Section
-        tone="raised"
-        eyebrow="Part 1 · the key"
-        title="Bring one API key"
-        lede="OpenAI or Gemini. Either one alone is a complete setup. You add it in Settings → Models after first boot, not in .env, and a key saved in the app always wins over one in .env."
-        maxWidth={720}
-      >
-        <Reveal>
-          <TintPaper sx={{ p: { xs: 3, md: 4 }, borderRadius: 4, maxWidth: 720 }}>
-            <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
-              About a penny a tailored application.
-            </Typography>
-            <Typography variant="body1" sx={{ color: "text.secondary" }}>
-              Measured with Langfuse on real postings at list prices, on the profile a fresh install ships with. The two
-              benchmarked profiles, the per-operation token split and the local-model position are all on one page.
-            </Typography>
-            <LinkButton href="/models" variant="contained" endIcon={<ArrowForwardIcon />} sx={{ mt: 3 }}>
-              Models and cost
-            </LinkButton>
-          </TintPaper>
-        </Reveal>
-      </Section>
-
-      {/* No key */}
-      <Section
-        eyebrow="No key yet?"
-        title={quickstart.keyless.title}
-        lede="Three tiers, and only the last one actually wants a key. The deterministic core never calls a model at all, and over MCP your assistant is the model."
-        maxWidth={720}
-      >
-        <Grid container spacing={3}>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Reveal sx={{ height: "100%" }}>
-              <TintPaper tone="success" sx={{ p: 3.5, height: "100%", borderRadius: 3 }}>
-                <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
-                  Works immediately, no key
-                </Typography>
-                <Stack spacing={1.5}>
-                  {quickstart.keyless.works.map((w) => (
-                    <Stack key={w} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
-                      <CheckIcon sx={{ fontSize: 19, color: "success.main", mt: "2px", flexShrink: 0 }} />
-                      <Typography variant="body2">{w}</Typography>
-                    </Stack>
-                  ))}
-                </Stack>
-              </TintPaper>
-            </Reveal>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Reveal delay={80} sx={{ height: "100%" }}>
-              <TintPaper sx={{ p: 3.5, height: "100%", borderRadius: 3 }}>
-                <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
-                  No key, over MCP
-                </Typography>
-                <Stack spacing={1.5}>
-                  {quickstart.keyless.overMcp.map((m) => (
-                    <Stack key={m} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
-                      <TerminalIcon sx={{ fontSize: 19, color: "primary.main", mt: "2px", flexShrink: 0 }} />
-                      <Typography variant="body2">{m}</Typography>
-                    </Stack>
-                  ))}
-                </Stack>
-              </TintPaper>
-            </Reveal>
-          </Grid>
-          <Grid size={{ xs: 12, md: 4 }}>
-            <Reveal delay={160} sx={{ height: "100%" }}>
-              <Paper sx={{ p: 3.5, height: "100%", borderRadius: 3 }}>
-                <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
-                  Wants a key
-                </Typography>
-                <Stack spacing={1.5}>
-                  {quickstart.keyless.wantsKey.map((d) => (
-                    <Stack key={d} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
-                      <PauseIcon sx={{ fontSize: 19, color: "text.secondary", mt: "2px", flexShrink: 0 }} />
-                      <Typography variant="body2">{d}</Typography>
-                    </Stack>
-                  ))}
-                </Stack>
-              </Paper>
-            </Reveal>
-          </Grid>
-        </Grid>
-      </Section>
-
-      {/* Steps 3 and 4 */}
-      <Section
-        tone="raised"
-        eyebrow="Parts 2 & 3"
-        title="Attach your assistant, and your browser"
-        lede="Both are optional, and both take about a minute. Both need Part 1 running."
-        maxWidth={640}
+        eyebrow="Part 3 · optional"
+        title="The browser panel"
+        lede="A Chrome side panel: capture the posting in front of you and fill forms from your autofill profile. Unrelated to Part 2, despite the shared word “extension”."
+        maxWidth={680}
       >
         <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
           <Grid size={{ xs: 12, md: 6 }}>
             <Reveal>
-              <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
-                MCP for your assistant
-              </Typography>
-              <Stack spacing={1.25}>
-                {agents.setup.targets.map((t) => (
-                  <Stack key={t.client} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
-                    {t.auto ? (
-                      <CheckIcon sx={{ fontSize: 18, color: "success.main", mt: "3px", flexShrink: 0 }} />
-                    ) : (
-                      <ContentPasteIcon sx={{ fontSize: 18, color: "text.secondary", mt: "3px", flexShrink: 0 }} />
-                    )}
-                    <Typography variant="body2">
-                      <strong>{t.client}</strong> · {t.how}
-                    </Typography>
-                  </Stack>
-                ))}
-              </Stack>
-              <Box sx={{ mt: 2.5 }}>
-                <CodeBlock code={quickstart.mcp} />
-              </Box>
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
-                {agents.setup.manual} {agents.setup.flags}
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
-                <strong>Or skip the pasting.</strong> {guide.agentPath.second}
-              </Typography>
-              <CodeBlock code={guide.agentPath.secondPrompt} label="paste into your agent" wrap />
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
-                It knows where those config files live and can merge into them without clobbering your other MCP
-                servers.{" "}
-                <LinkButton href="/agents" size="small" sx={{ px: 0, verticalAlign: "baseline" }}>
-                  More on delegating this
-                </LinkButton>
-              </Typography>
-              <LinkButton href="/agents" sx={{ px: 0, mt: 1 }}>
-                What agents can do with it
-              </LinkButton>
-            </Reveal>
-          </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Reveal delay={80}>
-              <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
-                The browser extension
-              </Typography>
               <Paper sx={{ p: 3, borderRadius: 3 }}>
                 <Stack spacing={1.5}>
                   {[
-                    "Open chrome://extensions",
-                    "Turn on Developer mode",
+                    "Open chrome://extensions and turn on Developer mode",
                     "Load unpacked → the repo's extension/ folder",
+                    "Pin the icon, then click it on any job page",
                   ].map((s, i) => (
                     <Stack key={s} direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
                       <Chip label={i + 1} size="small" variant="outlined" sx={{ fontFamily: "var(--font-mono)" }} />
-                      <Typography variant="body2" sx={{ fontFamily: i === 0 ? "var(--font-mono)" : undefined }}>
-                        {s}
-                      </Typography>
+                      <Typography variant="body2">{s}</Typography>
                     </Stack>
                   ))}
                 </Stack>
               </Paper>
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
+            </Reveal>
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Reveal delay={80}>
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <strong>No ID to copy, nothing to configure.</strong> The extension pins its identity, so the backend
-                already allowlists it out of the box.
+                already allowlists it out of the box. If you changed the ports in <code>.env</code>, set the backend
+                and app URLs under the panel&apos;s <code>⋯</code> menu.
               </Typography>
             </Reveal>
           </Grid>
         </Grid>
       </Section>
 
-      {/* Known issues */}
+      {/* Updating: the fourth thing a reader needs from an install page. */}
+      <Section
+        tone="raised"
+        eyebrow="Stay current"
+        title="Updating is one command"
+        lede="Run it from the folder you cloned. It backs up the database, moves your checkout to the newest release, brings the images to that same version, and waits until the stack is healthy again."
+        maxWidth={720}
+      >
+        <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Reveal>
+              <CodeBlock code={quickstart.update} />
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                <code>--check</code> changes nothing and answers only: am I up to date? On Windows, run it under WSL.
+              </Typography>
+            </Reveal>
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Reveal delay={80}>
+              <Stack spacing={2}>
+                {guide.updating.facts.map((f) => (
+                  <Stack key={f.t} direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
+                    <CheckIcon sx={{ fontSize: 19, color: "primary.main", mt: "3px", flexShrink: 0 }} />
+                    <Box>
+                      <Typography variant="h6" component="h3">
+                        {f.t}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                        {f.b}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                ))}
+              </Stack>
+            </Reveal>
+          </Grid>
+        </Grid>
+      </Section>
+
+      {/* The one place this page sends you next. */}
       <Section
         eyebrow="Then what?"
         title="The guide walks you through the first hour."
-        lede="This page is the decision: what you need, what it costs, what runs without a key. The guide is the doing: install, first boot, the order to set things up in, and how to keep it updated. It assumes no Docker or terminal experience."
+        lede="This page installs it. The guide is the doing: the order to set things up in, a symptom-to-fix table for first-boot errors, and your first application end to end."
         maxWidth={700}
       >
         <Reveal>
           <TintPaper sx={{ p: { xs: 3, md: 4 }, borderRadius: 4, maxWidth: 900 }}>
             <Grid container spacing={2.5}>
               {[
-                ["Let an agent install it", "Paste one prompt into Claude Code or Codex and it clones, configures and starts the stack."],
                 ["Your first session, in order", "Eleven steps from importing resumes to tracking the application. The order is the point."],
                 ["When something breaks", "A symptom-to-fix table for the errors a first boot actually produces."],
-                ["Keeping it up to date", "One command that backs up, moves your checkout to the newest release, and waits for healthy."],
               ].map(([t, b]) => (
                 <Grid size={{ xs: 12, sm: 6 }} key={t}>
                   <Typography variant="h6" component="h3">
@@ -387,46 +392,6 @@ export default function StartPage() {
         </Reveal>
       </Section>
 
-      <Section eyebrow="Early software" title={quickstart.freshInstall.title} maxWidth={640}>
-        <Reveal>
-          <Stack spacing={3} sx={{ maxWidth: 820 }}>
-            <Typography variant="body1" sx={{ color: "text.secondary" }}>
-              {quickstart.freshInstall.body}
-            </Typography>
-            <Typography variant="body1" sx={{ color: "text.secondary" }}>
-              <code>KNOWN_ISSUES.md</code> is the map: what is solid, what is rough, what is a deliberate limitation
-              rather than a defect, and the specific gaps worth picking up. Several things in there look like bugs and
-              are recorded decisions.
-            </Typography>
-            <Typography variant="body1" sx={{ color: "text.secondary" }}>
-              Contribution fast-path: docs fixes, resume and cover-letter templates, and extension job-board adapters go
-              straight to PR, no issue needed. Features and architecture changes: open an issue first. Every PR gets a
-              human first response within 48 hours.
-            </Typography>
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
-              <Button
-                href={`${site.repo}/blob/main/KNOWN_ISSUES.md`}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="contained"
-                startIcon={<GitHubMark />}
-              >
-                KNOWN_ISSUES.md
-              </Button>
-              <Button
-                href={`${site.repo}/blob/main/CONTRIBUTING.md`}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outlined"
-              >
-                Contributing guide
-              </Button>
-            </Stack>
-          </Stack>
-        </Reveal>
-      </Section>
-
-      <MakerNote />
       <CtaBand />
     </>
   );

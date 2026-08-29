@@ -470,6 +470,60 @@ export const agents = {
       { client: "Cursor, Windsurf, other stdio clients", how: "./scripts/setup-mcp.sh prints a paste-ready block per client — the one route that needs a host Python 3.12+", auto: false },
     ],
     flags: "Every route defaults to the full profile, and staying there is fine. Scoped profiles are an opt-in trim: the Claude extension's Tool profile field, the MAESTRO_CS_MCP_PROFILE value in a hand-written entry, or --profile hunt on the script. One profile at a time.",
+    paths: [
+      {
+        name: "Claude",
+        covers: "Claude Desktop, and Claude Code inside the Claude app — one install covers both",
+        steps: [
+          "Settings → Extensions → Install Extension",
+          "Pick mcpb/maestro-career-studio.mcpb inside the folder Part 1 created",
+          "Leave the fields at their defaults and install",
+        ],
+        note: "The Tool profile field stays full unless you later want a scoped set.",
+      },
+      {
+        name: "Codex / ChatGPT desktop",
+        covers: "The ChatGPT desktop app and the Codex CLI share this install",
+        steps: [
+          "Settings → Plugins → Add plugin marketplace",
+          "Source seinun-ai/maestro-career-studio · git ref main · sparse paths empty",
+          "Open the Maestro Career Studio entry and press Install",
+        ],
+        note: "The plugin is pinned to the full profile; scoping it means the hand-written entry below.",
+      },
+    ],
+    profilesNote:
+      "Both installs load all 83 tools — the full profile, and the right default. The five scoped trims (hunt, apply, explore, templates, career) are a customization you add by editing the config directly: change MAESTRO_CS_MCP_PROFILE in the JSON or TOML below, or set the Claude extension's Tool profile field. One profile at a time.",
+    fallback: {
+      title: "If an install misbehaves, write the config by hand",
+      body: "Both apps read a plain config file, and a hand-written entry always works: if it connects, the server is fine and the packaging was the problem. Both entries run the server inside the backend container, so neither needs a host Python.",
+      claude: {
+        title: "Claude Desktop · claude_desktop_config.json",
+        note: "Fully quit Claude first (Cmd+Q — closing the window is not enough): the running app rewrites this file on exit and silently drops your edit. Reach it via Settings → Developer → Edit Config, add the entry under mcpServers, save, reopen.",
+        code: `"maestro-career-studio": {
+  "command": "docker",
+  "args": ["exec", "-i",
+           "-e", "BACKEND_URL=http://localhost:8000",
+           "-e", "MAESTRO_CS_MCP_PROFILE=full",
+           "maestro-career-studio-backend-1",
+           "python", "-m", "mcp_server.server"]
+}`,
+      },
+      codex: {
+        title: "Codex / ChatGPT desktop · ~/.codex/config.toml",
+        note: "Append the block, then restart the app. The file is shared by the ChatGPT desktop app and the Codex CLI; Codex also takes the same command through Settings → MCPs → Connect a custom MCP, type STDIO.",
+        code: `[mcp_servers.maestro-career-studio]
+command = "docker"
+args = ["exec", "-i",
+        "-e", "BACKEND_URL=http://localhost:8000",
+        "-e", "MAESTRO_CS_MCP_PROFILE=full",
+        "maestro-career-studio-backend-1",
+        "python", "-m", "mcp_server.server"]
+enabled = true`,
+      },
+    },
+    otherClients:
+      "Cursor, Windsurf, another stdio client, or a backend outside Docker? ./scripts/setup-mcp.sh prints a paste-ready block per client — the one route that needs a host Python 3.12+.",
     delegate: {
       title: "Or just ask the assistant to do it",
       body: "Agents that can edit files and run commands are perfectly capable of wiring this up themselves. Run the script with --print-only, hand the output to Claude Code or the Codex CLI, and ask it to add the server to your config. It knows where those files live and it can merge into them without clobbering your other MCP servers.",
@@ -601,6 +655,21 @@ cp .env.example .env
 
 docker compose up -d`,
   mcp: "./scripts/setup-mcp.sh",
+  appSteps: [
+    {
+      t: "Clone and start",
+      b: "Three commands. The images arrive prebuilt — about a 1 GB download, a few minutes on a normal connection.",
+    },
+    {
+      t: "Open the app",
+      b: "http://localhost:3000. First boot runs migrations and seeds a demo resume with rendered previews; give it a moment.",
+    },
+    {
+      t: "Add your API key, inside the app",
+      b: "Settings → Models: paste one key, OpenAI or Gemini, and press Test on each model. A key saved in the app always wins over one in .env, so pick one place and stay there.",
+    },
+  ],
+  update: "./scripts/update.sh",
   prerequisites: [
     { title: "Docker Desktop", body: "Or Docker Engine with Compose v2. Start it and leave it running." },
     {
