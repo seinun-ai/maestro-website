@@ -17,7 +17,6 @@ import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
 import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
-import CtaBand from "@/components/CtaBand";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
 import { agents, guide, quickstart } from "@/content/site";
@@ -392,7 +391,6 @@ export default function StartPage() {
         </Reveal>
       </Section>
 
-      <CtaBand />
     </>
   );
 }

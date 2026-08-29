@@ -39,9 +39,8 @@ export const site = {
 export const headerCta = { label: "Install", href: "/start" } as const;
 
 export const nav = [
-  { label: "Why", href: "/why" },
+  { label: "Why & how", href: "/why" },
   { label: "Features", href: "/features" },
-  { label: "How it works", href: "/how-it-works" },
   { label: "Install", href: "/start" },
   { label: "Guide", href: "/guide" },
   { label: "Models", href: "/models" },

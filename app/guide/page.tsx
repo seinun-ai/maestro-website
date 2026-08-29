@@ -19,8 +19,6 @@ import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
 import NumberedSteps from "@/components/NumberedSteps";
 import TroubleTable from "@/components/TroubleTable";
-import MakerNote from "@/components/MakerNote";
-import CtaBand from "@/components/CtaBand";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
 import OnThisPage from "@/components/OnThisPage";
@@ -321,8 +319,6 @@ export default function GuidePage() {
         </Reveal>
       </Section>
 
-      <MakerNote />
-      <CtaBand />
     </>
   );
 }

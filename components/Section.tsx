@@ -54,7 +54,7 @@ export default function Section({
       component="section"
       sx={[
         {
-          py: { xs: 8, md: 13 },
+          py: { xs: 7, md: 11 },
           ...(tone === "raised"
             ? { backgroundColor: "background.paper", borderBlock: 1, borderColor: "divider" }
             : null),

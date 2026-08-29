@@ -16,10 +16,8 @@ import Hero from "@/components/Hero";
 import Section, { Eyebrow } from "@/components/Section";
 import Reveal from "@/components/Reveal";
 import ShotFrame from "@/components/ShotFrame";
-import ComparisonTable from "@/components/ComparisonTable";
 import FeatureRow from "@/components/FeatureRow";
 import PainPoint from "@/components/PainPoint";
-import Economics from "@/components/Economics";
 import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
 import CodeBlock from "@/components/CodeBlock";
@@ -30,7 +28,6 @@ import { IconTile, TintBand, TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
 import {
   agents,
-  economics,
   features,
   painPoints,
   pillars,
@@ -173,7 +170,7 @@ export default function HomePage() {
                 <Typography variant="h4" component="p" sx={{ mb: 2 }}>
                   Walk the whole loop, step by step.
                 </Typography>
-                <LinkButton href="/how-it-works" endIcon={<ArrowForwardIcon />} sx={{ alignSelf: "flex-start", px: 0 }}>
+                <LinkButton href="/why#loop" endIcon={<ArrowForwardIcon />} sx={{ alignSelf: "flex-start", px: 0 }}>
                   How it works
                 </LinkButton>
               </TintPaper>
@@ -247,27 +244,8 @@ export default function HomePage() {
         </Grid>
       </Section>
 
-      {/* Economics: the number that reframes the category */}
-      <Section
-        tone="raised"
-        eyebrow={economics.eyebrow}
-        title={economics.title}
-        lede={economics.lede}
-        maxWidth={760}
-      >
-        <Economics />
-      </Section>
-
-      {/* Comparison */}
-      <Section
-        eyebrow="How it compares"
-        title="The rows a subscription product cannot fill in"
-        lede="No vibes, no vendor asterisks. Every claim here is one you can check against the source in an afternoon."
-      >
-        <Reveal>
-          <ComparisonTable />
-        </Reveal>
-      </Section>
+      {/* The full cost table lives on /models and the comparison table on
+          /features — each is written once; the hero stats carry the punchline here. */}
 
       {/* Privacy strip */}
       <TintBand>

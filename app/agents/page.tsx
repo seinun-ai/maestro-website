@@ -18,8 +18,6 @@ import Section from "@/components/Section";
 import ShotFrame from "@/components/ShotFrame";
 import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
-import CtaBand from "@/components/CtaBand";
-import MakerNote from "@/components/MakerNote";
 import { TintPaper } from "@/components/Surfaces";
 import { agents, quickstart } from "@/content/site";
 
@@ -217,8 +215,6 @@ export default function AgentsPage() {
         </Reveal>
       </Section>
 
-      <MakerNote />
-      <CtaBand />
     </>
   );
 }

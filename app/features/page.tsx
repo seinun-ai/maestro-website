@@ -12,7 +12,6 @@ import FeatureRow from "@/components/FeatureRow";
 import ComparisonTable from "@/components/ComparisonTable";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
-import MakerNote from "@/components/MakerNote";
 import { featureExtras, features } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -85,7 +84,6 @@ export default function FeaturesPage() {
         </Reveal>
       </Section>
 
-      <MakerNote />
       <CtaBand />
     </>
   );

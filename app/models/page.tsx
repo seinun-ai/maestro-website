@@ -8,7 +8,6 @@ import Section from "@/components/Section";
 import Reveal from "@/components/Reveal";
 import Economics from "@/components/Economics";
 import ModelProfiles from "@/components/ModelProfiles";
-import CtaBand from "@/components/CtaBand";
 import { economics, modelProfiles, modelsPage, quickstart } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -45,7 +44,6 @@ export default function ModelsPage() {
         </Reveal>
       </Section>
 
-      <CtaBand />
     </>
   );
 }

@@ -88,35 +88,20 @@ export default function SiteHeader() {
             </Stack>
 
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+              {/* One button, wearing the GitHub mark: installing IS cloning
+                  from GitHub, so the mark rides the CTA instead of sitting
+                  beside it as a competing destination. */}
               <Button
                 component={NextLink}
                 href={headerCta.href}
                 variant="contained"
                 size="small"
+                startIcon={<GitHubMark />}
                 aria-current={isActive(headerCta.href) ? "page" : undefined}
                 sx={{ px: 2 }}
               >
                 {headerCta.label}
               </Button>
-              {/* Demoted to an icon. A filled GitHub button made "leave the
-                  site" the loudest thing in the header. */}
-              <IconButton
-                href={site.repo}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${site.name} on GitHub`}
-                size="small"
-                sx={{
-                  display: { xs: "none", sm: "inline-flex" },
-                  border: 1,
-                  borderColor: "divider",
-                  borderRadius: 2,
-                  color: "text.secondary",
-                  "&:hover": { color: "text.primary" },
-                }}
-              >
-                <GitHubMark />
-              </IconButton>
               <IconButton
                 onClick={() => setOpen(true)}
                 aria-label="Open navigation"
@@ -165,6 +150,7 @@ export default function SiteHeader() {
             variant="contained"
             component={NextLink}
             href={headerCta.href}
+            startIcon={<GitHubMark />}
             onClick={() => setOpen(false)}
           >
             {headerCta.label}

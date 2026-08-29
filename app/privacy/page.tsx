@@ -13,7 +13,6 @@ import BlockIcon from "@mui/icons-material/BlockOutlined";
 import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
 import Reveal from "@/components/Reveal";
-import CtaBand from "@/components/CtaBand";
 import GitHubMark from "@/components/GitHubMark";
 import { TintBand, TintPaper } from "@/components/Surfaces";
 import { privacy, site } from "@/content/site";
@@ -160,7 +159,6 @@ export default function PrivacyPage() {
         </Grid>
       </Section>
 
-      <CtaBand />
     </>
   );
 }
