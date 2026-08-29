@@ -773,7 +773,7 @@ export const faqs = [
   },
   {
     q: "How early is this, really?",
-    a: "Early, and the repo says so. The fresh-clone compose boot especially. KNOWN_ISSUES.md lists what's solid, what's rough and what's a deliberate limitation: the tracker doesn't paginate server-side, scores aren't re-derived when a base resume changes, and autofill isn't first-try-clean on every ATS. If something breaks, a clear bug report is the most useful thing you can send.",
+    a: "Early, and the repo says so. KNOWN_ISSUES.md lists what's solid, what's rough and what's a deliberate limitation: the tracker doesn't paginate server-side, scores aren't re-derived when a base resume changes, and autofill isn't first-try-clean on every ATS. If something breaks, a clear bug report is the most useful thing you can send.",
   },
 ] as const;
 
