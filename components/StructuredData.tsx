@@ -21,7 +21,8 @@ export default function StructuredData() {
         url: site.url,
         codeRepository: site.repo,
         license: "https://www.apache.org/licenses/LICENSE-2.0",
-        author: { "@type": "Person", name: site.author },
+        author: { "@type": "Person", name: site.author, affiliation: site.company },
+        publisher: { "@type": "Organization", name: site.company, url: site.companyUrl },
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       },
       {

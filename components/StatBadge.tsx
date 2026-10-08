@@ -1,57 +1,53 @@
 "use client";
 
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { alpha } from "@mui/material/styles";
+import { ds } from "@/lib/theme";
 
 /**
- * One oversized figure with its unit and a line of provenance. The accent
- * variant is reserved for the cost claim, the number that reframes the
- * whole category, so it gets the brand yellow and nothing else does.
+ * One number, what it counts, and a line of provenance. Filled the way the
+ * app's stat tiles are: surface-container-low, 12px corners, no border and
+ * no shadow. Every tile in the row is the same treatment.
  */
 export default function StatBadge({
   value,
   label,
   detail,
-  accent = false,
 }: {
   value: string;
   label: string;
   detail: string;
-  accent?: boolean;
 }) {
   return (
-    <Stack spacing={0.75}>
+    <Stack
+      spacing={0.75}
+      sx={{
+        backgroundColor: ds.surfaceLow,
+        borderRadius: "12px",
+        p: 2,
+        height: "100%",
+      }}
+    >
       <Typography
         component="p"
         sx={{
-          fontSize: { xs: "2.4rem", md: "3rem" },
-          fontWeight: 800,
-          letterSpacing: "-0.045em",
-          lineHeight: 1,
-          color: accent ? "#B4790B" : "text.primary",
-          ...(accent
-            ? {
-                width: "fit-content",
-                px: 1,
-                mx: -1,
-                borderRadius: 1.5,
-                backgroundColor: alpha("#FBBF24", 0.22),
-              }
-            : null),
+          fontSize: { xs: "1.75rem", md: "2rem" },
+          fontWeight: 500,
+          letterSpacing: "-0.02em",
+          lineHeight: 1.15,
+          fontVariantNumeric: "tabular-nums",
+          color: "text.primary",
         }}
       >
         {value}
       </Typography>
-      <Typography variant="h6" component="p">
+      <Typography variant="body2" component="p" sx={{ fontWeight: 500 }}>
         {label}
       </Typography>
       <Typography variant="body2" sx={{ color: "text.secondary" }}>
         {detail}
       </Typography>
-      <Box />
     </Stack>
   );
 }

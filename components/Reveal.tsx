@@ -48,8 +48,9 @@ export default function Reveal({
       sx={[
         {
           opacity: shown ? 1 : 0,
-          transform: shown ? "none" : "translateY(14px)",
-          transition: "opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1)",
+          transform: shown ? "none" : "translateY(8px)",
+          transition:
+            "opacity 400ms cubic-bezier(0.05, 0.7, 0.1, 1), transform 400ms cubic-bezier(0.05, 0.7, 0.1, 1)",
           transitionDelay: `${delay}ms`,
           "@media (prefers-reduced-motion: reduce)": { opacity: 1, transform: "none" },
         },

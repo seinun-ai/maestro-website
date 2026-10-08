@@ -4,7 +4,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
-import { alpha, type SxProps, type Theme } from "@mui/material/styles";
+import type { SxProps, Theme } from "@mui/material/styles";
+import { ds } from "@/lib/theme";
 
 type Tone = "primary" | "success" | "warning";
 
@@ -26,10 +27,12 @@ export function TintPaper({
   return (
     <Paper
       sx={[
-        (t) => ({
-          backgroundColor: alpha(t.palette[tone].main, 0.07),
-          borderColor: alpha(t.palette[tone].main, 0.24),
-        }),
+        {
+          backgroundColor:
+            tone === "primary" ? ds.primaryContainer : tone === "success" ? ds.successContainer : ds.warningContainer,
+          borderColor: ds.border,
+          color: ds.foreground,
+        },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
@@ -52,12 +55,12 @@ export function TintBand({
     <Box
       id={id}
       component="section"
-      sx={(t) => ({
+      sx={{
         py: { xs: 8, md: 12 },
         borderBlock: 1,
         borderColor: "divider",
-        backgroundColor: alpha(t.palette[tone].main, 0.06),
-      })}
+        backgroundColor: tone === "primary" ? ds.primaryContainer : ds.warningContainer,
+      }}
     >
       <Container>{children}</Container>
     </Box>
@@ -79,12 +82,9 @@ export function GlowBox({
   return (
     <Box
       sx={[
-        (t) => ({
-          backgroundImage: `radial-gradient(${radius} at ${origin}, ${alpha(
-            t.palette.primary.main,
-            0.1,
-          )} 0%, transparent 60%)`,
-        }),
+        {
+          backgroundImage: `radial-gradient(${radius} at ${origin}, ${ds.primaryContainer} 0%, transparent 60%)`,
+        },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
     >
@@ -97,15 +97,15 @@ export function GlowBox({
 export function IconTile({ children }: { children: React.ReactNode }) {
   return (
     <Box
-      sx={(t) => ({
-        width: 44,
-        height: 44,
-        borderRadius: 2.5,
+      sx={{
+        width: 40,
+        height: 40,
+        borderRadius: "12px",
         display: "grid",
         placeItems: "center",
-        color: "primary.main",
-        backgroundColor: alpha(t.palette.primary.main, 0.1),
-      })}
+        color: ds.onPrimaryContainer,
+        backgroundColor: ds.primaryContainer,
+      }}
     >
       {children}
     </Box>

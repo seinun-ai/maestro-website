@@ -5,9 +5,9 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { alpha } from "@mui/material/styles";
 import Reveal from "./Reveal";
 import { Eyebrow } from "./Section";
+import { ds } from "@/lib/theme";
 
 export default function PageHero({
   eyebrow,
@@ -23,16 +23,13 @@ export default function PageHero({
   return (
     <Box
       component="section"
-      sx={(t) => ({
+      sx={{
         pt: { xs: 6, md: 10 },
         pb: { xs: 6, md: 9 },
         borderBottom: 1,
         borderColor: "divider",
-        backgroundImage: `radial-gradient(80% 90% at 12% -30%, ${alpha(
-          t.palette.primary.main,
-          0.09,
-        )} 0%, transparent 58%)`,
-      })}
+        backgroundImage: `radial-gradient(80% 90% at 12% -30%, ${ds.primaryContainer} 0%, transparent 58%)`,
+      }}
     >
       <Container>
         <Reveal>

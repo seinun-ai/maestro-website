@@ -1,87 +1,94 @@
 "use client";
 
-import { createTheme, alpha } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 
 /**
- * Brand tokens are locked in the product repo
- * (docs/assets/brand/brand-tokens.json). Mirror that file; don't invent new
- * brand colours here.
+ * Light-theme roles from the product design system
+ * (maestro-career-studio/docs/design-system/tokens.json, which mirrors
+ * frontend/app/globals.css). Values are the sRGB of those oklch tokens.
+ * `brandBlue` and `brandYellow` are for the mark only.
  */
-export const brand = {
-  blue: "#2563EB",
-  blueFacet: "#1D4ED8",
-  yellow: "#FBBF24",
-  yellowFacet: "#D99A00",
-  navy: "#0F172A",
-  grey: "#64748B",
+export const ds = {
+  background: "#F7F7F7",
+  foreground: "#0A0A0A",
+  card: "#FFFFFF",
+  surfaceLow: "#F2F2F2",
+  surface: "#EBEBEB",
+  surfaceHigh: "#E7E7E7",
+  mutedForeground: "#656565",
+  border: "#E5E5E5",
+  ring: "#4E77B8",
+  primary: "#1358BB",
+  primaryForeground: "#FAFAFA",
+  primaryContainer: "#D1E3FF",
+  onPrimaryContainer: "#053171",
+  secondaryContainer: "#DEE7F5",
+  onSecondaryContainer: "#25364F",
+  success: "#0C6F4D",
+  successContainer: "#C0F0D8",
+  warning: "#81520A",
+  warningContainer: "#FDDDB8",
+  attention: "#9B4201",
+  destructive: "#B21A1B",
+  brandBlue: "#2563EB",
+  brandYellow: "#FBBF24",
+  /** Sticky bars. From shadow-level2 in the design system. */
+  shadowFloat: "0 1px 2px 0 rgba(0,0,0,0.30), 0 2px 6px 2px rgba(0,0,0,0.15)",
 } as const;
 
-/** Light only, by decision. A marketing page is read once, in daylight, from a
- *  link. A theme toggle is app furniture that costs a fifth of the styling
- *  budget and earns nothing here. */
-const surface = {
-  page: "#F7F8FA",
-  card: "#FFFFFF",
-  border: "#E3E7EE",
-  text: "#0F172A",
-  muted: "#5A6678",
-};
+/** Mark colours, kept named so a UI fill is never invented from them. */
+export const brand = {
+  blue: ds.brandBlue,
+  yellow: ds.brandYellow,
+} as const;
 
 const theme = createTheme({
   cssVariables: true,
   palette: {
     mode: "light",
-    primary: { main: brand.blue, dark: brand.blueFacet, contrastText: "#FFFFFF" },
-    secondary: { main: brand.yellowFacet, light: brand.yellow, contrastText: brand.navy },
-    warning: { main: brand.yellowFacet },
-    success: { main: "#188038" },
-    error: { main: "#D93025" },
-    background: { default: surface.page, paper: surface.card },
-    text: { primary: surface.text, secondary: surface.muted },
-    divider: surface.border,
+    primary: { main: ds.primary, contrastText: ds.primaryForeground },
+    secondary: { main: ds.secondaryContainer, contrastText: ds.onSecondaryContainer },
+    warning: { main: ds.warning },
+    success: { main: ds.success },
+    error: { main: ds.destructive },
+    background: { default: ds.background, paper: ds.card },
+    text: { primary: ds.foreground, secondary: ds.mutedForeground },
+    divider: ds.border,
   },
-  shape: { borderRadius: 10 },
+  shape: { borderRadius: 8 },
   typography: {
-    fontFamily: "var(--font-inter), Inter, system-ui, -apple-system, Segoe UI, sans-serif",
-    h1: { fontSize: "clamp(2.5rem, 6vw, 4.25rem)", fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.04 },
-    h2: { fontSize: "clamp(1.9rem, 3.6vw, 2.75rem)", fontWeight: 700, letterSpacing: "-0.028em", lineHeight: 1.12 },
-    h3: { fontSize: "clamp(1.35rem, 2.2vw, 1.7rem)", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 },
-    h4: { fontSize: "1.15rem", fontWeight: 700, letterSpacing: "-0.012em", lineHeight: 1.3 },
-    h5: { fontSize: "1rem", fontWeight: 700, letterSpacing: "-0.008em" },
-    h6: { fontSize: "0.9375rem", fontWeight: 700 },
-    subtitle1: { fontSize: "1.1875rem", lineHeight: 1.62, letterSpacing: "-0.005em" },
-    body1: { fontSize: "1.0125rem", lineHeight: 1.68 },
-    body2: { fontSize: "0.9125rem", lineHeight: 1.62 },
-    overline: { fontSize: "0.6875rem", fontWeight: 700, letterSpacing: "0.14em", lineHeight: 1.6 },
-    button: { textTransform: "none", fontWeight: 600, letterSpacing: 0 },
+    fontFamily: "var(--font-geist), Geist, system-ui, sans-serif",
+    h1: { fontSize: "clamp(2.25rem, 5vw, 3.5rem)", fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1.08 },
+    h2: { fontSize: "clamp(1.75rem, 3vw, 2.25rem)", fontWeight: 500, letterSpacing: "-0.015em", lineHeight: 1.15 },
+    h3: { fontSize: "clamp(1.25rem, 2vw, 1.5rem)", fontWeight: 500, letterSpacing: "-0.01em", lineHeight: 1.25 },
+    h4: { fontSize: "1.125rem", fontWeight: 500, letterSpacing: "-0.01em", lineHeight: 1.35 },
+    h5: { fontSize: "1rem", fontWeight: 500, lineHeight: 1.4 },
+    h6: { fontSize: "0.875rem", fontWeight: 500 },
+    subtitle1: { fontSize: "1rem", lineHeight: 1.6 },
+    body1: { fontSize: "1rem", lineHeight: 1.6 },
+    body2: { fontSize: "0.875rem", lineHeight: 1.5 },
+    overline: {
+      fontSize: "0.75rem",
+      fontWeight: 600,
+      letterSpacing: "0.01em",
+      lineHeight: 1.4,
+      textTransform: "none",
+    },
+    button: { textTransform: "none", fontWeight: 500, letterSpacing: 0, fontSize: "0.875rem" },
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        // Deliberately NOT scroll-behavior: smooth. The App Router scrolls to
-        // the top of the new page on every client-side transition, and a global
-        // smooth makes that an animated glide, so leaving the home page from
-        // halfway down reads as scrolling *up the same page* rather than
-        // arriving somewhere new. The only same-page anchor here is the skip
-        // link, which must jump instantly anyway. If a single link ever needs
-        // an animated scroll, give it its own scrollIntoView handler.
         "html, body": { WebkitFontSmoothing: "antialiased" },
         "@media (prefers-reduced-motion: reduce)": {
           "*": { animationDuration: "0.01ms !important", transitionDuration: "0.01ms !important" },
         },
-        // Anchor targets must clear the fixed header, or a deep link lands with
-        // its own heading hidden behind the AppBar.
         "[id]": { scrollMarginTop: "88px" },
-        code: { fontFamily: "var(--font-mono), ui-monospace, SFMono-Regular, monospace" },
+        code: { fontFamily: "var(--font-mono), 'Geist Mono', ui-monospace, monospace" },
       },
     },
     MuiTypography: {
       defaultProps: {
-        // MUI maps subtitle1/subtitle2 to <h6>. Every section lede on this site
-        // uses subtitle1, so the shipped pages carried up to eight phantom
-        // headings each: prose announced as headings to a screen reader, and a
-        // heading outline that jumped h2 -> h6 at every section. They are
-        // paragraphs; say so once, here.
         variantMapping: {
           subtitle1: "p",
           subtitle2: "p",
@@ -92,43 +99,64 @@ const theme = createTheme({
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {
-        root: { borderRadius: 999, paddingInline: 20, paddingBlock: 9 },
-        sizeLarge: { paddingInline: 26, paddingBlock: 12, fontSize: "1rem" },
-        outlined: ({ theme: t }) => ({ borderColor: t.palette.divider }),
+        root: {
+          borderRadius: 8,
+          paddingInline: 16,
+          paddingBlock: 6,
+          minHeight: 32,
+          "&:active": { transform: "scale(0.97)" },
+          "&.Mui-focusVisible": { outline: `2px solid ${ds.ring}`, outlineOffset: 2 },
+        },
+        sizeSmall: { minHeight: 28, paddingInline: 12, fontSize: "0.75rem" },
+        sizeLarge: { minHeight: 36, paddingInline: 18, paddingBlock: 8, fontSize: "0.875rem" },
+        outlined: { borderColor: ds.border },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: { "&.Mui-focusVisible": { outline: `2px solid ${ds.ring}`, outlineOffset: 2 } },
       },
     },
     MuiChip: {
       styleOverrides: {
-        root: { fontWeight: 600, letterSpacing: "-0.005em" },
+        root: { fontWeight: 500, borderRadius: 999 },
         sizeSmall: { height: 24, fontSize: "0.75rem" },
-        outlined: ({ theme: t }) => ({ borderColor: t.palette.divider }),
+        outlined: { borderColor: ds.border },
       },
     },
     MuiPaper: {
       defaultProps: { elevation: 0 },
       styleOverrides: {
-        root: ({ theme: t }) => ({ backgroundImage: "none", border: `1px solid ${t.palette.divider}` }),
-        rounded: { borderRadius: 14 },
+        root: { backgroundImage: "none", border: `1px solid ${ds.border}`, boxShadow: "none" },
+        rounded: { borderRadius: 12 },
       },
     },
-    MuiCard: { styleOverrides: { root: { borderRadius: 14 } } },
+    MuiCard: { styleOverrides: { root: { borderRadius: 12, boxShadow: "none" } } },
     MuiAccordion: {
       defaultProps: { disableGutters: true },
       styleOverrides: {
-        root: ({ theme: t }) => ({
+        root: {
           borderRadius: 12,
           marginBottom: 8,
           "&::before": { display: "none" },
-          "&.Mui-expanded": { background: alpha(t.palette.primary.main, 0.04) },
-        }),
+          "&.Mui-expanded": { background: ds.primaryContainer },
+        },
       },
     },
-    MuiLink: { defaultProps: { underline: "hover" }, styleOverrides: { root: { fontWeight: 500 } } },
+    MuiLink: {
+      defaultProps: { underline: "hover" },
+      styleOverrides: {
+        root: {
+          fontWeight: 500,
+          "&.Mui-focusVisible": { outline: `2px solid ${ds.ring}`, outlineOffset: 2 },
+        },
+      },
+    },
     MuiTooltip: { defaultProps: { arrow: true } },
     MuiTableCell: {
       styleOverrides: {
-        root: ({ theme: t }) => ({ borderColor: t.palette.divider, fontSize: "0.9125rem" }),
-        head: { fontWeight: 700 },
+        root: { borderColor: ds.border, fontSize: "0.875rem" },
+        head: { fontWeight: 500 },
       },
     },
   },

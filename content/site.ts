@@ -25,6 +25,8 @@ export const site = {
   contact: "ajey@seinun.com",
   license: "Apache-2.0",
   author: "Ajey Dhayashanker Loganathan",
+  company: "Seinun LLC",
+  companyUrl: "https://seinun.com",
   // Set NEXT_PUBLIC_SITE_URL at build time before deploying. Canonical URLs,
   // Open Graph, sitemap.xml and robots.txt all derive from it.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://maestro-career-studio.example",
@@ -52,6 +54,8 @@ export const nav = [
 
 export const hero = {
   eyebrow: "Apache-2.0 · runs on your machine · no account",
+  under:
+    "Apache-2.0 · runs on your machine · works with Claude, ChatGPT, and Cursor via MCP.",
   title: "Stop rewriting.\nStart compounding.",
   lede: "Write down what you did, once. Maestro builds every tailored resume, cover letter and screening answer from that record. Scored by an engine that never guesses. Typeset locally into a real PDF. About a penny an application.",
   primaryCta: { label: "Get started", href: "/start" },

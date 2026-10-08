@@ -17,9 +17,9 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { alpha } from "@mui/material/styles";
 import Logo from "./Logo";
 import GitHubMark from "./GitHubMark";
+import { ds } from "@/lib/theme";
 import { headerCta, nav, site } from "@/content/site";
 
 /** The promoted destination renders as a button, so it must not also render as
@@ -46,14 +46,14 @@ export default function SiteHeader() {
         position="sticky"
         color="transparent"
         elevation={0}
-        sx={(t) => ({
+        sx={{
           top: 0,
-          backdropFilter: "saturate(180%) blur(14px)",
-          backgroundColor: alpha(t.palette.background.default, raised ? 0.86 : 0.7),
+          backgroundColor: raised ? ds.background : "transparent",
           borderBottom: 1,
           borderColor: raised ? "divider" : "transparent",
-          transition: "background-color .25s ease, border-color .25s ease",
-        })}
+          boxShadow: raised ? ds.shadowFloat : "none",
+          transition: "background-color 200ms cubic-bezier(0.2, 0, 0, 1), box-shadow 200ms cubic-bezier(0.2, 0, 0, 1)",
+        }}
       >
         <Container>
           <Toolbar disableGutters sx={{ minHeight: { xs: 62, md: 70 }, gap: 2 }}>

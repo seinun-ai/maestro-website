@@ -49,7 +49,20 @@ export default function SiteFooter() {
           sx={{ alignItems: { xs: "flex-start", sm: "center" }, justifyContent: "space-between" }}
         >
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            © {new Date().getFullYear()} {site.author} · {site.license} ·{" "}
+            © {new Date().getFullYear()} {site.author}
+            {" · "}
+            <Link
+              href={site.companyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              color="text.secondary"
+              sx={{ "&:hover": { color: "text.primary" } }}
+            >
+              {site.company}
+            </Link>
+            {" · "}
+            {site.license}
+            {" · "}
             <Link href={`mailto:${site.contact}`} color="text.secondary" sx={{ "&:hover": { color: "text.primary" } }}>
               {site.contact}
             </Link>

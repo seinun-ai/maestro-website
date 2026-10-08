@@ -9,31 +9,25 @@ import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Grid from "@mui/material/Grid";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { alpha } from "@mui/material/styles";
 import ShotFrame from "./ShotFrame";
 import Reveal from "./Reveal";
 import GitHubMark from "./GitHubMark";
 import StatBadge from "./StatBadge";
 import { LinkButton } from "./NextMui";
+import { ds } from "@/lib/theme";
 import { hero, heroStats, site } from "@/content/site";
 
 export default function Hero() {
   return (
     <Box
       component="section"
-      sx={(t) => ({
+      sx={{
         position: "relative",
         overflow: "hidden",
         pt: { xs: 7, md: 12 },
         pb: { xs: 8, md: 12 },
-        // One wash behind the fold, plus a faint warm counterpoint on the
-        // right so the yellow in the stat row doesn't arrive from nowhere.
-        backgroundImage: `radial-gradient(80% 60% at 50% -12%, ${alpha(
-          t.palette.primary.main,
-          0.12,
-        )} 0%, transparent 62%),
-        radial-gradient(50% 40% at 92% 4%, ${alpha("#FBBF24", 0.14)} 0%, transparent 70%)`,
-      })}
+        backgroundImage: `radial-gradient(80% 60% at 50% -12%, ${ds.primaryContainer} 0%, transparent 62%)`,
+      }}
     >
       <Container>
         <Stack
@@ -45,7 +39,7 @@ export default function Hero() {
               label={hero.eyebrow}
               size="small"
               variant="outlined"
-              sx={{ borderRadius: 999, backgroundColor: "background.paper", px: 0.5 }}
+              sx={{ backgroundColor: "background.paper", px: 0.5 }}
             />
           </Reveal>
           <Reveal delay={60}>
@@ -79,6 +73,11 @@ export default function Hero() {
               </Button>
             </Stack>
           </Reveal>
+          <Reveal delay={210}>
+            <Typography variant="body2" sx={{ color: "text.secondary", maxWidth: 640 }}>
+              {hero.under}
+            </Typography>
+          </Reveal>
         </Stack>
 
         <Reveal delay={220} sx={{ mt: { xs: 6, md: 8 } }}>
@@ -89,7 +88,7 @@ export default function Hero() {
           <Grid container spacing={{ xs: 3.5, md: 3 }}>
             {heroStats.map((s) => (
               <Grid size={{ xs: 6, md: 3 }} key={s.label}>
-                <StatBadge value={s.value} label={s.label} detail={s.detail} accent={"accent" in s && s.accent} />
+                <StatBadge value={s.value} label={s.label} detail={s.detail} />
               </Grid>
             ))}
           </Grid>

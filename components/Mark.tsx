@@ -2,27 +2,18 @@
 
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { alpha } from "@mui/material/styles";
+import { ds } from "@/lib/theme";
 
-/**
- * A highlighter stroke behind a phrase. The brand carries a yellow that the app
- * itself has no room for. A marketing page does, and one accent used sparingly
- * on the single most important phrase per screen is what gives a landing page
- * its focal point.
- */
+/** A tonal stroke behind one phrase. Uses the primary container, the same
+ *  information fill as the app, so the mark's yellow stays on the logo. */
 export default function Mark({ children }: { children: React.ReactNode }) {
   return (
     <Box
       component="span"
       sx={{
-        position: "relative",
-        display: "inline",
-        backgroundImage: `linear-gradient(to top, ${alpha("#FBBF24", 0.5)} 0%, ${alpha(
-          "#FBBF24",
-          0.5,
-        )} 34%, transparent 34%)`,
-        backgroundRepeat: "no-repeat",
-        paddingInline: "0.08em",
+        backgroundColor: ds.primaryContainer,
+        borderRadius: "4px",
+        paddingInline: "0.12em",
       }}
     >
       {children}
