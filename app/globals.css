@@ -20,6 +20,12 @@
   --c-border: #e5e5e5;
   --c-ring: #4e77b8;
 
+  /* Command blocks: a terminal-dark surface so commands stand out from cards. */
+  --c-code-bg: #0f172a;
+  --c-code-bar: #1e293b;
+  --c-code-fg: #e2e8f0;
+  --c-code-muted: #94a3b8;
+
   /* App blue: actions, links, and the one highlighted phrase per headline. */
   --c-blue: #1358bb;
   --c-blue-tint: #d1e3ff;
@@ -58,6 +64,11 @@
     --c-muted: #a8a8a8;
     --c-border: rgba(255, 255, 255, 0.1);
     --c-ring: #86b2f7;
+
+    --c-code-bg: #1e293b;
+    --c-code-bar: #273449;
+    --c-code-fg: #e2e8f0;
+    --c-code-muted: #a3b1c6;
 
     --c-blue: #86b2f7;
     --c-blue-tint: #203f6f;

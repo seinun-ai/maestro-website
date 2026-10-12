@@ -35,15 +35,15 @@ export default function CodeBlock({
   };
 
   return (
-    <Paper sx={{ overflow: "hidden", borderRadius: 3 }}>
+    <Paper sx={{ overflow: "hidden", borderRadius: 3, backgroundColor: "var(--c-code-bg)", border: "none", boxShadow: "none" }}>
       <Stack
         direction="row"
         
         spacing={1}
-        sx={{ alignItems: "center", px: 2, py: 1, borderBottom: 1, borderColor: "divider", backgroundColor: "action.hover" }}
+        sx={{ alignItems: "center", px: 2, py: 1, backgroundColor: "var(--c-code-bar)" }}
       >
-        <TerminalIcon sx={{ fontSize: 16, color: "text.secondary" }} />
-        <Typography variant="caption" sx={{ color: "text.secondary", fontWeight: 600, letterSpacing: ".06em" }}>
+        <TerminalIcon sx={{ fontSize: 16, color: "var(--c-code-muted)" }} />
+        <Typography variant="caption" sx={{ color: "var(--c-code-muted)", fontWeight: 600, letterSpacing: ".06em" }}>
           {label}
         </Typography>
         <Box sx={{ flex: 1 }} />
@@ -51,7 +51,7 @@ export default function CodeBlock({
           size="small"
           onClick={copy}
           startIcon={copied ? <CheckIcon sx={{ fontSize: 15 }} /> : <ContentCopyIcon sx={{ fontSize: 15 }} />}
-          sx={{ color: copied ? "success.main" : "text.secondary", py: 0.25 }}
+          sx={{ color: copied ? "#5aca94" : "var(--c-code-muted)", py: 0.25, "&:hover": { color: "var(--c-code-fg)", backgroundColor: "rgba(255,255,255,0.08)" } }}
         >
           {copied ? "Copied" : "Copy"}
         </Button>
@@ -67,7 +67,7 @@ export default function CodeBlock({
           fontFamily: "var(--font-mono), ui-monospace, monospace",
           fontSize: "0.8375rem",
           lineHeight: 1.75,
-          color: "text.primary",
+          color: "var(--c-code-fg)",
         }}
       >
         <code>{code}</code>
