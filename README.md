@@ -104,12 +104,19 @@ one file here. Pages read from it and never restate a figure inline.
 Two rules that file's header states and this one repeats, because getting either
 wrong makes the site lie:
 
-1. **Positioning is bring-a-key.** One OpenAI *or* Gemini key is the recommended
-   setup. "No key" is two honest tiers: the deterministic core always works, and
+1. **Positioning is bring-a-key.** One OpenAI, Gemini *or* Claude key is the
+   recommended setup. OpenRouter and custom servers appear on the Models page
+   only. "No key" is two honest tiers: the deterministic core always works, and
    over MCP the client agent supplies the model. Local model servers are
    *configurable but untested* — never write "fully offline" anywhere.
-2. **Costs are cited as "about a penny" / "under 3¢" / "under $2 total", with
-   "in our tests" and never a sample count.**
+2. **Costs are cited as "about a penny" (OpenAI default) / "under 3¢" (Gemini)
+   / "about a penny" with Claude Haiku, with "in our tests" and never a sample
+   count.** Claude has no measured speed or extraction figures.
+3. **Vocabulary is the app's:** Match score (never "ATS score"), Career history,
+   Jobs, Agent inbox, Assistant, Settings › AI & models, the Companion.
+4. **Submitting:** "The Companion fills the form and stops. You press Submit."
+   The opt-in Full automation is stated on the Agents page only. Never write a
+   product-wide "never auto-submits".
 
 **Voice.** Short sentences, concrete nouns, second person. No em-dash pile-ups, no
 "not X but Y" scaffolding, no throat-clearing. If a sentence has three clauses and
