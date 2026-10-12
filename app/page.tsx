@@ -215,15 +215,13 @@ export default function HomePage() {
                     {agents.setup.title}
                   </Typography>
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    Claude takes an extension file, Codex and the ChatGPT desktop app a plugin marketplace. Both install
-                    from their own settings: no terminal, no config file. <code>./scripts/setup-mcp.sh</code> covers every
-                    other client.
+                    {agents.setup.homeBlurb}
                   </Typography>
                 </Box>
                 <Box>
                   <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
-                    Six profiles keep the tool list relevant per chat. Every install defaults to full; scope it later
-                    if you like, one at a time.
+                    Six tool sets keep the tool list relevant per chat. Every install defaults to full, all 88 tools;
+                    narrow it later if you like, one set at a time.
                   </Typography>
                   <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
                     {agents.profiles.map((p) => (
@@ -232,11 +230,11 @@ export default function HomePage() {
                   </Stack>
                 </Box>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  <strong>No API key?</strong> Over MCP your assistant is the model, so tailoring and KB upkeep still
-                  work.
+                  <strong>No API key?</strong> Over MCP your assistant is the model, so tailoring and career history
+                  upkeep still work.
                 </Typography>
                 <LinkButton href="/agents" endIcon={<ArrowForwardIcon />} sx={{ alignSelf: "flex-start", px: 0 }}>
-                  Agents, hunting and the consent ledger
+                  Agents, the Agent inbox and the consent ledger
                 </LinkButton>
               </Stack>
             </Reveal>

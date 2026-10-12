@@ -314,13 +314,12 @@ export default function StartPage() {
         </Grid>
       </Section>
 
-      {/* Part 2: two client-native paths, profiles as a config customization,
-          and the hand-written fallbacks in full. The setup script is a footnote. */}
+      {/* Part 2: HTTP by URL is the default. Two ways to add it, then the
+          per-client commands and the hand-written fallbacks. */}
       <Section
-        tone="raised"
         eyebrow="Part 2 · optional"
         title="Attach your assistant (MCP)"
-        lede="Two paths, both from the client's own settings. No terminal, no config file, no host Python: the server runs inside the backend container Part 1 started."
+        lede="The MCP server runs inside Maestro, at http://localhost:8001/mcp. Your assistant connects by URL, so it needs no Docker and no Python. Two ways to add it: one command, or one card in the app."
         maxWidth={720}
       >
         <Grid container spacing={2.5}>
@@ -357,14 +356,53 @@ export default function StartPage() {
         </Grid>
 
         <Reveal>
+          <Grid container spacing={2.5} sx={{ mt: 1.5 }}>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
+                {agents.setup.urlClients.title}
+              </Typography>
+              <CodeBlock code={agents.setup.urlClients.code} />
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                {agents.setup.urlClients.note}
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
+                {agents.setup.codexPlugin.title}
+              </Typography>
+              <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
+                {agents.setup.codexPlugin.body}
+              </Typography>
+              <Stack spacing={0.75}>
+                {agents.setup.codexPlugin.fields.map(([k, v]) => (
+                  <Typography key={k} variant="body2">
+                    <strong>{k}</strong> · {v}
+                  </Typography>
+                ))}
+              </Stack>
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                {agents.setup.codexPlugin.note}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Reveal>
+
+        <Reveal>
           <TintPaper sx={{ p: 3, borderRadius: 3, mt: 3 }}>
             <Typography variant="h6" component="h3" sx={{ mb: 0.75 }}>
-              Six profiles: full by default, scoped when you customize
+              Six tool sets: full by default, smaller when you choose
             </Typography>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
               {agents.setup.profilesNote}
             </Typography>
           </TintPaper>
+        </Reveal>
+
+        <Reveal>
+          <Alert severity="warning" variant="outlined" sx={{ mt: 3, borderRadius: 3 }}>
+            <AlertTitle sx={{ fontWeight: 700 }}>{agents.setup.local.title}</AlertTitle>
+            {agents.setup.local.body}
+          </Alert>
         </Reveal>
 
         <Reveal>

@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import Button from "@mui/material/Button";
 import WarningAmberIcon from "@mui/icons-material/WarningAmberOutlined";
 import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
 import ContentPasteIcon from "@mui/icons-material/ContentPasteOutlined";
@@ -19,12 +20,12 @@ import ShotFrame from "@/components/ShotFrame";
 import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
 import { TintPaper } from "@/components/Surfaces";
-import { agents, quickstart } from "@/content/site";
+import { agents, quickstart, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Agents & MCP",
   description:
-    "An MCP server with 83 tools across six profiles, running on your machine against your database. Hunt with the agent you already use, triage proposals, and stop at a consent gate that an agent can never self-certify.",
+    "An MCP server with 88 tools across six tool sets, running on your machine against your data. Connect with one command, hunt with the agent you already use, triage in the Agent inbox, and by default stop for your yes before every submit.",
 };
 
 export default function AgentsPage() {
@@ -41,7 +42,7 @@ export default function AgentsPage() {
                 alt={agents.hero.imageAlt}
                 priority
                 sizes="(max-width: 900px) 100vw, 640px"
-                caption="Claude pulling the whole pipeline over MCP and building its own view of it."
+                caption={agents.hero.caption}
               />
             </Reveal>
           </Grid>
@@ -81,7 +82,7 @@ export default function AgentsPage() {
                 </Box>
                 <Box>
                   <Typography variant="h5" component="h3" sx={{ mb: 1.5 }}>
-                    Six profiles, one at a time
+                    Six tool sets, one at a time
                   </Typography>
                   <Stack spacing={1}>
                     {agents.profiles.map((p) => (
@@ -99,7 +100,7 @@ export default function AgentsPage() {
                     ))}
                   </Stack>
                   <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
-                    <code>full</code> alongside a scoped profile registers each shared tool twice, so pick one.
+                    <code>full</code> alongside a smaller set registers each shared tool twice, so pick one.
                   </Typography>
                 </Box>
               </Stack>
@@ -107,6 +108,37 @@ export default function AgentsPage() {
           </Grid>
         </Grid>
 
+        <Reveal>
+          <Grid container spacing={2.5} sx={{ mt: { xs: 4, md: 5 } }}>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
+                {agents.setup.urlClients.title}
+              </Typography>
+              <CodeBlock code={agents.setup.urlClients.code} />
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                {agents.setup.urlClients.note}
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
+                {agents.setup.codexPlugin.title}
+              </Typography>
+              <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
+                {agents.setup.codexPlugin.body}
+              </Typography>
+              <Stack spacing={0.75}>
+                {agents.setup.codexPlugin.fields.map(([k, v]) => (
+                  <Typography key={k} variant="body2">
+                    <strong>{k}</strong> · {v}
+                  </Typography>
+                ))}
+              </Stack>
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                {agents.setup.codexPlugin.note}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Reveal>
 
         <Reveal>
           <TintPaper sx={{ mt: { xs: 4, md: 5 }, p: { xs: 3, md: 4 }, borderRadius: 4 }}>
@@ -116,7 +148,7 @@ export default function AgentsPage() {
             <Typography variant="body2" sx={{ color: "text.secondary", mb: 2.5 }}>
               {agents.setup.delegate.body}
             </Typography>
-            <CodeBlock code={agents.setup.delegate.prompt} label="prompt" />
+            <CodeBlock code={agents.setup.delegate.prompt} label="prompt" wrap />
             <Typography variant="body2" sx={{ color: "text.secondary", mt: 2 }}>
               {agents.setup.delegate.caveat}
             </Typography>
@@ -124,14 +156,13 @@ export default function AgentsPage() {
         </Reveal>
         <Reveal>
           <Alert severity="warning" variant="outlined" sx={{ mt: { xs: 6, md: 8 }, borderRadius: 3 }}>
-            <AlertTitle sx={{ fontWeight: 700 }}>Keep the transport STDIO</AlertTitle>
-            The HTTP option means exposing a deliberately unauthenticated backend that holds your full employment
-            history. Don&apos;t.
+            <AlertTitle sx={{ fontWeight: 700 }}>{agents.setup.local.title}</AlertTitle>
+            {agents.setup.local.body}
           </Alert>
         </Reveal>
       </Section>
 
-      <Section eyebrow="No key required" title={agents.keyless.title} maxWidth={760}>
+      <Section tone="raised" eyebrow="No key required" title={agents.keyless.title} maxWidth={760}>
         <Reveal>
           <TintPaper sx={{ p: { xs: 3, md: 4.5 }, borderRadius: 4, maxWidth: 900 }}>
             <Typography variant="subtitle1">{agents.keyless.body}</Typography>
@@ -139,11 +170,16 @@ export default function AgentsPage() {
         </Reveal>
       </Section>
 
-      <Section tone="raised" eyebrow="Hunting" title={agents.hunt.title} lede={agents.hunt.body} maxWidth={760}>
+      <Section eyebrow="Hunting" title={agents.hunt.title} lede={agents.hunt.body} maxWidth={760}>
         <Grid container spacing={{ xs: 4, md: 7 }} sx={{ alignItems: "center" }}>
           <Grid size={{ xs: 12, md: 7 }}>
             <Reveal>
-              <ShotFrame src={agents.hunt.image} alt={agents.hunt.imageAlt} sizes="(max-width: 900px) 100vw, 640px" />
+              <ShotFrame
+                src={agents.hunt.image}
+                alt={agents.hunt.imageAlt}
+                sizes="(max-width: 900px) 100vw, 640px"
+                caption={agents.hunt.caption}
+              />
             </Reveal>
           </Grid>
           <Grid size={{ xs: 12, md: 5 }}>
@@ -155,12 +191,31 @@ export default function AgentsPage() {
               >
                 {agents.hunt.kicker}
               </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 3 }}>
-                The author&apos;s own daily prompts ship in <code>docs/agent-prompts/</code> as starting points to adapt: a
-                scheduled hunt and two apply-session variants, with the personal parts turned into placeholders.
-              </Typography>
             </Reveal>
           </Grid>
+        </Grid>
+      </Section>
+
+      <Section tone="raised" eyebrow="Skills" title={agents.skills.title} lede={agents.skills.body} maxWidth={760}>
+        <Grid container spacing={2.5}>
+          {agents.skills.items.map((k, i) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={k.name}>
+              <Reveal delay={(i % 3) * 70} sx={{ height: "100%" }}>
+                <Paper sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default" }}>
+                  <Typography
+                    variant="h6"
+                    component="h3"
+                    sx={{ fontFamily: "var(--font-mono)", fontSize: "0.95rem", mb: 1 }}
+                  >
+                    {k.name}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    {k.detail}
+                  </Typography>
+                </Paper>
+              </Reveal>
+            </Grid>
+          ))}
         </Grid>
       </Section>
 
@@ -181,16 +236,48 @@ export default function AgentsPage() {
         <Reveal>
           <Box sx={{ mt: 4, maxWidth: 800 }}>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              Be clear-eyed about what that consent event is: the agent writes it when it calls the tool, so it records{" "}
-              <em>that the agent said you agreed</em>. It gives you attribution after the fact and a hard ceiling on
-              volume; it is not a lock a prompt-injected agent cannot pick. The lane is built to be run while you watch
-              it.
+              {agents.ledger.caveat}
             </Typography>
           </Box>
         </Reveal>
       </Section>
 
-      <Section tone="raised" eyebrow="Risks" title={agents.risks.title} lede={agents.risks.lede} maxWidth={760}>
+      <Section
+        tone="raised"
+        eyebrow={agents.fullAutomation.eyebrow}
+        title={agents.fullAutomation.title}
+        lede={agents.fullAutomation.body}
+        maxWidth={800}
+      >
+        <Grid container spacing={2.5}>
+          {agents.fullAutomation.points.map((g, i) => (
+            <Grid size={{ xs: 12, md: 4 }} key={g}>
+              <Reveal delay={i * 80} sx={{ height: "100%" }}>
+                <Paper sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default" }}>
+                  <Typography variant="body2">{g}</Typography>
+                </Paper>
+              </Reveal>
+            </Grid>
+          ))}
+        </Grid>
+        <Reveal>
+          <Stack spacing={2} sx={{ mt: 4, maxWidth: 800 }}>
+            <Typography variant="body1" sx={{ color: "text.secondary" }}>
+              {agents.fullAutomation.extra}
+            </Typography>
+            <Box>
+              <Typography variant="h6" component="h3" sx={{ mb: 0.5 }}>
+                {agents.fullAutomation.login.title}
+              </Typography>
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                {agents.fullAutomation.login.body}
+              </Typography>
+            </Box>
+          </Stack>
+        </Reveal>
+      </Section>
+
+      <Section eyebrow="Risks" title={agents.risks.title} lede={agents.risks.lede} maxWidth={760}>
         <Grid container spacing={2.5}>
           {agents.risks.items.map((r, i) => (
             <Grid size={{ xs: 12, md: 4 }} key={r.title}>
@@ -215,6 +302,31 @@ export default function AgentsPage() {
         </Reveal>
       </Section>
 
+      <Section tone="raised" eyebrow={agents.alwaysOn.eyebrow} title={agents.alwaysOn.title} lede={agents.alwaysOn.body} maxWidth={800}>
+        <Grid container spacing={2.5}>
+          {agents.alwaysOn.points.map((g, i) => (
+            <Grid size={{ xs: 12, sm: 6 }} key={g}>
+              <Reveal delay={(i % 2) * 80} sx={{ height: "100%" }}>
+                <Paper sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default" }}>
+                  <Typography variant="body2">{g}</Typography>
+                </Paper>
+              </Reveal>
+            </Grid>
+          ))}
+        </Grid>
+        <Reveal>
+          <Box sx={{ mt: 3 }}>
+            <Button
+              href={`${site.repo}/blob/main/docs/always-on-bot.md`}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outlined"
+            >
+              {agents.alwaysOn.link}
+            </Button>
+          </Box>
+        </Reveal>
+      </Section>
     </>
   );
 }

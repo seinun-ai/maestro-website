@@ -470,110 +470,168 @@ export const agents = {
     eyebrow: "Agent surfaces",
     title: "The assistant you already use can drive all of it",
     lede: "Maestro ships an MCP server. Extract a posting, score it, walk the gaps, render the PDF, all without leaving Claude, the ChatGPT desktop app or the Codex CLI. Unlike SaaS-backed job-search servers, it runs on your machine against your database.",
-    image: "/media/mcp-dashboard.png",
-    imageAlt: "Claude pulling the whole pipeline over MCP and building its own view of it",
+    image: "/media/connected-agents.png",
+    imageAlt:
+      "Settings › Connected agents in the app, with the Connect an agent app card: a Tool set choice and a command, install button or URL for each assistant",
+    caption: "Settings › Connected agents. Pick a tool set, then copy a command, press an install button or copy the URL.",
   },
   setup: {
-    title: "Installed from your client's settings",
-    body: "The server runs inside the backend container you already started, which is why the two big clients need no terminal, no config file and no host Python: you pick something in their own settings, and the same declaration is correct on every machine.",
-    manual:
-      "If an install misbehaves, both apps also take a hand-written entry: claude_desktop_config.json for Claude Desktop (quit the app fully first: it rewrites that file on exit and silently drops your edit) or ~/.codex/config.toml for Codex. If the hand-written entry connects, the server is fine and the packaging was the problem.",
+    title: "Connect it with one command",
+    body: "The MCP server runs inside the Maestro backend on your computer, at http://localhost:8001/mcp. Your assistant connects by URL, so it needs no Docker and no Python on its side. HTTP is the default transport.",
+    homeBlurb:
+      "Run maestro connect, or open Settings › Connected agents › Connect an agent app. It adds Maestro to Claude Desktop, Claude Code, Codex, Cursor or VS Code. No config file to write by hand.",
     targets: [
-      { client: "Claude Desktop & Claude Code", how: "Settings → Extensions → Install Extension → pick mcpb/maestro-career-studio.mcpb inside the cloned folder. One install covers both", auto: true },
-      { client: "Codex / ChatGPT desktop", how: "Settings → Plugins → add seinun-ai/maestro-career-studio as a marketplace, then Install", auto: true },
-      { client: "Cursor, Windsurf, other stdio clients", how: "./scripts/setup-mcp.sh prints a paste-ready block per client, the one route that needs a host Python 3.12+", auto: false },
+      {
+        client: "From the terminal (uv install)",
+        how: "maestro connect lists the apps and which already have Maestro. maestro connect claude-desktop, claude-code, codex, cursor, vscode or other adds it.",
+        auto: true,
+      },
+      {
+        client: "From the app (any install)",
+        how: "Settings › Connected agents › Connect an agent app. Pick a Tool set, then copy a command, press an install button or download the Claude Desktop bundle.",
+        auto: true,
+      },
+      {
+        client: "Claude Desktop on Docker",
+        how: "Download maestro-career-studio.mcpb from the card or the GitHub release and double-click it. It is a small Node bridge to the local URL. Reinstall it if you have the older Docker-based one.",
+        auto: false,
+      },
     ],
-    flags: "Every route defaults to the full profile, and staying there is fine. Scoped profiles are an opt-in trim: the Claude extension's Tool profile field, the MAESTRO_CS_MCP_PROFILE value in a hand-written entry, or --profile hunt on the script. One profile at a time.",
+    manual:
+      "Claude Desktop rewrites its settings file while it runs. If it is open, maestro connect waits and writes after you quit it. --now writes at once, and --print shows the entry without changing anything. It keeps a .bak copy of the old file.",
+    flags:
+      "Every route defaults to the full tool set, all 88 tools, and staying there is fine. Smaller sets are an opt-in trim: the card's Tool set selector, --profile hunt on maestro connect, or a /mcp/hunt URL. One set at a time.",
     paths: [
       {
-        name: "Claude",
-        covers: "Claude Desktop, and Claude Code inside the Claude app. One install covers both",
+        name: "From the terminal",
+        covers: "uv installs: Claude Desktop, Claude Code, Codex, Cursor and VS Code",
         steps: [
-          "Settings → Extensions → Install Extension",
-          "Pick mcpb/maestro-career-studio.mcpb inside the folder Part 1 created",
-          "Leave the fields at their defaults and install",
+          "Run maestro connect to see the apps and which already have Maestro",
+          "Run maestro connect claude-code (or claude-desktop, codex, cursor, vscode, other)",
+          "Restart that app so it sees the tools",
         ],
-        note: "The Tool profile field stays full unless you later want a scoped set.",
+        note: "claude-code and codex run that app's own mcp add command for you. With Claude Desktop open, the command waits and writes after you quit it. --now writes at once, --print shows the entry first.",
       },
       {
-        name: "Codex / ChatGPT desktop",
-        covers: "The ChatGPT desktop app and the Codex CLI share this install",
+        name: "From the app",
+        covers: "Any install, Docker included",
         steps: [
-          "Settings → Plugins → Add plugin marketplace",
-          "Source seinun-ai/maestro-career-studio · git ref main · sparse paths empty",
-          "Open the Maestro Career Studio entry and press Install",
+          "Open Settings › Connected agents › Connect an agent app",
+          "Choose a Tool set (full by default)",
+          "Copy the command or URL, press the install button, or download the Claude Desktop bundle",
         ],
-        note: "The plugin is pinned to the full profile; scoping it means the hand-written entry below.",
+        note: "Claude Code and Codex CLI get a copyable command, Cursor and VS Code get install buttons, and any other HTTP client gets the URL.",
       },
     ],
+    urlClients: {
+      title: "URL clients: Claude Code and Codex",
+      code: `claude mcp add --scope user --transport http maestro-career-studio http://localhost:8001/mcp
+codex mcp add maestro-career-studio --url http://localhost:8001/mcp`,
+      note: "Use /mcp exactly, with no trailing slash. --scope user makes Maestro available in every folder. Without it, Claude Code adds it to the current project only. Smaller sets use /mcp/hunt, /mcp/apply, /mcp/explore, /mcp/templates or /mcp/career.",
+    },
+    codexPlugin: {
+      title: "Codex app: custom server or plugin",
+      body: "In the Codex app, open Plugins › Add › Create custom MCP server, choose Server URL, paste the URL and set Authentication to No authentication. Leave Tunnel off. For the plugin route, add a marketplace with these fields, then install Maestro Career Studio.",
+      fields: [
+        ["Source", "seinun-ai/maestro-career-studio"],
+        ["Git ref", "the release tag you are installing, for example v0.10.1"],
+        ["Sparse paths", ".agents/plugins and plugins"],
+      ],
+      note: "Pick one connection route per client, so each tool shows up once.",
+    },
     profilesNote:
-      "Both installs load all 83 tools: the full profile, and the right default. The five scoped trims (hunt, apply, explore, templates, career) are a customization you add by editing the config directly: change MAESTRO_CS_MCP_PROFILE in the JSON or TOML below, or set the Claude extension's Tool profile field. One profile at a time.",
+      "Every route loads all 88 tools: the full set, and the right default. The five smaller sets are an opt-in trim: hunt (21 tools), apply (50), explore (11), templates (12) and career (18). Choose one in the card's Tool set selector, with --profile on maestro connect, or by URL. One set at a time.",
     fallback: {
       title: "If an install misbehaves, write the config by hand",
-      body: "Both apps read a plain config file, and a hand-written entry always works: if it connects, the server is fine and the packaging was the problem. Both entries run the server inside the backend container, so neither needs a host Python.",
+      body: "A hand-written entry always works. If it connects, the server is fine and the packaging was the problem. Both entries point at the local URL, so neither needs Docker or Python.",
       claude: {
-        title: "Claude Desktop · claude_desktop_config.json",
-        note: "Fully quit Claude first (Cmd+Q; closing the window is not enough): the running app rewrites this file on exit and silently drops your edit. Reach it via Settings → Developer → Edit Config, add the entry under mcpServers, save, reopen.",
+        title: "Claude Code and Cursor · mcpServers",
+        note: "Add the entry under mcpServers in the client's config. VS Code uses the same entry under servers in .vscode/mcp.json. Claude Desktop uses maestro connect claude-desktop or the bundle. Its manual Node bridge entry is in the MCP guide.",
         code: `"maestro-career-studio": {
-  "command": "docker",
-  "args": ["exec", "-i",
-           "-e", "BACKEND_URL=http://localhost:8000",
-           "-e", "MAESTRO_CS_MCP_PROFILE=full",
-           "maestro-career-studio-backend-1",
-           "python", "-m", "mcp_server.server"]
+  "type": "http",
+  "url": "http://localhost:8001/mcp"
 }`,
       },
       codex: {
-        title: "Codex / ChatGPT desktop · ~/.codex/config.toml",
-        note: "Append the block, then restart the app. The file is shared by the ChatGPT desktop app and the Codex CLI; Codex also takes the same command through Settings → MCPs → Connect a custom MCP, type STDIO.",
+        title: "Codex · ~/.codex/config.toml",
+        note: "Append the block, then restart the app. The Codex CLI and the Codex app share this file.",
         code: `[mcp_servers.maestro-career-studio]
-command = "docker"
-args = ["exec", "-i",
-        "-e", "BACKEND_URL=http://localhost:8000",
-        "-e", "MAESTRO_CS_MCP_PROFILE=full",
-        "maestro-career-studio-backend-1",
-        "python", "-m", "mcp_server.server"]
+url = "http://localhost:8001/mcp"
 enabled = true`,
       },
     },
     otherClients:
-      "Cursor, Windsurf, another stdio client, or a backend outside Docker? ./scripts/setup-mcp.sh prints a paste-ready block per client, the one route that needs a host Python 3.12+.",
+      "Another HTTP client? Use the URL above. A client that only speaks stdio can run maestro mcp, the same bridge Claude Desktop uses on a uv install.",
+    local: {
+      title: "Keep MCP on this computer",
+      body: "/mcp has no authentication by design, because a local process can already reach the app's API. It sits behind the same Host and Origin checks. Never publish port 8001, never proxy /mcp beyond this computer, and leave Codex's Tunnel off. Web connectors on claude.ai and chatgpt.com are outside this local setup.",
+    },
     delegate: {
-      title: "Or just ask the assistant to do it",
-      body: "Agents that can edit files and run commands are perfectly capable of wiring this up themselves. Run the script with --print-only, hand the output to Claude Code or the Codex CLI, and ask it to add the server to your config. It knows where those files live and it can merge into them without clobbering your other MCP servers.",
-      prompt: "Run ./scripts/setup-mcp.sh --print-only, then add the maestro-career-studio server to my MCP config. Merge it in. Don't overwrite the servers already there.",
-      caveat: "Read the diff before you accept it. It is editing a config file that other tools depend on.",
+      title: "Or ask your agent to do it",
+      body: "An agent that can run commands can run the connect step for you. It knows which app it is, and maestro connect only edits that app's own settings.",
+      prompt: "Run `maestro connect` to see which apps already have Maestro, then run it for the app I'm using. Tell me when I need to restart it.",
+      caveat: "Read what it changes. Claude Desktop's settings file is shared with your other MCP servers, and maestro connect keeps a .bak copy of the old one.",
     },
   },
   keyless: {
     title: "No API key? Your assistant is the model.",
-    body: "Over MCP, Claude or Codex extracts the posting and authors the tailoring edits, and the server applies them through the same honesty gates. The whole capture, score, tailor, render arc plus Career KB and resume upkeep, with no in-house LLM calls at all. If that is how you already work, it is a complete setup on its own.",
+    body: "Over MCP, Claude or Codex extracts the posting and authors the tailoring edits, and the server applies them through the same honesty gates. The whole save, score, tailor, render arc plus career history and resume upkeep, with no in-house LLM calls at all. If that is how you already work, it is a complete setup on its own.",
   },
   profiles: [
-    { name: "full", detail: "All 83 tools" },
-    { name: "hunt", detail: "Find, capture, triage, propose" },
-    { name: "apply", detail: "Tailor, render, package" },
-    { name: "explore", detail: "Analytics and market questions" },
-    { name: "templates", detail: "Author and validate designs" },
-    { name: "career", detail: "Career KB reads and writes" },
+    { name: "full", detail: "All 88 tools" },
+    { name: "hunt", detail: "21 tools. Find, capture, triage, propose" },
+    { name: "apply", detail: "50 tools. Tailor, render, fill, consent, submit" },
+    { name: "explore", detail: "11 tools. Analytics and market questions" },
+    { name: "templates", detail: "12 tools. Author and validate designs" },
+    { name: "career", detail: "18 tools. Career history reads and writes" },
   ],
   hunt: {
     title: "Hunt with the agent you already use",
-    body: "get_job_search_brief hands your agent your preferences, your work-authorization answers word for word, and the guardrails you configured. A Claude or Codex session then finds postings on whatever boards it can read, captures them, scores them against your bases and hands back a ranked shortlist.",
+    body: "get_job_search_brief hands your agent your preferences, your work-authorization answers word for word, and the guardrails you configured. A Claude or Codex session then finds postings on whatever boards it can read, saves them, scores them against your bases and files the best as proposals in your Agent inbox.",
     kicker: "No board integration to get locked into. No scraper to break. The agent reads what you would have read.",
-    image: "/media/hunt-digest.png",
-    imageAlt: "A scheduled hunt reporting back, and stopping at your review",
+    image: "/media/agent-inbox.png",
+    imageAlt:
+      "The Agent inbox: jobs your agent found, in lanes for Needs you, To review, Queued, Applying and History, with the agent that filed each one",
+    caption: "The Agent inbox. Each job shows which agent filed it. You Queue or Skip it.",
+  },
+  skills: {
+    title: "Six ready-made skills",
+    body: "The Automations page in the app copies each skill as a prompt. Paste it into Claude Desktop, Codex or any MCP agent, and your agent asks when to run it. Maestro runs no scheduler of its own. Nothing personal ships in them.",
+    items: [
+      { name: "job-hunt", detail: "Finds recent postings that fit you, saves and scores them, and proposes the best. Can also check the careers pages of companies where you have contacts." },
+      { name: "apply-session", detail: "Works through the jobs you queued. Asks you only for what the app doesn't have, plus one yes per application before the final submit." },
+      { name: "mail-status", detail: "Reads your job email and moves each application to applied, interviewing, rejected or offered. It never sends mail." },
+      { name: "referral-pages", detail: "Checks your referrals' careers pages for new roles that fit you, and proposes them." },
+      { name: "tailor-run", detail: "Prepares a tailored resume for each queued job, using only facts you have already given." },
+      { name: "customize-job-skills", detail: "Suggests skills from what your agent knows about you, then builds your own versions with your client's skill creator and scheduler." },
+    ],
   },
   ledger: {
-    title: "The proposal ledger",
-    body: "A hunted job becomes a proposal in a staged lane: tailored, rendered and filled without interrupting you at every page. Then it stops. You triage proposals in bulk, and apply runs only touch the ones you accepted. Nothing is ever executed from the web app. Filling and submitting happen inside a live agent session holding a browser, and consent lives in that session, one turn before the click.",
+    title: "The Agent inbox and the consent ledger",
+    body: "A job your agent finds becomes a proposal, filed with the name of the agent that found it. You review proposals in the Agent inbox, in lanes: Needs you, To review, Queued, Applying and History. You Queue or Skip them, in bulk if you like. An apply run works only the ones you queued. It tailors, renders and fills each application in a live agent session with a browser, then by default waits for your yes before each submit. Nothing is ever submitted from the web app itself.",
     guards: [
       "Consent is an append-only event, capped daily at a number you set",
-      "An agent can't self-certify. Marking a proposal submitted needs a receipt or your own attestation.",
+      "By default an agent can't self-certify. Marking a proposal submitted needs a receipt or your own attestation.",
       "A submit click that can't be verified ends as submission_uncertain. Never retried, never re-clicked.",
     ],
     caveat:
-      "Be clear-eyed about that consent event: the agent writes it when it calls the tool, so it records that the agent said you agreed. It gives you attribution afterwards and a hard ceiling on volume. It isn't a lock a prompt-injected agent can't pick. Run the lane while you watch it.",
+      "Be clear-eyed about that consent event: the agent writes it when it calls the tool, so it records that the agent said you agreed. It gives you attribution afterwards and a hard ceiling on volume. It isn't a lock a prompt-injected agent can't pick. Run the apply session while you watch it.",
+  },
+  fullAutomation: {
+    eyebrow: "Opt-in · off by default",
+    title: "Full automation, if you choose it",
+    body: "The default is attended: one yes per application before the final submit. Settings › Connected agents has a switch called Full automation, and it is Off until you turn it on. While it is On, your own agent may submit queued jobs whose final review is clean without asking each time.",
+    points: [
+      "Your daily limit and your Companies to skip still apply.",
+      "A job with anything to check goes to Needs you, and the agent asks you.",
+      "The agent's automatic yes and its note confirming submission are labelled auto in the consent ledger.",
+    ],
+    extra:
+      "Order, batching and timing stay between you and your agent. On the Automations page, Apply automatically replaces the attended Apply prompt while the switch is On. The Companion is separate: it fills the form and stops. You press Submit.",
+    login: {
+      title: "Job-site login",
+      body: "Optional. Save an email and a password used only for job-site accounts. They sit in a private local file, and Settings shows the email and only whether a password is saved. While Full automation is On, a connected agent can fetch them for a queued or approved job at a company you haven't skipped. Each hand-off is recorded without the value. The login passes through your agent's AI provider, so use it only for job-site accounts. Clear it any time under Job-site login in Settings › Connected agents.",
+    },
   },
   risks: {
     title: "The risks, plainly",
@@ -583,7 +641,19 @@ enabled = true`,
       { title: "Unverified employers", body: "A hunted posting isn't a vetted one, and an application carries your contact details and work history to whoever posted it." },
       { title: "Bot detection", body: "Some employers filter applications that look automated, and we won't help you hide. No stealth automation, no CAPTCHA bypass, no headless submitting." },
     ],
-    closing: "Use the lane on jobs you've looked at yourself. Everything it does is written down.",
+    closing: "Use it on jobs you've looked at yourself. Everything it does is written down.",
+  },
+  alwaysOn: {
+    eyebrow: "Advanced · optional",
+    title: "Keep it working while your laptop is off",
+    body: "A second copy of Maestro on a machine that stays on can work your search while your laptop sleeps. Your laptop keeps your profile, and each job has one owner, so nothing merges. Job cards show whether a job is With your bot or On your laptop, and the MCP tool sync_now runs a sync round. On your laptop, Settings › Connected agents › Second copy has a Copy setup prompt button. Paste it into the agent on the other machine.",
+    points: [
+      "The second copy runs without Docker: setup, start, stop and health commands, with Python 3.12 and cron.",
+      "Sync is sealed and travels over HTTPS through Tailscale Funnel, or over an SSH tunnel. It stays off until a sync key file exists.",
+      "That copy holds a read-only copy of your profile, including your AI key and your job-site login.",
+      "The app still listens only on 127.0.0.1. The one published path is /api/sync, through Tailscale Funnel.",
+    ],
+    link: "Read the always-on bot guide",
   },
 } as const;
 
