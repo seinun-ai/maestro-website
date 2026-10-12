@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import LoopVideo from "./LoopVideo";
-import { isVideo, mediaSize } from "@/lib/media";
+import { gifStill, isVideo, mediaSize } from "@/lib/media";
 import { accent as accentOf, c, type Accent } from "@/lib/tokens";
 
 /**
@@ -49,6 +49,24 @@ export default function ShotFrame({
       >
         {isVideo(src) ? (
           <LoopVideo src={src} label={alt} width={dims.width} height={dims.height} priority={priority} />
+        ) : gifStill[src] ? (
+          // A GIF cannot be paused, so reduced motion gets its still instead.
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)" srcSet={gifStill[src]} />
+            <img
+              src={src}
+              alt={alt}
+              width={dims.width}
+              height={dims.height}
+              loading={priority ? "eager" : "lazy"}
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+                ...(aspect ? { aspectRatio: aspect, objectFit: "cover", objectPosition: "top" } : null),
+              }}
+            />
+          </picture>
         ) : (
           <Image
             src={src}
@@ -57,8 +75,6 @@ export default function ShotFrame({
             height={dims.height}
             sizes={sizes}
             loading={priority ? "eager" : "lazy"}
-            // GIFs are already-encoded captures; re-encoding drops the animation.
-            unoptimized={src.endsWith(".gif")}
             style={
               aspect
                 ? { width: "100%", height: "auto", aspectRatio: aspect, objectFit: "cover", objectPosition: "top", display: "block" }

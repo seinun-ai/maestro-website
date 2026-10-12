@@ -178,10 +178,13 @@ Both bit during the build and are easy to reintroduce:
 
 ## Captures
 
-The stills in `public/media/` are copied from the product repo's `docs/assets/`.
-They are real captures of the shipped app, already reviewed and cleared for
-publication there — re-copy them rather than re-recording, and keep `lib/media.ts`
-in step with any change in pixel dimensions.
+The stills and the Companion GIF in `public/media/` are v0.10.1 captures of the
+fictional persona "Jordan Ellis", made on a throwaway stack and kept in the
+private marketing repo (`site-media/`, whose `MANIFEST.md` says what each file
+shows and which numbers are on screen). Re-copy from there rather than
+re-recording, and keep `lib/media.ts` in step with any change in pixel
+dimensions. An animated GIF has a still in `gifStill` that readers who prefer
+reduced motion see instead (`extension.gif` falls back to `companion.png`).
 
 Each feature card crops its capture to 7:4 from the top, so cards side by side
 line up. `lib/media.ts` marks every capture still waiting on a v0.10.1 recapture

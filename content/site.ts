@@ -172,8 +172,8 @@ export const capabilities = {
       pill: "Targets",
       title: "A specialist resume for each track",
       body: "Keep one base resume per kind of role you go after. Give each a Target: the role, a company, the countries it may go to. A resume set for other countries isn't scored or recommended for a job somewhere else.",
-      image: "/media/base-resume.png",
-      imageAlt: "A base resume in the app with its health grade and a live typeset preview",
+      image: "/media/base-gallery.png",
+      imageAlt: "Three base resumes in the app, each with its Target pills: Data Scientist for GB, ML Engineer for the US, and ML Engineer for Woodgrove Bank",
       href: `${docs.using}#2-build-a-base-resume-per-career-track`,
     },
     {
@@ -182,8 +182,8 @@ export const capabilities = {
       pill: "Match score",
       title: "It asks instead of inventing",
       body: "The Match score shows what a job wants that your resume doesn't show yet. Maestro asks you about each gap. If it's true, it's saved for every future application. If it isn't, it stays a gap.",
-      image: "/media/job-overview.png",
-      imageAlt: "A saved job with its extracted fields and a check of the stated requirements against your profile",
+      image: "/media/job-score.png",
+      imageAlt: "A saved job scored against two base resumes, each with its Match score, five subscores, skills covered and an Analyze gaps button",
       href: `${docs.using}#3-save-the-job-then-close-the-gaps`,
     },
     {
@@ -194,7 +194,8 @@ export const capabilities = {
       body: "Every change arrives as a diff, line by line, the way a developer reviews a code change before accepting it. Accept it or undo it.",
       quote: "The AI fills in emphasis. It doesn't invent a new person.",
       image: "/media/kb-import.png",
-      imageAlt: "The resume editor adding bullets from your career history, with the drawer showing what is already present",
+      // TODO(capture): a tailored resume's review, each change with Undo.
+      imageAlt: "A base resume with the Add from career history drawer open, choosing which bullets to add",
       href: `${docs.using}#how-it-works`,
     },
     {
@@ -204,8 +205,8 @@ export const capabilities = {
       title: "How many resume templates have you changed in your life?",
       body: "One or two. Here it's a button. LaTeX and Typst PDFs are built on your computer, and Typst needs no TeX.",
       quote: "Template change is not a decision of life anymore.",
-      image: "/media/templates.png",
-      imageAlt: "The template gallery, with LaTeX and Typst designs built on your computer",
+      image: "/media/base-resume.png",
+      imageAlt: "A base resume in the app, with its Template control in the toolbar and the full one-page PDF preview beside the editor",
       href: `${docs.using}#templates-you-actually-own`,
     },
     {
@@ -215,7 +216,7 @@ export const capabilities = {
       title: "It fills the form. You press Submit.",
       body: "A Chrome side panel saves the job from the board you're on, picks your best-matching resume and fills the application from your saved answers. Then it stops.",
       image: "/media/extension.gif",
-      imageAlt: "The Companion panel on a job page, stepping through Job, Resume, Fill and Track",
+      imageAlt: "The Companion beside a job application: it saves the job, tailors the resume, fills the form and stops with the cursor resting on Submit",
       href: `${docs.using}#the-companion-browser-extension`,
     },
     {
@@ -225,7 +226,7 @@ export const capabilities = {
       title: "Know it's sound before you send it",
       body: "A health report grades one resume on its own: can application systems read it, are the dates right, is the evidence strong. A serious problem blocks tailoring, because tailoring can't fix a broken resume.",
       image: "/media/health-report.png",
-      imageAlt: "A resume health grade with the cost of each problem",
+      imageAlt: "A resume health report: grade B, 79 out of 100, six points to an A, and the findings to reword",
       href: `${docs.using}#health-report--is-this-resume-sound-at-all`,
     },
   ],
@@ -245,10 +246,8 @@ export const agentsTeaser = {
   automation:
     "Full automation is opt-in and off by default: when you turn it on, your own agent may submit the jobs you queued whose final review is clean, within your daily limit.",
   link: { label: "The MCP guide on GitHub", href: docs.mcpGuide },
-  // TODO(capture): connected-agents.png, then restore its alt text:
-  // "Settings › Connected agents in the app, with the Connect an agent app card".
-  image: "/media/applications.png",
-  imageAlt: "The Jobs page, from saved jobs through to offers",
+  image: "/media/agent-inbox.png",
+  imageAlt: "The Agent inbox: jobs that Claude and Codex found, each with its best base resume and Match score, waiting for you to review",
 } as const;
 
 /* ---------------------------- numbers ---------------------------- */
