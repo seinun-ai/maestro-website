@@ -19,12 +19,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import Logo from "./Logo";
 import GitHubMark from "./GitHubMark";
-import { ds } from "@/lib/theme";
+import { c } from "@/lib/tokens";
 import { headerCta, nav, site } from "@/content/site";
 
-/** The promoted destination renders as a button, so it must not also render as
- *  a link beside it. Footer and sitemap keep the unfiltered list. */
-const navLinks = nav.filter((i) => i.href !== headerCta.href);
+const linkSx = {
+  px: 1.5,
+  fontWeight: 500,
+  color: c.muted,
+  "&:hover": { color: c.fg, backgroundColor: "action.hover" },
+} as const;
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -38,7 +41,8 @@ export default function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  // Home sections are anchors, so only a real page can be the current one.
+  const isActive = (href: string) => !href.includes("#") && pathname === href;
 
   return (
     <>
@@ -48,59 +52,40 @@ export default function SiteHeader() {
         elevation={0}
         sx={{
           top: 0,
-          backgroundColor: raised ? ds.background : "transparent",
-          borderBottom: 1,
-          borderColor: raised ? "divider" : "transparent",
-          boxShadow: raised ? ds.shadowFloat : "none",
+          backgroundColor: raised ? c.bg : "transparent",
+          borderBottom: `1px solid ${raised ? c.border : "transparent"}`,
+          boxShadow: raised ? c.shadowFloat : "none",
           transition: "background-color 200ms cubic-bezier(0.2, 0, 0, 1), box-shadow 200ms cubic-bezier(0.2, 0, 0, 1)",
         }}
       >
         <Container>
           <Toolbar disableGutters sx={{ minHeight: { xs: 62, md: 70 }, gap: 2 }}>
-            <Box component={NextLink} href="/" aria-label={`${site.name} home`} sx={{ textDecoration: "none", color: "inherit" }}>
+            <Box component={NextLink} href="/" aria-label={`${site.name} home`} sx={{ textDecoration: "none", color: c.fg }}>
               <Logo />
             </Box>
 
             <Box sx={{ flex: 1 }} />
 
-            {/* Eight items need more room than the md breakpoint has: at 900px the
-                full bar left 16px of headroom, which one font-rendering
-                difference would eat. The drawer covers 900 to 1199. */}
-            <Stack direction="row" spacing={0.5} sx={{ display: { xs: "none", lg: "flex" } }}>
-              {navLinks.map((item) => (
+            <Stack direction="row" spacing={0.5} component="nav" aria-label="Main" sx={{ display: { xs: "none", md: "flex" } }}>
+              {nav.map((item) => (
                 <Button
                   key={item.href}
                   component={NextLink}
                   href={item.href}
                   size="small"
-                  color="inherit"
                   aria-current={isActive(item.href) ? "page" : undefined}
-                  sx={{
-                    px: 1.5,
-                    fontWeight: 500,
-                    color: isActive(item.href) ? "text.primary" : "text.secondary",
-                    "&:hover": { color: "text.primary", backgroundColor: "action.hover" },
-                  }}
+                  sx={{ ...linkSx, ...(isActive(item.href) ? { color: c.fg } : null) }}
                 >
                   {item.label}
                 </Button>
               ))}
-              {/* The repo, restored as a nav item rather than a second CTA:
-                  it reads as navigation here, so it no longer competes with
-                  the Install button that now wears the mark. */}
               <Button
                 href={site.repo}
                 target="_blank"
                 rel="noopener noreferrer"
                 size="small"
-                color="inherit"
                 startIcon={<GitHubMark />}
-                sx={{
-                  px: 1.5,
-                  fontWeight: 500,
-                  color: "text.secondary",
-                  "&:hover": { color: "text.primary", backgroundColor: "action.hover" },
-                }}
+                sx={linkSx}
               >
                 GitHub
               </Button>
@@ -113,14 +98,13 @@ export default function SiteHeader() {
                 variant="contained"
                 size="small"
                 aria-current={isActive(headerCta.href) ? "page" : undefined}
-                sx={{ px: 2 }}
               >
                 {headerCta.label}
               </Button>
               <IconButton
                 onClick={() => setOpen(true)}
                 aria-label="Open navigation"
-                sx={{ display: { xs: "inline-flex", lg: "none" }, border: 1, borderColor: "divider", borderRadius: 2 }}
+                sx={{ display: { xs: "inline-flex", md: "none" }, border: `1px solid ${c.border}`, borderRadius: 2 }}
                 size="small"
               >
                 <MenuIcon fontSize="small" />
@@ -134,9 +118,9 @@ export default function SiteHeader() {
         anchor="right"
         open={open}
         onClose={() => setOpen(false)}
-        slotProps={{ paper: { sx: { width: 288, borderRadius: 0 } } }}
+        slotProps={{ paper: { sx: { width: 288, borderRadius: 0, backgroundColor: c.card } } }}
       >
-        <Stack direction="row"  sx={{ alignItems: "center", p: 2 }}>
+        <Stack direction="row" sx={{ alignItems: "center", p: 2 }}>
           <Logo />
           <Box sx={{ flex: 1 }} />
           <IconButton onClick={() => setOpen(false)} aria-label="Close navigation" size="small">
@@ -145,7 +129,7 @@ export default function SiteHeader() {
         </Stack>
         <Divider />
         <List sx={{ py: 1 }}>
-          {navLinks.map((item) => (
+          {nav.map((item) => (
             <ListItemButton
               key={item.href}
               component={NextLink}
@@ -160,13 +144,7 @@ export default function SiteHeader() {
         </List>
         <Divider />
         <Stack spacing={1.25} sx={{ p: 2 }}>
-          <Button
-            fullWidth
-            variant="contained"
-            component={NextLink}
-            href={headerCta.href}
-            onClick={() => setOpen(false)}
-          >
+          <Button fullWidth variant="contained" component={NextLink} href={headerCta.href} onClick={() => setOpen(false)}>
             {headerCta.label}
           </Button>
           <Button
@@ -177,7 +155,7 @@ export default function SiteHeader() {
             rel="noopener noreferrer"
             startIcon={<GitHubMark />}
           >
-            View on GitHub
+            Star on GitHub
           </Button>
         </Stack>
       </Drawer>

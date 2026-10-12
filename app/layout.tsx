@@ -1,16 +1,28 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import Box from "@mui/material/Box";
 import ThemeRegistry from "@/components/ThemeRegistry";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import SkipLink from "@/components/SkipLink";
 import { site } from "@/content/site";
+import "./globals.css";
 
 const geist = Geist({
   subsets: ["latin"],
   variable: "--font-geist",
   display: "swap",
+});
+
+// Headlines, as in the README hero GIF. Variable (opsz, wght, wdth), SIL OFL
+// 1.1: app/fonts/OFL-BricolageGrotesque.txt.
+const bricolage = localFont({
+  src: "./fonts/BricolageGrotesque-Variable.woff2",
+  variable: "--font-display",
+  weight: "200 800",
+  display: "swap",
+  declarations: [{ prop: "font-stretch", value: "75% 100%" }],
 });
 
 const mono = Geist_Mono({
@@ -63,11 +75,17 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = { themeColor: "#F7F7F7" };
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F7F7F7" },
+    { media: "(prefers-color-scheme: dark)", color: "#0A0A0A" },
+  ],
+  colorScheme: "light dark",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} ${mono.variable}`}>
+    <html lang="en" className={`${geist.variable} ${mono.variable} ${bricolage.variable}`}>
       <body>
         <ThemeRegistry>
           <SkipLink />

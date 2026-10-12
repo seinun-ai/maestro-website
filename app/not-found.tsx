@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { LinkButton } from "@/components/NextMui";
-import { nav } from "@/content/site";
+import { headerCta, nav } from "@/content/site";
 
 export const metadata: Metadata = { title: "Page not found" };
 
@@ -29,7 +29,7 @@ export default function NotFound() {
             <LinkButton href="/" variant="contained">
               Home
             </LinkButton>
-            {nav.map((item) => (
+            {[headerCta, ...nav].map((item) => (
               <LinkButton key={item.href} href={item.href} variant="outlined">
                 {item.label}
               </LinkButton>

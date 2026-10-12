@@ -1,0 +1,87 @@
+/*
+ * Colour tokens for the whole site, as CSS custom properties so that server
+ * components can use them as plain strings (`color: "var(--c-blue)"`) and the
+ * dark scheme is one media query instead of a theme callback.
+ *
+ * Light values are the app's design system (frontend/app/globals.css) plus the
+ * three specialist colours from the README hero GIF (hero-gif/compositions/
+ * shared.js). Dark values follow the app's dark theme: the role near tone 75,
+ * its container near tone 32, text on the container near tone 92.
+ *
+ * Rule: a specialist's solid colour is an edge, an outline or an icon. Text in
+ * a specialist colour only ever sits on that specialist's own tint, as `-ink`.
+ */
+:root {
+  --c-bg: #f7f7f7;
+  --c-card: #ffffff;
+  --c-raised: #f2f2f2;
+  --c-fg: #0a0a0a;
+  --c-muted: #656565;
+  --c-border: #e5e5e5;
+  --c-ring: #4e77b8;
+
+  /* App blue: actions, links, and the one highlighted phrase per headline. */
+  --c-blue: #1358bb;
+  --c-blue-tint: #d1e3ff;
+  --c-blue-ink: #053171;
+
+  --c-violet: #9964e5;
+  --c-violet-tint: #eee7ff;
+  --c-violet-ink: #53347e;
+  --c-tangerine: #d16100;
+  --c-tangerine-tint: #ffe5d8;
+  --c-tangerine-ink: #723302;
+  --c-teal: #0c9999;
+  --c-teal-tint: #c9f5f4;
+  --c-teal-ink: #015353;
+
+  /* Status roles, from the app: the privacy trade-off and what the Companion skips. */
+  --c-warning: #81520a;
+  --c-warning-tint: #fdddb8;
+  --c-warning-ink: #643e06;
+  --c-success: #0c6f4d;
+  --c-success-tint: #c0f0d8;
+  --c-success-ink: #08553a;
+
+  --c-navy: #0f172a;
+  --c-shadow-frame: 0 1px 2px rgba(10, 10, 10, 0.06), 0 24px 60px -28px rgba(10, 10, 10, 0.28);
+  --c-shadow-hero: 0 2px 6px rgba(10, 10, 10, 0.06), 0 40px 96px -36px rgba(19, 88, 187, 0.45);
+  --c-shadow-float: 0 1px 2px 0 rgba(0, 0, 0, 0.18), 0 2px 6px 2px rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-bg: #0a0a0a;
+    --c-card: #171717;
+    --c-raised: #121212;
+    --c-fg: #fafafa;
+    --c-muted: #a8a8a8;
+    --c-border: rgba(255, 255, 255, 0.1);
+    --c-ring: #86b2f7;
+
+    --c-blue: #86b2f7;
+    --c-blue-tint: #203f6f;
+    --c-blue-ink: #d6e6ff;
+
+    --c-violet: #ba93fb;
+    --c-violet-tint: #392953;
+    --c-violet-ink: #e9deff;
+    --c-tangerine: #f08e54;
+    --c-tangerine-tint: #4e270d;
+    --c-tangerine-ink: #ffddca;
+    --c-teal: #50bfbe;
+    --c-teal-tint: #093b3b;
+    --c-teal-ink: #c3efee;
+
+    --c-warning: #f5bb75;
+    --c-warning-tint: #5b3a0c;
+    --c-warning-ink: #fdddb8;
+    --c-success: #7fdeb3;
+    --c-success-tint: #0e4f37;
+    --c-success-ink: #c0f0d8;
+
+    --c-shadow-frame: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 60px -28px rgba(0, 0, 0, 0.8);
+    --c-shadow-hero: 0 2px 6px rgba(0, 0, 0, 0.5), 0 40px 96px -36px rgba(134, 178, 247, 0.35);
+    --c-shadow-float: 0 1px 2px 0 rgba(0, 0, 0, 0.6), 0 2px 6px 2px rgba(0, 0, 0, 0.4);
+  }
+}

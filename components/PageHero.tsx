@@ -1,14 +1,14 @@
-"use client";
-
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Reveal from "./Reveal";
+import Highlight from "./Highlight";
 import { Eyebrow } from "./Section";
-import { ds } from "@/lib/theme";
+import { c } from "@/lib/tokens";
 
+/** The opening band of an inner page: same type and wash as the home hero, smaller. */
 export default function PageHero({
   eyebrow,
   title,
@@ -24,23 +24,22 @@ export default function PageHero({
     <Box
       component="section"
       sx={{
-        pt: { xs: 6, md: 10 },
-        pb: { xs: 6, md: 9 },
-        borderBottom: 1,
-        borderColor: "divider",
-        backgroundImage: `radial-gradient(80% 90% at 12% -30%, ${ds.primaryContainer} 0%, transparent 58%)`,
+        pt: { xs: 7, md: 12 },
+        pb: { xs: 7, md: 10 },
+        borderBottom: `1px solid ${c.border}`,
+        backgroundImage: `radial-gradient(80% 90% at 12% -30%, ${c.blueTint} 0%, transparent 60%)`,
       }}
     >
       <Container>
         <Reveal>
-          <Stack spacing={2.5} sx={{ maxWidth: 820 }}>
+          <Stack spacing={3} sx={{ maxWidth: 880 }}>
             <Box>
               <Eyebrow>{eyebrow}</Eyebrow>
-              <Typography variant="h1" component="h1" sx={{ fontSize: "clamp(2.2rem, 4.6vw, 3.4rem)" }}>
-                {title}
+              <Typography variant="h1" component="h1" sx={{ fontSize: "clamp(2.5rem, 5.4vw, 4.25rem)" }}>
+                <Highlight text={title} />
               </Typography>
             </Box>
-            <Typography variant="subtitle1" sx={{ color: "text.secondary" }}>
+            <Typography variant="subtitle1" sx={{ color: c.muted, maxWidth: 720 }}>
               {lede}
             </Typography>
             {children}

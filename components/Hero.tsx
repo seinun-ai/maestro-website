@@ -1,21 +1,17 @@
-"use client";
-
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
-import Grid from "@mui/material/Grid";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ShotFrame from "./ShotFrame";
 import Reveal from "./Reveal";
+import Highlight from "./Highlight";
 import GitHubMark from "./GitHubMark";
-import StatBadge from "./StatBadge";
 import { LinkButton } from "./NextMui";
-import { ds } from "@/lib/theme";
-import { hero, heroStats, site } from "@/content/site";
+import { c } from "@/lib/tokens";
+import { hero } from "@/content/site";
 
 export default function Hero() {
   return (
@@ -25,73 +21,71 @@ export default function Hero() {
         position: "relative",
         overflow: "hidden",
         pt: { xs: 7, md: 12 },
-        pb: { xs: 8, md: 12 },
-        backgroundImage: `radial-gradient(80% 60% at 50% -12%, ${ds.primaryContainer} 0%, transparent 62%)`,
+        pb: { xs: 10, md: 15 },
+        backgroundImage: `radial-gradient(70% 52% at 50% -8%, ${c.blueTint} 0%, transparent 70%)`,
       }}
     >
       <Container>
-        <Stack
-          spacing={3.5}
-          sx={{ maxWidth: 900, textAlign: { xs: "left", md: "center" }, mx: { md: "auto" }, alignItems: { md: "center" } }}
-        >
+        <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ maxWidth: 1000, mx: "auto", textAlign: "center", alignItems: "center" }}>
           <Reveal>
-            <Chip
-              label={hero.eyebrow}
-              size="small"
-              variant="outlined"
-              sx={{ backgroundColor: "background.paper", px: 0.5 }}
-            />
+            <Box
+              component="p"
+              sx={{
+                m: 0,
+                display: "inline-block",
+                px: 1.75,
+                py: 0.75,
+                borderRadius: 999,
+                border: `1px solid ${c.border}`,
+                backgroundColor: c.card,
+                color: c.muted,
+                fontSize: { xs: "0.8125rem", md: "0.875rem" },
+                fontWeight: 500,
+              }}
+            >
+              {hero.eyebrow}
+            </Box>
           </Reveal>
           <Reveal delay={60}>
-            <Typography variant="h1" component="h1" sx={{ whiteSpace: "pre-line" }}>
-              {hero.title}
+            <Typography variant="h1" component="h1">
+              <Highlight text={hero.title} />
             </Typography>
           </Reveal>
           <Reveal delay={120}>
-            <Typography variant="subtitle1" sx={{ color: "text.secondary", maxWidth: 720, mx: { md: "auto" } }}>
+            <Typography variant="subtitle1" sx={{ color: c.muted, maxWidth: 720, mx: "auto" }}>
               {hero.lede}
             </Typography>
           </Reveal>
           <Reveal delay={180}>
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ justifyContent: { md: "center" } }}>
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={1.5}
+              sx={{ justifyContent: "center", alignItems: { xs: "stretch", sm: "center" }, pt: 1 }}
+            >
               <LinkButton href={hero.primaryCta.href} variant="contained" size="large" endIcon={<ArrowForwardIcon />}>
                 {hero.primaryCta.label}
               </LinkButton>
-              <LinkButton href={hero.secondaryCta.href} variant="outlined" size="large">
-                {hero.secondaryCta.label}
-              </LinkButton>
               <Button
-                href={site.repo}
+                href={hero.secondaryCta.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                variant="outlined"
                 size="large"
-                color="inherit"
                 startIcon={<GitHubMark />}
-                sx={{ color: "text.secondary", display: { xs: "none", md: "inline-flex" } }}
               >
-                Star on GitHub
+                {hero.secondaryCta.label}
               </Button>
             </Stack>
           </Reveal>
           <Reveal delay={210}>
-            <Typography variant="body2" sx={{ color: "text.secondary", maxWidth: 640 }}>
+            <Typography variant="body2" sx={{ color: c.muted }}>
               {hero.under}
             </Typography>
           </Reveal>
         </Stack>
 
-        <Reveal delay={220} sx={{ mt: { xs: 6, md: 8 } }}>
-          <ShotFrame src="/media/hero.mp4" alt={hero.mediaAlt} priority glow caption={hero.mediaCaption} />
-        </Reveal>
-
-        <Reveal delay={260} sx={{ mt: { xs: 6, md: 9 } }}>
-          <Grid container spacing={{ xs: 3.5, md: 3 }}>
-            {heroStats.map((s) => (
-              <Grid size={{ xs: 6, md: 3 }} key={s.label}>
-                <StatBadge value={s.value} label={s.label} detail={s.detail} />
-              </Grid>
-            ))}
-          </Grid>
+        <Reveal delay={240} sx={{ mt: { xs: 6, md: 9 }, maxWidth: 1120, mx: "auto" }}>
+          <ShotFrame src="/media/hero.mp4" alt={hero.mediaAlt} priority hero caption={hero.mediaCaption} />
         </Reveal>
       </Container>
     </Box>

@@ -1,21 +1,16 @@
-"use client";
-
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
-import { alpha } from "@mui/material/styles";
-import { isVideo, mediaSize, videoPoster } from "@/lib/media";
+import LoopVideo from "./LoopVideo";
+import { isVideo, mediaSize } from "@/lib/media";
+import { accent as accentOf, c, type Accent } from "@/lib/tokens";
 
 /**
- * A product capture inside a restrained window chrome. The frame exists to say
- * "this is the real app", so it stays quiet: three dots, a hairline, no gloss.
- *
- * Video sources render as a muted, looping, inline <video>: the same reading
- * experience as a GIF at a fraction of the weight and several times the
- * resolution. `preload="none"` on non-priority clips keeps them off the
- * critical path until the reader scrolls near them.
+ * A real capture in a rounded frame with a coloured top edge, the way the
+ * hero GIF frames its resume pages. No fake browser chrome: the capture is the
+ * app, and the edge says which part of the story it belongs to.
  */
 export default function ShotFrame({
   src,
@@ -23,63 +18,37 @@ export default function ShotFrame({
   caption,
   priority = false,
   sizes = "(max-width: 900px) 100vw, 1100px",
-  glow = false,
+  accent = "blue",
+  hero = false,
+  aspect,
 }: {
   src: string;
   alt: string;
   caption?: string;
   priority?: boolean;
   sizes?: string;
-  glow?: boolean;
+  accent?: Accent;
+  hero?: boolean;
+  /** Crop to this ratio from the top, so captures side by side line up. */
+  aspect?: string;
 }) {
   const dims = mediaSize[src] ?? { width: 1400, height: 800 };
-  const video = isVideo(src);
 
   return (
     <Stack spacing={1.5}>
       <Box
-        sx={(t) => ({
+        sx={{
           position: "relative",
-          borderRadius: 3,
+          borderRadius: { xs: "12px", md: hero ? "20px" : "14px" },
           overflow: "hidden",
-          border: 1,
-          borderColor: "divider",
-          backgroundColor: "background.paper",
-          boxShadow: glow
-            ? `0 2px 6px ${alpha(t.palette.common.black, 0.07)},
-               0 40px 90px -40px ${alpha(t.palette.primary.main, 0.45)}`
-            : `0 1px 2px ${alpha(t.palette.common.black, 0.05)},
-               0 18px 44px -22px ${alpha(t.palette.common.black, 0.22)}`,
-        })}
+          border: `1px solid ${c.border}`,
+          borderTop: `${hero ? 7 : 5}px solid ${accentOf(accent).solid}`,
+          backgroundColor: c.card,
+          boxShadow: hero ? c.shadowHero : c.shadowFrame,
+        }}
       >
-        <Stack
-          direction="row"
-          spacing={0.75}
-          sx={{ alignItems: "center", px: 1.75, py: 1.25, borderBottom: 1, borderColor: "divider" }}
-        >
-          {["#ED6A5E", "#F4BF4F", "#61C554"].map((c) => (
-            <Box key={c} sx={{ width: 9, height: 9, borderRadius: "50%", backgroundColor: c, opacity: 0.85 }} />
-          ))}
-        </Stack>
-
-        {video ? (
-          <Box
-            component="video"
-            // A looping product clip is decoration with a caption, not content
-            // a screen reader should be asked to sit through.
-            aria-label={alt}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload={priority ? "auto" : "none"}
-            poster={videoPoster[src]}
-            width={dims.width}
-            height={dims.height}
-            sx={{ width: "100%", height: "auto", display: "block" }}
-          >
-            <source src={src} type="video/mp4" />
-          </Box>
+        {isVideo(src) ? (
+          <LoopVideo src={src} label={alt} width={dims.width} height={dims.height} priority={priority} />
         ) : (
           <Image
             src={src}
@@ -87,15 +56,19 @@ export default function ShotFrame({
             width={dims.width}
             height={dims.height}
             sizes={sizes}
-            priority={priority}
+            loading={priority ? "eager" : "lazy"}
             // GIFs are already-encoded captures; re-encoding drops the animation.
             unoptimized={src.endsWith(".gif")}
-            style={{ width: "100%", height: "auto", display: "block" }}
+            style={
+              aspect
+                ? { width: "100%", height: "auto", aspectRatio: aspect, objectFit: "cover", objectPosition: "top", display: "block" }
+                : { width: "100%", height: "auto", display: "block" }
+            }
           />
         )}
       </Box>
       {caption && (
-        <Typography variant="body2" sx={{ color: "text.secondary", px: 0.5 }}>
+        <Typography variant="body2" sx={{ color: c.muted, px: 0.5 }}>
           {caption}
         </Typography>
       )}

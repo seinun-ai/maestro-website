@@ -1,85 +1,73 @@
 "use client";
 
 import { createTheme } from "@mui/material/styles";
+import { c, display } from "./tokens";
 
 /**
- * Light-theme roles from the product design system
- * (maestro-career-studio/docs/design-system/tokens.json, which mirrors
- * frontend/app/globals.css). Values are the sRGB of those oklch tokens.
- * `brandBlue` and `brandYellow` are for the mark only.
+ * MUI palette roles from the product design system (light) and the app's dark
+ * theme (dark). With both schemes present MUI emits them as CSS variables
+ * behind `prefers-color-scheme`, so there is no toggle and no flash. Colours
+ * the site uses directly (accents, tints) live in app/globals.css instead.
  */
-export const ds = {
-  background: "#F7F7F7",
-  foreground: "#0A0A0A",
-  card: "#FFFFFF",
-  surfaceLow: "#F2F2F2",
-  surface: "#EBEBEB",
-  surfaceHigh: "#E7E7E7",
-  mutedForeground: "#656565",
-  border: "#E5E5E5",
-  ring: "#4E77B8",
-  primary: "#1358BB",
-  primaryForeground: "#FAFAFA",
-  primaryContainer: "#D1E3FF",
-  onPrimaryContainer: "#053171",
-  secondaryContainer: "#DEE7F5",
-  onSecondaryContainer: "#25364F",
-  success: "#0C6F4D",
-  successContainer: "#C0F0D8",
-  warning: "#81520A",
-  warningContainer: "#FDDDB8",
-  attention: "#9B4201",
-  destructive: "#B21A1B",
-  brandBlue: "#2563EB",
-  brandYellow: "#FBBF24",
-  /** Sticky bars. From shadow-level2 in the design system. */
-  shadowFloat: "0 1px 2px 0 rgba(0,0,0,0.30), 0 2px 6px 2px rgba(0,0,0,0.15)",
-} as const;
+const light = {
+  primary: { main: "#1358BB", contrastText: "#FAFAFA" },
+  secondary: { main: "#DEE7F5", contrastText: "#25364F" },
+  warning: { main: "#81520A" },
+  success: { main: "#0C6F4D" },
+  error: { main: "#B21A1B" },
+  background: { default: "#F7F7F7", paper: "#FFFFFF" },
+  text: { primary: "#0A0A0A", secondary: "#656565" },
+  divider: "#E5E5E5",
+};
 
-/** Mark colours, kept named so a UI fill is never invented from them. */
-export const brand = {
-  blue: ds.brandBlue,
-  yellow: ds.brandYellow,
-} as const;
+const dark = {
+  primary: { main: "#86B2F7", contrastText: "#08172E" },
+  secondary: { main: "#2A3A52", contrastText: "#E3EAF5" },
+  warning: { main: "#F3C27A" },
+  success: { main: "#7FD6B0" },
+  error: { main: "#F2A49B" },
+  background: { default: "#0A0A0A", paper: "#171717" },
+  text: { primary: "#FAFAFA", secondary: "#A8A8A8" },
+  divider: "rgba(255,255,255,0.1)",
+};
 
 const theme = createTheme({
-  cssVariables: true,
-  palette: {
-    mode: "light",
-    primary: { main: ds.primary, contrastText: ds.primaryForeground },
-    secondary: { main: ds.secondaryContainer, contrastText: ds.onSecondaryContainer },
-    warning: { main: ds.warning },
-    success: { main: ds.success },
-    error: { main: ds.destructive },
-    background: { default: ds.background, paper: ds.card },
-    text: { primary: ds.foreground, secondary: ds.mutedForeground },
-    divider: ds.border,
-  },
+  cssVariables: { colorSchemeSelector: "media" },
+  colorSchemes: { light: { palette: light }, dark: { palette: dark } },
   shape: { borderRadius: 8 },
   typography: {
     fontFamily: "var(--font-geist), Geist, system-ui, sans-serif",
-    h1: { fontSize: "clamp(2.25rem, 5vw, 3.5rem)", fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1.08 },
-    h2: { fontSize: "clamp(1.75rem, 3vw, 2.25rem)", fontWeight: 500, letterSpacing: "-0.015em", lineHeight: 1.15 },
-    h3: { fontSize: "clamp(1.25rem, 2vw, 1.5rem)", fontWeight: 500, letterSpacing: "-0.01em", lineHeight: 1.25 },
-    h4: { fontSize: "1.125rem", fontWeight: 500, letterSpacing: "-0.01em", lineHeight: 1.35 },
-    h5: { fontSize: "1rem", fontWeight: 500, lineHeight: 1.4 },
-    h6: { fontSize: "0.875rem", fontWeight: 500 },
-    subtitle1: { fontSize: "1rem", lineHeight: 1.6 },
-    body1: { fontSize: "1rem", lineHeight: 1.6 },
-    body2: { fontSize: "0.875rem", lineHeight: 1.5 },
+    // Headlines and section titles are Bricolage, like the hero GIF's captions.
+    h1: { ...display, fontSize: "clamp(2.75rem, 6.6vw, 5.25rem)", lineHeight: 0.98 },
+    h2: { ...display, fontSize: "clamp(2.125rem, 4.4vw, 3.5rem)", lineHeight: 1.02 },
+    h3: {
+      ...display,
+      fontVariationSettings: '"opsz" 48, "wdth" 98',
+      letterSpacing: "-0.022em",
+      fontSize: "clamp(1.5rem, 2.3vw, 1.875rem)",
+      lineHeight: 1.1,
+    },
+    h4: { fontSize: "1.1875rem", fontWeight: 600, letterSpacing: "-0.012em", lineHeight: 1.3 },
+    h5: { fontSize: "1.0625rem", fontWeight: 600, letterSpacing: "-0.01em", lineHeight: 1.35 },
+    h6: { fontSize: "0.9375rem", fontWeight: 600, lineHeight: 1.4 },
+    subtitle1: { fontSize: "clamp(1.125rem, 1.5vw, 1.3125rem)", lineHeight: 1.55 },
+    body1: { fontSize: "1.0625rem", lineHeight: 1.65 },
+    body2: { fontSize: "0.9375rem", lineHeight: 1.6 },
     overline: {
+      fontFamily: "var(--font-mono), 'Geist Mono', ui-monospace, monospace",
       fontSize: "0.75rem",
       fontWeight: 600,
-      letterSpacing: "0.01em",
+      letterSpacing: "0.1em",
       lineHeight: 1.4,
-      textTransform: "none",
+      textTransform: "uppercase",
     },
-    button: { textTransform: "none", fontWeight: 500, letterSpacing: 0, fontSize: "0.875rem" },
+    button: { textTransform: "none", fontWeight: 600, letterSpacing: 0, fontSize: "0.9375rem" },
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         "html, body": { WebkitFontSmoothing: "antialiased" },
+        body: { backgroundColor: c.bg, color: c.fg },
         "@media (prefers-reduced-motion: reduce)": {
           "*": { animationDuration: "0.01ms !important", transitionDuration: "0.01ms !important" },
         },
@@ -88,58 +76,50 @@ const theme = createTheme({
       },
     },
     MuiTypography: {
-      defaultProps: {
-        variantMapping: {
-          subtitle1: "p",
-          subtitle2: "p",
-        },
-      },
+      defaultProps: { variantMapping: { subtitle1: "p", subtitle2: "p" } },
     },
     MuiContainer: { defaultProps: { maxWidth: "lg" } },
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {
         root: {
-          borderRadius: 8,
-          paddingInline: 16,
-          paddingBlock: 6,
-          minHeight: 32,
+          borderRadius: 10,
+          paddingInline: 18,
+          paddingBlock: 7,
+          minHeight: 36,
           "&:active": { transform: "scale(0.97)" },
-          "&.Mui-focusVisible": { outline: `2px solid ${ds.ring}`, outlineOffset: 2 },
+          "&.Mui-focusVisible": { outline: `2px solid ${c.ring}`, outlineOffset: 2 },
         },
-        sizeSmall: { minHeight: 28, paddingInline: 12, fontSize: "0.75rem" },
-        sizeLarge: { minHeight: 36, paddingInline: 18, paddingBlock: 8, fontSize: "0.875rem" },
-        outlined: { borderColor: ds.border },
+        sizeSmall: { minHeight: 32, paddingInline: 14, fontSize: "0.875rem" },
+        sizeLarge: { minHeight: 48, paddingInline: 22, paddingBlock: 10, fontSize: "1rem", borderRadius: 12 },
+        outlined: { borderColor: c.border, color: c.fg, backgroundColor: c.card },
       },
     },
     MuiIconButton: {
       styleOverrides: {
-        root: { "&.Mui-focusVisible": { outline: `2px solid ${ds.ring}`, outlineOffset: 2 } },
+        root: { "&.Mui-focusVisible": { outline: `2px solid ${c.ring}`, outlineOffset: 2 } },
       },
     },
     MuiChip: {
       styleOverrides: {
         root: { fontWeight: 500, borderRadius: 999 },
-        sizeSmall: { height: 24, fontSize: "0.75rem" },
-        outlined: { borderColor: ds.border },
+        outlined: { borderColor: c.border },
       },
     },
     MuiPaper: {
       defaultProps: { elevation: 0 },
       styleOverrides: {
-        root: { backgroundImage: "none", border: `1px solid ${ds.border}`, boxShadow: "none" },
-        rounded: { borderRadius: 12 },
+        root: { backgroundImage: "none", border: `1px solid ${c.border}`, boxShadow: "none" },
+        rounded: { borderRadius: 16 },
       },
     },
-    MuiCard: { styleOverrides: { root: { borderRadius: 12, boxShadow: "none" } } },
     MuiAccordion: {
       defaultProps: { disableGutters: true },
       styleOverrides: {
         root: {
-          borderRadius: 12,
-          marginBottom: 8,
+          borderRadius: 16,
+          marginBottom: 10,
           "&::before": { display: "none" },
-          "&.Mui-expanded": { background: ds.primaryContainer },
         },
       },
     },
@@ -148,15 +128,8 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 500,
-          "&.Mui-focusVisible": { outline: `2px solid ${ds.ring}`, outlineOffset: 2 },
+          "&.Mui-focusVisible": { outline: `2px solid ${c.ring}`, outlineOffset: 2 },
         },
-      },
-    },
-    MuiTooltip: { defaultProps: { arrow: true } },
-    MuiTableCell: {
-      styleOverrides: {
-        root: { borderColor: ds.border, fontSize: "0.875rem" },
-        head: { fontWeight: 500 },
       },
     },
   },
