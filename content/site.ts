@@ -193,9 +193,8 @@ export const capabilities = {
       title: "Every AI edit is a diff",
       body: "Every change arrives as a diff, line by line, the way a developer reviews a code change before accepting it. Accept it or undo it.",
       quote: "The AI fills in emphasis. It doesn't invent a new person.",
-      image: "/media/kb-import.png",
-      // TODO(capture): a tailored resume's review, each change with Undo.
-      imageAlt: "A base resume with the Add from career history drawer open, choosing which bullets to add",
+      image: "/media/tailor-review.png",
+      imageAlt: "A tailored resume's review: three changes from the base resume, each shown struck through and rewritten with an Undo button, beside the one-page PDF preview",
       href: `${docs.using}#how-it-works`,
     },
     {

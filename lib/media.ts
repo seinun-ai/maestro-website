@@ -12,9 +12,7 @@ export const mediaSize: Record<string, { width: number; height: number }> = {
   "/media/agent-inbox.png": { width: 1400, height: 788 },
   "/media/extension.gif": { width: 1000, height: 562 },
   "/media/companion.png": { width: 1400, height: 788 },
-  // TODO(capture): stand-in for the "Every AI edit is a diff" card until a
-  // capture of a tailored resume's review (each change with Undo) lands.
-  "/media/kb-import.png": { width: 1400, height: 788 },
+  "/media/tailor-review.png": { width: 1400, height: 788 },
 };
 
 /** Poster frames for video sources, keyed by the video path. */
