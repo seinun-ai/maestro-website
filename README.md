@@ -4,9 +4,10 @@
 
 # maestro-website
 
-The marketing and product-knowledge site for
-**[Maestro Career Studio](https://github.com/seinun-ai/maestro-career-studio)** — a
-local-first, evidence-backed job-application studio.
+The promo site for
+**[Maestro Career Studio](https://github.com/seinun-ai/maestro-career-studio)**:
+three pages (Home, Get started, Privacy) that sell the app and send readers to
+GitHub for the detail.
 
 Next.js 16 (App Router) · React 19 · **Material UI v9** · TypeScript · fully static.
 
@@ -88,13 +89,23 @@ and check the card renders. The image it uses is `public/brand/social-preview.pn
 
 ```
 content/site.ts     ALL marketing copy and every number, in one typed module
-lib/theme.ts        the MUI theme: brand tokens, tonal ladder, type scale
+app/globals.css     the colour tokens, light and dark, as CSS custom properties
+lib/tokens.ts       named handles on those tokens, the accents and the display type
+lib/theme.ts        the MUI theme: palette per colour scheme, type scale
 lib/media.ts        intrinsic sizes of the product captures (no layout shift)
-components/         the site's own vocabulary — Section, ShotFrame, FeatureRow, …
+components/         the site's own vocabulary: Section, Highlight, ShotFrame, SpecPill, …
 app/                one file per route; each exports its own `metadata`
-public/media/       product screenshots and GIFs, copied from the product repo
+app/fonts/          Bricolage Grotesque (variable woff2) and its OFL licence
+public/media/       product captures and the hero loop
 public/brand/       the brand package (lockups, marks, social preview)
 ```
+
+**Three pages.** Home (one scroll: hero, premise, how it works, what you get,
+your AI, three numbers, it's yours, FAQ, call to action), Get started and
+Privacy. `/privacy` is the published privacy-policy URL for store listings, so it
+stays. The retired pages (`/why`, `/features`, `/guide`, `/models`, `/agents`)
+are permanent redirects in `next.config.ts` to the home section that replaced
+them.
 
 **Copy lives in `content/site.ts`, not in JSX.** Every claim on the site is
 traceable to the product repo's `README.md`, `SYSTEM.md` or `KNOWN_ISSUES.md`; when
@@ -105,18 +116,21 @@ Two rules that file's header states and this one repeats, because getting either
 wrong makes the site lie:
 
 1. **Positioning is bring-a-key.** One OpenAI, Gemini *or* Claude key is the
-   recommended setup. OpenRouter and custom servers appear on the Models page
-   only. "No key" is two honest tiers: the deterministic core always works, and
+   recommended setup. OpenRouter and custom servers are left to the app's docs.
+   "No key" is two honest tiers: the deterministic core always works, and
    over MCP the client agent supplies the model. Local model servers are
    *configurable but untested* — never write "fully offline" anywhere.
 2. **Costs are cited as "about a penny" (OpenAI default) / "under 3¢" (Gemini)
    / "about a penny" with Claude Haiku, with "in our tests" and never a sample
-   count.** Claude has no measured speed or extraction figures.
+   count.** Claude has no measured speed or extraction figures. The site shows
+   three headline numbers (under a minute, about a penny, same score every
+   time) and the tool count once; cost tables and benchmarks live in the app's
+   docs.
 3. **Vocabulary is the app's:** Match score (never "ATS score"), Career history,
    Jobs, Agent inbox, Assistant, Settings › AI & models, the Companion.
 4. **Submitting:** "The Companion fills the form and stops. You press Submit."
-   The opt-in Full automation is stated on the Agents page only. Never write a
-   product-wide "never auto-submits".
+   The opt-in Full automation is stated once on the home page (Your AI) and in
+   the FAQ. Never write a product-wide "never auto-submits".
 
 **Voice.** Short sentences, concrete nouns, second person. No em-dash pile-ups, no
 "not X but Y" scaffolding, no throat-clearing. If a sentence has three clauses and
@@ -124,18 +138,27 @@ two dashes, it is not finished.
 
 ## Design notes
 
-- **Brand tokens are locked** (`docs/assets/brand/brand-tokens.json` in the product
-  repo): blue `#2563EB`, yellow `#FBBF24`, navy `#0F172A`. `lib/theme.ts` mirrors
-  them; do not invent new brand colours here.
-- **Light only, by decision.** A marketing page is read once, in daylight, from a
-  link. A theme toggle is app furniture: it costs a fifth of the styling budget and
-  earns nothing here. There is no `colorSchemes` block, no `InitColorSchemeScript`
-  and no `palette.mode` branching anywhere — if you reintroduce dark mode, all
-  three come back together.
-- **The tonal ladder matches the app** — the page sits *below* the card, so
-  containment reads as tone rather than as a hairline border.
-- **The window chrome around each capture is deliberately quiet** — three dots and
-  a hairline. It says "this is the real app" without competing with it.
+- **The look follows the README hero GIF** (`hero-gif/` in the private marketing
+  repo). Headlines and section titles are Bricolage Grotesque 800 at a high
+  optical size, tracking about -0.03em; body and UI stay Geist. One key phrase
+  per headline sits in app blue `#1358bb` on the `#d1e3ff` band: write it as
+  `[phrase]` in `content/site.ts` and `<Highlight>` renders it.
+- **Three specialist colours** colour-code the how-it-works steps and the feature
+  cards, each as solid / tint / on-tint: Violet `#9964e5` / `#eee7ff` /
+  `#53347e`, Tangerine `#d16100` / `#ffe5d8` / `#723302`, Teal `#0c9999` /
+  `#c9f5f4` / `#015353`. The solid is an edge, an outline or an icon; text in an
+  accent sits only on its own tint. App blue stays the action and link colour.
+- **Brand mark colours are locked** (`docs/assets/brand/brand-tokens.json` in the
+  product repo): blue `#2563EB`, yellow `#FBBF24`, navy `#0F172A`. They are for
+  the mark only; do not invent new brand colours here.
+- **Light first, dark by preference.** Every colour is a CSS custom property in
+  `app/globals.css` with a dark value behind `prefers-color-scheme`, and the MUI
+  theme carries both schemes (`colorSchemeSelector: "media"`). There is no toggle
+  and no script: the reader's system setting decides. Server components use the
+  tokens as plain strings (`c.blue`, `accent("teal").tint`), so no theme callback
+  has to cross into a client module.
+- **Captures sit in rounded frames with a coloured top edge**, like the GIF's
+  resume pages. No fake browser chrome.
 - **Motion is decoration.** `Reveal` fades content in on first entry and starts
   visible whenever `IntersectionObserver` is missing or the user prefers reduced
   motion.
@@ -148,9 +171,10 @@ Both bit during the build and are easy to reintroduce:
    `alignItems`, `justifyContent` and `order` go inside `sx`, not on the element.
 2. **A theme callback cannot cross the server → client boundary.** `sx={(t) => …}`
    written in a server component throws at prerender, as does
-   `component={NextLink}`. Tinted surfaces live in `components/Surfaces.tsx` and
-   internal links go through `components/NextMui.tsx`; both are client modules that
-   own the binding once. Pages stay server components so they can export `metadata`.
+   `component={NextLink}`. Colours come from the CSS-variable tokens instead of
+   the theme, and internal links go through `components/NextMui.tsx`, a client
+   module that owns the binding once. Pages stay server components so they can
+   export `metadata`.
 
 ## Captures
 
@@ -159,16 +183,19 @@ They are real captures of the shipped app, already reviewed and cleared for
 publication there — re-copy them rather than re-recording, and keep `lib/media.ts`
 in step with any change in pixel dimensions.
 
-Two exceptions:
+Each feature card crops its capture to 7:4 from the top, so cards side by side
+line up. `lib/media.ts` marks every capture still waiting on a v0.10.1 recapture
+with `TODO(capture)`.
 
-- **`kb-onboarding.png`** is cropped here to remove the black letterbox bars the
-  original capture carries, which read as a rendering fault inside the window chrome.
+One exception:
+
 - **`hero.mp4`** is *not* from `docs/assets/`. It is the product repo's hero
   animation (`hero.gif`, a short loop built from real v0.10.1 captures of a
   made-up persona, "Jordan Ellis"), encoded from its 1080p master in the private
   marketing repo (`hero-gif/renders/hero-1080p.mp4`) to H.264 at 1512px / 30fps,
   silent, about 1.2 MB. The first and last frames match, so it loops without a
   jump. Its caption says it is an animation, not a recording of one real run.
+  With reduced motion it does not autoplay; it shows its poster and controls.
 
 ### Re-encoding a master
 
@@ -195,3 +222,6 @@ in `lib/media.ts`; `ShotFrame` switches to `<video>` on the file extension alone
 Apache-2.0, matching the product. See the
 [product repository](https://github.com/seinun-ai/maestro-career-studio) for the
 full text and `NOTICE`.
+
+The headline font, Bricolage Grotesque, is under the SIL Open Font License 1.1;
+its licence ships beside it in `app/fonts/OFL-BricolageGrotesque.txt`.
