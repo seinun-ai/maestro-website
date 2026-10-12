@@ -215,46 +215,12 @@ export default function StartPage() {
         </Grid>
 
         <Reveal>
-          <Grid container spacing={{ xs: 4, md: 5 }} sx={{ mt: { xs: 5, md: 6 }, alignItems: "flex-start" }}>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Typography variant="h4" component="h3" sx={{ mb: 2 }}>
-                The maestro command
-              </Typography>
-              <Stack spacing={1.25}>
-                {quickstart.commands.map((c) => (
-                  <Stack key={c.c} direction={{ xs: "column", sm: "row" }} spacing={{ xs: 0.25, sm: 2 }} sx={{ alignItems: { sm: "baseline" } }}>
-                    <Box
-                      component="code"
-                      sx={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem", fontWeight: 600, minWidth: { sm: 190 }, flexShrink: 0 }}
-                    >
-                      {c.c}
-                    </Box>
-                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                      {c.d}
-                    </Typography>
-                  </Stack>
-                ))}
-              </Stack>
-            </Grid>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Typography variant="h4" component="h3" sx={{ mb: 1 }}>
-                {quickstart.dataFolder.title}
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
-                {quickstart.dataFolder.body}
-              </Typography>
-              <Stack spacing={0.75}>
-                {quickstart.dataFolder.rows.map(([os, path]) => (
-                  <Typography key={os} variant="body2">
-                    <strong>{os}</strong>{" "}
-                    <Box component="code" sx={{ fontFamily: "var(--font-mono)", fontSize: "0.78rem", overflowWrap: "anywhere" }}>
-                      {path}
-                    </Box>
-                  </Typography>
-                ))}
-              </Stack>
-            </Grid>
-          </Grid>
+          <Typography variant="body2" sx={{ color: "text.secondary", mt: { xs: 4, md: 5 }, maxWidth: 760 }}>
+            {quickstart.more}{" "}
+            <Button href={`${site.repo}/blob/main/docs/SETUP_REFERENCE.md`} target="_blank" rel="noopener noreferrer" size="small" sx={{ px: 0, verticalAlign: "baseline" }}>
+              Setup reference
+            </Button>
+          </Typography>
         </Reveal>
 
         <Reveal>
@@ -283,18 +249,6 @@ export default function StartPage() {
               <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
                 {quickstart.docker.after}
               </Typography>
-              <Grid container spacing={2.5} sx={{ mt: 1 }}>
-                {quickstart.docker.prerequisites.map((p) => (
-                  <Grid size={{ xs: 12, sm: 4 }} key={p.title}>
-                    <Typography variant="body2" sx={{ fontWeight: 700 }}>
-                      {p.title}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                      {p.body}
-                    </Typography>
-                  </Grid>
-                ))}
-              </Grid>
             </Reveal>
           </Grid>
           <Grid size={{ xs: 12, md: 5 }}>

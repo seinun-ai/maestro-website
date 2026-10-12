@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
 import WarningAmberIcon from "@mui/icons-material/WarningAmberOutlined";
 import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
 import ContentPasteIcon from "@mui/icons-material/ContentPasteOutlined";
@@ -191,35 +191,19 @@ export default function AgentsPage() {
               >
                 {agents.hunt.kicker}
               </Typography>
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 3 }}>
+                Ready-made skills for the hunt and the apply run are on the Automations page in the app. The{" "}
+                <Link href={`${site.repo}/blob/main/backend/mcp_server/README.md`} target="_blank" rel="noopener noreferrer">
+                  MCP guide
+                </Link>{" "}
+                has the rest.
+              </Typography>
             </Reveal>
           </Grid>
         </Grid>
       </Section>
 
-      <Section tone="raised" eyebrow="Skills" title={agents.skills.title} lede={agents.skills.body} maxWidth={760}>
-        <Grid container spacing={2.5}>
-          {agents.skills.items.map((k, i) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={k.name}>
-              <Reveal delay={(i % 3) * 70} sx={{ height: "100%" }}>
-                <Paper sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default" }}>
-                  <Typography
-                    variant="h6"
-                    component="h3"
-                    sx={{ fontFamily: "var(--font-mono)", fontSize: "0.95rem", mb: 1 }}
-                  >
-                    {k.name}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {k.detail}
-                  </Typography>
-                </Paper>
-              </Reveal>
-            </Grid>
-          ))}
-        </Grid>
-      </Section>
-
-      <Section eyebrow="The consent ledger" title={agents.ledger.title} lede={agents.ledger.body} maxWidth={800}>
+      <Section tone="raised" eyebrow="The consent ledger" title={agents.ledger.title} lede={agents.ledger.body} maxWidth={800}>
         <Grid container spacing={2.5}>
           {agents.ledger.guards.map((g, i) => (
             <Grid size={{ xs: 12, md: 4 }} key={g}>
@@ -243,7 +227,6 @@ export default function AgentsPage() {
       </Section>
 
       <Section
-        tone="raised"
         eyebrow={agents.fullAutomation.eyebrow}
         title={agents.fullAutomation.title}
         lede={agents.fullAutomation.body}
@@ -265,19 +248,11 @@ export default function AgentsPage() {
             <Typography variant="body1" sx={{ color: "text.secondary" }}>
               {agents.fullAutomation.extra}
             </Typography>
-            <Box>
-              <Typography variant="h6" component="h3" sx={{ mb: 0.5 }}>
-                {agents.fullAutomation.login.title}
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {agents.fullAutomation.login.body}
-              </Typography>
-            </Box>
           </Stack>
         </Reveal>
       </Section>
 
-      <Section eyebrow="Risks" title={agents.risks.title} lede={agents.risks.lede} maxWidth={760}>
+      <Section tone="raised" eyebrow="Risks" title={agents.risks.title} lede={agents.risks.lede} maxWidth={760}>
         <Grid container spacing={2.5}>
           {agents.risks.items.map((r, i) => (
             <Grid size={{ xs: 12, md: 4 }} key={r.title}>
@@ -302,31 +277,6 @@ export default function AgentsPage() {
         </Reveal>
       </Section>
 
-      <Section tone="raised" eyebrow={agents.alwaysOn.eyebrow} title={agents.alwaysOn.title} lede={agents.alwaysOn.body} maxWidth={800}>
-        <Grid container spacing={2.5}>
-          {agents.alwaysOn.points.map((g, i) => (
-            <Grid size={{ xs: 12, sm: 6 }} key={g}>
-              <Reveal delay={(i % 2) * 80} sx={{ height: "100%" }}>
-                <Paper sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default" }}>
-                  <Typography variant="body2">{g}</Typography>
-                </Paper>
-              </Reveal>
-            </Grid>
-          ))}
-        </Grid>
-        <Reveal>
-          <Box sx={{ mt: 3 }}>
-            <Button
-              href={`${site.repo}/blob/main/docs/always-on-bot.md`}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="outlined"
-            >
-              {agents.alwaysOn.link}
-            </Button>
-          </Box>
-        </Reveal>
-      </Section>
     </>
   );
 }

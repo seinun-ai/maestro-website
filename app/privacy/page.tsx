@@ -69,13 +69,16 @@ export default function PrivacyPage() {
                   startIcon={<GitHubMark />}
                 >
                   Read SECURITY.md and the threat model
+                </Button>{" "}
+                <Button href={site.privacyPolicy} target="_blank" rel="noopener noreferrer" variant="outlined" startIcon={<GitHubMark />}>
+                  Read PRIVACY.md, the full policy
                 </Button>
               </Box>
             </Stack>
           </Reveal>
       </TintBand>
 
-      <Section eyebrow="The extension" title={privacy.extension.title} maxWidth={640}>
+      <Section eyebrow="The Companion" title={privacy.extension.title} maxWidth={640}>
         <Grid container spacing={3}>
           <Grid size={{ xs: 12, md: 6 }}>
             <Reveal sx={{ height: "100%" }}>
@@ -98,7 +101,7 @@ export default function PrivacyPage() {
             <Reveal delay={80} sx={{ height: "100%" }}>
               <TintPaper tone="success" sx={{ p: 3.5, height: "100%", borderRadius: 3 }}>
                 <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
-                  What it structurally cannot keep
+                  What it leaves out
                 </Typography>
                 <Stack spacing={1.5}>
                   {privacy.extension.never.map((k) => (
@@ -139,12 +142,7 @@ export default function PrivacyPage() {
         maxWidth={640}
       >
         <Grid container spacing={2.5}>
-          {[
-            { t: "career.md", b: "Your whole career record as one deterministic Markdown file. No model involved, readable and diffable, downloadable from the Career KB page or over MCP." },
-            { t: "applications/", b: "Every render filed in its own company-and-role-named folder with the typeset source and the exact PDF you sent." },
-            { t: "base_resumes/", b: "Your resumes are JSON files on your disk, not rows in someone else's database." },
-            { t: "The database", b: "Postgres in a container you own. docker compose down -v is yours to run, and it deletes everything, which is the point." },
-          ].map((c, i) => (
+          {privacy.leaving.map((c, i) => (
             <Grid size={{ xs: 12, sm: 6 }} key={c.t}>
               <Reveal delay={i * 60} sx={{ height: "100%" }}>
                 <Paper sx={{ p: 3, height: "100%", borderRadius: 3, backgroundColor: "background.default" }}>

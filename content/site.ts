@@ -594,18 +594,6 @@ enabled = true`,
       "The Agent inbox: jobs your agent found, in lanes for Needs you, To review, Queued, Applying and History, with the agent that filed each one",
     caption: "The Agent inbox. Each job shows which agent filed it. You Queue or Skip it.",
   },
-  skills: {
-    title: "Six ready-made skills",
-    body: "The Automations page in the app copies each skill as a prompt. Paste it into Claude Desktop, Codex or any MCP agent, and your agent asks when to run it. Maestro runs no scheduler of its own. Nothing personal ships in them.",
-    items: [
-      { name: "job-hunt", detail: "Finds recent postings that fit you, saves and scores them, and proposes the best. Can also check the careers pages of companies where you have contacts." },
-      { name: "apply-session", detail: "Works through the jobs you queued. Asks you only for what the app doesn't have, plus one yes per application before the final submit." },
-      { name: "mail-status", detail: "Reads your job email and moves each application to applied, interviewing, rejected or offered. It never sends mail." },
-      { name: "referral-pages", detail: "Checks your referrals' careers pages for new roles that fit you, and proposes them." },
-      { name: "tailor-run", detail: "Prepares a tailored resume for each queued job, using only facts you have already given." },
-      { name: "customize-job-skills", detail: "Suggests skills from what your agent knows about you, then builds your own versions with your client's skill creator and scheduler." },
-    ],
-  },
   ledger: {
     title: "The Agent inbox and the consent ledger",
     body: "A job your agent finds becomes a proposal, filed with the name of the agent that found it. You review proposals in the Agent inbox, in lanes: Needs you, To review, Queued, Applying and History. You Queue or Skip them, in bulk if you like. An apply run works only the ones you queued. It tailors, renders and fills each application in a live agent session with a browser, then by default waits for your yes before each submit. Nothing is ever submitted from the web app itself.",
@@ -627,11 +615,7 @@ enabled = true`,
       "The agent's automatic yes and its note confirming submission are labelled auto in the consent ledger.",
     ],
     extra:
-      "Order, batching and timing stay between you and your agent. On the Automations page, Apply automatically replaces the attended Apply prompt while the switch is On. The Companion is separate: it fills the form and stops. You press Submit.",
-    login: {
-      title: "Job-site login",
-      body: "Optional. Save an email and a password used only for job-site accounts. They sit in a private local file, and Settings shows the email and only whether a password is saved. While Full automation is On, a connected agent can fetch them for a queued or approved job at a company you haven't skipped. Each hand-off is recorded without the value. The login passes through your agent's AI provider, so use it only for job-site accounts. Clear it any time under Job-site login in Settings › Connected agents.",
-    },
+      "Order, batching and timing stay between you and your agent. The Companion is separate: it fills the form and stops. You press Submit.",
   },
   risks: {
     title: "The risks, plainly",
@@ -642,18 +626,6 @@ enabled = true`,
       { title: "Bot detection", body: "Some employers filter applications that look automated, and we won't help you hide. No stealth automation, no CAPTCHA bypass, no headless submitting." },
     ],
     closing: "Use it on jobs you've looked at yourself. Everything it does is written down.",
-  },
-  alwaysOn: {
-    eyebrow: "Advanced · optional",
-    title: "Keep it working while your laptop is off",
-    body: "A second copy of Maestro on a machine that stays on can work your search while your laptop sleeps. Your laptop keeps your profile, and each job has one owner, so nothing merges. Job cards show whether a job is With your bot or On your laptop, and the MCP tool sync_now runs a sync round. On your laptop, Settings › Connected agents › Second copy has a Copy setup prompt button. Paste it into the agent on the other machine.",
-    points: [
-      "The second copy runs without Docker: setup, start, stop and health commands, with Python 3.12 and cron.",
-      "Sync is sealed and travels over HTTPS through Tailscale Funnel, or over an SSH tunnel. It stays off until a sync key file exists.",
-      "That copy holds a read-only copy of your profile, including your AI key and your job-site login.",
-      "The app still listens only on 127.0.0.1. The one published path is /api/sync, through Tailscale Funnel.",
-    ],
-    link: "Read the always-on bot guide",
   },
 } as const;
 
@@ -667,20 +639,20 @@ export const privacy = {
   },
   facts: [
     {
-      title: "Nothing is uploaded",
-      body: "Scoring, rendering, tracking and export run locally. The only outbound traffic goes to the one LLM provider you configure.",
+      title: "Your record stays here",
+      body: "Scoring, rendering, tracking and export run on your machine. Your career record leaves it only for the AI service you choose, when you use an AI feature, and for the assistant you connect over MCP, when it calls a tool. With no key and no assistant, nothing about your career goes anywhere.",
     },
     {
       title: "Your key stays yours",
-      body: "It lives in your .env or your local database and goes to exactly one place: the provider endpoint you set. The API never echoes a stored key back out; the settings endpoint reports only whether one is configured. A non-http(s) model endpoint is refused outright, because that URL decides where your key is sent.",
+      body: "Keys sit in plain text in maestro.env (.env on Docker) and your local database, and each one goes only to its own provider's endpoint: OpenAI, Gemini, Claude or OpenRouter, or a server you name. The API never echoes a stored key back out; the settings endpoint reports only whether one is configured. A non-http(s) model endpoint is refused outright, because that URL decides where your key is sent.",
     },
     {
-      title: "No telemetry leaves your machine",
-      body: "The extension's one telemetry endpoint posts to your own backend on localhost. There is no collector at the other end, in this repo or anywhere else.",
+      title: "Nothing phones home",
+      body: "The code has no analytics, crash reporting or ads. The Companion's one usage log posts to your own backend on localhost, with no collector at the other end. Updates happen only when you run maestro update or update.sh, and the maestro command names each request it makes.",
     },
     {
       title: "Your data is files you own",
-      body: "Resumes are JSON on your disk. Renders land in company-and-role folders. Your KB exports to one career.md with no model involved.",
+      body: "One SQLite database, your resumes, PDFs and settings, all in one folder on your disk. career.md exports your whole career history as plain Markdown, with no model involved.",
     },
   ],
   trade: {
@@ -688,23 +660,37 @@ export const privacy = {
     body: [
       "Single-user and local-first means no login, and no authentication on any HTTP or MCP endpoint. That absence is what removes the accounts, the tenancy and the server holding your career history.",
       "So: don't expose it to a network. Not the internet, not your LAN, not a tunnel. Anything that can reach the API has full read and write access to your entire career record and your saved API keys.",
+      "There is one narrow, documented exception. The optional second copy publishes only /api/sync, sealed, and only as the sync setup guide describes.",
     ],
     kicker: "Running it locally is safe by construction. Publishing it isn't, and no setting makes it so.",
   },
   extension: {
-    title: "What the extension keeps, and what it can't",
-    keeps: ["Which fields it met: label, kind, rule, outcome", "The page's hostname and a first-seen timestamp"],
+    title: "What the Companion keeps, and what it leaves out",
+    keeps: [
+      "A usage log of which fields it met: label, kind, rule, outcome",
+      "The page's hostname and a first-seen timestamp",
+      "For an AI fill, a run trace: the page's own option texts and which one was chosen, diversity questions included. The last 50 runs.",
+      "On each job, a What was submitted record: every answer filled, page by page. Diversity answers are kept only with your consent.",
+    ],
     never: [
-      "Any value you typed. The models have no column for one.",
-      "Signatures, attestations, consent boxes, credentials, government IDs",
+      "Any typed value in the usage log or the run trace. Those tables have no column for one.",
+      "Passwords and government ID numbers. It skips them by field type.",
+      "Signatures, initials, salary history and agreement boxes, unless you turn on the agreement permission in Profile.",
+      "Voluntary diversity questions, unless you turn on the standing consent in Profile.",
     ],
     honest:
-      "“No values” isn't the same as “nothing personal”. What that table accumulates is a record of which companies you applied to and when. Three things bound it: it never leaves your machine, capture is a toggle in the widget's ⋯ menu, and Clear data wipes all of it whenever you want without turning capture off.",
+      "“No values” isn't the same as “nothing personal”. The usage log accumulates a record of which companies you applied to and when. Three things bound it: it never leaves your machine, Clear data under Analytics › Autofill coverage deletes the records and the run traces whenever you want, and you can turn capture off. There is no switch in the panel. You set telemetryEnabled to false in the extension's stored settings, from its service worker console. The extension README shows the steps.",
   },
   tracing: {
     title: "Optional tracing, and why compose won't forward it",
-    body: "Every LLM call can be traced to a Langfuse instance you already run. All three variables are required, and the compose stack deliberately does not forward them. Traces contain your prompts, which means your resume text, and a stale key pair passed through silently would ship that to a third party. To trace, run the backend yourself outside compose. Tracing is off whenever any of the three is unset.",
+    body: "Every LLM call can be traced to a Langfuse instance you already run. It needs an optional tracing extra that the Docker and native installs include and the uv install leaves out, and all three variables set by you. The compose stack deliberately does not forward them. Traces contain your prompts, which means your resume text, and a stale key pair passed through silently would ship that to a third party. To trace, run the backend yourself outside compose. Tracing is off whenever any of the three is unset.",
   },
+  leaving: [
+    { t: "career.md", b: "Your whole career history as one deterministic Markdown file. No model involved, readable and diffable, downloadable from the Career history page or over MCP." },
+    { t: "Your PDFs", b: "Every render is filed in its own company-and-role folder with the typeset source and the exact PDF you sent. On the uv install, finished PDFs are also copied to Documents/Maestro Career Studio/Applications." },
+    { t: "base_resumes/", b: "Your resumes are JSON files on your disk, not rows in someone else's database." },
+    { t: "The database", b: "One SQLite file in your data folder. Delete the folder and everything is gone, which is the point." },
+  ],
 } as const;
 
 /* --------------------------- quickstart ------------------------ */
@@ -758,24 +744,7 @@ maestro start`,
       b: "Settings › AI & models: paste one key, from OpenAI, Gemini or Claude, and press Test on each model. A key saved in the app wins over one in maestro.env, so pick one place and stay there.",
     },
   ],
-  commands: [
-    { c: "maestro stop", d: "Stop it." },
-    { c: "maestro status", d: "Whether it is running, its version and whether a newer one exists." },
-    { c: "maestro update", d: "Save a snapshot of your data, update, restart." },
-    { c: "maestro autostart on", d: "Start Maestro every time you log in. off and status work too." },
-    { c: "maestro connect", d: "Add Maestro to your AI assistant. Part 2 below." },
-    { c: "maestro backup", d: "Save a snapshot of your data now." },
-    { c: "maestro logs", d: "Show the end of the backend log. maestro check prints the install's facts as JSON for an issue." },
-  ],
-  dataFolder: {
-    title: "Where your data lives",
-    body: "One folder per user holds the database (one SQLite file), your resumes, settings, backups, logs and maestro.env, the one settings file for API keys and port overrides. Deleting the folder deletes your data. Finished resume PDFs are also copied to Documents/Maestro Career Studio/Applications, one folder per job.",
-    rows: [
-      ["macOS", "~/Library/Application Support/Maestro Career Studio"],
-      ["Windows", "%APPDATA%\\Maestro Career Studio"],
-      ["Linux", "$XDG_DATA_HOME/maestro-career-studio (default ~/.local/share/maestro-career-studio)"],
-    ],
-  },
+  more: "The full command table, where your data lives per system, TeX for LaTeX templates and uninstalling are in the setup reference on GitHub.",
   ports: "If a port is taken, set MAESTRO_PORT (backend, 8001) or MAESTRO_WEB_PORT (app, 3000) in maestro.env, then run maestro restart. The Companion expects the default ports, so give it the new addresses under Extension options.",
   docker: {
     eyebrow: "Alternative · self-hosters and contributors",
@@ -796,11 +765,6 @@ docker compose up -d`,
       title: "Docker and uv are separate copies",
       body: "They keep separate data, and both want ports 8001 and 3000, so run one at a time. Moving from Docker to uv? Stop Docker, install Maestro as above, then run maestro import-docker CHECKOUT once. --dry-run shows the plan, and it changes nothing in the Docker folder.",
     },
-    prerequisites: [
-      { title: "Docker Desktop", body: "Or Docker Engine with Compose v2. Start it and leave it running." },
-      { title: "Git", body: "It is how you install, and later update. On Windows, install it inside WSL." },
-      { title: "About a 1 GB download", body: "The two images, compressed. They unpack to roughly 3–4 GB." },
-    ],
   },
   troubleshooting: {
     title: "If something goes wrong",
