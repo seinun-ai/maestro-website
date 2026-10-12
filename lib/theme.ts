@@ -37,12 +37,11 @@ const theme = createTheme({
   shape: { borderRadius: 8 },
   typography: {
     fontFamily: "var(--font-geist), Geist, system-ui, sans-serif",
-    // Headlines and section titles are Bricolage, like the hero GIF's captions.
+    // Headlines and section titles are Inter Tight 800; body text is Geist.
     h1: { ...display, fontSize: "clamp(2.75rem, 6.6vw, 5.25rem)", lineHeight: 0.98 },
     h2: { ...display, fontSize: "clamp(2.125rem, 4.4vw, 3.5rem)", lineHeight: 1.02 },
     h3: {
       ...display,
-      fontVariationSettings: '"opsz" 48, "wdth" 98',
       letterSpacing: "-0.022em",
       fontSize: "clamp(1.5rem, 2.3vw, 1.875rem)",
       lineHeight: 1.1,

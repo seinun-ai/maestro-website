@@ -134,7 +134,6 @@ export default function HomePage() {
             component="p"
             sx={{
               ...display,
-              fontVariationSettings: '"opsz" 60, "wdth" 98',
               letterSpacing: "-0.025em",
               fontSize: "clamp(1.625rem, 3vw, 2.375rem)",
               lineHeight: 1.15,
@@ -359,7 +358,6 @@ export default function HomePage() {
               component="p"
               sx={{
                 ...display,
-                fontVariationSettings: '"opsz" 60, "wdth" 98',
                 letterSpacing: "-0.025em",
                 fontSize: "clamp(1.625rem, 3vw, 2.375rem)",
                 lineHeight: 1.15,

@@ -2,15 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { c } from "@/lib/tokens";
 
-/** The key phrase of a headline: app blue on the tint band, as in the hero GIF. */
-const keySx = {
-  color: c.blue,
-  backgroundColor: c.blueTint,
-  borderRadius: "0.14em",
-  paddingInline: "0.08em",
-  boxDecorationBreak: "clone",
-  WebkitBoxDecorationBreak: "clone",
-} as const;
+/** The key phrase of a headline, in app blue. */
+const keySx = { color: c.blue } as const;
 
 /**
  * Renders headline copy from content/site.ts. `[phrase]` becomes the

@@ -95,7 +95,6 @@ lib/theme.ts        the MUI theme: palette per colour scheme, type scale
 lib/media.ts        intrinsic sizes of the product captures (no layout shift)
 components/         the site's own vocabulary: Section, Highlight, ShotFrame, SpecPill, …
 app/                one file per route; each exports its own `metadata`
-app/fonts/          Bricolage Grotesque (variable woff2) and its OFL licence
 public/media/       product captures and the hero loop
 public/brand/       the brand package (lockups, marks, social preview)
 ```
@@ -138,11 +137,12 @@ two dashes, it is not finished.
 
 ## Design notes
 
-- **The look follows the README hero GIF** (`hero-gif/` in the private marketing
-  repo). Headlines and section titles are Bricolage Grotesque 800 at a high
-  optical size, tracking about -0.03em; body and UI stay Geist. One key phrase
-  per headline sits in app blue `#1358bb` on the `#d1e3ff` band: write it as
-  `[phrase]` in `content/site.ts` and `<Highlight>` renders it.
+- **The look shares the README hero GIF's colours** (`hero-gif/` in the private
+  marketing repo). Headlines and section titles are Inter Tight 800, tracking
+  about -0.035em (the GIF's Bricolage read as too playful at page scale); body
+  and UI stay Geist. One key phrase per headline is set in app blue `#1358bb`,
+  with no highlight band: write it as `[phrase]` in `content/site.ts` and
+  `<Highlight>` renders it.
 - **Three specialist colours** colour-code the how-it-works steps and the feature
   cards, each as solid / tint / on-tint: Violet `#9964e5` / `#eee7ff` /
   `#53347e`, Tangerine `#d16100` / `#ffe5d8` / `#723302`, Teal `#0c9999` /
@@ -226,5 +226,5 @@ Apache-2.0, matching the product. See the
 [product repository](https://github.com/seinun-ai/maestro-career-studio) for the
 full text and `NOTICE`.
 
-The headline font, Bricolage Grotesque, is under the SIL Open Font License 1.1;
-its licence ships beside it in `app/fonts/OFL-BricolageGrotesque.txt`.
+The headline font, Inter Tight, is under the SIL Open Font License 1.1 and is
+self-hosted at build time by `next/font/google`.

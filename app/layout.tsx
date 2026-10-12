@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import localFont from "next/font/local";
+import { Geist, Geist_Mono, Inter_Tight } from "next/font/google";
 import Box from "@mui/material/Box";
 import ThemeRegistry from "@/components/ThemeRegistry";
 import SiteHeader from "@/components/SiteHeader";
@@ -15,14 +14,12 @@ const geist = Geist({
   display: "swap",
 });
 
-// Headlines, as in the README hero GIF. Variable (opsz, wght, wdth), SIL OFL
-// 1.1: app/fonts/OFL-BricolageGrotesque.txt.
-const bricolage = localFont({
-  src: "./fonts/BricolageGrotesque-Variable.woff2",
+// Headlines and section titles. Body text stays Geist.
+const display = Inter_Tight({
+  subsets: ["latin"],
+  weight: ["700", "800"],
   variable: "--font-display",
-  weight: "200 800",
   display: "swap",
-  declarations: [{ prop: "font-stretch", value: "75% 100%" }],
 });
 
 const mono = Geist_Mono({
@@ -85,7 +82,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} ${mono.variable} ${bricolage.variable}`}>
+    <html lang="en" className={`${geist.variable} ${mono.variable} ${display.variable}`}>
       <body>
         <ThemeRegistry>
           <SkipLink />

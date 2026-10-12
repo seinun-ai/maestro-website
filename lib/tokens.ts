@@ -37,12 +37,11 @@ export function accent(a: Accent | Status) {
   };
 }
 
-/** Bricolage Grotesque, set the way the hero GIF sets its captions. */
+/** Inter Tight 800, tight: headlines and section titles. */
 export const display = {
-  fontFamily: "var(--font-display), 'Bricolage Grotesque', var(--font-geist), system-ui, sans-serif",
+  fontFamily: "var(--font-display), 'Inter Tight', var(--font-geist), system-ui, sans-serif",
   fontWeight: 800,
-  fontVariationSettings: '"opsz" 96, "wdth" 96',
-  letterSpacing: "-0.03em",
+  letterSpacing: "-0.035em",
   // Headlines break into even lines instead of leaving one word behind.
   textWrap: "balance",
 } as const;
