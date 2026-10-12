@@ -293,7 +293,10 @@ export default function HomePage() {
         <Grid container spacing={{ xs: 3, md: 5 }} sx={{ alignItems: "flex-start" }}>
           <Grid size={{ xs: 12, md: 7 }}>
             <Reveal>
-              <CodeBlock code={quickstart.clone} />
+              <CodeBlock code={quickstart.homeInstall} />
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                {quickstart.homeInstallNote}
+              </Typography>
             </Reveal>
           </Grid>
           <Grid size={{ xs: 12, md: 5 }}>

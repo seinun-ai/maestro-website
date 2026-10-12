@@ -20,7 +20,7 @@ import { privacy, site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Privacy & security",
   description:
-    "Three containers on your machine, every port bound to 127.0.0.1, no account and no server holding your career history, plus the honest version of what that trade costs and what the extension keeps.",
+    "Maestro runs on your machine and listens only on 127.0.0.1 out of the box, with no account and no server holding your career history, plus the honest version of what that trade costs and what the Companion keeps.",
 };
 
 export default function PrivacyPage() {

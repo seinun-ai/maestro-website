@@ -21,6 +21,13 @@ export const site = {
   description:
     "Write down what you did once. Maestro builds every tailored resume, cover letter and screening answer from that record, scores it with an engine that never guesses, and typesets it locally into a real PDF. About a penny an application.",
   repo: "https://github.com/seinun-ai/maestro-career-studio",
+  // The release the copy was checked against. Bump it with the copy, not alone.
+  version: "0.10.1",
+  pypi: "https://pypi.org/project/maestro-career-studio/",
+  changelog: "https://github.com/seinun-ai/maestro-career-studio/blob/main/CHANGELOG.md",
+  releases: "https://github.com/seinun-ai/maestro-career-studio/releases",
+  privacyPolicy: "https://github.com/seinun-ai/maestro-career-studio/blob/main/PRIVACY.md",
+  video: "https://www.youtube.com/watch?v=TvNTzPxPNnc",
   issues: "https://github.com/seinun-ai/maestro-career-studio/issues",
   contact: "ajey@seinun.com",
   license: "Apache-2.0",
@@ -70,11 +77,11 @@ export const heroStats = [
   {
     value: "≈1¢",
     label: "per application",
-    detail: "Measured on real applications. Not guessed at.",
+    detail: "On the OpenAI default, measured on real postings. Not guessed at.",
     accent: true,
   },
-  { value: "83", label: "MCP tools", detail: "Run the whole pipeline from Claude, Codex or ChatGPT desktop." },
-  { value: "3", label: "local containers", detail: "Bound to 127.0.0.1. No account, no cloud, no upload." },
+  { value: "88", label: "MCP tools", detail: "Run the whole pipeline from Claude, Codex or the ChatGPT desktop app." },
+  { value: "2", label: "commands to install", detail: "uv tool install, then maestro start. No Docker, no Git, no account." },
   { value: "0", label: "LLM calls in scoring", detail: "Same resume, same posting, same number. Enforced in CI, not claimed in a README." },
 ] as const;
 
@@ -586,7 +593,7 @@ export const privacy = {
   hero: {
     eyebrow: "Privacy & security",
     title: "Local-first isn't a marketing word here. It's the architecture.",
-    lede: "Three containers on your machine, every port on 127.0.0.1. No account, no tenancy, no server holding your career history. One hard rule follows from that.",
+    lede: "Maestro runs on your machine and listens only on 127.0.0.1 out of the box. No account, no tenancy, no server holding your career history. One hard rule follows from that.",
   },
   facts: [
     {
@@ -638,75 +645,134 @@ export const quickstart = {
       n: "1",
       title: "The app",
       required: true,
-      body: "git clone, then one docker compose up -d: about a 1 GB image download, three containers, all on localhost. Your API key goes in afterwards, inside the app: Settings → Models. OpenAI or Gemini, either alone is a complete setup.",
+      body: "Install uv once, then two commands: uv tool install and maestro start. It runs on macOS, Linux and Windows (x64), with no Docker, no Git and no clone. Add your AI key afterwards, inside the app: Settings › AI & models. OpenAI, Gemini or Claude, any one is a complete setup.",
     },
     {
       n: "2",
       title: "Your assistant",
       required: false,
-      body: "An MCP server, installed from your client's own settings: Claude takes an extension file from the cloned folder, Codex and the ChatGPT desktop app take a plugin marketplace. No terminal, no config file, no host Python.",
+      body: "An MCP server inside the app, reached by URL. Run maestro connect, or open Settings › Connected agents › Connect an agent app. It covers Claude Desktop, Claude Code, Codex, Cursor and VS Code.",
     },
     {
       n: "3",
-      title: "The browser panel",
+      title: "The Companion",
       required: false,
-      body: "chrome://extensions → Developer mode → Load unpacked → the repo's extension/ folder. No ID to copy, nothing to configure.",
+      body: "A Chrome side panel for saving and filling job pages. chrome://extensions › Developer mode › Load unpacked › the extension folder. Nothing to configure on the default ports.",
     },
   ],
-  clone: `git clone ${site.repo}.git
-cd maestro-career-studio
-cp .env.example .env
+  uvInstall: "curl -LsSf https://astral.sh/uv/install.sh | sh",
+  uvInstallWindows: `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`,
+  install: `uv tool install --python 3.12 maestro-career-studio
+maestro start`,
+  // The home page has room for one block, so it carries both steps and says
+  // where the Windows line lives.
+  homeInstall: `# 1. Install uv once, then open a new terminal.
+curl -LsSf https://astral.sh/uv/install.sh | sh     # macOS and Linux
 
-# Downloads prebuilt images, about 1 GB. Your API key comes later,
-# inside the app: Settings -> Models after first boot.
-
-docker compose up -d`,
-  mcp: "./scripts/setup-mcp.sh",
+# 2. Install Maestro, then start it. Opens http://localhost:3000.
+uv tool install --python 3.12 maestro-career-studio
+maestro start`,
+  homeInstallNote: "On Windows, use the PowerShell line on the Get started page. No Docker, no Git, no clone.",
+  mcp: "maestro connect",
   appSteps: [
     {
-      t: "Clone and start",
-      b: "Three commands. The images arrive prebuilt: about a 1 GB download, a few minutes on a normal connection.",
+      t: "Install uv, once",
+      b: "uv installs Maestro as a single command and fetches the Python it needs. The package brings its own web app and its own Node. Open a new terminal afterwards so uv is found.",
     },
     {
-      t: "Open the app",
-      b: "http://localhost:3000. First boot runs migrations and seeds a demo resume with rendered previews; give it a moment.",
+      t: "Install Maestro and start it",
+      b: "maestro start runs Maestro in the background and opens http://localhost:3000. Closing the terminal does not stop it. The first start downloads the scoring model (about 100 MB, once) from Hugging Face, so allow a minute or two. If the terminal says maestro is not found, run uv tool update-shell and open a new terminal.",
     },
     {
       t: "Add your API key, inside the app",
-      b: "Settings → Models: paste one key, OpenAI or Gemini, and press Test on each model. A key saved in the app always wins over one in .env, so pick one place and stay there.",
+      b: "Settings › AI & models: paste one key, from OpenAI, Gemini or Claude, and press Test on each model. A key saved in the app wins over one in maestro.env, so pick one place and stay there.",
     },
   ],
-  update: "./scripts/update.sh",
+  commands: [
+    { c: "maestro stop", d: "Stop it." },
+    { c: "maestro status", d: "Whether it is running, its version and whether a newer one exists." },
+    { c: "maestro update", d: "Save a snapshot of your data, update, restart." },
+    { c: "maestro autostart on", d: "Start Maestro every time you log in. off and status work too." },
+    { c: "maestro connect", d: "Add Maestro to your AI assistant. Part 2 below." },
+    { c: "maestro backup", d: "Save a snapshot of your data now." },
+    { c: "maestro logs", d: "Show the end of the backend log. maestro check prints the install's facts as JSON for an issue." },
+  ],
+  dataFolder: {
+    title: "Where your data lives",
+    body: "One folder per user holds the database (one SQLite file), your resumes, settings, backups, logs and maestro.env, the one settings file for API keys and port overrides. Deleting the folder deletes your data. Finished resume PDFs are also copied to Documents/Maestro Career Studio/Applications, one folder per job.",
+    rows: [
+      ["macOS", "~/Library/Application Support/Maestro Career Studio"],
+      ["Windows", "%APPDATA%\\Maestro Career Studio"],
+      ["Linux", "$XDG_DATA_HOME/maestro-career-studio (default ~/.local/share/maestro-career-studio)"],
+    ],
+  },
+  ports: "If a port is taken, set MAESTRO_PORT (backend, 8001) or MAESTRO_WEB_PORT (app, 3000) in maestro.env, then run maestro restart. The Companion expects the default ports, so give it the new addresses under Extension options.",
+  docker: {
+    eyebrow: "Alternative · self-hosters and contributors",
+    title: "Run it with Docker instead",
+    lede: "Docker stays the route for servers and for working on the code. It runs two containers, the backend and the frontend, with your data in one SQLite file in the folder you clone. It needs Docker, Git and about a 1 GB download. On Windows, run it under WSL.",
+    code: `git clone ${site.repo}.git
+cd maestro-career-studio
+cp .env.example .env
+
+# Downloads prebuilt images, about 1 GB.
+docker compose up -d`,
+    after: "Open http://localhost:3000, then add your key in Settings › AI & models. The first start sets up the database and adds a demo resume so you have something to look at.",
+    ports: {
+      title: "Port already allocated?",
+      body: "Both host ports are overridable in .env: BACKEND_HOST_PORT (8001) and FRONTEND_HOST_PORT (3000). Only the host side of the mapping moves.",
+    },
+    separate: {
+      title: "Docker and uv are separate copies",
+      body: "They keep separate data, and both want ports 8001 and 3000, so run one at a time. Moving from Docker to uv? Stop Docker, install Maestro as above, then run maestro import-docker CHECKOUT once. --dry-run shows the plan, and it changes nothing in the Docker folder.",
+    },
+    prerequisites: [
+      { title: "Docker Desktop", body: "Or Docker Engine with Compose v2. Start it and leave it running." },
+      { title: "Git", body: "It is how you install, and later update. On Windows, install it inside WSL." },
+      { title: "About a 1 GB download", body: "The two images, compressed. They unpack to roughly 3–4 GB." },
+    ],
+  },
   troubleshooting: {
     title: "If something goes wrong",
     columns: ["You see", "It means", "Do"],
     rows: [
-      ["Cannot connect to the Docker daemon", "Docker isn't running", "Start Docker Desktop, wait for “running”, re-run the command"],
-      ["port is already allocated", "Another app owns 3000, 8001 or 55432", "Change the matching *_HOST_PORT in .env"],
-      ["Build sits at TeX Live or the model download", "Normal on a first build", "Wait it out. Later builds are fast."],
-      ["Page loads but everything errors", "Backend still starting", "curl -s localhost:8001/health answers {\"status\":\"ok\"} when it's ready"],
-      ["Added a key to .env after starting", "Keys are read at process start", "docker compose restart backend. Remember that an in-app key overrides .env"],
-      ["Calls fail 401 though Settings says Configured", "A stale key. The label says where it lives.", "Re-enter it in Settings → Models and press Test"],
+      ["maestro: command not found", "The install folder is not on your PATH yet", "Run uv tool update-shell, then open a new terminal"],
+      ["A port is already in use", "Another program holds 3000 or 8001", "The message names the port. Set MAESTRO_WEB_PORT or MAESTRO_PORT in maestro.env, then maestro restart"],
+      ["Page loads but everything errors", "Maestro is still starting", "maestro status, or maestro logs. localhost:8001/health answers {\"status\":\"ok\"} when it's ready"],
+      ["The first start is slow", "It is downloading the scoring model, about 100 MB, once", "Wait it out. maestro start --skip-model leaves it for the first score"],
+      ["Calls fail 401 though Settings says Configured", "A stale key. The label says where it lives.", "Re-enter it in Settings › AI & models and press Test"],
+      ["Cannot connect to the Docker daemon", "Docker isn't running (Docker route)", "Start Docker Desktop, wait for “running”, re-run the command"],
+      ["port is already allocated", "Another app owns 3000 or 8001 (Docker route)", "Change the matching *_HOST_PORT in .env"],
+      ["Added a key to .env after starting", "Keys are read at process start (Docker route)", "docker compose restart backend. An in-app key overrides .env"],
     ],
   },
+  update: {
+    uv: "maestro update",
+    docker: "./scripts/update.sh",
+    uvNote: "It checks PyPI, prints any breaking changes from the changelog, saves a verified snapshot of your data, then stops Maestro, updates it and starts it again. maestro status tells you if a newer version exists.",
+    dockerNote: "From the folder you cloned. It saves a database backup, moves to the newest release and waits until the app is healthy. --check changes nothing and only answers: am I up to date? It needs bash, so on Windows run it under WSL.",
+  },
   updateFacts: [
-    { t: "Your data is not involved", b: "Resumes, applications, KB documents and settings are files on disk no update step touches, and the database lives in a Docker volume that survives all of this. The backup guards the migration specifically." },
-    { t: "Migrations run themselves", b: "They run when the backend starts, so the first boot after an update takes longer than usual. The script tells you it's waiting." },
-    { t: "Two things stay manual", b: "Docker can't reach them: reload the extension at chrome://extensions and reload any open job tab, then restart your MCP client. The script prints both reminders when it finishes." },
+    { t: "Your data is not involved", b: "Resumes, jobs and settings are files an update does not touch. The database is one SQLite file in your data folder, and it is snapshotted or backed up first. Deleting the project folder on the Docker route does delete your data." },
+    { t: "Migrations run themselves", b: "They run when the backend starts, so the first start after an update takes longer than usual." },
+    { t: "Two things stay manual", b: "Reload the Companion at chrome://extensions and reload any open job tab, then restart your AI assistant app so it sees new tools. On Windows, quit Claude Desktop before maestro update." },
   ],
   prerequisites: [
-    { title: "Docker Desktop", body: "Or Docker Engine with Compose v2. Start it and leave it running." },
     {
-      title: "Git",
-      body: "It's how you install, and later update. macOS offers to install it on first use; Windows takes Git for Windows.",
+      title: "uv",
+      body: "Install it once. It installs Python 3.12 for you, and the package carries its own web app and Node. No Docker, no Git, no clone, and no WSL on Windows.",
     },
     {
-      title: "About a 1 GB download",
-      body: "The three images, compressed. They unpack to roughly 3–4 GB; the backend is the big one, carrying a minimal TeX Live, Typst and the embedding model.",
+      title: "macOS, Linux or Windows (x64)",
+      body: "Windows on ARM is best effort and untested. Alpine and other musl Linux are not supported. Windows is the least tested platform.",
+    },
+    {
+      title: "About a 100 MB download, once",
+      body: "The scoring model comes from Hugging Face on first start. No resume or job text is sent.",
     },
     {
       title: "One API key, recommended",
-      body: "OpenAI or Gemini, added in Settings → Models after first boot. Without one you still get the deterministic core, and over MCP your assistant supplies the model.",
+      body: "OpenAI, Gemini or Claude, added in Settings › AI & models after first start. Without one you still get scoring, PDFs and tracking, and over MCP your assistant supplies the model.",
     },
   ],
   // Three tiers, not two. The middle one is the easiest to undersell: over MCP
@@ -715,32 +781,32 @@ docker compose up -d`,
   keyless: {
     title: "What runs with no key at all",
     works: [
-      "Deterministic ATS scoring across every base resume",
+      "Match scores across every base resume",
       "Health reports, gap diagnostics and full manual tailoring",
       "The raw LaTeX and Typst editors, and PDF compilation",
-      "Application tracking and analytics",
-      "Extension autofill in Rules-only mode, straight from your Autofill Profile",
+      "Job tracking and analytics",
+      "The Companion's Saved answers only fill, straight from your saved answers",
     ],
     overMcp: [
-      "Career KB building. Your assistant parses the resume, the server stores it with no in-house LLM.",
+      "Career history building. Your assistant parses the resume, the server stores it with no in-house LLM.",
       "Job capture. The agent reads the posting and stores the structured fields.",
       "Tailoring edits and gap resolutions, authored by the agent, applied through the same honesty gates.",
     ],
     wantsKey: [
       "In-app cover letters and screening answers",
-      "The extension's AI-assisted pass, which answers what the rules could not",
-      "In-app chat, and KB capture that files free text against the right entity",
-      "First-boot KB seeding, which defers and retries once a key is there",
+      "The Companion's Saved answers + AI fill, which answers what saved answers could not",
+      "The in-app Assistant, and career history capture that files free text against the right item",
+      "First-start career history seeding, which defers and retries once a key is there",
     ],
   },
   localModels: {
     title: "Local model servers: configurable, untested",
-    body: "The client speaks to any OpenAI-compatible endpoint, so Ollama, LM Studio or vLLM can be pointed at with OPENAI_BASE_URL. We haven't validated a local model end to end yet, and the heavy asks are exactly where small models struggle: long tailoring prompts, strict JSON, streaming tool calls. So we make no offline promise until we can stand behind one.",
+    body: "The app speaks to any OpenAI-compatible endpoint, so Ollama, LM Studio or vLLM can be pointed at with OPENAI_BASE_URL. We haven't validated a local model end to end yet, and the heavy asks are exactly where small models struggle: long tailoring prompts, strict JSON, streaming tool calls. So we make no offline promise until we can stand behind one. One catch: a built-in Gemini model id always goes to Google, even with a custom server set, so give a local model an id that is not in the built-in list.",
     ask: "If you try it, tell us what worked and what broke, with the model name. That's a genuinely useful contribution.",
   },
   freshInstall: {
     title: "If your install turns up something new",
-    body: "The troubleshooting table in the guide covers what real installs have hit. This is early software, so if yours finds something that isn't in there, an issue with the log is genuinely useful.",
+    body: "The troubleshooting table covers what real installs have hit. maestro check prints your install's facts as JSON to paste into an issue, and it makes no network call. This is early software, and it has had little testing on machines that aren't the author's, so an issue with the log is genuinely useful.",
   },
 } as const;
 
@@ -793,23 +859,20 @@ export const guide = {
   agentPath: {
     eyebrow: "The fastest path",
     title: "Let an agent install it",
-    body: "Already using Claude Code, the Codex CLI or Cursor? Open a session in the folder you want it in and paste this. It clones, configures and starts the stack for you.",
+    body: "Already using Claude Code, the Codex CLI or Cursor? Open a session anywhere and paste this. It installs uv if needed, installs Maestro and starts it.",
     prompt:
-      "Clone https://github.com/seinun-ai/maestro-career-studio, check that the prerequisites in docs/GETTING_STARTED.md are present on this machine, set up the .env, and start the stack with docker compose. Then tell me what still needs me.",
-    second: "From a session opened inside the cloned repo, this wires the server into your assistant for you:",
+      "Install Maestro Career Studio. If uv is missing, install it from https://docs.astral.sh/uv/. Then run `uv tool install --python 3.12 maestro-career-studio` and `maestro start`. Wait until http://localhost:3000 loads, run `maestro status`, then tell me what still needs me.",
+    second: "Once it is running, this adds it to your assistant:",
     secondPrompt:
-      "Set up this repo's MCP server for my assistant. Run ./scripts/setup-mcp.sh and apply its output; docs/GETTING_STARTED.md §6 has the per-client paths.",
+      "Run `maestro connect` to see which apps already have Maestro, then run it for the app I use. Tell me when I need to restart that app.",
     limits: {
       title: "Two things an agent can't do for you",
       items: [
-        "Install and start Docker Desktop (and Git). They need an admin password and a GUI first run.",
-        "Decide where your API key goes. That one is a judgement call, and it's yours.",
+        "Add your API key in Settings › AI & models. Where your key goes is a judgement call, and it's yours.",
+        "Load the Companion in Chrome. Loading an unpacked extension is a click in your own browser.",
       ],
     },
   },
-
-
-
 
 
 

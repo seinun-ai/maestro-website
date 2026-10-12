@@ -6,12 +6,14 @@ import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
 import AlertTitle from "@mui/material/AlertTitle";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
 import BlockIcon from "@mui/icons-material/BlockOutlined";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutlined";
 
 import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
@@ -20,12 +22,12 @@ import Reveal from "@/components/Reveal";
 import TroubleTable from "@/components/TroubleTable";
 import { TintPaper } from "@/components/Surfaces";
 import { LinkButton } from "@/components/NextMui";
-import { agents, guide, quickstart } from "@/content/site";
+import { agents, guide, quickstart, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Get started",
   description:
-    "Three parts and only the first is required: the app, your assistant over MCP, the browser panel. Numbered steps for each, the hand-written config fallbacks, and the one-command update.",
+    "Install uv, then two commands: uv tool install and maestro start. It runs on macOS, Linux and Windows with no Docker. Then connect your assistant and load the Companion. Docker is the self-host alternative.",
 };
 
 /** The rail number every step on this page wears. */
@@ -45,14 +47,32 @@ export default function StartPage() {
     <>
       <PageHero
         eyebrow="Get started"
-        title="Three parts. Only the first is required."
-        lede="Everything runs in three containers on your machine: about a 1 GB download of prebuilt images, one command. Your assistant and the browser panel attach whenever you want them."
+        title="Two commands. Then add what you want."
+        lede="Install uv once, then install Maestro and start it. No Docker, no Git, no clone. It runs on macOS, Linux and Windows (x64). Your assistant and the Companion attach whenever you want them."
       >
         <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", pt: 1 }}>
           <Chip label="Apache-2.0" size="small" variant="outlined" />
           <Chip label="No account" size="small" variant="outlined" />
-          <Chip label="≈1¢ per application" size="small" variant="outlined" />
-          <Chip label="127.0.0.1 only" size="small" variant="outlined" />
+          <Chip label={`v${site.version}`} size="small" variant="outlined" />
+          <Chip label="Listens on 127.0.0.1" size="small" variant="outlined" />
+        </Stack>
+        <Stack direction="row" spacing={1.5} useFlexGap sx={{ flexWrap: "wrap", pt: 1 }}>
+          <Button
+            href={site.video}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="outlined"
+            size="small"
+            startIcon={<PlayCircleOutlineIcon />}
+          >
+            Watch the 37-second onboarding video
+          </Button>
+          <Button href={site.changelog} target="_blank" rel="noopener noreferrer" size="small" color="inherit" sx={{ color: "text.secondary" }}>
+            Changelog
+          </Button>
+          <Button href={site.pypi} target="_blank" rel="noopener noreferrer" size="small" color="inherit" sx={{ color: "text.secondary" }}>
+            PyPI
+          </Button>
         </Stack>
       </PageHero>
 
@@ -96,7 +116,7 @@ export default function StartPage() {
         id="fastest-path"
         eyebrow="Part 1 · required"
         title="Install the app"
-        lede="Three steps, in order. Before you start, you need exactly two tools and one download's worth of patience."
+        lede="Three steps, in order. You need one tool, uv, and about 100 MB of patience on first start."
         maxWidth={680}
       >
         <Reveal>
@@ -127,18 +147,22 @@ export default function StartPage() {
                     <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
                       {quickstart.appSteps[0].b}
                     </Typography>
-                    <CodeBlock code={quickstart.clone} />
+                    <Stack spacing={1.5}>
+                      <CodeBlock code={quickstart.uvInstall} label="macOS and Linux" />
+                      <CodeBlock code={quickstart.uvInstallWindows} label="Windows, in PowerShell" />
+                    </Stack>
                   </Box>
                 </Stack>
                 <Stack direction="row" spacing={2} sx={{ alignItems: "flex-start" }}>
                   <StepNumber n={2} />
-                  <Box>
+                  <Box sx={{ minWidth: 0, flex: 1 }}>
                     <Typography variant="h5" component="h3" sx={{ mb: 0.5 }}>
                       {quickstart.appSteps[1].t}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
                       {quickstart.appSteps[1].b}
                     </Typography>
+                    <CodeBlock code={quickstart.install} />
                   </Box>
                 </Stack>
                 <Stack direction="row" spacing={2} sx={{ alignItems: "flex-start" }}>
@@ -157,10 +181,8 @@ export default function StartPage() {
                 </Stack>
               </Stack>
               <Alert severity="info" variant="outlined" sx={{ mt: 3, borderRadius: 3 }}>
-                <AlertTitle sx={{ fontWeight: 700 }}>Port already allocated?</AlertTitle>
-                All three host ports are overridable in <code>.env</code>: <code>BACKEND_HOST_PORT</code> (8001),{" "}
-                <code>FRONTEND_HOST_PORT</code> (3000) and <code>POSTGRES_HOST_PORT</code> (55432). Only the host side
-                of the mapping moves.
+                <AlertTitle sx={{ fontWeight: 700 }}>Port already in use?</AlertTitle>
+                {quickstart.ports}
               </Alert>
             </Reveal>
           </Grid>
@@ -193,6 +215,49 @@ export default function StartPage() {
         </Grid>
 
         <Reveal>
+          <Grid container spacing={{ xs: 4, md: 5 }} sx={{ mt: { xs: 5, md: 6 }, alignItems: "flex-start" }}>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Typography variant="h4" component="h3" sx={{ mb: 2 }}>
+                The maestro command
+              </Typography>
+              <Stack spacing={1.25}>
+                {quickstart.commands.map((c) => (
+                  <Stack key={c.c} direction={{ xs: "column", sm: "row" }} spacing={{ xs: 0.25, sm: 2 }} sx={{ alignItems: { sm: "baseline" } }}>
+                    <Box
+                      component="code"
+                      sx={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem", fontWeight: 600, minWidth: { sm: 190 }, flexShrink: 0 }}
+                    >
+                      {c.c}
+                    </Box>
+                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                      {c.d}
+                    </Typography>
+                  </Stack>
+                ))}
+              </Stack>
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Typography variant="h4" component="h3" sx={{ mb: 1 }}>
+                {quickstart.dataFolder.title}
+              </Typography>
+              <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
+                {quickstart.dataFolder.body}
+              </Typography>
+              <Stack spacing={0.75}>
+                {quickstart.dataFolder.rows.map(([os, path]) => (
+                  <Typography key={os} variant="body2">
+                    <strong>{os}</strong>{" "}
+                    <Box component="code" sx={{ fontFamily: "var(--font-mono)", fontSize: "0.78rem", overflowWrap: "anywhere" }}>
+                      {path}
+                    </Box>
+                  </Typography>
+                ))}
+              </Stack>
+            </Grid>
+          </Grid>
+        </Reveal>
+
+        <Reveal>
           <Box sx={{ mt: { xs: 5, md: 6 } }}>
             <Typography variant="h4" component="h3" sx={{ mb: 2 }}>
               {quickstart.troubleshooting.title}
@@ -200,6 +265,53 @@ export default function StartPage() {
             <TroubleTable columns={quickstart.troubleshooting.columns} rows={quickstart.troubleshooting.rows} />
           </Box>
         </Reveal>
+      </Section>
+
+      {/* The alternative route, named as one. Not a second install path to weigh. */}
+      <Section
+        id="docker"
+        tone="raised"
+        eyebrow={quickstart.docker.eyebrow}
+        title={quickstart.docker.title}
+        lede={quickstart.docker.lede}
+        maxWidth={720}
+      >
+        <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
+          <Grid size={{ xs: 12, md: 7 }}>
+            <Reveal>
+              <CodeBlock code={quickstart.docker.code} />
+              <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                {quickstart.docker.after}
+              </Typography>
+              <Grid container spacing={2.5} sx={{ mt: 1 }}>
+                {quickstart.docker.prerequisites.map((p) => (
+                  <Grid size={{ xs: 12, sm: 4 }} key={p.title}>
+                    <Typography variant="body2" sx={{ fontWeight: 700 }}>
+                      {p.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                      {p.body}
+                    </Typography>
+                  </Grid>
+                ))}
+              </Grid>
+            </Reveal>
+          </Grid>
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Reveal delay={80}>
+              <Stack spacing={2}>
+                <Alert severity="info" variant="outlined" sx={{ borderRadius: 3 }}>
+                  <AlertTitle sx={{ fontWeight: 700 }}>{quickstart.docker.ports.title}</AlertTitle>
+                  {quickstart.docker.ports.body}
+                </Alert>
+                <Alert severity="warning" variant="outlined" sx={{ borderRadius: 3 }}>
+                  <AlertTitle sx={{ fontWeight: 700 }}>{quickstart.docker.separate.title}</AlertTitle>
+                  {quickstart.docker.separate.body}
+                </Alert>
+              </Stack>
+            </Reveal>
+          </Grid>
+        </Grid>
       </Section>
 
       {/* Part 2: two client-native paths, profiles as a config customization,
@@ -295,9 +407,10 @@ export default function StartPage() {
 
       {/* Part 3: three clicks. */}
       <Section
+        tone="raised"
         eyebrow="Part 3 · optional"
-        title="The browser panel"
-        lede="A Chrome side panel: capture the posting in front of you and fill forms from your autofill profile. Unrelated to Part 2, despite the shared word “extension”."
+        title="The Companion"
+        lede="A Chrome side panel. Save the posting in front of you, pick a resume, fill the form from your saved answers and track it. Unrelated to Part 2, despite both being add-ons."
         maxWidth={680}
       >
         <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
@@ -307,7 +420,7 @@ export default function StartPage() {
                 <Stack spacing={1.5}>
                   {[
                     "Open chrome://extensions and turn on Developer mode",
-                    "Load unpacked → the repo's extension/ folder",
+                    "Load unpacked, then pick the extension folder (on a uv install, see below)",
                     "Pin the icon, then click it on any job page",
                   ].map((s, i) => (
                     <Stack key={s} direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
@@ -321,11 +434,20 @@ export default function StartPage() {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <Reveal delay={80}>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                <strong>No ID to copy, nothing to configure.</strong> The extension pins its identity, so the backend
-                already allowlists it out of the box. If you changed the ports in <code>.env</code>, set the backend
-                and app URLs under the panel&apos;s <code>⋯</code> menu.
-              </Typography>
+              <Stack spacing={2}>
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  <strong>On a uv install there is no clone to load from.</strong> Run <code>maestro --version</code>,
+                  then on GitHub open Releases, that version, and <strong>Source code</strong>. Download it, unpack it
+                  and load its <code>extension</code> folder, so the Companion matches the Maestro you run. On Docker,
+                  load the <code>extension</code> folder inside your clone. It is not in a store.
+                </Typography>
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  <strong>No ID to copy, nothing to configure.</strong> The Companion pins its identity, so the
+                  backend already allowlists it. If you changed the ports, open <code>chrome://extensions</code>,
+                  choose Details on the Companion card, then Extension options. Set the Backend address and App
+                  address, press Test connection, then Save.
+                </Typography>
+              </Stack>
             </Reveal>
           </Grid>
         </Grid>
@@ -333,19 +455,39 @@ export default function StartPage() {
 
       {/* Updating: the fourth thing a reader needs from an install page. */}
       <Section
-        tone="raised"
         eyebrow="Stay current"
         title="Updating is one command"
-        lede="Run it from the folder you cloned. It backs up the database, moves your checkout to the newest release, brings the images to that same version, and waits until the stack is healthy again."
+        lede="Which command depends on how you installed. The first one covers most readers. Every release is listed in the changelog, and a Breaking changes heading there is worth reading before you update."
         maxWidth={720}
       >
         <Grid container spacing={{ xs: 4, md: 5 }} sx={{ alignItems: "flex-start" }}>
           <Grid size={{ xs: 12, md: 6 }}>
             <Reveal>
-              <CodeBlock code={quickstart.update} />
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
-                <code>--check</code> changes nothing and answers only: am I up to date? On Windows, run it under WSL.
-              </Typography>
+              <Stack spacing={2.5}>
+                <Box>
+                  <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
+                    Installed with uv
+                  </Typography>
+                  <CodeBlock code={quickstart.update.uv} />
+                  <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                    {quickstart.update.uvNote}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="h6" component="h3" sx={{ mb: 1 }}>
+                    On Docker
+                  </Typography>
+                  <CodeBlock code={quickstart.update.docker} />
+                  <Typography variant="body2" sx={{ color: "text.secondary", mt: 1.5 }}>
+                    {quickstart.update.dockerNote}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Button href={site.changelog} target="_blank" rel="noopener noreferrer" size="small" sx={{ px: 0 }}>
+                    Read the changelog
+                  </Button>
+                </Box>
+              </Stack>
             </Reveal>
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -372,17 +514,18 @@ export default function StartPage() {
 
       {/* The one place this page sends you next. */}
       <Section
+        tone="raised"
         eyebrow="Then what?"
         title="The guide walks you through the first hour."
-        lede="This page installs it. The guide is the using: your first session in the order that works, the browser panel in action, and what to ask your assistant for."
+        lede="This page installs it. The guide is the using: your first session in the order that works, the Companion in action, and what to ask your assistant for."
         maxWidth={700}
       >
         <Reveal>
           <TintPaper sx={{ p: { xs: 3, md: 4 }, borderRadius: 4, maxWidth: 900 }}>
             <Grid container spacing={2.5}>
               {[
-                ["Your first session, in order", "Eleven steps from importing resumes to tracking the application. The order is the point."],
-                ["Driving it from your assistant", "What to ask for over MCP, and the panel's Job → Score → Resume → Fill → Track ladder."],
+                ["Your first session, in order", "From importing resumes to tracking the application. The order is the point."],
+                ["Driving it from your assistant", "What to ask for over MCP, and the Companion's four steps: Job, Resume, Fill, Track."],
               ].map(([t, b]) => (
                 <Grid size={{ xs: 12, sm: 6 }} key={t}>
                   <Typography variant="h6" component="h3">
