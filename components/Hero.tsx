@@ -33,13 +33,13 @@ export default function Hero() {
               sx={{
                 m: 0,
                 display: "inline-block",
-                px: 1.75,
+                px: { xs: 1.25, md: 1.75 },
                 py: 0.75,
                 borderRadius: 999,
                 border: `1px solid ${c.border}`,
                 backgroundColor: c.card,
                 color: c.muted,
-                fontSize: { xs: "0.8125rem", md: "0.875rem" },
+                fontSize: { xs: "0.75rem", md: "0.875rem" },
                 fontWeight: 500,
               }}
             >
