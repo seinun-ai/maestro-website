@@ -30,8 +30,9 @@ export const metadata: Metadata = {
   authors: [{ name: site.author }],
   keywords: [
     "resume tailoring",
-    "ATS score",
-    "deterministic ATS",
+    "match score",
+    "deterministic match score",
+    "applicant tracking system",
     "job application tracker",
     "local-first",
     "MCP server",

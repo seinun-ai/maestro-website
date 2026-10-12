@@ -17,7 +17,7 @@ import { featureExtras, features } from "@/content/site";
 export const metadata: Metadata = {
   title: "Features",
   description:
-    "A Career KB that resolves your history, deterministic ATS scoring, a job-independent health report, real LaTeX and Typst typesetting, a browser extension that stores no field values, and analytics on the market you are applying into.",
+    "A career history that resolves your work, a deterministic match score, a job-independent health report, real LaTeX and Typst typesetting, a Companion that fills the form and stops, and analytics on the market you are applying into.",
 };
 
 
@@ -74,8 +74,8 @@ export default function FeaturesPage() {
         <Reveal>
           <Box sx={{ mt: 5, maxWidth: 760 }}>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              One row deserves expanding. The score is <strong>our</strong> score: deterministic, versioned and
-              reproducible. It is not a prediction of what any real ATS shows an employer, and no consumer tool can offer
+              One row deserves expanding. The match score is <strong>our</strong> score: deterministic, versioned and
+              reproducible. It is not a prediction of what any real applicant tracking system shows an employer, and no consumer tool can offer
               that, and independent tests keep proving the point, with the same resume scoring 66–99 across 100 runs on a
               popular LLM-judged checker. Use ours to compare your own drafts against one another and to catch parsing
               and coverage problems.

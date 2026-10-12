@@ -18,7 +18,7 @@ import { guide } from "@/content/site";
 export const metadata: Metadata = {
   title: "Guide",
   description:
-    "Your first hour once Maestro CS is running: find your way around, run one real application through it in the order that works, work postings from the browser panel, and drive the whole loop from your assistant over MCP.",
+    "Your first hour once Maestro CS is running: find your way around, run one real application through it in the order that works, work postings from the Companion, and drive the whole loop from your assistant over MCP.",
 };
 
 export default function GuidePage() {
@@ -59,7 +59,7 @@ export default function GuidePage() {
         </Box>
       </Section>
 
-      {/* 3. the panel, in use */}
+      {/* 3. the Companion, in use */}
       <Section
         tone="raised"
         eyebrow={guide.extension.eyebrow}
@@ -74,7 +74,7 @@ export default function GuidePage() {
           <Typography variant="body2" sx={{ color: "text.secondary", mt: 4, maxWidth: 760 }}>
             {guide.extension.note}{" "}
             <LinkButton href="/privacy" size="small" sx={{ px: 0, verticalAlign: "baseline" }}>
-              What the panel keeps, and what it can&apos;t
+              What the Companion keeps, and what it can&apos;t
             </LinkButton>
           </Typography>
         </Reveal>
@@ -131,11 +131,11 @@ export default function GuidePage() {
         <Reveal>
           <TintPaper sx={{ mt: { xs: 4, md: 5 }, p: { xs: 3, md: 3.5 }, borderRadius: 4, maxWidth: 820 }}>
             <Typography variant="body1" sx={{ color: "text.secondary" }}>
-              The mechanics behind all three (the proposal ledger, the consent gate, the risks stated plainly)
+              The mechanics behind all three (the Agent inbox, the consent gate, the risks stated plainly)
               live on the Agents page.
             </Typography>
             <LinkButton href="/agents" endIcon={<ArrowForwardIcon />} sx={{ px: 0, mt: 1.5 }}>
-              Agents, hunting and the consent ledger
+              Agents, the Agent inbox and the consent ledger
             </LinkButton>
           </TintPaper>
         </Reveal>

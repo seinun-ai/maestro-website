@@ -13,12 +13,12 @@ import { economics, modelProfiles, modelsPage, quickstart } from "@/content/site
 export const metadata: Metadata = {
   title: "Models",
   description:
-    "Two model profiles benchmarked on real postings with every call traced, what a tailored application costs at list prices, and why local model servers stay configurable but untested.",
+    "Two model profiles benchmarked on real postings with every call traced, where Claude stands, what a tailored application costs at list prices, and why local model servers stay configurable but untested.",
 };
 
 /**
  * Model choice and cost are decisions a reader makes after installing, in
- * Settings → Models. They used to sit inside /start, between "clone the repo"
+ * Settings › AI & models. They used to sit inside /start, between "clone the repo"
  * and "attach your assistant", which is neither where they are needed nor
  * where they are looked up later. Here they are one reference page.
  */

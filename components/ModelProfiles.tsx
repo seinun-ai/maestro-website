@@ -25,7 +25,7 @@ export default function ModelProfiles() {
     <>
       <Grid container spacing={3}>
         {modelProfiles.columns.map((c, i) => (
-          <Grid size={{ xs: 12, md: 6 }} key={c.name}>
+          <Grid size={{ xs: 12, md: 4 }} key={c.name}>
             <Reveal delay={i * 90} sx={{ height: "100%" }}>
               <Paper
                 sx={(t) => ({

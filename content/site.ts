@@ -3,10 +3,18 @@
  * KNOWN_ISSUES.md, docs/reports/2026-08-11-launch-content-kit.md). If a number
  * changes there, change it here. This is the only place any of them are written.
  *
- * Positioning (owner's call, 2026-08-23): the recommended setup is BRING A KEY.
- * "No key" is two honest tiers. The deterministic core always works, and over
- * MCP the client agent supplies the model. Local model servers are
- * "configurable but untested". Never claim "fully offline" anywhere.
+ * Positioning (owner's call, 2026-08-23, updated 2026-10-12): the recommended
+ * setup is BRING A KEY: OpenAI, Gemini or Claude. OpenRouter and custom
+ * servers live on the Models page only. "No key" is two honest tiers. The
+ * deterministic core always works, and over MCP the client agent supplies the
+ * model. Local model servers are "configurable but untested". Never claim
+ * "fully offline" anywhere.
+ *
+ * Vocabulary is the app's: Match score (never "ATS score"; "ATS" only where
+ * applicant tracking systems are explained), Career history, Jobs, Agent
+ * inbox, Assistant, Settings › AI & models, the Companion (Job, Resume, Fill,
+ * Track). Submitting: the Companion fills the form and stops, you press
+ * Submit; the opt-in Full automation is stated on the Agents page only.
  *
  * Voice: short sentences, concrete nouns, second person. NO EM DASHES in
  * rendered copy, ever (readers filter AI text by them, and the product scrubs
@@ -97,9 +105,9 @@ export const painPoints = [
   {
     pain: "You hate that resume tailoring is a slot machine.",
     answer: "A score that never guesses.",
-    body: "Most checkers ask an LLM. One popular tool scored the same resume anywhere from 66 to 99 across a hundred runs. Maestro has no LLM in the scoring path at all, so the same resume against the same posting returns the same number and the same breakdown. Every time.",
+    body: "Most checkers ask an LLM. One popular tool scored the same resume anywhere from 66 to 99 across a hundred runs. Maestro has no AI service in the scoring path at all, so the same resume against the same posting returns the same number and the same breakdown. Every time.",
     source: { label: "the 66–99 test", href: "https://danunparsed.com/p/hackerrank-open-source-ats" },
-    feature: "Deterministic ATS engine",
+    feature: "Match score",
     href: "/features#scoring",
   },
   {
@@ -112,8 +120,8 @@ export const painPoints = [
   {
     pain: "You're not sure your resume is even good enough to send.",
     answer: "A grade, and what each flaw costs you.",
-    body: "The Health Report checks one resume on its own merits: parsing, dates, evidence quality, format gates. You get a letter grade and a fix list ranked by impact. Fail a fatal gate and tailoring is blocked, because reordering a broken document doesn't repair it.",
-    feature: "Health Report",
+    body: "The health report checks one resume on its own merits: parsing, dates, evidence quality, format gates. You get a letter grade, the points to the next one and a fix list ranked by impact. Fail a fatal gate and tailoring is blocked, because reordering a broken document doesn't repair it.",
+    feature: "Health report",
     href: "/features#health",
   },
   {
@@ -133,21 +141,21 @@ export const painPoints = [
   {
     pain: "You're answering the same screening questions for the fourth time.",
     answer: "Answer once. Reuse forever.",
-    body: "Cover letters and screening answers come from your Career KB and the answers you've already given. The extension fills forms from your Autofill Profile. Credentials, signatures, consent boxes and government IDs are deny-listed and stay yours to type.",
+    body: "Cover letters and screening answers come from your career history and the answers you've already given. The Companion fills forms from your saved answers. Passwords and government IDs are skipped by field type, and by default signatures and agreement boxes stay yours to type.",
     feature: "Q&A and autofill",
-    href: "/features#extension",
+    href: "/features#companion",
   },
   {
     pain: "You do the work. You never find time to write it down.",
     answer: "Drop the raw material in. Get structure back.",
-    body: "Every resume variant you own, plus project write-ups, certifications, review notes. Maestro resolves duplicate entities across them, clusters the bullets and synthesises one Career Knowledge Base. That becomes the evidence base for everything downstream.",
-    feature: "Career KB",
-    href: "/features#career-kb",
+    body: "Every resume variant you own, plus project write-ups, certifications, review notes. Maestro resolves duplicate items across them, clusters the bullets and builds one career history. That becomes the evidence base for everything downstream.",
+    feature: "Career history",
+    href: "/features#career-history",
   },
   {
     pain: "You don't actually know what the market wants for your roles.",
     answer: "Your own postings, quantified.",
-    body: "Every job you capture feeds a picture of the market you're really applying into: top skills, a skill heatmap, role mix over time. Gaps sort into missing, already in your KB, or already on a resume. Frequent and missing is what to learn next. Frequent but already yours is what you keep forgetting to say.",
+    body: "Every job you capture feeds a picture of the market you're really applying into: top skills, a skill heatmap, role mix over time. Skill gaps are marked not in your career history, in your career history, or used before. Frequent and missing is what to learn next. Frequent but already yours is what you keep forgetting to say.",
     feature: "Analytics & gap analysis",
     href: "/features#analytics",
   },
@@ -161,22 +169,22 @@ export const painPoints = [
   {
     pain: "You're tired of searching for jobs at all.",
     answer: "Send the assistant you already use.",
-    body: "Maestro hands your agent a brief: your preferences, your work-authorization answers word for word, the guardrails you set. Claude or Codex reads the boards, captures what fits, scores it against your bases and comes back with a ranked shortlist. No integrations to break.",
+    body: "Maestro hands your agent a brief: your preferences, your work-authorization answers word for word, the guardrails you set. Claude or Codex reads the boards, saves what fits, scores it against your bases and files the best in your Agent inbox. No integrations to break.",
     feature: "Hunt over MCP",
     href: "/agents",
   },
   {
     pain: "You wish the form-filler knew everything your resume knows.",
     answer: "It does, per application.",
-    body: "The side panel fills from your Autofill Profile and grounds each answer in the application on screen, not a generic saved blob. Its telemetry logs which fields it met and whether they filled. It can't log what you typed, because the table has no column for it.",
+    body: "The Companion fills from your saved answers and grounds each answer in the application on screen, not a generic saved blob. Its usage log records which fields it met and whether they filled, and has no column for what you typed. The job's What was submitted tab keeps the answers it filled, so you can check them.",
     feature: "AI-grounded autofill",
-    href: "/features#extension",
+    href: "/features#companion",
   },
 ] as const;
 
 export const whyClose = {
   title: "And if you walk away, you keep everything.",
-  body: "Your Career KB exports to one career.md. Plain Markdown, no model involved, readable and diffable. Resumes are JSON on your disk. Every render sits in its own company-and-role folder with the source and the exact PDF you sent.",
+  body: "Your career history exports to one career.md. Plain Markdown, no model involved, readable and diffable. Resumes are JSON on your disk. Every render sits in its own company-and-role folder with the source and the exact PDF you sent.",
   kicker: "The record is yours. That is the whole design.",
 } as const;
 
@@ -201,14 +209,14 @@ export const pillars = [
   {
     icon: "evidence",
     title: "Evidence, not invention",
-    body: "Resumes compose from approved points in your Career KB, word for word. Rewriting a bullet is a separate step that asks first. A keyword with no evidence behind it reaches your skills list and nowhere else.",
+    body: "Resumes compose from approved bullets in your career history, word for word. Rewriting a bullet is a separate step that asks first. A keyword with no evidence behind it reaches your skills list and nowhere else.",
     proof: "Every edit is a version. Nothing is lost, nothing is one-way.",
   },
   {
     icon: "ownership",
     title: "It leaves with you",
-    body: "Apache-2.0. No account, no subscription, no usage tier. You pay for the tokens you spend and nothing else. Your KB exports to one career.md you can read and diff.",
-    proof: "About a penny an application, against $15–75 a month.",
+    body: "Apache-2.0. No account, no subscription, no usage tier. You pay for the tokens you spend and nothing else. Your career history exports to one career.md you can read and diff.",
+    proof: "About a penny an application on the OpenAI default, against $15–75 a month.",
   },
 ] as const;
 
@@ -216,12 +224,12 @@ export const pillars = [
 
 export const economics = {
   eyebrow: "What it costs",
-  title: "A tailored application costs about a penny.",
+  title: "A tailored application costs about a penny on the default setup.",
   lede: "We traced real applications end to end with Langfuse in August 2026, on the model profile a fresh install ships with, priced at list. Your payloads will vary. Not by an order of magnitude.",
   headline: {
     stat: "≈1¢",
     label: "per tailored application",
-    body: "Capture the posting, score it, close the gaps, tailor, render the PDF, and write the cover letter and screening answers. All of it.",
+    body: "Save the posting, score it, close the gaps, tailor, render the PDF, and write the cover letter and screening answers. All of it, on the OpenAI default.",
     aside: "My whole search so far has cost under $2 in tokens. Hosted tools charge $15–75 a month.",
   },
   // Input and output are priced ~6x apart, so a combined token count can't be
@@ -232,22 +240,22 @@ export const economics = {
     { op: "Gap enrichment", tokensIn: "~7k", tokensOut: "~3k", cost: "~½¢" },
     { op: "Tailoring pass", tokensIn: "~11k", tokensOut: "~0.6k", cost: "~¼¢" },
     { op: "Cover letter + screening answers", tokensIn: "~8k", tokensOut: "~0.9k", cost: "~¼¢" },
-    { op: "Career KB consolidation, per resume (one-time)", tokensIn: "~7k", tokensOut: "~1.5k", cost: "~⅓¢" },
+    { op: "Career history build, per resume (one-time)", tokensIn: "~7k", tokensOut: "~1.5k", cost: "~⅓¢" },
   ],
-  total: { op: "Capture → tailored resume → full apply package", cost: "≈1.3¢" },
+  total: { op: "Save a job → tailored resume → full apply package", cost: "≈1.3¢" },
   note: "Priced against GPT-5.6 Luna at $0.20 per million input tokens and $1.20 per million output. Multiply it out yourself. That is the point of showing the split.",
 } as const;
 
 export const modelsPage = {
   eyebrow: "Models",
   title: "Which model, and what it costs you.",
-  lede: "One key, OpenAI or Gemini, is a complete setup. This page is the reference behind that sentence: the two profiles benchmarked on real postings, what a tailored application actually costs, and where local models stand.",
+  lede: "One key, OpenAI, Gemini or Claude, is a complete setup. This page is the reference behind that sentence: the two profiles benchmarked on real postings, where Claude stands, what a tailored application actually costs, and where local models stand.",
 } as const;
 
 export const modelProfiles = {
   eyebrow: "Choose your models",
-  title: "Two setups, measured on real postings.",
-  lede: "Any OpenAI-compatible model can be configured. These two are benchmarked end to end with every call traced, one per API key, so you can start from a known-good setup instead of guessing. The Fast tier decides almost everything: how much of a posting gets extracted, how honest your base score is, and most of the waiting.",
+  title: "Two setups measured on real postings, and Claude.",
+  lede: "Any OpenAI-compatible model can be configured. The first two are benchmarked end to end with every call traced, one per API key, so you can start from a known-good setup instead of guessing. The Fast tier decides almost everything: how much of a posting gets extracted, how honest your base score is, and most of the waiting.",
   columns: [
     {
       name: "OpenAI",
@@ -273,8 +281,20 @@ export const modelProfiles = {
       hallucinations: "none measured",
       recommended: false,
     },
+    {
+      name: "Claude",
+      badge: "your key",
+      model: "claude-haiku-5-5",
+      key: "One Claude key",
+      extraction: "Not measured",
+      speed: "Not measured",
+      cost: "about a penny",
+      costNote: "per application with Haiku, in our tests",
+      hallucinations: "not measured",
+      recommended: false,
+    },
   ],
-  why: "A fresh install ships with the OpenAI one already set, because honest scoring starts at extraction: a fast model that misses requirements inflates your fit score, in our tests by about nine points. Neither is a tier above the other, and switching is three dropdowns in Settings → Models. Mixing tiers across providers works too. These two already cover what it would buy you.",
+  why: "A fresh install ships with the OpenAI one already set, because honest scoring starts at extraction: a fast model that misses requirements inflates your fit score, in our tests by about nine points. Neither is a tier above the other, and switching is three dropdowns in Settings › AI & models. Claude Sonnet 5.5 and Opus 5.5 are listed too. OpenRouter keys and custom OpenAI-compatible servers work as well. Mixing tiers across providers works too. These two already cover what it would buy you.",
 } as const;
 
 /* ---------------------------- steps ---------------------------- */
@@ -282,30 +302,30 @@ export const modelProfiles = {
 export const steps = [
   {
     n: "01",
-    title: "Feed the Career KB, once",
+    title: "Feed your career history, once",
     summary: "Every resume variant you own. The old ones, the role-specific ones, the one that runs to three pages.",
-    body: "Maestro resolves duplicate entities across them, clusters the bullets and builds one Career Knowledge Base. This is the step that keeps paying: everything downstream composes from it, so its quality is the ceiling on everything else.",
-    note: "Bullets that arrive unchanged from a file you wrote are approved on import. Anything merged across resumes, or written by a model, waits in the review inbox for you. Fix a duplicate once and it is fixed for every future application.",
+    body: "Maestro resolves duplicate items across them, clusters the bullets and builds one career history. This is the step that keeps paying: everything downstream composes from it, so its quality is the ceiling on everything else.",
+    note: "Bullets that arrive unchanged from a file you wrote are approved on import. Anything merged across resumes, or written by a model, waits in Drafts to review for you. Fix a duplicate once and it is fixed for every future application.",
     image: "/media/kb-onboarding.png",
-    imageAlt: "The Career KB import dialog consolidating several resume variants into one knowledge base",
+    imageAlt: "The import dialog adding several resume variants to one career history",
   },
   {
     n: "02",
     title: "Build a base resume per track",
     summary: "One per track you actually target. Not one per job.",
-    body: "“New base resume → From Career KB” proposes what belongs and tells you why it left the rest out, with a drafted summary. The instruction box steers shape, not facts: “lead with pipeline and cloud work, keep it mid-level, drop the teaching.”",
-    note: "Bullets are never rewritten here. Approved KB points compose word for word, which is what keeps a generated resume defensible.",
+    body: "“New base resume › From career history” proposes what belongs and tells you why it left the rest out, with a drafted summary. The instruction box steers shape, not facts: “lead with pipeline and cloud work, keep it mid-level, drop the teaching.”",
+    note: "Bullets are never rewritten here. Approved bullets compose word for word, which is what keeps a generated resume defensible.",
     image: "/media/base-resume.png",
     imageAlt: "The base resume studio with its health grade and a live typeset preview",
   },
   {
     n: "03",
-    title: "Capture the job, then pre-scan it",
-    summary: "Paste the posting, or grab it with the extension from the board you're already reading.",
-    body: "Score it against every base. Then the knock-out pre-scan checks your profile against what the posting actually states: work authorization, OPT policy, salary, years of experience.",
+    title: "Save the job, then check it",
+    summary: "Paste the posting, or save it with the Companion from the board you're already reading.",
+    body: "Score it against every base. Then the requirements check compares your profile with what the posting actually states: work authorization, OPT policy, salary, years of experience, and whether an on-site or hybrid office is where you live.",
     note: "You find out about a disqualifier before you spend the evening, not at the screening call.",
     image: "/media/job-overview.png",
-    imageAlt: "A captured job with its extracted fields and a knock-out pre-scan of the stated requirements",
+    imageAlt: "A saved job with its extracted fields and a check of the stated requirements against your profile",
   },
   {
     n: "04",
@@ -314,16 +334,16 @@ export const steps = [
     body: "The workflow asks pointed questions to surface things that are true but unwritten. Close one and you've either produced new evidence that's yours permanently, or it stays a gap. That's the difference between tailoring and drifting.",
     note: "Already know the answer? Quick Tailor does it in one request, same honesty rules, no session to open.",
     image: "/media/kb-import.png",
-    imageAlt: "Importing KB evidence into a resume, with the drawer showing what is already present",
+    imageAlt: "Adding bullets from your career history to a resume, with the drawer showing what is already present",
   },
   {
     n: "05",
     title: "Render it, read it, track it",
     summary: "Cover letter, screening answers, and a real LaTeX or Typst PDF compiled on your machine.",
-    body: "Read the output before it goes anywhere. Your name is on it. Then the tracker carries the application from Saved to Accepted, with inline status, filters for what you did versus what an agent did, and every render filed on disk.",
+    body: "Read the output before it goes anywhere. Your name is on it. Then the Jobs page carries the application from Saved to Accepted, with inline status, filters for Tracked, Yours and Agents, and every render filed on disk.",
     note: "Every AI edit is a per-hunk diff you can revert, so “what changed” is never a guess.",
     image: "/media/applications.png",
-    imageAlt: "The application tracker, from saved jobs through to signed offers",
+    imageAlt: "The Jobs page, from saved jobs through to offers",
   },
 ] as const;
 
@@ -331,42 +351,42 @@ export const steps = [
 
 export const features = [
   {
-    id: "career-kb",
+    id: "career-history",
     eyebrow: "The record",
-    title: "A Career KB that resolves your history",
-    body: "Add your resume variants and Maestro performs entity resolution, deduplication, bullet clustering and profile synthesis. What comes out is one structured record of your work, projects and skills. Certifications, project write-ups and review notes belong in there too.",
+    title: "A career history that resolves your work",
+    body: "Add your resume variants and Maestro performs entity resolution, deduplication, bullet clustering and profile synthesis. What comes out is one structured record of your work, projects and skills. Certifications, project write-ups and review notes belong in there too. It reads PDF, DOCX, Markdown, text and PowerPoint files.",
     bullets: [
       "Approved points compose word for word into resumes and applications",
-      "Verbatim bullets from your own files import approved; merged and model-written points wait for review",
-      "Every point keeps provenance back to the document it came from",
-      "Seeding defers cleanly with no API key and retries on a later boot",
+      "Verbatim bullets from your own files import approved; merged and model-written bullets wait in Drafts to review",
+      "Every bullet keeps its source back to the document it came from",
+      "First-start seeding waits for an AI key and retries once one is there",
     ],
     image: "/media/kb-onboarding.png",
-    imageAlt: "Career KB onboarding: drop in your resumes, get a knowledge base",
+    imageAlt: "Add your documents: drop in your resumes, get your career history",
   },
   {
     id: "scoring",
     eyebrow: "The measurement",
-    title: "Deterministic scoring, and a measured lift",
+    title: "A match score that never guesses, and a measured lift",
     body: "Deterministic lexical layers plus a pinned embedding model for semantics. Soft matches need both a shared lexical anchor and embedding proximity, so “container orchestration” earns credit against Kubernetes without inventing a skill you don't have.",
     bullets: [
       "Same resume, posting and config version gives an identical score and breakdown, run after run",
       "Recency is one of the inputs, so a document scored months apart can move as its work ages. Nothing else does.",
       "Base-to-tailored delta recorded per application, so you can see if tailoring did anything",
-      "Runs offline on CPU. Scoring never calls a model.",
+      "Runs on your CPU. Scoring never calls an AI service.",
     ],
     image: "/media/job-overview.png",
-    imageAlt: "A job overview with the deterministic score breakdown and knock-out pre-scan",
+    imageAlt: "A job overview with the match score breakdown and a check of its stated requirements",
   },
   {
     id: "health",
     eyebrow: "The pre-flight",
-    title: "Health Report: is this document sound at all?",
-    body: "A gap needs a job description. A Health Report doesn't. It checks one resume on its own merits: parsing, dates, evidence quality, format gates. Back comes a letter grade with a fix list ranked by what each flaw costs you.",
+    title: "Health report: is this document sound at all?",
+    body: "A gap needs a job description. A health report doesn't. It checks one resume on its own merits: parsing, dates, evidence quality, format gates. Back comes a letter grade, the points to the next one and a fix list ranked by what each flaw costs you. Each bullet gets a question you can answer with or without a number.",
     bullets: [
       "A failing fatal gate blocks tailoring outright",
       "Tailoring reorders a healthy document. It can't repair a broken one.",
-      "Overrule any finding, with your reason on the record",
+      "Mark as OK any check you disagree with, with your reason on the record",
     ],
     image: "/media/health-report.png",
     imageAlt: "A job-independent resume health grade with the cost of each defect",
@@ -375,27 +395,28 @@ export const features = [
     id: "templates",
     eyebrow: "The output",
     title: "Real typesetting, without the typesetting",
-    body: "Two engines compiled locally: LaTeX and Typst. You edit content in a structured editor and layout stays the template's job, so changing a word can't break your formatting. A template owns presentation and nothing else, which is why switching one never touches your content.",
+    body: "Two engines compiled locally: LaTeX and Typst. The Typst engine ships inside the app, so those PDFs need no TeX. LaTeX templates need TeX on your computer, and without it they build through Typst. You edit content in a structured editor and layout stays the template's job, so changing a word can't break your formatting. A template owns presentation and nothing else, which is why switching one never touches your content.",
     bullets: [
       "Changing your design is a button, not a rebuild",
       "Start from a bundled design, adapt one you found, or write your own",
-      "Validation compiles a sample PDF and runs a parse gate, so a design that breaks ATS parsers never ships",
+      "Validation compiles a sample PDF and runs a parse gate, so a design that breaks applicant tracking system parsers never ships",
     ],
     image: "/media/templates.png",
     imageAlt: "The template gallery, with LaTeX and Typst designs compiled locally",
   },
   {
-    id: "extension",
+    id: "companion",
     eyebrow: "The capture",
-    title: "An extension that never stores what you typed",
-    body: "A browser side panel. Capture the posting, score it against every base resume, tailor on the spot, fill the form from your Autofill Profile, and mark it applied, without leaving the tab. Its telemetry records which fields it met and whether they filled. It cannot record a value you typed, because the table has no column for one.",
+    title: "The Companion fills the form and stops",
+    body: "A Chrome side panel with four steps: Job, Resume, Fill, Track. Save job also scores your base resumes and picks the best match. The fill reads the form, checks the page kept every value it set, and lists what it filled and what still needs you. The Companion fills the form and stops. You press Submit.",
     bullets: [
-      "Zero-config install. The extension pins its identity, so the backend already trusts it.",
-      "Signatures, attestations, consent boxes, credentials and government IDs are deny-listed",
+      "Fills from your saved answers, with optional AI for the questions they can't answer, and attaches your resume to an empty upload box",
+      "Passwords and government IDs are skipped by field type. Signatures and agreement boxes stay yours unless you turn on the agreement permission in Profile.",
+      "It never moves to the next page and never submits",
       "It posts to your own backend on localhost. There's no collector on the other end.",
     ],
     image: "/media/extension.gif",
-    imageAlt: "The extension widget capturing a job posting and scoring it against four base resumes",
+    imageAlt: "The Companion panel on a job page, stepping through Job, Resume, Fill and Track",
   },
   {
     id: "analytics",
@@ -403,7 +424,7 @@ export const features = [
     title: "What the market keeps asking you for",
     body: "Every captured job builds a picture of the market you're really applying into: top skills, a skill heatmap, role mix over time. Filter by role category, seniority and employment type.",
     bullets: [
-      "Gaps sort into missing, already in your KB, or already on a resume",
+      "Skill gaps are marked not in your career history, in your career history, or used before",
       "Frequent and missing is what to learn next",
       "Frequent but already yours is what you keep forgetting to say",
     ],
@@ -425,8 +446,8 @@ export const featureExtras = [
   },
   {
     id: "chat",
-    title: "Chat scoped by what you pin",
-    body: "Pin a resume and chat works on that one. Pin a section, an entry or a single bullet and edits outside that scope get refused, not just discouraged. Proposed edits arrive as a card you accept or discard.",
+    title: "An Assistant scoped by what you pin",
+    body: "Pin a resume and the Assistant works on that one. Pin a section, an entry or a single bullet and edits outside that scope get refused, not just discouraged. Proposed edits arrive as a card you accept or discard.",
   },
   {
     id: "quick-tailor",
@@ -435,13 +456,13 @@ export const featureExtras = [
   },
   {
     id: "knockout",
-    title: "Knock-out pre-scan",
-    body: "Work authorization, OPT policy, salary and years of experience, checked against your profile at capture time. Disqualifiers surface before you spend the evening.",
+    title: "Requirements check",
+    body: "Work authorization, OPT policy, salary, years of experience and whether an on-site or hybrid office is where you live, checked against your profile when you save a job. Disqualifiers surface before you spend the evening.",
   },
   {
     id: "export",
     title: "career.md export",
-    body: "Your whole career record as one Markdown file, no model involved. Download it from the Career KB page or over MCP. Every render is filed on disk in its own company-and-role folder.",
+    body: "Your whole career record as one Markdown file, no model involved. Download it from the Career history page or over MCP. Every render is filed on disk in its own company-and-role folder.",
   },
 ] as const;
 
@@ -449,15 +470,15 @@ export const comparison = {
   columns: ["Typical AI resume builders", "CLI skill frameworks", "Maestro CS"],
   rows: [
     {
-      label: "ATS scoring",
+      label: "Match scoring",
       cells: ["LLM or black-box. Same input, different score per run.", "LLM judgment", "Deterministic and LLM-free. Same input, same score."],
     },
     { label: "Measured tailoring lift", cells: ["Static score only", "Not scored as a lift", "Base-to-tailored delta, per application"] },
     { label: "See what the AI changed", cells: ["No audit trail", "No", "Per-hunk diff, revertible"] },
     { label: "Typeset output", cells: ["House web templates", "HTML to PDF", "Real LaTeX and Typst, bring your own"] },
     { label: "Career record", cells: ["None, per document", "Flat markdown/YAML files", "Structured, versioned, exports to one career.md"] },
-    { label: "Agent access", cells: ["No", "CLI skill files", "MCP server, 83 tools, on your machine"] },
-    { label: "Auto-submits for you", cells: ["N/A", "Never (stated)", "Never. Consent ledger, enforced."] },
+    { label: "Agent access", cells: ["No", "CLI skill files", "MCP server, 88 tools, on your machine"] },
+    { label: "Submits for you", cells: ["N/A", "Never (stated)", "Asks first by default, with a consent ledger. Full automation is an opt-in switch."] },
     { label: "Cost", cells: ["$15–75/month", "Free + tokens", "Free, Apache-2.0, plus ≈1¢ an application in tokens"] },
   ],
   footnote: "Only checkable claims. Verify any row yourself. Columns describe the categories as of August 2026.",
@@ -847,31 +868,35 @@ docker compose up -d`,
 export const faqs = [
   {
     q: "Do I need an API key?",
-    a: "Recommended, yes. The parts that make Maestro fastest day to day run on it: in-app tailoring, the extension's tailor-on-the-go and form filling, cover letters and screening answers, KB consolidation, chat. One key, OpenAI or Gemini, is a complete setup. Without one you still get the deterministic core, and if you drive it over MCP your assistant supplies the model.",
+    a: "Recommended, yes. The parts that make Maestro fastest day to day run on it: in-app tailoring, the Companion's AI fill, cover letters and screening answers, building your career history, the Assistant. One key, OpenAI, Gemini or Claude, is a complete setup. Without one you still get scoring, PDFs and tracking, and if you drive it over MCP your assistant supplies the model.",
+  },
+  {
+    q: "Does it need Docker?",
+    a: "No. The default install is two commands with uv, on macOS, Linux and Windows (x64): uv tool install, then maestro start. Docker is the alternative for self-hosters and contributors.",
   },
   {
     q: "What does it actually cost to run?",
-    a: "About a penny per tailored application on the default profile, under 3¢ on the fast one. Measured with Langfuse on real postings at list prices. My whole search so far has cost under $2 in tokens. The software is Apache-2.0: no account, no subscription, no tier.",
+    a: "About a penny per tailored application on the OpenAI default, under 3¢ on Gemini. In our tests, about a penny is also possible with Claude Haiku. The OpenAI and Gemini figures come from tracing real postings with Langfuse at list prices. My whole search so far has cost under $2 in tokens. The software is Apache-2.0: no account, no subscription, no tier.",
   },
   {
     q: "Is my resume uploaded anywhere?",
-    a: "No. Three containers on your machine, bound to 127.0.0.1. The only outbound traffic goes to whichever LLM provider you configure, and your key goes to exactly that endpoint. It lives in your .env or your local database, and the API never echoes it back out.",
+    a: "Not to us. There is no Maestro server and no account, and Maestro listens on 127.0.0.1 out of the box. When you use an AI feature, the text it needs goes to the AI service you picked, with your key. If you connect an assistant over MCP, what its tools return goes to that assistant's provider. The first start downloads the scoring model from Hugging Face, and no resume text is sent. PRIVACY.md lists every place data can go.",
   },
   {
-    q: "Can I run it fully offline on a local model?",
-    a: "You can point it at any OpenAI-compatible endpoint, including Ollama, LM Studio and vLLM. We won't claim it works, because we haven't validated a local model end to end. Long tailoring prompts, strict JSON and streaming tool calls are where small models struggle. The deterministic core never calls a model at all, so that half is genuinely offline today.",
+    q: "Can I use a local model?",
+    a: "You can point it at any OpenAI-compatible endpoint, including Ollama, LM Studio and vLLM. We won't claim it works, because we haven't validated a local model end to end. Long tailoring prompts, strict JSON and streaming tool calls are where small models struggle. Scoring never calls an AI service at all, so that half doesn't depend on a model.",
   },
   {
-    q: "Is the score a real ATS score?",
-    a: "It's our score: deterministic, versioned, reproducible. It doesn't predict what an employer's ATS shows them, and no consumer tool can. One caveat worth knowing: recency is part of the score and it is measured against today, so the same document can score slightly differently months apart as its work ages. Everything else holds still. Use it to compare your own drafts and to catch parsing and coverage problems. Chasing 100 gets you a keyword-stuffed resume that modern screens flag.",
+    q: "Is the match score what an employer's ATS shows?",
+    a: "No. It's our score: deterministic, versioned, reproducible. It doesn't predict what an employer's applicant tracking system shows them, and no consumer tool can. One caveat worth knowing: recency is part of the score and it is measured against today, so the same document can score slightly differently months apart as its work ages. Everything else holds still. Use it to compare your own drafts and to catch parsing and coverage problems. Chasing 100 gets you a keyword-stuffed resume that modern screens flag.",
   },
   {
     q: "Will it apply to jobs for me?",
-    a: "It carries an application to the point of submission and stops. Filling and submitting happen only inside a live agent session you're running, with consent recorded one turn before the click and a daily cap you set. Nothing is submitted from the web app, and a submit click that can't be verified ends there rather than being retried.",
+    a: "By default it carries an application to the point of submission and stops. The Companion fills the form and stops, and you press Submit. With a connected agent, an apply run waits for your yes before each submit, within a daily limit you set. Nothing is submitted from the web app, and a submit click that can't be verified is never retried. The one exception is opt-in: Full automation, off by default in Settings › Connected agents, lets your own agent submit queued jobs whose final review is clean.",
   },
   {
     q: "Can I use my own resume template?",
-    a: "Yes, that's the point of the template layer. Start from a bundled LaTeX or Typst design, adapt one you found, or write your own in the editor. Validation compiles a sample PDF and runs a parse gate, so a design that would break an ATS parser never ships.",
+    a: "Yes, that's the point of the template layer. Start from a bundled LaTeX or Typst design, adapt one you found, or write your own in the editor. Validation compiles a sample PDF and runs a parse gate, so a design that would break an applicant tracking system parser never ships.",
   },
   {
     q: "Which languages are supported?",
@@ -879,7 +904,7 @@ export const faqs = [
   },
   {
     q: "How early is this, really?",
-    a: "Early, and the repo says so. KNOWN_ISSUES.md lists what's solid, what's rough and what's a deliberate limitation: the tracker doesn't paginate server-side, scores aren't re-derived when a base resume changes, and autofill isn't first-try-clean on every ATS. If something breaks, a clear bug report is the most useful thing you can send.",
+    a: "Early, and the repo says so. It has had little testing on machines that aren't mine, and Windows is the least tested platform. KNOWN_ISSUES.md lists what's solid, what's rough and what's a deliberate limitation: the Jobs page loads everything at once and stops at 500 rows, scores aren't re-scored when a base resume changes, and autofill isn't first-try-clean on every site. If something breaks, a clear bug report is the most useful thing you can send.",
   },
 ] as const;
 
@@ -887,7 +912,7 @@ export const guide = {
   hero: {
     eyebrow: "The guide",
     title: "Your first hour, once it's running.",
-    lede: "Installing lives on the Get started page. This is everything after: find your way around, run one real application through it in the order that works, work postings from the browser panel, and drive the whole loop from your assistant.",
+    lede: "Installing lives on the Get started page. This is everything after: find your way around, run one real application through it in the order that works, work postings from the Companion, and drive the whole loop from your assistant. The full manual is Using Maestro CS on GitHub.",
   },
 
   agentPath: {
@@ -915,51 +940,51 @@ export const guide = {
     title: "Find your way around",
     lede: "The sidebar, top to bottom.",
     items: [
-      { name: "New application", body: "Capture a job and start tailoring against it." },
-      { name: "Applications", body: "Every job you've captured, from saved to signed." },
-      { name: "Agent Proposals", body: "The triage inbox for jobs an agent hunted." },
+      { name: "Add job", body: "Paste a job description or link and start tailoring against it." },
+      { name: "Jobs", body: "Every job you've saved, from saved to offer. Filter by Tracked, Yours or Agents." },
+      { name: "Agent inbox", body: "Where jobs your agent found wait for you to Queue or Skip." },
+      { name: "Automations", body: "Ready-made prompts to paste into your agent." },
       { name: "Referrals", body: "Contacts and their company careers pages." },
-      { name: "Career KB", body: "Your evidence: work history as approved, reusable points." },
-      { name: "Base Resumes", body: "One resume per career track, composed from the KB." },
+      { name: "Career history", body: "Your evidence: work history as approved, reusable bullets." },
+      { name: "Base resumes", body: "One resume per career track, built from your career history." },
       { name: "Templates", body: "The LaTeX and Typst designs your PDFs render through." },
-      { name: "Chat", body: "The scoped in-app assistant. Pin a resume, section or bullet." },
+      { name: "Assistant", body: "The in-app chat. Pin a resume, section or bullet." },
       { name: "Analytics", body: "What the market you're applying into keeps asking for." },
-      { name: "Profile", body: "Persona, job preferences, and your autofill contact details." },
-      { name: "Settings", body: "Models and keys, prompts, quick-tailor defaults, hunt caps." },
+      { name: "Profile", body: "Persona, job preferences, and your saved answers for forms." },
+      { name: "Settings", body: "AI & models, Tailoring, Connected agents, Appearance and About." },
     ],
   },
 
   firstSession: {
     eyebrow: "The heart of it",
     title: "Your first session, in order",
-    lede: "The order matters. Everything downstream composes from the Career KB, so feed that first and the rest gets easier.",
+    lede: "The order matters. Everything downstream composes from your career history, so feed that first and the rest gets easier.",
     steps: [
-      { t: "Import every resume you have", b: "Up to 10 files a batch. Old versions, role-specific variants, the too-long one. They all carry evidence." },
-      { t: "Approve the KB inbox", b: "Imported points arrive as drafts. Only approved points ever land on a resume. Merge the duplicates once and every future application benefits." },
+      { t: "Import every resume you have", b: "Up to 10 files a batch. PDF, DOCX, Markdown, text or PowerPoint. Old versions, role-specific variants, the too-long one. They all carry evidence." },
+      { t: "Review your drafts", b: "Imported bullets arrive under Drafts to review. Only approved bullets ever land on a resume. Merge the duplicates once and every future application benefits." },
       { t: "Fill in your Profile", b: "Contact details, persona, and job preferences: roles, seniority, location, work authorization. Those drive scoring warnings and agent hunts." },
-      { t: "Add your API key and pick models", b: "Settings → Models. Press Test on each: it measures what the model can actually do before you depend on it." },
+      { t: "Add your API key and pick models", b: "Settings › AI & models. One key from OpenAI, Gemini or Claude. Press Test on each model: it measures what the model can actually do before you depend on it." },
       { t: "Pick a default template", b: "Every render uses it unless a resume overrides it. You can switch any time without touching content." },
-      { t: "Build a base resume per career track", b: "Base Resumes → New → From Career KB. Then run the Health check: fixing its findings now beats fixing them after every tailoring run." },
-      { t: "Capture a job", b: "Paste the posting text or URL, or use the side panel. Extraction structures it; the deterministic engine scores it against every base." },
-      { t: "Tailor through the gap workflow", b: "Each gap names a requirement your resume doesn't evidence. Answer honestly and true-but-unwritten material becomes permanent KB evidence. Every AI edit is a revertible diff. Read it." },
+      { t: "Build a base resume per career track", b: "Base resumes › New base resume › From career history. Then open its Health report: fixing its findings now beats fixing them after every tailoring run." },
+      { t: "Save a job", b: "Click Add job and paste the posting text or link, or use the Companion. Extraction structures it; the match score runs against every base." },
+      { t: "Tailor through the gap workflow", b: "Each gap names a requirement your resume doesn't evidence. Answer honestly and true-but-unwritten material becomes permanent career history. Every AI edit is a revertible diff. Read it." },
       { t: "Set quick-tailor preferences", b: "Once you've done a few manual passes. Then Quick Tailor handles the already-know-the-answer cases in one step." },
-      { t: "Generate the package and read it", b: "Cover letter, screening answers, the PDF. Every render is filed on disk under applications/ in a company-and-role folder, so you can verify exactly what you sent." },
+      { t: "Generate the package and read it", b: "Cover letter, screening answers, the PDF. Every render is filed on disk in a company-and-role folder, so you can verify exactly what you sent." },
       { t: "Track it", b: "Mark applied, record outcomes. Analytics starts paying off after about ten captured jobs." },
     ],
   },
 
   extension: {
-    eyebrow: "The browser panel",
-    title: "Working a posting from the side panel",
-    lede: "Installed in Part 3 of the Get started page. On a job page the panel walks one ladder, and each stage opens when the one before it has an answer, so it always shows the next thing worth doing.",
+    eyebrow: "The Companion",
+    title: "Working a posting from the Companion",
+    lede: "Installed in Part 3 of the Get started page. On a job page the panel walks four steps, and each opens when the one before it has an answer, so it always shows the next thing worth doing.",
     flow: [
-      { t: "Job", b: "Capture the posting in front of you. Captures dedup against what you already track, so saving twice is safe." },
-      { t: "Score", b: "Every base resume scored against it, deterministically, without leaving the tab." },
-      { t: "Resume", b: "Pick the base to send, or tailor on the spot and render the PDF right there." },
-      { t: "Fill", b: "Fill the application form from your Autofill Profile. Signatures, credentials, government IDs and consent boxes sit on a deny-list the fill never touches; navigation and submit stay yours." },
-      { t: "Track", b: "Mark it applied before you close the tab, and the tracker row is already there when you get back to the app." },
+      { t: "Job", b: "Save the posting in front of you. Saves dedup against what you already track, so saving twice is safe. Save job also scores every base resume and picks the best match." },
+      { t: "Resume", b: "Use your base resume, or tailor to this job. A job whose resume has no PDF yet gets Create PDF." },
+      { t: "Fill", b: "Autofill fills the form from your saved answers and lists what it filled and what still needs you. Passwords and government IDs are skipped, and signatures and agreement boxes stay yours unless you turn on the agreement permission. It never moves to the next page or submits. You press Submit." },
+      { t: "Track", b: "Mark it Draft or Applied before you close the tab, and the row on the Jobs page is already there when you get back to the app." },
     ],
-    note: "If you changed the app's ports in .env, set the backend and app URLs under the panel's ⋯ menu. What its telemetry does and doesn't store is on the Privacy page.",
+    note: "If you changed the app's ports, set the backend and app addresses under Extension options (chrome://extensions, Details on the Companion card). What the Companion keeps is on the Privacy page.",
   },
 
   mcp: {
@@ -968,7 +993,7 @@ export const guide = {
     lede: "Registering the server is Part 2 of the Get started page. Once it's there, your assistant can run the whole loop by conversation. The useful skill is knowing what to ask for.",
     ideas: [
       { t: "Work a posting end to end", b: "Paste a link or the JD text into chat: capture it, score it against every base, walk the gaps, tailor, and render the PDF, all by asking." },
-      { t: "Keep the record current", b: "Hand it a new resume or paste a review's wins: it drafts KB points, you approve them, and they compose into every future document." },
+      { t: "Keep the record current", b: "Hand it a new resume or paste a review's wins: it drafts bullets for your career history, you approve them, and they compose into every future document." },
       { t: "Ask the market questions", b: "The explore tools answer things like \"what keeps coming up in the jobs I save that I'm not showing?\" from your own captured postings." },
     ],
     note: "Everything an agent authors passes the same honesty gates as the app: unevidenced keywords can only reach the skills list, and every edit lands as a revertible version.",
@@ -977,13 +1002,13 @@ export const guide = {
   next: {
     eyebrow: "Where it can go next",
     title: "Where it can go next",
-    lede: "Once the server is registered, your assistant can run the whole loop. The repo ships the author's own prompts as adaptable starting points.",
+    lede: "Once the server is registered, your assistant can run the whole loop. The Automations page copies a ready-made prompt for each job; paste it into Claude Desktop, Codex or any MCP agent.",
     items: [
-      { t: "A scheduled daily hunt", b: "Capture, score and propose only. You triage the results on Agent Proposals." },
+      { t: "A daily job hunt", b: "Find, save and score postings, and file the best as proposals. You decide in the Agent inbox." },
       { t: "Referral-first hunting", b: "Add contacts and their careers pages under Referrals, then point a hunt at those URLs specifically." },
-      { t: "Attended apply runs", b: "Working the accepted-proposal queue with a browser, one consent per application, always stopping before submit." },
+      { t: "Attended apply runs", b: "Work the jobs you queued with a browser, with one yes per application before the final submit." },
     ],
-    closing: "Whatever the agent does, the consent posture holds: nothing is submitted without your explicit per-application yes, and everything is written down.",
+    closing: "Whatever the agent does, the default holds: your yes before each submit, and everything is written down.",
   },
 
 } as const;
@@ -996,5 +1021,5 @@ export const makerNote = {
 
 export const closing = {
   title: "Career tooling should be infrastructure, not a rental.",
-  body: "Clone it, run it, keep everything it produces. Nothing here was built to make leaving hard.",
+  body: "Install it, run it, keep everything it produces. Nothing here was built to make leaving hard.",
 } as const;
