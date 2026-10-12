@@ -60,8 +60,10 @@ export const hero = {
   lede: "Write down what you did, once. Maestro builds every tailored resume, cover letter and screening answer from that record. Scored by an engine that never guesses. Typeset locally into a real PDF. About a penny an application.",
   primaryCta: { label: "Get started", href: "/start" },
   secondaryCta: { label: "Why you'd want this", href: "/why" },
-  mediaAlt: "Capture a job description, score it, tailor the resume, review every AI edit as a diff, and render a typeset PDF",
-  mediaCaption: "One real run: 49.2 to 70.8, every AI edit shown as a diff you can revert, and a typeset PDF at the end.",
+  mediaAlt:
+    "A pile of resume files such as resume_FINAL(3).docx becomes one career history, then a specialist resume for each role, company and country. One is matched to a job, with its match score going from 82.4 to 87.3, and the application form waits for you to press Submit.",
+  mediaCaption:
+    "A short animation made from real captures of the app. The person, the employers and the job are made up.",
 } as const;
 
 export const heroStats = [

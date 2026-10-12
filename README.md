@@ -156,11 +156,12 @@ Two exceptions:
 
 - **`kb-onboarding.png`** is cropped here to remove the black letterbox bars the
   original capture carries, which read as a rendering fault inside the window chrome.
-- **`hero.mp4`** is *not* from `docs/assets/`. The product repo ships `hero.gif`
-  at 1000px / 10fps / 64 colours for GitHub; this site encodes the original
-  `hero_mcs.mov` master to H.264 at 1512px / 30fps instead — **1.3 MB against the
-  GIF's 1.9 MB, at 1.5× the resolution and 3× the frame rate.** It is trimmed to
-  31.0s because the macOS screen-recording control bar enters the frame at ~31.3s.
+- **`hero.mp4`** is *not* from `docs/assets/`. It is the product repo's hero
+  animation (`hero.gif`, a short loop built from real v0.10.1 captures of a
+  made-up persona, "Jordan Ellis"), encoded from its 1080p master in the private
+  marketing repo (`hero-gif/renders/hero-1080p.mp4`) to H.264 at 1512px / 30fps,
+  silent, about 1.2 MB. The first and last frames match, so it loops without a
+  jump. Its caption says it is an animation, not a recording of one real run.
 
 ### Re-encoding a master
 
