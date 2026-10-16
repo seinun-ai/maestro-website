@@ -190,7 +190,7 @@ export const capabilities = {
       title: "It asks instead of inventing",
       body: "Every job is scored against your base resumes when you save it. The Match score shows what a job wants that your resume doesn't show yet. Maestro asks you about each gap. If it's true, it's saved for every future application. If it isn't, it stays a gap.",
       image: "/media/job-score.png",
-      imageAlt: "A saved job's page with its four numbered steps, Job, Resume and gaps, Tailored resume and Apply, open on Resume and gaps: two base resumes as chips, both at 82.4, a note that one resume for another country wasn't scored, the Score breakdown open with five subscores and skills covered, and a "Gap analysis done" card: 7 gaps answered, 1 skipped",
+      imageAlt: "A saved job's page with its four numbered steps, Job, Resume and gaps, Tailored resume and Apply, open on Resume and gaps: two base resumes as chips, both at 82.4, a note that one resume for another country wasn't scored, the Score breakdown open with five subscores and skills covered, and a Gap analysis done card: 7 gaps answered, 1 skipped",
       href: `${docs.using}#3-save-the-job-then-close-the-gaps`,
     },
     {
