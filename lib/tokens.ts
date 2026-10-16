@@ -37,11 +37,20 @@ export function accent(a: Accent | Status) {
   };
 }
 
-/** Inter Tight 800, tight: headlines and section titles. */
+/** The text face everywhere: Figtree, the owner's "Lavender Dusk" typeface. */
+export const sans = "var(--font-figtree), Figtree, system-ui, sans-serif";
+
+/**
+ * Text weights. Lavender Dusk keeps text at 400 or lighter; buttons and labels
+ * (nav, pills, links, the prompt bubbles) take 500 so they still read as UI.
+ */
+export const weight = { display: 350, text: 400, label: 500 } as const;
+
+/** Figtree 350, whisper-light: headlines and section titles. */
 export const display = {
-  fontFamily: "var(--font-display), 'Inter Tight', var(--font-geist), system-ui, sans-serif",
-  fontWeight: 800,
-  letterSpacing: "-0.035em",
+  fontFamily: sans,
+  fontWeight: weight.display,
+  letterSpacing: "-0.025em",
   // Headlines break into even lines instead of leaving one word behind.
   textWrap: "balance",
 } as const;

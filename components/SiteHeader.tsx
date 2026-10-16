@@ -138,7 +138,7 @@ export default function SiteHeader() {
               onClick={() => setOpen(false)}
               sx={{ mx: 1, borderRadius: 2 }}
             >
-              <ListItemText slotProps={{ primary: { sx: { fontWeight: 600 } } }} primary={item.label} />
+              <ListItemText slotProps={{ primary: { sx: { fontWeight: 500 } } }} primary={item.label} />
             </ListItemButton>
           ))}
         </List>

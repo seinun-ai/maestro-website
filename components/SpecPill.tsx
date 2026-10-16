@@ -31,8 +31,8 @@ export default function SpecPill({
         backgroundColor: a.tint,
         color: a.ink,
         fontSize: "0.8125rem",
-        fontWeight: 650,
-        letterSpacing: "-0.005em",
+        fontWeight: 500,
+        letterSpacing: "-0.025em",
         whiteSpace: "nowrap",
         "& svg": { fontSize: 17, display: "block" },
       }}

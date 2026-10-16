@@ -148,10 +148,16 @@ two dashes, it is not finished.
 
 ## Design notes
 
-- **The look shares the README hero GIF's colours** (`hero-gif/` in the private
-  marketing repo). Headlines and section titles are Inter Tight 800, tracking
-  about -0.035em (the GIF's Bricolage read as too playful at page scale); body
-  and UI stay Geist. One key phrase per headline is set in app blue `#1358bb`,
+- **The look shares the README hero GIF's colours.** The type is the owner's
+  "Lavender Dusk" typeface, **Figtree** (SIL OFL 1.1, variable 300 to 900,
+  self-hosted at build time by `next/font/google`), for headlines and body
+  alike since 2026-10-16. Its rules: headlines and section titles whisper-light
+  at weight 350, line height 1.0 to 1.1 for display and 1.2 to 1.25 for
+  headings; body and UI text at 400; tracking -0.025em throughout. Text never
+  goes above 400; buttons and labels (nav, pills, links, the prompt bubbles)
+  take 500 so they still read as controls. The weights live in `weight` in
+  `lib/tokens.ts`. Geist Mono stays for command blocks, overlines and the
+  filename chips. One key phrase per headline is set in app blue `#1358bb`,
   with no highlight band: write it as `[phrase]` in `content/site.ts` and
   `<Highlight>` renders it.
 - **Three specialist colours** colour-code the how-it-works steps and the feature
@@ -238,5 +244,5 @@ Apache-2.0, matching the product. See the
 [product repository](https://github.com/seinun-ai/maestro-career-studio) for the
 full text and `NOTICE`.
 
-The headline font, Inter Tight, is under the SIL Open Font License 1.1 and is
+The text font, Figtree, is under the SIL Open Font License 1.1 and is
 self-hosted at build time by `next/font/google`.

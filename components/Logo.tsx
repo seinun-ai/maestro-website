@@ -6,7 +6,8 @@ import Typography from "@mui/material/Typography";
 /**
  * Header lockup. The brand package says not to shrink the full wordmark SVG
  * below legibility in compact headers, so the mark ships as the SVG master and
- * the wordmark is set in Inter, which is what the SVG lockup is drawn in.
+ * the wordmark is set as text in the site's typeface (Figtree), at the 500
+ * label weight. The SVG lockups in public/brand keep their own drawn letters.
  */
 export default function Logo({ compact = false }: { compact?: boolean }) {
   return (
@@ -21,14 +22,14 @@ export default function Logo({ compact = false }: { compact?: boolean }) {
       <Stack spacing={0} sx={{ display: compact ? { xs: "none", sm: "flex" } : "flex" }}>
         <Typography
           component="span"
-          sx={{ fontWeight: 800, fontSize: "1.0625rem", letterSpacing: "-0.028em", lineHeight: 1.1 }}
+          sx={{ fontWeight: 500, fontSize: "1.0625rem", letterSpacing: "-0.025em", lineHeight: 1.1 }}
         >
           Maestro
         </Typography>
         <Typography
           component="span"
           sx={{
-            fontWeight: 600,
+            fontWeight: 500,
             fontSize: "0.625rem",
             letterSpacing: "0.13em",
             textTransform: "uppercase",

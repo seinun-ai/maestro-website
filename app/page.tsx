@@ -18,7 +18,7 @@ import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
 import StructuredData from "@/components/StructuredData";
 import { icons } from "@/components/icons";
-import { accent, c, display } from "@/lib/tokens";
+import { accent, c, display, weight } from "@/lib/tokens";
 import {
   capabilities,
   faqIntro,
@@ -35,7 +35,7 @@ function OutLink({ href, children }: { href: string; children: React.ReactNode }
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      sx={{ color: c.blue, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: 600 }}
+      sx={{ color: c.blue, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: weight.label }}
     >
       {children}
       <ArrowOutwardIcon sx={{ fontSize: 17 }} />
@@ -132,7 +132,7 @@ export default function HomePage() {
                   borderLeft: `6px solid ${c.blue}`,
                 }}
               >
-                <Typography variant="body1" sx={{ color: c.blueInk, fontSize: "1.125rem", fontWeight: 500 }}>
+                <Typography variant="body1" sx={{ color: c.blueInk, fontSize: "1.125rem", fontWeight: weight.text }}>
                   {premise.body[2]}
                 </Typography>
               </Box>
@@ -238,7 +238,7 @@ export default function HomePage() {
                                   borderRadius: "18px 18px 18px 4px",
                                   backgroundColor: a.tint,
                                   color: a.ink,
-                                  fontWeight: 600,
+                                  fontWeight: weight.label,
                                   fontSize: { xs: "1rem", md: "1.0625rem" },
                                   lineHeight: 1.45,
                                 }}
@@ -290,7 +290,7 @@ export default function HomePage() {
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <Stack spacing={2}>
-                <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                <Typography variant="body1">
                   {useCases.more}
                 </Typography>
                 <Typography variant="body2" sx={{ color: c.muted }}>
@@ -396,7 +396,7 @@ export default function HomePage() {
                       {"quote" in card && (
                         <Typography
                           variant="body1"
-                          sx={{ fontWeight: 600, pl: 2, borderLeft: `3px solid ${a.solid}` }}
+                          sx={{ pl: 2, borderLeft: `3px solid ${a.solid}` }}
                         >
                           {card.quote}
                         </Typography>

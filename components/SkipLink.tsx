@@ -17,7 +17,7 @@ export default function SkipLink() {
         borderRadius: 2,
         backgroundColor: "primary.main",
         color: "primary.contrastText",
-        fontWeight: 600,
+        fontWeight: 500,
         textDecoration: "none",
         transition: "top .18s ease",
         "&:focus-visible": { top: 12 },

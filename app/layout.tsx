@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Inter_Tight } from "next/font/google";
+import { Figtree, Geist_Mono } from "next/font/google";
 import Box from "@mui/material/Box";
 import ThemeRegistry from "@/components/ThemeRegistry";
 import SiteHeader from "@/components/SiteHeader";
@@ -8,20 +8,15 @@ import SkipLink from "@/components/SkipLink";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const geist = Geist({
+// The owner's "Lavender Dusk" typeface, for headlines and body alike. It is a
+// variable font (300 to 900), so no weight list: headlines sit at 350.
+const figtree = Figtree({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--font-figtree",
   display: "swap",
 });
 
-// Headlines and section titles. Body text stays Geist.
-const display = Inter_Tight({
-  subsets: ["latin"],
-  weight: ["700", "800"],
-  variable: "--font-display",
-  display: "swap",
-});
-
+// Code and command blocks, overlines and the filename chips only.
 const mono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
@@ -82,7 +77,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} ${mono.variable} ${display.variable}`}>
+    <html lang="en" className={`${figtree.variable} ${mono.variable}`}>
       <body>
         <ThemeRegistry>
           <SkipLink />

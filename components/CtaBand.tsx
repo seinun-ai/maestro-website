@@ -96,7 +96,7 @@ export default function CtaBand() {
               </Typography>
               <TextLink
                 href={cta.privacy.href}
-                sx={{ color: c.blue, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: 600, fontSize: "0.9375rem" }}
+                sx={{ color: c.blue, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: 500, fontSize: "0.9375rem" }}
               >
                 {cta.privacy.label}
                 <ArrowForwardIcon sx={{ fontSize: 17 }} />

@@ -1,7 +1,7 @@
 "use client";
 
 import { createTheme } from "@mui/material/styles";
-import { c, display } from "./tokens";
+import { c, display, sans, weight } from "./tokens";
 
 /**
  * MUI palette roles from the product design system (light) and the app's dark
@@ -36,22 +36,23 @@ const theme = createTheme({
   colorSchemes: { light: { palette: light }, dark: { palette: dark } },
   shape: { borderRadius: 8 },
   typography: {
-    fontFamily: "var(--font-geist), Geist, system-ui, sans-serif",
-    // Headlines and section titles are Inter Tight 800; body text is Geist.
-    h1: { ...display, fontSize: "clamp(2.75rem, 6.6vw, 5.25rem)", lineHeight: 0.98 },
-    h2: { ...display, fontSize: "clamp(2.125rem, 4.4vw, 3.5rem)", lineHeight: 1.02 },
-    h3: {
-      ...display,
-      letterSpacing: "-0.022em",
-      fontSize: "clamp(1.5rem, 2.3vw, 1.875rem)",
-      lineHeight: 1.1,
-    },
-    h4: { fontSize: "1.1875rem", fontWeight: 600, letterSpacing: "-0.012em", lineHeight: 1.3 },
-    h5: { fontSize: "1.0625rem", fontWeight: 600, letterSpacing: "-0.01em", lineHeight: 1.35 },
-    h6: { fontSize: "0.9375rem", fontWeight: 600, lineHeight: 1.4 },
-    subtitle1: { fontSize: "clamp(1.125rem, 1.5vw, 1.3125rem)", lineHeight: 1.55 },
-    body1: { fontSize: "1.0625rem", lineHeight: 1.65 },
-    body2: { fontSize: "0.9375rem", lineHeight: 1.6 },
+    // Figtree throughout (Lavender Dusk): display and headings at 350, text at
+    // 400, buttons and labels at 500, all at -0.025em. Geist Mono stays for code.
+    fontFamily: sans,
+    fontWeightLight: 300,
+    fontWeightRegular: weight.text,
+    fontWeightMedium: weight.label,
+    fontWeightBold: weight.label,
+    h1: { ...display, fontSize: "clamp(2.75rem, 6.6vw, 5.25rem)", lineHeight: 1.02 },
+    h2: { ...display, fontSize: "clamp(2.125rem, 4.4vw, 3.5rem)", lineHeight: 1.06 },
+    h3: { ...display, fontSize: "clamp(1.5rem, 2.3vw, 1.875rem)", lineHeight: 1.2 },
+    h4: { fontSize: "1.1875rem", fontWeight: weight.text, letterSpacing: "-0.025em", lineHeight: 1.25 },
+    h5: { fontSize: "1.0625rem", fontWeight: weight.text, letterSpacing: "-0.025em", lineHeight: 1.3 },
+    h6: { fontSize: "0.9375rem", fontWeight: weight.text, letterSpacing: "-0.025em", lineHeight: 1.4 },
+    subtitle1: { fontSize: "clamp(1.125rem, 1.5vw, 1.3125rem)", lineHeight: 1.55, letterSpacing: "-0.025em" },
+    body1: { fontSize: "1.0625rem", lineHeight: 1.65, letterSpacing: "-0.025em" },
+    body2: { fontSize: "0.9375rem", lineHeight: 1.6, letterSpacing: "-0.025em" },
+    caption: { letterSpacing: "-0.025em" },
     overline: {
       fontFamily: "var(--font-mono), 'Geist Mono', ui-monospace, monospace",
       fontSize: "0.75rem",
@@ -60,13 +61,13 @@ const theme = createTheme({
       lineHeight: 1.4,
       textTransform: "uppercase",
     },
-    button: { textTransform: "none", fontWeight: 600, letterSpacing: 0, fontSize: "0.9375rem" },
+    button: { textTransform: "none", fontWeight: weight.label, letterSpacing: "-0.025em", fontSize: "0.9375rem" },
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         "html, body": { WebkitFontSmoothing: "antialiased" },
-        body: { backgroundColor: c.bg, color: c.fg },
+        body: { backgroundColor: c.bg, color: c.fg, letterSpacing: "-0.025em" },
         "@media (prefers-reduced-motion: reduce)": {
           "*": { animationDuration: "0.01ms !important", transitionDuration: "0.01ms !important" },
         },
@@ -101,7 +102,7 @@ const theme = createTheme({
     },
     MuiChip: {
       styleOverrides: {
-        root: { fontWeight: 500, borderRadius: 999 },
+        root: { fontWeight: weight.label, borderRadius: 999 },
         outlined: { borderColor: c.border },
       },
     },
@@ -126,7 +127,7 @@ const theme = createTheme({
       defaultProps: { underline: "hover" },
       styleOverrides: {
         root: {
-          fontWeight: 500,
+          fontWeight: weight.label,
           "&.Mui-focusVisible": { outline: `2px solid ${c.ring}`, outlineOffset: 2 },
         },
       },
