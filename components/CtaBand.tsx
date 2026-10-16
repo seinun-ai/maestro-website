@@ -9,8 +9,8 @@ import PlayIcon from "@mui/icons-material/PlayCircleOutlined";
 import GitHubMark from "./GitHubMark";
 import Reveal from "./Reveal";
 import Highlight from "./Highlight";
-import { LinkButton } from "./NextMui";
-import { accent, c } from "@/lib/tokens";
+import { LinkButton, TextLink } from "./NextMui";
+import { accent, c, display } from "@/lib/tokens";
 import { cta } from "@/content/site";
 
 /** The three specialists as one striped edge: the site's sign-off motif. */
@@ -20,6 +20,23 @@ export default function CtaBand() {
   return (
     <Box component="section" sx={{ py: { xs: 10, md: 15 } }}>
       <Container>
+        <Reveal>
+          <Typography
+            component="p"
+            sx={{
+              ...display,
+              letterSpacing: "-0.025em",
+              fontSize: "clamp(1.625rem, 3vw, 2.375rem)",
+              lineHeight: 1.15,
+              textAlign: "center",
+              maxWidth: 820,
+              mx: "auto",
+              mb: { xs: 6, md: 8 },
+            }}
+          >
+            {cta.kicker}
+          </Typography>
+        </Reveal>
         <Reveal>
           <Box
             sx={{
@@ -39,7 +56,7 @@ export default function CtaBand() {
             <Typography variant="h2" sx={{ maxWidth: 860, mx: "auto" }}>
               <Highlight text={cta.title} />
             </Typography>
-            <Typography variant="subtitle1" sx={{ color: c.muted, maxWidth: 620, mx: "auto", mt: 2.5 }}>
+            <Typography variant="subtitle1" sx={{ color: c.muted, maxWidth: 660, mx: "auto", mt: 2.5, textWrap: "pretty" }}>
               {cta.body}
             </Typography>
             <Stack
@@ -70,6 +87,21 @@ export default function CtaBand() {
             >
               {cta.video.label}
             </Button>
+            <Stack
+              spacing={1}
+              sx={{ alignItems: "center", mt: { xs: 4, md: 5 }, pt: { xs: 3, md: 3.5 }, borderTop: `1px solid ${c.border}` }}
+            >
+              <Typography variant="body2" sx={{ color: c.muted }}>
+                {cta.export}
+              </Typography>
+              <TextLink
+                href={cta.privacy.href}
+                sx={{ color: c.blue, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: 600, fontSize: "0.9375rem" }}
+              >
+                {cta.privacy.label}
+                <ArrowForwardIcon sx={{ fontSize: 17 }} />
+              </TextLink>
+            </Stack>
           </Box>
         </Reveal>
       </Container>

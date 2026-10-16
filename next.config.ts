@@ -10,7 +10,7 @@ const retired: Record<string, string> = {
   "/features": "/#features",
   "/guide": "/#how-it-works",
   "/models": "/#numbers",
-  "/agents": "/#agents",
+  "/agents": "/#use-cases",
 };
 
 const nextConfig: NextConfig = {

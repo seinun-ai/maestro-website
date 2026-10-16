@@ -99,12 +99,19 @@ public/media/       product captures and the hero loop
 public/brand/       the brand package (lockups, marks, social preview)
 ```
 
-**Three pages.** Home (one scroll: hero, premise, how it works, what you get,
-your AI, three numbers, it's yours, FAQ, call to action), Get started and
+**Three pages.** Home (one scroll: hero, premise, use cases, how it works, what
+you get, three numbers, FAQ, call to action), Get started and
 Privacy. `/privacy` is the published privacy-policy URL for store listings, so it
 stays. The retired pages (`/why`, `/features`, `/guide`, `/models`, `/agents`)
 are permanent redirects in `next.config.ts` to the home section that replaced
 them.
+
+**Sell the value, say "local" once.** Since 2026-10-16 the core pitch is the
+use-cases section: what you can ask your own assistant once Maestro is
+connected, grouped as Extract, Maintain, Hunt and Apply. Each prompt there maps
+to real tools or skills in the app's MCP guide (the list is in the comment above
+`useCases`). Running locally is not a feature to sell: it is one plain line by
+the closing call to action, and the Privacy page holds the detail.
 
 **Copy lives in `content/site.ts`, not in JSX.** Every claim on the site is
 traceable to the product repo's `README.md`, `SYSTEM.md` or `KNOWN_ISSUES.md`; when
@@ -128,7 +135,7 @@ wrong makes the site lie:
 3. **Vocabulary is the app's:** Match score (never "ATS score"), Career history,
    Jobs, Agent inbox, Assistant, Settings › AI & models, the Companion.
 4. **Submitting:** "The Companion fills the form and stops. You press Submit."
-   The opt-in Full automation is stated on the home page (Your AI) and in the
+   The opt-in Full automation is stated on the home page (use cases) and in the
    FAQ. Since 0.11.0 it also turns on the Companion's **Apply** (fills a page,
    clicks Next, signs in on known application sites, stops on the review page),
    which the Companion card names too. The Companion never presses Submit.
