@@ -446,7 +446,7 @@ export const privacy = {
     title: "The trade that buys all this: no authentication",
     body: [
       "Single-user and local-first means no login, and no authentication on any HTTP or MCP endpoint. That absence is what removes the accounts, the tenancy and the server holding your career history.",
-      "So: don't expose it to a network. Not the internet, not your LAN, not a tunnel. Anything that can reach the API has full read and write access to your entire career record and your saved API keys.",
+      "So: don't expose it to a network. Not the internet, not your LAN, not a tunnel. Anything that can reach the API has full read and write access to your entire career record and your saved API keys, and while full automation is on, your saved job-site login.",
       "There is one narrow, documented exception. The optional second copy publishes only /api/sync, sealed, and only as the sync setup guide describes.",
     ],
     kicker: "Running it locally is safe by construction. Publishing it isn't, and no setting makes it so.",
