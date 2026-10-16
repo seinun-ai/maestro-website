@@ -6,15 +6,16 @@
  * The site is a short promo (owner's call, 2026-10-12): Home, Get started and
  * Privacy. Detail and how-to live on GitHub, and every teaser links there.
  *
- * Numbers: three headline figures only (under a minute, about a penny, same
+ * Numbers: three headline figures only (under a minute, about $0.01, same
  * score every time), plus the tool count once in the use-cases section. No cost
  * tables, token traces or benchmarks: they live in the app's docs.
  *
  * Positioning: the recommended setup is BRING A KEY: OpenAI, Gemini or Claude.
  * "No key" is two honest tiers: the deterministic core always works, and over
  * MCP the client agent supplies the model. Never claim "fully offline".
- * Costs are "about a penny" (OpenAI default), "under 3¢" (Gemini), "about a
- * penny" with Claude Haiku, "in our tests", never with a sample count.
+ * Costs are written in dollars: "about $0.01" (OpenAI default), "under $0.03"
+ * (Gemini), "about $0.01" with Claude Haiku, "in our tests", never with a
+ * sample count. Dollars read more easily than cents (owner, 2026-10-16).
  *
  * Vocabulary is the app's: Match score (never "ATS score"; "ATS" only where
  * applicant tracking systems are explained), Career history, Target, Jobs,
@@ -356,9 +357,9 @@ export const numbers = {
       link: { label: "How we measured it", href: docs.models },
     },
     {
-      figure: "About a penny",
+      figure: "About $0.01",
       label: "per application on the OpenAI default",
-      detail: "Under 3¢ on Gemini, and about a penny with Claude Haiku, in our tests.",
+      detail: "Under $0.03 on Gemini, and about $0.01 with Claude Haiku, in our tests.",
       link: { label: "How we measured it", href: docs.models },
     },
     {

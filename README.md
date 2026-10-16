@@ -126,10 +126,10 @@ wrong makes the site lie:
    "No key" is two honest tiers: the deterministic core always works, and
    over MCP the client agent supplies the model. Local model servers are
    *configurable but untested* — never write "fully offline" anywhere.
-2. **Costs are cited as "about a penny" (OpenAI default) / "under 3¢" (Gemini)
-   / "about a penny" with Claude Haiku, with "in our tests" and never a sample
+2. **Costs are cited in dollars, "about $0.01" (OpenAI default) / "under $0.03" (Gemini)
+   / "about $0.01" with Claude Haiku, with "in our tests" and never a sample
    count.** Claude has no measured speed or extraction figures. The site shows
-   three headline numbers (under a minute, about a penny, same score every
+   three headline numbers (under a minute, about $0.01, same score every
    time) and the tool count once; cost tables and benchmarks live in the app's
    docs.
 3. **Vocabulary is the app's:** Match score (never "ATS score"), Career history,
