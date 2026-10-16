@@ -20,8 +20,12 @@
  * applicant tracking systems are explained), Career history, Target, Jobs,
  * Agent inbox, Settings › AI & models, the Companion. Submitting: the
  * Companion fills the form and stops, you press Submit. The opt-in Full
- * automation is stated once, in the Your AI teaser, and in the FAQ answer.
- * Never write a product-wide "never auto-submits".
+ * automation is stated in the Your AI teaser and in the FAQ answer. It also
+ * turns on the Companion's Apply (0.11.0), which the Companion card names:
+ * it fills a page, clicks Next, signs in on known application sites with the
+ * saved job-site login, and stops on the review page. The Companion never presses
+ * Submit, at any setting. Autofill alone never clicks Next. Never write a
+ * product-wide "never auto-submits": an agent with Full automation can.
  *
  * Headline markup: one key phrase per title sits in [brackets]. <Highlight>
  * renders it in app blue on the tint band, as the hero GIF does, and a "\n"
@@ -46,7 +50,7 @@ export const site = {
     "Maestro tailors your resume to each job from your whole career history in under a minute. Every bullet is something you actually did. Free, open source, and it runs on your computer.",
   repo,
   // The release the copy was checked against. Bump it with the copy, not alone.
-  version: "0.10.1",
+  version: "0.11.0",
   privacyPolicy: `${blob}/PRIVACY.md`,
   security: `${blob}/SECURITY.md`,
   video: "https://www.youtube.com/watch?v=TvNTzPxPNnc",
@@ -173,7 +177,7 @@ export const capabilities = {
       title: "A specialist resume for each track",
       body: "Keep one base resume per kind of role you go after. Give each a Target: the role, a company, the countries it may go to. A resume set for other countries isn't scored or recommended for a job somewhere else.",
       image: "/media/base-gallery.png",
-      imageAlt: "Three base resumes in the app, each with its Target pills: Data Scientist for GB, ML Engineer for the US, and ML Engineer for Woodgrove Bank",
+      imageAlt: "Three base resumes in the app, grouped by role, each card in its own colour with a page preview, a health grade and its Target pill: Data Scientist (UK) for GB, ML Engineer (US) for the US, and ML Engineer for Woodgrove Bank",
       href: `${docs.using}#2-build-a-base-resume-per-career-track`,
     },
     {
@@ -181,9 +185,9 @@ export const capabilities = {
       icon: "score" as CardIcon,
       pill: "Match score",
       title: "It asks instead of inventing",
-      body: "The Match score shows what a job wants that your resume doesn't show yet. Maestro asks you about each gap. If it's true, it's saved for every future application. If it isn't, it stays a gap.",
+      body: "Every job is scored against your base resumes when you save it. The Match score shows what a job wants that your resume doesn't show yet. Maestro asks you about each gap. If it's true, it's saved for every future application. If it isn't, it stays a gap.",
       image: "/media/job-score.png",
-      imageAlt: "A saved job scored against two base resumes, each with its Match score, five subscores, skills covered and an Analyze gaps button",
+      imageAlt: "A saved job's page with its four numbered steps, Job, Resume and gaps, Tailored resume and Apply, open on Resume and gaps: two base resumes as chips, both at 82.4, a note that one resume for another country wasn't scored, the Score breakdown open with five subscores and skills covered, and the Analyze gaps and Use resume as is buttons",
       href: `${docs.using}#3-save-the-job-then-close-the-gaps`,
     },
     {
@@ -194,7 +198,7 @@ export const capabilities = {
       body: "Every change arrives as a diff, line by line, the way a developer reviews a code change before accepting it. Accept it or undo it.",
       quote: "The AI fills in emphasis. It doesn't invent a new person.",
       image: "/media/tailor-review.png",
-      imageAlt: "A tailored resume's review: three changes from the base resume, each shown struck through and rewritten with an Undo button, beside the one-page PDF preview",
+      imageAlt: "The same job's Tailored resume step: the Match score going from 82.4 to 87.3, three changes from the base resume, each shown struck through and rewritten with a Revert button and marked From your career history or You, then the PDF and its one-page preview",
       href: `${docs.using}#how-it-works`,
     },
     {
@@ -205,7 +209,7 @@ export const capabilities = {
       body: "One or two. Here it's a button. LaTeX and Typst PDFs are built on your computer, and Typst needs no TeX.",
       quote: "Template change is not a decision of life anymore.",
       image: "/media/base-resume.png",
-      imageAlt: "A base resume in the app, with its Template control in the toolbar and the full one-page PDF preview beside the editor",
+      imageAlt: "A base resume in the app, ML Engineer (US), with its colour square, health grade A and Template control in the toolbar, and the full one-page PDF preview beside the editor",
       href: `${docs.using}#templates-you-actually-own`,
     },
     {
@@ -213,9 +217,9 @@ export const capabilities = {
       icon: "companion" as CardIcon,
       pill: "The Companion",
       title: "It fills the form. You press Submit.",
-      body: "A Chrome side panel saves the job from the board you're on, picks your best-matching resume and fills the application from your saved answers. Then it stops.",
+      body: "A Chrome side panel saves the job from the board you're on, picks your best-matching resume and fills the page you're on from your saved answers. Then it stops. Turn on full automation and Apply takes the job through its application: it fills a page, clicks Next, and stops on the review page. Submit is always your click.",
       image: "/media/extension.gif",
-      imageAlt: "The Companion beside a job application: it saves the job, tailors the resume, fills the form and stops with the cursor resting on Submit",
+      imageAlt: "The Companion beside a made-up employer's careers page: Add job saves and scores the job, a resume is picked, and Apply tailors it, fills two pages of the application, clicks Next after each, and stops on the review page with Ready to submit. The cursor rests on Submit application, which is never pressed",
       href: `${docs.using}#the-companion-browser-extension`,
     },
     {
@@ -243,10 +247,10 @@ export const agentsTeaser = {
   },
   attended: "By default, an apply run waits for your yes before each submit.",
   automation:
-    "Full automation is opt-in and off by default: when you turn it on, your own agent may submit the jobs you queued whose final review is clean, within your daily limit.",
+    "Full automation is opt-in and off by default: when you turn it on, your own agent may submit the jobs you queued whose final review is clean, within your daily limit. It also turns on the Companion's Apply, which fills the application page by page and leaves Submit to you.",
   link: { label: "The MCP guide on GitHub", href: docs.mcpGuide },
   image: "/media/agent-inbox.png",
-  imageAlt: "The Agent inbox: jobs that Claude and Codex found, each with its best base resume and Match score, waiting for you to review",
+  imageAlt: "The Agent inbox: one summary line, four jobs that Claude and Codex found waiting for your review, each with its best base resume and Match score, and two queued jobs, one of them queued by you",
 } as const;
 
 /* ---------------------------- numbers ---------------------------- */
@@ -316,7 +320,7 @@ export const faqs = [
   },
   {
     q: "Will it apply to jobs for me?",
-    a: "By default it carries an application to the point of submission and stops. The Companion fills the form and stops, and you press Submit. With a connected agent, an apply run waits for your yes before each submit, within a daily limit you set. Nothing is submitted from the web app, and a submit click that can't be verified is never retried. The one exception is opt-in: Full automation, off by default in Settings › Connected agents, lets your own agent submit queued jobs whose final review is clean.",
+    a: "By default it carries an application to the point of submission and stops. The Companion fills the page you're on and stops, and you press Submit. With a connected agent, an apply run waits for your yes before each submit, within a daily limit you set. Nothing is submitted from the web app, and a submit click that can't be verified is never retried. Full automation is opt-in, off by default in Settings › Connected agents, and it changes two things. Your own agent may submit queued jobs whose final review is clean. And the Companion's Apply takes one job through its application in the tab: it fills each page, clicks Next, signs in or makes an account on known application sites with the job-site login you saved, and stops on the review page. The Companion never presses Submit. When the confirmation page shows after your Submit, it marks the job applied.",
   },
   {
     q: "Is the match score what an employer's ATS shows?",
@@ -423,7 +427,7 @@ export const privacy = {
   facts: [
     {
       title: "Your record stays here",
-      body: "Scoring, rendering, tracking and export run on your machine. Your career record leaves it only for the AI service you choose, when you use an AI feature, and for the assistant you connect over MCP, when it calls a tool. With no key and no assistant, nothing about your career goes anywhere.",
+      body: "Scoring, rendering, tracking and export run on your machine. Your career record leaves it only for the AI service you choose, when you use an AI feature, for the assistant you connect over MCP, when it calls a tool, and for the employer's site, when you fill in an application there. With no key and no assistant, nothing else about your career goes anywhere.",
     },
     {
       title: "Your key stays yours",
@@ -431,7 +435,7 @@ export const privacy = {
     },
     {
       title: "Nothing phones home",
-      body: "The code has no analytics, crash reporting or ads. The Companion's one usage log posts to your own backend on localhost, with no collector at the other end. Updates happen only when you run maestro update or update.sh, and the maestro command names each request it makes.",
+      body: "The code has no analytics, crash reporting or ads. The Companion's one usage log, the fill log, is off until you turn it on, and it posts only to your own backend on localhost, with no collector at the other end. Updates happen only when you run maestro update or update.sh, and the maestro command names each request it makes.",
     },
     {
       title: "Your data is files you own",
@@ -451,19 +455,28 @@ export const privacy = {
     eyebrow: "The Companion",
     title: "What the Companion keeps, and what it leaves out",
     keeps: [
-      "A usage log of which fields it met: label, kind, rule, outcome",
-      "The page's hostname and a first-seen timestamp",
-      "For an AI fill, a run trace: the page's own option texts and which one was chosen, diversity questions included. The last 50 runs.",
+      "Only after you tick Keep a fill log in the Companion's options: which fields it met (label, kind, rule, outcome), with the page's hostname and a timestamp.",
+      "With the fill log on, for an AI fill, a run trace: the page's own option texts and which one was chosen, diversity questions included. The last 50 runs.",
+      "With the fill log on, each page Think when stuck looked at, as the snapshot the model saw, and a list of fields it could not work. Neither holds an answer.",
       "On each job, a What was submitted record: every answer filled, page by page. Diversity answers are kept only with your consent.",
+      "In this browser only: which clicks and keys worked on each kind of form control, never what you typed, and which job each tab is on, until you close the tab or the browser.",
     ],
     never: [
-      "Any typed value in the usage log or the run trace. Those tables have no column for one.",
-      "Passwords and government ID numbers. It skips them by field type.",
-      "Signatures, initials, salary history and agreement boxes, unless you turn on the agreement permission in Profile.",
+      "Any value you typed or a field held, in the fill log, the run traces or the page snapshots.",
+      "Password boxes, at every setting. The one exception is Apply's sign-in or account step on known application sites, which types the job-site login you saved.",
+      "Signatures, initials, government ID numbers, salary history and agreement boxes, unless you turn on the agreement permission in Profile.",
       "Voluntary diversity questions, unless you turn on the standing consent in Profile.",
     ],
+    // What leaves the machine during a fill. Literal, and in step with the
+    // app's PRIVACY.md (effective 2026-10-16, 0.11.0).
+    outboundTitle: "What leaves your computer during a fill",
+    outbound: [
+      "What the Companion types into an application goes to that site. With Apply, each page it moves past with Next, and the job-site login it signs in or makes an account with, reach the site before you press Submit, because many application sites save each page as you leave it.",
+      "Your job-site login stays in a local secrets file in your Maestro folder. The Companion fetches it from your own backend only while full automation is on, types it only on known application sites, and never retries a failed sign-in. It never reaches the developer, an AI model, a log, the fill log or the panel.",
+      "When an Apply run is stuck and Think when stuck is on, a snapshot of the page goes to your Reasoning model, at the AI service you chose: its questions, whether each is filled, the options, the buttons, the error lines and the site name of a tab the application opened, with no answer in it.",
+    ],
     honest:
-      "“No values” isn't the same as “nothing personal”. The usage log accumulates a record of which companies you applied to and when. Three things bound it: it never leaves your machine, Clear data under Analytics › Autofill coverage deletes the records and the run traces whenever you want, and you can turn capture off. There is no switch in the panel. You set telemetryEnabled to false in the extension's stored settings, from its service worker console. The extension README shows the steps.",
+      "“No values” isn't the same as “nothing personal”. The fill log accumulates a record of which companies you applied to and when. Three things bound it: it is off until you tick Keep a fill log in the Companion's options, it never leaves your machine, and Clear data under Analytics › Autofill coverage deletes the records, the run traces and the list of fields whenever you want.",
   },
   tracing: {
     eyebrow: "Tracing",

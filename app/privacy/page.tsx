@@ -143,6 +143,19 @@ export default function PrivacyPage() {
         </Grid>
 
         <Reveal>
+          <Stack spacing={2} sx={{ mt: 4, maxWidth: 860, pt: 3, borderTop: `1px solid ${c.border}` }}>
+            <Typography variant="h4" component="h3">
+              {privacy.extension.outboundTitle}
+            </Typography>
+            {privacy.extension.outbound.map((p) => (
+              <Typography key={p} variant="body1">
+                {p}
+              </Typography>
+            ))}
+          </Stack>
+        </Reveal>
+
+        <Reveal>
           <Typography variant="body1" sx={{ color: c.muted, mt: 4, maxWidth: 860, pt: 3, borderTop: `1px solid ${c.border}` }}>
             {privacy.extension.honest}
           </Typography>
