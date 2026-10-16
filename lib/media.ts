@@ -1,8 +1,9 @@
 /** Intrinsic sizes of the shipped captures, so the layout reserves space and
  *  never shifts while a screenshot or video decodes. Keep every entry in step
  *  with a file in public/media/, and every file with a use on the site.
- *  The stills are v0.10.1 captures of the fictional Jordan Ellis persona
- *  (maestro-marketing/site-media/MANIFEST.md says what each one shows). */
+ *  The stills and the Companion GIF are 0.11.0 captures of the fictional
+ *  Jordan Ellis persona (maestro-marketing/site-media-1016/MANIFEST.md says
+ *  what each one shows). The hero loop is still built from v0.10.1 captures. */
 export const mediaSize: Record<string, { width: number; height: number }> = {
   "/media/hero.mp4": { width: 1512, height: 850 },
   "/media/base-gallery.png": { width: 1400, height: 788 },

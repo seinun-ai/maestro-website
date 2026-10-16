@@ -128,8 +128,12 @@ wrong makes the site lie:
 3. **Vocabulary is the app's:** Match score (never "ATS score"), Career history,
    Jobs, Agent inbox, Assistant, Settings › AI & models, the Companion.
 4. **Submitting:** "The Companion fills the form and stops. You press Submit."
-   The opt-in Full automation is stated once on the home page (Your AI) and in
-   the FAQ. Never write a product-wide "never auto-submits".
+   The opt-in Full automation is stated on the home page (Your AI) and in the
+   FAQ. Since 0.11.0 it also turns on the Companion's **Apply** (fills a page,
+   clicks Next, signs in on known application sites, stops on the review page),
+   which the Companion card names too. The Companion never presses Submit.
+   Never write a product-wide "never auto-submits": an agent with Full
+   automation can.
 
 **Voice.** Short sentences, concrete nouns, second person. No em-dash pile-ups, no
 "not X but Y" scaffolding, no throat-clearing. If a sentence has three clauses and
@@ -178,17 +182,18 @@ Both bit during the build and are easy to reintroduce:
 
 ## Captures
 
-The stills and the Companion GIF in `public/media/` are v0.10.1 captures of the
+The stills and the Companion GIF in `public/media/` are 0.11.0 captures of the
 fictional persona "Jordan Ellis", made on a throwaway stack and kept in the
-private marketing repo (`site-media/`, whose `MANIFEST.md` says what each file
-shows and which numbers are on screen). Re-copy from there rather than
+private marketing repo (`site-media-1016/`, whose `MANIFEST.md` says what each
+file shows and which numbers are on screen). Re-copy from there rather than
 re-recording, and keep `lib/media.ts` in step with any change in pixel
 dimensions. An animated GIF has a still in `gifStill` that readers who prefer
-reduced motion see instead (`extension.gif` falls back to `companion.png`).
+reduced motion see instead (`extension.gif`, which shows Apply walking two
+pages and stopping on Review, falls back to `companion.png`, its last frame
+at full size).
 
 Each feature card crops its capture to 7:4 from the top, so cards side by side
-line up. `lib/media.ts` marks every capture still waiting on a v0.10.1 recapture
-with `TODO(capture)`.
+line up.
 
 One exception:
 
