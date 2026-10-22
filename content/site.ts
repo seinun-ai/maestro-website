@@ -19,7 +19,7 @@
  *
  * Vocabulary is the app's: Match score (never "ATS score"; "ATS" only where
  * applicant tracking systems are explained), Career history, Target, Jobs,
- * Agent inbox, Settings › AI & models, the Companion. Submitting: the
+ * Agent inbox, Setup, Settings › Basics and › Agent apps, the Companion. Submitting: the
  * Companion fills the form and stops, you press Submit. The opt-in Full
  * automation is stated in the use-cases section and in the FAQ answer. It also
  * turns on the Companion's Apply (0.11.0), which the Companion card names:
@@ -190,7 +190,7 @@ export const capabilities = {
       title: "It asks instead of inventing",
       body: "Every job is scored against your base resumes when you save it. The Match score shows what a job wants that your resume doesn't show yet. Maestro asks you about each gap. If it's true, it's saved for every future application. If it isn't, it stays a gap.",
       image: "/media/job-score.png",
-      imageAlt: "A saved job's page with its four numbered steps, Job, Resume and gaps, Tailored resume and Apply, open on Resume and gaps: two base resumes as chips, both at 82.4, a note that one resume for another country wasn't scored, the Score breakdown open with five subscores and skills covered, and a Gap analysis done card: 7 gaps answered, 1 skipped",
+      imageAlt: "A saved job's page with its four numbered steps, Job, Resume and gaps, Tailored resume and Apply, open on Resume and gaps: two base resumes as chips, both at 79.0, a note that one resume for another country wasn't scored, the Score breakdown open with five subscores and skills covered, and a Gap analysis done card: 9 gaps answered, 1 skipped",
       href: `${docs.using}#3-save-the-job-then-close-the-gaps`,
     },
     {
@@ -201,7 +201,7 @@ export const capabilities = {
       body: "Every change arrives as a diff, line by line, the way a developer reviews a code change before accepting it. Accept it or undo it.",
       quote: "The AI fills in emphasis. It doesn't invent a new person.",
       image: "/media/tailor-review.png",
-      imageAlt: "The same job's Tailored resume step: the Match score going from 82.4 to 87.3, three changes from the base resume, each shown struck through and rewritten with a Revert button and marked From your career history or You, then the PDF and its one-page preview",
+      imageAlt: "The same job's Tailored resume step: the Match score going from 79.0 to 86.5, three changes from the base resume, each shown struck through and rewritten with a Revert button and marked From your career history or You, then the PDF and its one-page preview",
       href: `${docs.using}#how-it-works`,
     },
     {
@@ -386,7 +386,7 @@ export const faqs = [
   },
   {
     q: "Will it apply to jobs for me?",
-    a: "By default it carries an application to the point of submission and stops. The Companion fills the page you're on and stops, and you press Submit. With a connected agent, an apply run waits for your yes before each submit, within a daily limit you set. Nothing is submitted from the web app, and a submit click that can't be verified is never retried. Full automation is opt-in, off by default in Settings › Connected agents, and it changes two things. Your own agent may submit queued jobs whose final review is clean. And the Companion's Apply takes one job through its application in the tab: it fills each page, clicks Next, signs in or makes an account on known application sites with the job-site login you saved, and stops on the review page. The Companion never presses Submit. When the confirmation page shows after your Submit, it marks the job applied.",
+    a: "By default it carries an application to the point of submission and stops. The Companion fills the page you're on and stops, and you press Submit. With a connected agent, an apply run waits for your yes before each submit, within a daily limit you set. Nothing is submitted from the web app, and a submit click that can't be verified is never retried. Full automation is opt-in, off by default in Settings › Agent apps, and it changes two things. Your own agent may submit queued jobs whose final review is clean. And the Companion's Apply takes one job through its application in the tab: it fills each page, clicks Next, signs in or makes an account on known application sites with the job-site login you saved, and stops on the review page. The Companion never presses Submit. When the confirmation page shows after your Submit, it marks the job applied.",
   },
   {
     q: "Is the match score what an employer's ATS shows?",
@@ -444,7 +444,7 @@ maestro start`,
       {
         accent: "tangerine" as Accent,
         t: "Add your AI key",
-        b: "Settings › AI & models: paste one key, from OpenAI, Gemini or Claude, and press Test on each model. Without one, scoring, PDFs and tracking still work.",
+        b: "Setup opens first: pick your AI, paste one key, from OpenAI, Gemini or Claude, and press Test. You can change it later in Settings › Basics. Without one, scoring, PDFs and tracking still work.",
       },
       {
         accent: "teal" as Accent,
@@ -466,7 +466,7 @@ maestro start`,
 cd maestro-career-studio
 cp .env.example .env
 docker compose up -d`,
-    after: "Open http://localhost:3000, then add your key in Settings › AI & models.",
+    after: "Open http://localhost:3000. Setup asks for your key first.",
   },
   docs: {
     title: "Everything else is on GitHub",
