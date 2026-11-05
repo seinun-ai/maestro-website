@@ -402,9 +402,10 @@ export default function HomePage() {
                         </Typography>
                       )}
                       <Box sx={{ flex: 1 }} />
-                      <Box>
+                      <Stack direction="row" spacing={3} useFlexGap sx={{ flexWrap: "wrap" }}>
+                        {"install" in card && <OutLink href={card.install.href}>{card.install.label}</OutLink>}
                         <OutLink href={card.href}>{capabilities.more}</OutLink>
-                      </Box>
+                      </Stack>
                     </Stack>
                   </Box>
                 </Reveal>

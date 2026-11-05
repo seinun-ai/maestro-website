@@ -11,8 +11,10 @@
  * tables, token traces or benchmarks: they live in the app's docs.
  *
  * Positioning: the recommended setup is BRING A KEY: OpenAI, Gemini or Claude.
- * "No key" is two honest tiers: the deterministic core always works, and over
- * MCP the client agent supplies the model. Never claim "fully offline".
+ * "No key" means connecting Claude or Codex over MCP, which then reads and
+ * writes itself. With neither, the app can't read a resume file or a job post,
+ * so never say scoring, PDFs and tracking "still work" as if that were a way to
+ * start. Saving a job from the Companion needs a key too. Never claim "fully offline".
  * Costs are written in dollars: "about $0.01" (OpenAI default), "under $0.03"
  * (Gemini), "about $0.01" with Claude Haiku, "in our tests", never with a
  * sample count. Dollars read more easily than cents (owner, 2026-10-16).
@@ -55,6 +57,8 @@ export const site = {
   privacyPolicy: `${blob}/PRIVACY.md`,
   security: `${blob}/SECURITY.md`,
   video: "https://www.youtube.com/watch?v=TvNTzPxPNnc",
+  // The Companion's public Chrome Web Store listing (public since 2026-10-30).
+  companionStore: "https://chromewebstore.google.com/detail/maestro-cs-companion/bppkeipififkepldkogmfpkkhoakgndl",
   contact: "ajey@seinun.com",
   license: "Apache-2.0",
   author: "Ajey Dhayashanker Loganathan",
@@ -221,6 +225,7 @@ export const capabilities = {
       pill: "The Companion",
       title: "It fills the form. You press Submit.",
       body: "A Chrome side panel saves the job from the board you're on, picks your best-matching resume and fills the page you're on from your saved answers. Then it stops. Turn on full automation and Apply takes the job through its application: it fills a page, clicks Next, and stops on the review page. Submit is always your click.",
+      install: { label: "Add to Chrome", href: site.companionStore },
       image: "/media/extension.gif",
       imageAlt: "The Companion beside a made-up employer's careers page: Add job saves and scores the job, a resume is picked, and Apply tailors it, fills two pages of the application, clicks Next after each, and stops on the review page with Ready to submit. The cursor rests on Submit application, which is never pressed",
       href: `${docs.using}#the-companion-browser-extension`,
@@ -253,7 +258,7 @@ export type VerbIcon = "extract" | "maintain" | "hunt" | "apply";
 export const useCases = {
   eyebrow: "Works with your AI",
   title: "Give your AI [your career].",
-  lede: "Connect Claude, Codex or the ChatGPT desktop app, and your assistant gets 88 tools on your career history, your resumes and your jobs. Then you just ask.",
+  lede: "Connect Claude, Codex or the ChatGPT desktop app, and your assistant gets 94 tools on your career history, your resumes and your jobs. Then you just ask.",
   groups: [
     {
       verb: "Extract",
@@ -378,7 +383,7 @@ export const faqIntro = { eyebrow: "Questions", title: "Before you [install]." }
 export const faqs = [
   {
     q: "Do I need an API key?",
-    a: "Recommended, yes. The parts that make Maestro fastest day to day run on it: in-app tailoring, the Companion's AI fill, cover letters and screening answers, building your career history, the Assistant. One key, OpenAI, Gemini or Claude, is a complete setup. Without one you still get scoring, PDFs and tracking, and if you drive it over MCP your assistant supplies the model.",
+    a: "Recommended, yes. The parts that make Maestro fastest day to day run on it: in-app tailoring, the Companion's AI fill, cover letters and screening answers, building your career history, the Assistant. One key, OpenAI, Gemini or Claude, is a complete setup. No key? Connect Claude or Codex with maestro connect, and it does the reading and writing itself. With neither, Maestro can't read a resume file or a job post.",
   },
   {
     q: "Is my resume uploaded anywhere?",
@@ -444,7 +449,7 @@ maestro start`,
       {
         accent: "tangerine" as Accent,
         t: "Add your AI key",
-        b: "Setup opens first: pick your AI, paste one key, from OpenAI, Gemini or Claude, and press Test. You can change it later in Settings › Basics. Without one, scoring, PDFs and tracking still work.",
+        b: "Setup opens first: pick your AI, paste one key, from OpenAI, Gemini or Claude, and press Test. You can change it later in Settings › Basics. No key? Skip it and connect your AI below: it does the reading instead.",
       },
       {
         accent: "teal" as Accent,
@@ -456,7 +461,12 @@ maestro start`,
   connect: {
     title: "Connect your AI",
     code: "maestro connect",
-    body: "Adds Maestro to Claude Desktop, Claude Code, Codex, Cursor or VS Code. Restart that app so it sees the tools.",
+    body: "Adds Maestro to Claude Desktop, Claude Code, Codex, Cursor or VS Code. Restart that app so it sees the tools. Without an API key, this is how Maestro reads your resume and jobs.",
+  },
+  companion: {
+    title: "Add the Companion",
+    body: "A Chrome side panel that saves the job you're on and fills its application from your saved answers. It never presses Submit. Saving a job from it needs an API key.",
+    link: { label: "Add to Chrome", href: site.companionStore },
   },
   docker: {
     eyebrow: "Alternative · self-hosters",

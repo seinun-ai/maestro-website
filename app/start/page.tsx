@@ -13,7 +13,7 @@ import PageHero from "@/components/PageHero";
 import Section, { Eyebrow } from "@/components/Section";
 import CodeBlock from "@/components/CodeBlock";
 import Reveal from "@/components/Reveal";
-import { accent, c } from "@/lib/tokens";
+import { accent, c, weight } from "@/lib/tokens";
 import { cta, start } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -128,6 +128,24 @@ export default function StartPage() {
                 <Typography variant="body2" sx={{ color: c.muted, mt: 1.5 }}>
                   {start.connect.body}
                 </Typography>
+              </Box>
+
+              <Box sx={{ mt: 5 }}>
+                <Typography variant="h3" component="h2" sx={{ mb: 1.5 }}>
+                  {start.companion.title}
+                </Typography>
+                <Typography variant="body2" sx={{ color: c.muted, mb: 1.5 }}>
+                  {start.companion.body}
+                </Typography>
+                <Link
+                  href={start.companion.link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ color: c.blue, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: weight.label }}
+                >
+                  {start.companion.link.label}
+                  <ArrowOutwardIcon sx={{ fontSize: 17 }} />
+                </Link>
               </Box>
             </Reveal>
           </Grid>
