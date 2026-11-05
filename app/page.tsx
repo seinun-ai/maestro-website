@@ -159,12 +159,162 @@ export default function HomePage() {
         </Reveal>
       </Section>
 
+      {/* How it works: the GIF's three beats, in the GIF's three colours. */}
+      <Section id="how-it-works" eyebrow={howItWorks.eyebrow} title={howItWorks.title}>
+        <Grid container spacing={3}>
+          {howItWorks.steps.map((s, i) => {
+            const a = accent(s.accent);
+            return (
+              <Grid size={{ xs: 12, md: 4 }} key={s.title}>
+                <Reveal delay={i * 90} sx={{ height: "100%" }}>
+                  <Stack
+                    spacing={2.5}
+                    sx={{
+                      height: "100%",
+                      p: { xs: 3, md: 4 },
+                      borderRadius: "20px",
+                      backgroundColor: c.card,
+                      border: `1px solid ${c.border}`,
+                      borderTop: `8px solid ${a.solid}`,
+                    }}
+                  >
+                    <Box>
+                      <SpecPill tone={s.accent} icon={icons[s.icon]}>
+                        {s.label}
+                      </SpecPill>
+                    </Box>
+                    <Typography variant="h3">{s.title}</Typography>
+                    <Typography variant="body1" sx={{ color: c.muted }}>
+                      {s.body}
+                    </Typography>
+                  </Stack>
+                </Reveal>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Section>
+
+      {/* The three headline numbers, each with its receipt on GitHub. */}
+      <Section id="numbers" eyebrow={numbers.eyebrow} title={numbers.title}>
+        <Grid container spacing={3}>
+          {numbers.items.map((n, i) => (
+            <Grid size={{ xs: 12, md: 4 }} key={n.figure}>
+              <Reveal delay={i * 90} sx={{ height: "100%" }}>
+                <Stack
+                  spacing={1.75}
+                  sx={{
+                    height: "100%",
+                    p: { xs: 3, md: 4 },
+                    borderRadius: "20px",
+                    backgroundColor: c.card,
+                    border: `1px solid ${c.border}`,
+                  }}
+                >
+                  <Typography
+                    component="p"
+                    sx={{ ...display, fontSize: "clamp(2.25rem, 3.6vw, 3rem)", lineHeight: 1.05, mb: 0.5 }}
+                  >
+                    <Highlight text={`[${n.figure}]`} />
+                  </Typography>
+                  <Typography variant="h4" component="p">
+                    {n.label}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: c.muted }}>
+                    {n.detail}
+                  </Typography>
+                  <Box sx={{ flex: 1 }} />
+                  <Box>
+                    <OutLink href={n.link.href}>{n.link.label}</OutLink>
+                  </Box>
+                </Stack>
+              </Reveal>
+            </Grid>
+          ))}
+        </Grid>
+      </Section>
+
+      {/* What you get: six teasers, each with a real capture and a way out to GitHub. */}
+      <Section id="features" eyebrow={capabilities.eyebrow} title={capabilities.title} lede={capabilities.lede} sx={{ pt: { md: 4 } }}>
+        <Grid container spacing={{ xs: 3, md: 4 }}>
+          {capabilities.cards.map((card, i) => {
+            const a = accent(card.accent);
+            // An odd card out at the end spans the row, image beside the text.
+            const wide = i === capabilities.cards.length - 1 && capabilities.cards.length % 2 === 1;
+            return (
+              <Grid size={{ xs: 12, md: wide ? 12 : 6 }} key={card.title}>
+                <Reveal delay={(i % 2) * 90} sx={{ height: "100%" }}>
+                  <Box
+                    component="article"
+                    sx={{
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: { xs: "column", md: wide ? "row" : "column" },
+                      borderRadius: "24px",
+                      overflow: "hidden",
+                      backgroundColor: c.card,
+                      border: `1px solid ${c.border}`,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        backgroundColor: a.tint,
+                        px: { xs: 2, md: 3.5 },
+                        pt: { xs: 2.5, md: 3.5 },
+                        pb: { xs: 2.5, md: 3.5 },
+                        flex: { md: wide ? "0 0 56%" : "none" },
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <ShotFrame
+                        src={card.image}
+                        alt={card.imageAlt}
+                        accent={card.accent}
+                        aspect="7 / 4"
+                        sizes={wide ? "(max-width: 900px) 100vw, 640px" : "(max-width: 900px) 100vw, 560px"}
+                      />
+                    </Box>
+                    <Stack spacing={2} sx={{ p: { xs: 3, md: wide ? 5 : 4 }, flex: 1, justifyContent: wide ? "center" : "flex-start" }}>
+                      <Box>
+                        <SpecPill tone={card.accent} icon={icons[card.icon]}>
+                          {card.pill}
+                        </SpecPill>
+                      </Box>
+                      <Typography variant="h3">{card.title}</Typography>
+                      <Typography variant="body1" sx={{ color: c.muted }}>
+                        {card.body}
+                      </Typography>
+                      {"quote" in card && (
+                        <Typography
+                          variant="body1"
+                          sx={{ pl: 2, borderLeft: `3px solid ${a.solid}` }}
+                        >
+                          {card.quote}
+                        </Typography>
+                      )}
+                      <Box sx={{ flex: 1 }} />
+                      <Stack direction="row" spacing={3} useFlexGap sx={{ flexWrap: "wrap" }}>
+                        {"install" in card && <OutLink href={card.install.href}>{card.install.label}</OutLink>}
+                        <OutLink href={card.href}>{capabilities.more}</OutLink>
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Reveal>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Section>
+
       {/* Use cases: what you can ask your own assistant, grouped by verb. */}
       <Section id="use-cases" eyebrow={useCases.eyebrow} title={useCases.title} lede={useCases.lede}>
         <Stack component="ol" sx={{ listStyle: "none", m: 0, p: 0 }}>
           {useCases.groups.map((g, gi) => {
             const a = accent(g.accent);
-            const cols = g.prompts.length === 3 ? 3 : 2;
+            // One column per prompt: a group with a single prompt spans the row.
+            const cols = g.prompts.length;
             return (
               <Box
                 component="li"
@@ -212,7 +362,7 @@ export default function HomePage() {
                         p: 0,
                         display: "grid",
                         gap: { xs: 2, md: 2.5 },
-                        gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))", md: `repeat(${cols}, minmax(0, 1fr))` },
+                        gridTemplateColumns: { xs: "1fr", sm: `repeat(${cols}, minmax(0, 1fr))`, md: `repeat(${cols}, minmax(0, 1fr))` },
                       }}
                     >
                       {g.prompts.map((p, i) => (
@@ -294,7 +444,7 @@ export default function HomePage() {
                   {useCases.more}
                 </Typography>
                 <Typography variant="body2" sx={{ color: c.muted }}>
-                  {useCases.attended} {useCases.automation}
+                  {useCases.attended}
                 </Typography>
                 <Box>
                   <OutLink href={useCases.link.href}>{useCases.link.label}</OutLink>
@@ -303,155 +453,6 @@ export default function HomePage() {
             </Grid>
           </Grid>
         </Reveal>
-      </Section>
-
-      {/* How it works: the GIF's three beats, in the GIF's three colours. */}
-      <Section id="how-it-works" eyebrow={howItWorks.eyebrow} title={howItWorks.title}>
-        <Grid container spacing={3}>
-          {howItWorks.steps.map((s, i) => {
-            const a = accent(s.accent);
-            return (
-              <Grid size={{ xs: 12, md: 4 }} key={s.title}>
-                <Reveal delay={i * 90} sx={{ height: "100%" }}>
-                  <Stack
-                    spacing={2.5}
-                    sx={{
-                      height: "100%",
-                      p: { xs: 3, md: 4 },
-                      borderRadius: "20px",
-                      backgroundColor: c.card,
-                      border: `1px solid ${c.border}`,
-                      borderTop: `8px solid ${a.solid}`,
-                    }}
-                  >
-                    <Box>
-                      <SpecPill tone={s.accent} icon={icons[s.icon]}>
-                        {s.label}
-                      </SpecPill>
-                    </Box>
-                    <Typography variant="h3">{s.title}</Typography>
-                    <Typography variant="body1" sx={{ color: c.muted }}>
-                      {s.body}
-                    </Typography>
-                  </Stack>
-                </Reveal>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Section>
-
-      {/* What you get: six teasers, each with a real capture and a way out to GitHub. */}
-      <Section id="features" eyebrow={capabilities.eyebrow} title={capabilities.title} lede={capabilities.lede} sx={{ pt: { md: 4 } }}>
-        <Grid container spacing={{ xs: 3, md: 4 }}>
-          {capabilities.cards.map((card, i) => {
-            const a = accent(card.accent);
-            // An odd card out at the end spans the row, image beside the text.
-            const wide = i === capabilities.cards.length - 1 && capabilities.cards.length % 2 === 1;
-            return (
-              <Grid size={{ xs: 12, md: wide ? 12 : 6 }} key={card.title}>
-                <Reveal delay={(i % 2) * 90} sx={{ height: "100%" }}>
-                  <Box
-                    component="article"
-                    sx={{
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: { xs: "column", md: wide ? "row" : "column" },
-                      borderRadius: "24px",
-                      overflow: "hidden",
-                      backgroundColor: c.card,
-                      border: `1px solid ${c.border}`,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        backgroundColor: a.tint,
-                        px: { xs: 2, md: 3.5 },
-                        pt: { xs: 2.5, md: 3.5 },
-                        pb: { xs: 2.5, md: 3.5 },
-                        flex: { md: wide ? "0 0 56%" : "none" },
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <ShotFrame
-                        src={card.image}
-                        alt={card.imageAlt}
-                        accent={card.accent}
-                        aspect="7 / 4"
-                        sizes={wide ? "(max-width: 900px) 100vw, 640px" : "(max-width: 900px) 100vw, 560px"}
-                      />
-                    </Box>
-                    <Stack spacing={2} sx={{ p: { xs: 3, md: wide ? 5 : 4 }, flex: 1, justifyContent: wide ? "center" : "flex-start" }}>
-                      <Box>
-                        <SpecPill tone={card.accent} icon={icons[card.icon]}>
-                          {card.pill}
-                        </SpecPill>
-                      </Box>
-                      <Typography variant="h3">{card.title}</Typography>
-                      <Typography variant="body1" sx={{ color: c.muted }}>
-                        {card.body}
-                      </Typography>
-                      {"quote" in card && (
-                        <Typography
-                          variant="body1"
-                          sx={{ pl: 2, borderLeft: `3px solid ${a.solid}` }}
-                        >
-                          {card.quote}
-                        </Typography>
-                      )}
-                      <Box sx={{ flex: 1 }} />
-                      <Stack direction="row" spacing={3} useFlexGap sx={{ flexWrap: "wrap" }}>
-                        {"install" in card && <OutLink href={card.install.href}>{card.install.label}</OutLink>}
-                        <OutLink href={card.href}>{capabilities.more}</OutLink>
-                      </Stack>
-                    </Stack>
-                  </Box>
-                </Reveal>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Section>
-
-      {/* The three headline numbers, each with its receipt on GitHub. */}
-      <Section id="numbers" eyebrow={numbers.eyebrow} title={numbers.title}>
-        <Grid container spacing={3}>
-          {numbers.items.map((n, i) => (
-            <Grid size={{ xs: 12, md: 4 }} key={n.figure}>
-              <Reveal delay={i * 90} sx={{ height: "100%" }}>
-                <Stack
-                  spacing={1.75}
-                  sx={{
-                    height: "100%",
-                    p: { xs: 3, md: 4 },
-                    borderRadius: "20px",
-                    backgroundColor: c.card,
-                    border: `1px solid ${c.border}`,
-                  }}
-                >
-                  <Typography
-                    component="p"
-                    sx={{ ...display, fontSize: "clamp(2.25rem, 3.6vw, 3rem)", lineHeight: 1.05, mb: 0.5 }}
-                  >
-                    <Highlight text={`[${n.figure}]`} />
-                  </Typography>
-                  <Typography variant="h4" component="p">
-                    {n.label}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: c.muted }}>
-                    {n.detail}
-                  </Typography>
-                  <Box sx={{ flex: 1 }} />
-                  <Box>
-                    <OutLink href={n.link.href}>{n.link.label}</OutLink>
-                  </Box>
-                </Stack>
-              </Reveal>
-            </Grid>
-          ))}
-        </Grid>
       </Section>
 
       {/* A short FAQ: the answers a Show HN reader asks first. */}

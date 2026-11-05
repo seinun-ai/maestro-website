@@ -6,7 +6,9 @@ import type { SxProps, Theme } from "@mui/material/styles";
 
 /**
  * Fade-rise on first entry, mirroring the app's `animate-fade-rise`. Elements
- * start visible for anyone without IntersectionObserver or with reduced motion.
+ * render visible (so the server HTML, a first paint and a no-JS reader all see
+ * the content), and only a block that starts below the fold is hidden after
+ * mount, to rise in when it scrolls into view. Reduced motion never hides.
  * The animation is decoration, never the thing that makes content readable.
  */
 export default function Reveal({
@@ -19,14 +21,15 @@ export default function Reveal({
   sx?: SxProps<Theme>;
 }) {
   const ref = React.useRef<HTMLDivElement | null>(null);
-  const [shown, setShown] = React.useState(false);
+  const [shown, setShown] = React.useState(true);
 
   React.useEffect(() => {
     const el = ref.current;
-    if (!el || typeof IntersectionObserver === "undefined") {
-      setShown(true);
-      return;
-    }
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    // Already on screen at mount: it stays as painted, with no fade.
+    const box = el.getBoundingClientRect();
+    if (box.top < window.innerHeight && box.bottom > 0) return;
+    setShown(false);
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {

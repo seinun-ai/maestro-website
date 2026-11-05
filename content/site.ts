@@ -7,8 +7,8 @@
  * Privacy. Detail and how-to live on GitHub, and every teaser links there.
  *
  * Numbers: three headline figures only (under a minute, about $0.01, same
- * score every time), plus the tool count once in the use-cases section. No cost
- * tables, token traces or benchmarks: they live in the app's docs.
+ * score every time). No tool count on the page (the MCP guide link has it), no
+ * cost tables, token traces or benchmarks: they live in the app's docs.
  *
  * Positioning: the recommended setup is BRING A KEY: OpenAI, Gemini or Claude.
  * "No key" means connecting Claude or Codex over MCP, which then reads and
@@ -23,7 +23,8 @@
  * applicant tracking systems are explained), Career history, Target, Jobs,
  * Agent inbox, Setup, Settings › Basics and › Agent apps, the Companion. Submitting: the
  * Companion fills the form and stops, you press Submit. The opt-in Full
- * automation is stated in the use-cases section and in the FAQ answer. It also
+ * automation is stated in the FAQ answer, and named in the use-cases prompt
+ * that fills queued applications. It also
  * turns on the Companion's Apply (0.11.0), which the Companion card names:
  * it fills a page, clicks Next, signs in on known application sites with the
  * saved job-site login, and stops on the review page. The Companion never presses
@@ -90,9 +91,9 @@ export const headerCta = { label: "Get started", href: "/start" } as const;
 
 /** Header and footer. Home sections are anchors; the old pages redirect to them. */
 export const nav = [
-  { label: "Use cases", href: "/#use-cases" },
   { label: "How it works", href: "/#how-it-works" },
   { label: "Features", href: "/#features" },
+  { label: "Use cases", href: "/#use-cases" },
   { label: "Privacy", href: "/privacy" },
 ] as const;
 
@@ -102,7 +103,7 @@ export const hero = {
   eyebrow: "Works with Claude, ChatGPT and Codex · free and open source",
   title: "Stop rewriting your resume\nfor [every job].",
   lede: "Maestro tailors it from your whole career history in under a minute, and every bullet is something you actually did. So when an interviewer asks about one, you already have the story.",
-  under: "Two commands to install on macOS, Linux and Windows. No account.",
+  under: "Two commands to install on macOS, Linux and Windows. No account. Already pay for Claude or ChatGPT? It runs from there with no API key.",
   primaryCta: { label: "Install in two commands", href: "/start" },
   secondaryCta: { label: "Star on GitHub", href: repo },
   mediaAlt:
@@ -153,7 +154,7 @@ export const howItWorks = {
       icon: "specialist" as StepIcon,
       label: "Step 2",
       title: "A specialist resume for every role, company and country",
-      body: "One base resume per track, each with a Target: the role, a company, the countries it may go to.",
+      body: "Keep a resume for each kind of role you go after, set to the role, a company and the countries it's for.",
     },
     {
       accent: "teal" as Accent,
@@ -258,7 +259,7 @@ export type VerbIcon = "extract" | "maintain" | "hunt" | "apply";
 export const useCases = {
   eyebrow: "Works with your AI",
   title: "Give your AI [your career].",
-  lede: "Connect Claude, Codex or the ChatGPT desktop app, and your assistant gets 94 tools on your career history, your resumes and your jobs. Then you just ask.",
+  lede: "Connect Claude, Codex or the ChatGPT desktop app (through Codex), and your assistant gets your career history, your resumes and your jobs. It does the reading and writing, so no API key is needed. Then you just ask.",
   groups: [
     {
       verb: "Extract",
@@ -287,12 +288,8 @@ export const useCases = {
           does: "A new bullet in your career history, as a draft you approve. Every resume can use it.",
         },
         {
-          ask: "Make me a resume for fintech ML roles in the UK.",
+          ask: "Make me a resume for fintech roles in the UK.",
           does: "A specialist resume built from your history, targeted to that role and country.",
-        },
-        {
-          ask: "Is my resume ready to send?",
-          does: "A grade and a fix list, ranked by what each flaw costs you.",
         },
       ],
     },
@@ -303,12 +300,8 @@ export const useCases = {
       blurb: "Find roles that fit while you do something else.",
       prompts: [
         {
-          ask: "Every morning, find new ML roles that fit and file the good ones.",
-          does: "The job-hunt skill files them to your Agent inbox. You queue or skip each one.",
-        },
-        {
-          ask: "Which skills keep showing up that I don't have?",
-          does: "The gaps across every job you saved, most frequent first.",
+          ask: "Every morning, find new roles that fit and file the good ones.",
+          does: "It files them to your Agent inbox. You queue or skip each one.",
         },
       ],
     },
@@ -323,16 +316,8 @@ export const useCases = {
           does: "It asks about each gap instead of inventing, keeps every change as a diff you can undo, and renders the PDF.",
         },
         {
-          ask: "Answer these screening questions and write a short cover letter.",
-          does: "Both drafted from your own record.",
-        },
-        {
           ask: "Fill the applications I queued. Show me each one before it goes.",
-          does: "The apply-session skill fills them in a browser. Nothing is submitted without your yes, unless you turn on full automation.",
-        },
-        {
-          ask: "Did I hear back from anyone?",
-          does: "If your assistant can read your mail, the mail-status skill moves each job to applied, interviewing, rejected or offered.",
+          does: "It fills them in your browser. Nothing is submitted without your yes, unless you turn on full automation.",
         },
       ],
     },
@@ -343,9 +328,7 @@ export const useCases = {
     code: "maestro connect",
     body: "Adds Maestro to Claude Desktop, Claude Code, Codex, Cursor or VS Code. No config file to write by hand.",
   },
-  attended: "By default, an apply run waits for your yes before each submit.",
-  automation:
-    "Full automation is opt-in and off by default: when you turn it on, your own agent may submit the jobs you queued whose final review is clean, within your daily limit. It also turns on the Companion's Apply, which fills the application page by page and leaves Submit to you.",
+  attended: "By default, an apply run waits for your yes before each submit. Full automation, off by default, is explained in the questions below.",
   link: { label: "See every tool", href: docs.mcpGuide },
 } as const;
 
@@ -382,8 +365,12 @@ export const faqIntro = { eyebrow: "Questions", title: "Before you [install]." }
 
 export const faqs = [
   {
+    q: "Why not just paste my resume into ChatGPT?",
+    a: "You can, and Maestro works with it. The difference is memory. Maestro keeps one career history and every resume you made from it, so the next job starts from your best version, not a blank chat. Nothing is reworded without a diff you approve, and a skill you never showed is asked about, never added.",
+  },
+  {
     q: "Do I need an API key?",
-    a: "Recommended, yes. The parts that make Maestro fastest day to day run on it: in-app tailoring, the Companion's AI fill, cover letters and screening answers, building your career history, the Assistant. One key, OpenAI, Gemini or Claude, is a complete setup. No key? Connect Claude or Codex with maestro connect, and it does the reading and writing itself. With neither, Maestro can't read a resume file or a job post.",
+    a: "Recommended, yes. The parts that make Maestro fastest day to day run on it: in-app tailoring, the Companion's AI fill, cover letters and screening answers, building your career history, the Assistant. One key, OpenAI, Gemini or Claude, is a complete setup. No key? Connect Claude or Codex with maestro connect (the ChatGPT desktop app picks it up through Codex), and it does the reading and writing itself. With neither, Maestro can't read a resume file or a job post.",
   },
   {
     q: "Is my resume uploaded anywhere?",
