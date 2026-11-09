@@ -42,7 +42,7 @@
  * "not X but Y" scaffolding, no throat-clearing, no hype words.
  */
 
-import { area, type Accent } from "@/lib/tokens";
+import { area } from "@/lib/tokens";
 
 const repo = "https://github.com/seinun-ai/maestro-career-studio";
 const blob = `${repo}/blob/main`;
@@ -74,7 +74,6 @@ export const site = {
 /** Where the detail lives. Every "More on GitHub" link points into this list. */
 export const docs = {
   readme: `${repo}#readme`,
-  quickstart: `${repo}#quickstart`,
   score: `${repo}#why-it-works-this-way`,
   gettingStarted: `${blob}/docs/GETTING_STARTED.md`,
   setupReference: `${blob}/docs/SETUP_REFERENCE.md`,
@@ -93,8 +92,6 @@ export const headerCta = { label: "Get started", href: "/start" } as const;
 /** Header and footer. Home sections are anchors; the old pages redirect to them. */
 export const nav = [
   { label: "How it works", href: "/#how-it-works" },
-  { label: "Features", href: "/#features" },
-  { label: "Use cases", href: "/#use-cases" },
   { label: "Privacy", href: "/privacy" },
 ] as const;
 
@@ -119,6 +116,7 @@ export const hero = {
       win: "Open PowerShell, paste it and press Enter.",
     },
     tabs: { mac: "macOS and Linux", win: "Windows" },
+    forOs: "For",
     see: "See what it runs",
     hide: "Hide the commands",
     path: {
@@ -144,9 +142,9 @@ export const hero = {
  * The apps Maestro connects to, shown by their own marks.
  * Each is true as of 0.12.0: `maestro connect` adds Maestro to
  * Claude Desktop, Claude Code, Codex, Cursor and VS Code, and the ChatGPT desktop app
- * picks it up through Codex. Any other MCP app can use the address by hand.
+ * picks it up through Codex.
  */
-export type BrandMark = "claude" | "openai" | "codex" | "cursor" | "mcp" | "chrome";
+export type BrandMark = "claude" | "openai" | "codex" | "cursor" | "chrome";
 
 export const worksWith = {
   label: "Works with",
@@ -155,7 +153,6 @@ export const worksWith = {
     { mark: "openai" as BrandMark, name: "ChatGPT", detail: "The ChatGPT desktop app, through Codex" },
     { mark: "codex" as BrandMark, name: "Codex", detail: "Codex CLI and app" },
     { mark: "cursor" as BrandMark, name: "Cursor", detail: "Cursor" },
-    { mark: "mcp" as BrandMark, name: "Any MCP app", detail: "Any app that speaks the Model Context Protocol" },
   ],
   chrome: { label: "Add the Companion to Chrome", href: site.companionStore },
   // The footer's line: the marks are their owners', and Maestro is independent.
@@ -253,7 +250,7 @@ export const capabilities = {
   eyebrow: "What you get",
   title: "From the first import to the [Submit button].",
   lede: "Drawn from the app, with made-up data.",
-  more: "More on GitHub",
+  more: { label: "The long version, on GitHub", href: docs.using },
   cards: [
     {
       accent: area.resumes,
@@ -261,7 +258,6 @@ export const capabilities = {
       artAlt: "Three resume pages fan out from one stack: Data Scientist for the UK, ML Engineer for the US, and ML Engineer for Woodgrove Bank.",
       title: "A specialist resume for each track",
       body: "One per kind of role, set to its company and countries.",
-      href: `${docs.using}#2-build-a-base-resume-per-career-track`,
     },
     {
       accent: area.tailor,
@@ -269,7 +265,6 @@ export const capabilities = {
       artAlt: "A Match score ring beside a question: this job asks for Apache Spark, have you used it? Yes is chosen, it's saved to the career history, and the score rises from 79.0 to 86.5.",
       title: "It asks instead of inventing",
       body: "Each gap becomes a question. A true answer is saved for every future job.",
-      href: `${docs.using}#3-save-the-job-then-close-the-gaps`,
     },
     {
       accent: area.tailor,
@@ -277,7 +272,6 @@ export const capabilities = {
       artAlt: "A resume line struck through in red with its rewrite in green below, marked as from your career history, with Keep and Undo.",
       title: "Every AI edit is a diff",
       body: "The AI fills in emphasis. It doesn't invent a new person.",
-      href: `${docs.using}#how-it-works`,
     },
     {
       accent: area.resumes,
@@ -285,7 +279,6 @@ export const capabilities = {
       artAlt: "The same resume on two page layouts, with a switch between Template A and Template B.",
       title: "How many resume templates have you changed in your life?",
       body: "Here it's a button. Template change is not a decision of life anymore.",
-      href: `${docs.using}#templates-you-actually-own`,
     },
     {
       accent: area.apply,
@@ -294,7 +287,6 @@ export const capabilities = {
       title: "It fills the form. You press Submit.",
       body: "A Chrome side panel saves the job, picks your best resume and fills the page. Then it stops.",
       install: { label: "Add to Chrome", href: site.companionStore },
-      href: `${docs.using}#the-companion-browser-extension`,
     },
   ],
 } as const;
@@ -332,11 +324,6 @@ export const useCases = {
   ],
   chatConnected: "Maestro connected",
   more: "Ask in your own words. These are only a start.",
-  connect: {
-    title: "Connect it once",
-    code: "maestro connect",
-    body: "Adds Maestro to Claude Desktop, Claude Code, Codex, Cursor or VS Code. No config file to write by hand.",
-  },
   attended: "By default, an apply run waits for your yes before each submit.",
   link: { label: "See every tool", href: docs.mcpGuide },
 } as const;
@@ -346,24 +333,23 @@ export const useCases = {
 export const numbers = {
   eyebrow: "The numbers",
   title: "Three numbers you can [check yourself].",
+  // The README section has the timings, the costs and how the score works, with the full numbers one link on.
+  link: { label: "How we measured these", href: docs.score },
   items: [
     {
       figure: "Under a minute",
       label: "to tailor a resume to a job",
       detail: "About 10 seconds on Gemini and about 40 on the OpenAI default, in our tests.",
-      link: { label: "How we measured it", href: docs.models },
     },
     {
       figure: "About $0.01",
       label: "per application, no subscription",
       detail: "Under $0.03 on Gemini, and about $0.01 with Claude Haiku, in our tests.",
-      link: { label: "How we measured it", href: docs.models },
     },
     {
       figure: "Same score",
       label: "every time, for the same resume and job",
       detail: "The Match score runs on fixed rules and a small model on your computer, with no AI service involved.",
-      link: { label: "How the score works", href: docs.score },
     },
   ],
 } as const;
@@ -407,9 +393,7 @@ export const cta = {
   title: "Your career has one history.\nYour resume [should too].",
   // "Local", said once and simply. The detail is the Privacy page.
   body: "Free and open source. No account. Your history stays on your computer.",
-  secondary: { label: "Star on GitHub", href: repo },
   video: { label: "Watch the 37-second tour", href: site.video },
-  privacy: { label: "What leaves your computer, and when", href: "/privacy" },
 } as const;
 
 /* --------------------------- get started --------------------------- */
@@ -417,9 +401,10 @@ export const cta = {
 export const start = {
   hero: {
     eyebrow: "Get started",
-    title: "[One paste.] Then add what you want.",
-    lede: "Install uv once, then install Maestro and start it. No Docker, no Git, no clone. It runs on macOS, Linux and Windows (x64).",
+    title: "[One paste.] Then you're in the app.",
+    lede: "No Docker, no Git, no clone. It runs on macOS, Linux and Windows (x64).",
   },
+  // The one-paste commands read these too (components/CopyInstall.tsx).
   uv: {
     title: "Install uv, once",
     body: "uv installs Maestro as a single command and fetches the Python it needs. The package brings its own web app and its own Node. Open a new terminal afterwards so uv is found.",
@@ -436,22 +421,20 @@ maestro start`,
     title: "Then, in the app",
     steps: [
       {
-        accent: "violet" as Accent,
-        t: "Open the app",
-        b: "maestro start opens http://localhost:3000 for you. maestro status tells you whether it's running.",
+        t: "Add your AI.",
+        b: "Setup opens first and suggests an OpenAI key, at about $0.01 per application. Paste it and press Test. Already pay for Claude or ChatGPT? Skip it and connect that app below.",
       },
       {
-        accent: "tangerine" as Accent,
-        t: "Add your AI key",
-        b: "Setup opens first: pick your AI, paste one key, from OpenAI, Gemini or Claude, and press Test. You can change it later in Settings › Basics. No key? Skip it and connect your AI below: it does the reading instead.",
+        t: "Drop in your resumes.",
+        b: "Every one you have, old ones included. PDF, DOCX, Markdown, text or PowerPoint, up to 10 files a batch.",
       },
       {
-        accent: "teal" as Accent,
-        t: "Import your resumes",
-        b: "On the Career history page, add every resume you have, old ones included. PDF, DOCX, Markdown, text or PowerPoint, up to 10 files a batch.",
+        t: "Save a job and tailor.",
+        b: "Answer any gaps it finds, then keep or undo each change.",
       },
     ],
   },
+  later: { title: "When you're ready" },
   connect: {
     title: "Connect your AI",
     code: "maestro connect",
@@ -462,31 +445,25 @@ maestro start`,
     body: "A Chrome side panel that saves the job you're on and fills its application from your saved answers. It never presses Submit. Saving a job from it needs an API key.",
     link: { label: "Add to Chrome", href: site.companionStore },
   },
-  docker: {
-    eyebrow: "Alternative · self-hosters",
-    title: "Run it with Docker instead",
-    lede: "Docker stays the route for servers and for working on the code. It needs Docker, Git and about a 1 GB download. On Windows, run it under WSL. Docker and uv keep separate data, so run one at a time.",
-    code: `git clone ${repo}.git
+  other: {
+    title: "Other ways to install",
+    byHand: "By hand, one step at a time",
+    docker: {
+      title: "With Docker",
+      lede: "Docker stays the route for servers and for working on the code. It needs Docker, Git and about a 1 GB download. On Windows, run it under WSL. Docker and uv keep separate data, so run one at a time.",
+      code: `git clone ${repo}.git
 cd maestro-career-studio
 cp .env.example .env
 docker compose up -d`,
-    after: "Open http://localhost:3000. Setup asks for your key first.",
+      after: "Open http://localhost:3000. Setup asks for your key first.",
+    },
   },
   docs: {
-    title: "Everything else is on GitHub",
+    label: "More on GitHub:",
     links: [
-      { t: "Quickstart", b: "The install in the README, with the command table and the Docker route.", href: docs.quickstart },
-      {
-        t: "Getting started",
-        b: "Your first tailored resume step by step, the Companion for Chrome, and keeping it up to date.",
-        href: docs.gettingStarted,
-      },
-      {
-        t: "Setup reference",
-        b: "Every maestro command, prerequisites, where your files live, and troubleshooting.",
-        href: docs.setupReference,
-      },
-      { t: "MCP guide", b: "Setup per app, tool sets, every tool and example prompts.", href: docs.mcpGuide },
+      { t: "Getting started", href: docs.gettingStarted },
+      { t: "Setup reference", href: docs.setupReference },
+      { t: "MCP guide", href: docs.mcpGuide },
     ],
   },
 } as const;

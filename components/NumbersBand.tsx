@@ -28,15 +28,17 @@ export default function NumbersBand() {
                   {n.figure}
                 </Typography>
                 <Typography variant="body2" sx={{ color: c.muted }}>
-                  {n.label}.{" "}
-                  <Box component="a" href={n.link.href} target="_blank" rel="noopener noreferrer" sx={{ color: c.blue, textDecoration: "none", whiteSpace: "nowrap", "&:hover": { textDecoration: "underline" } }}>
-                    {n.link.label}
-                  </Box>
+                  {n.label}.
                 </Typography>
               </Box>
             </Stack>
           ))}
         </Box>
+        <Typography variant="body2" sx={{ mt: 2, textAlign: { sm: "right" } }}>
+          <Box component="a" href={numbers.link.href} target="_blank" rel="noopener noreferrer" sx={{ color: c.blue, textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
+            {numbers.link.label}
+          </Box>
+        </Typography>
       </Container>
     </Box>
   );

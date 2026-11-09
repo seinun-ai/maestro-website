@@ -17,7 +17,6 @@ import Section, { Eyebrow } from "@/components/Section";
 import Reveal from "@/components/Reveal";
 import ShotFrame from "@/components/ShotFrame";
 import Highlight from "@/components/Highlight";
-import CodeBlock from "@/components/CodeBlock";
 import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
 import StructuredData from "@/components/StructuredData";
@@ -196,8 +195,8 @@ export default function HomePage() {
                       {card.body}
                     </Typography>
                     <Box sx={{ flex: 1 }} />
-                    <Stack direction="row" spacing={2.5} useFlexGap sx={{ flexWrap: "wrap", alignItems: "center", pt: 1 }}>
-                      {"install" in card && (
+                    {"install" in card && (
+                      <Box sx={{ pt: 1 }}>
                         <Button
                           href={card.install.href}
                           target="_blank"
@@ -208,18 +207,18 @@ export default function HomePage() {
                         >
                           {card.install.label}
                         </Button>
-                      )}
-                      <Link href={card.href} target="_blank" rel="noopener noreferrer" variant="body2" sx={{ color: c.muted, display: "inline-flex", alignItems: "center", gap: 0.5, "&:hover": { color: c.blue } }}>
-                        {capabilities.more}
-                        <ArrowOutwardIcon sx={{ fontSize: 15 }} />
-                      </Link>
-                    </Stack>
+                      </Box>
+                    )}
                   </Stack>
                 </Box>
               </Reveal>
             </Grid>
           ))}
         </Grid>
+        {/* One way out, at the end, so nothing pulls you off the page halfway through. */}
+        <Box sx={{ mt: { xs: 3, md: 4 } }}>
+          <OutLink href={capabilities.more.href}>{capabilities.more.label}</OutLink>
+        </Box>
       </Section>
 
       {/* Use cases as a picture: the chat window, in the apps it works with. */}
@@ -231,12 +230,11 @@ export default function HomePage() {
               <Typography variant="h2" component="h2">
                 <Highlight text={useCases.title} />
               </Typography>
-              <Typography variant="subtitle1" sx={{ color: c.muted, mt: 2, mb: 3 }}>
+              <Typography variant="subtitle1" sx={{ color: c.muted, mt: 2 }}>
                 {useCases.lede}
               </Typography>
-              <CodeBlock code={useCases.connect.code} />
               <Typography variant="body2" sx={{ color: c.muted, mt: 1.25 }}>
-                {useCases.connect.body} {useCases.attended}
+                {useCases.attended}
               </Typography>
               <Box sx={{ mt: 2 }}>
                 <OutLink href={useCases.link.href}>{useCases.link.label}</OutLink>

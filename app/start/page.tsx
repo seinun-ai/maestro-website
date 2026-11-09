@@ -1,5 +1,8 @@
 import * as React from "react";
 import type { Metadata } from "next";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -7,22 +10,23 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PlayIcon from "@mui/icons-material/PlayCircleOutlined";
 
 import PageHero from "@/components/PageHero";
-import Section, { Eyebrow } from "@/components/Section";
+import Section from "@/components/Section";
 import CodeBlock from "@/components/CodeBlock";
 import CopyInstall from "@/components/CopyInstall";
 import WorksWith from "@/components/WorksWith";
 import { ChromeMark } from "@/components/BrandMarks";
 import Reveal from "@/components/Reveal";
-import { accent, c, stage, weight } from "@/lib/tokens";
+import { c, stage, weight } from "@/lib/tokens";
 import { cta, start } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Get started",
   description:
-    "Install uv, then two commands: uv tool install and maestro start. It runs on macOS, Linux and Windows with no Docker. Then add a key, import your resumes and connect your AI. Docker is the self-host alternative.",
+    "One paste installs Maestro on macOS, Linux and Windows, with no Docker. Then add your AI, drop in your resumes and tailor to a job.",
 };
 
 function StepNumber({ n }: { n: number }) {
@@ -47,6 +51,12 @@ function StepNumber({ n }: { n: number }) {
   );
 }
 
+const cardSx = { height: "100%", p: { xs: 2.5, md: 3 }, borderRadius: "16px", backgroundColor: c.card, border: `1px solid ${c.border}` } as const;
+
+/**
+ * One path for someone new: the paste, then three steps with no branches. What can wait is
+ * under When you're ready, and every other way to install stays closed until it's asked for.
+ */
 export default function StartPage() {
   return (
     <>
@@ -59,73 +69,34 @@ export default function StartPage() {
         </Box>
       </PageHero>
 
-      <Section>
-        <Grid container spacing={{ xs: 6, md: 8 }} sx={{ alignItems: "flex-start" }}>
-          {/* The two commands, with the one prerequisite in front of them. */}
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Reveal>
-              <Stack spacing={5}>
-                <Stack direction="row" spacing={2} sx={{ alignItems: "flex-start" }}>
-                  <StepNumber n={1} />
-                  <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography variant="h4" component="h2" sx={{ mb: 0.75 }}>
-                      {start.uv.title}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: c.muted, mb: 2 }}>
-                      {start.uv.body}
-                    </Typography>
-                    <Stack spacing={1.5}>
-                      <CodeBlock code={start.uv.mac} label="macOS and Linux" />
-                      <CodeBlock code={start.uv.windows} label="Windows, in PowerShell" />
-                    </Stack>
-                  </Box>
-                </Stack>
-                <Stack direction="row" spacing={2} sx={{ alignItems: "flex-start" }}>
-                  <StepNumber n={2} />
-                  <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography variant="h4" component="h2" sx={{ mb: 2 }}>
-                      {start.install.title}
-                    </Typography>
-                    <CodeBlock code={start.install.code} />
-                    <Typography variant="body2" sx={{ color: c.muted, mt: 2 }}>
-                      {start.install.body}
-                    </Typography>
-                  </Box>
-                </Stack>
-              </Stack>
-            </Reveal>
-          </Grid>
-
-          {/* What to do once it's running, then the one line for your assistant. */}
-          <Grid size={{ xs: 12, md: 5 }}>
-            <Reveal delay={80}>
-              <Typography variant="h3" component="h2" sx={{ mb: 3 }}>
-                {start.next.title}
-              </Typography>
-              <Stack spacing={2}>
-                {start.next.steps.map((s) => (
-                  <Box
-                    key={s.t}
-                    sx={{
-                      p: 2.5,
-                      borderRadius: "16px",
-                      backgroundColor: c.card,
-                      border: `1px solid ${c.border}`,
-                      borderLeft: `6px solid ${accent(s.accent).solid}`,
-                    }}
-                  >
-                    <Typography variant="h5" component="h3" sx={{ mb: 0.5 }}>
+      <Section title={start.next.title}>
+        <Grid component="ol" container spacing={{ xs: 3, md: 4 }} sx={{ listStyle: "none", m: 0, p: 0 }}>
+          {start.next.steps.map((s, i) => (
+            <Grid component="li" size={{ xs: 12, md: 4 }} key={s.t}>
+              <Reveal delay={i * 70}>
+                <Stack direction="row" spacing={1.75} sx={{ alignItems: "flex-start" }}>
+                  <StepNumber n={i + 1} />
+                  <Box sx={{ minWidth: 0 }}>
+                    <Typography component="p" sx={{ fontSize: "1.1875rem", fontWeight: weight.label, mb: 0.5 }}>
                       {s.t}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: c.muted }}>
+                    <Typography variant="body1" sx={{ color: c.muted }}>
                       {s.b}
                     </Typography>
                   </Box>
-                ))}
-              </Stack>
+                </Stack>
+              </Reveal>
+            </Grid>
+          ))}
+        </Grid>
+      </Section>
 
-              <Box sx={{ mt: 5 }}>
-                <Typography variant="h3" component="h2" sx={{ mb: 2 }}>
+      <Section title={start.later.title} tone="raised">
+        <Grid container spacing={{ xs: 2.5, md: 3 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Reveal sx={{ height: "100%" }}>
+              <Box sx={cardSx}>
+                <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
                   {start.connect.title}
                 </Typography>
                 <Box sx={{ mb: 2 }}>
@@ -136,15 +107,17 @@ export default function StartPage() {
                   {start.connect.body}
                 </Typography>
               </Box>
-
-              <Box sx={{ mt: 5 }}>
-                <Typography variant="h3" component="h2" sx={{ mb: 1.5 }}>
+            </Reveal>
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Reveal delay={70} sx={{ height: "100%" }}>
+              <Box sx={cardSx}>
+                <Typography variant="h4" component="h3" sx={{ mb: 1.5 }}>
                   {start.companion.title}
                 </Typography>
-                <Typography variant="body2" sx={{ color: c.muted, mb: 1.5 }}>
+                <Typography variant="body2" sx={{ color: c.muted, mb: 2 }}>
                   {start.companion.body}
                 </Typography>
-                {/* The store listing, with Chrome's own mark: a known shop is a trust signal. */}
                 <Button
                   href={start.companion.link.href}
                   target="_blank"
@@ -162,67 +135,66 @@ export default function StartPage() {
         </Grid>
       </Section>
 
-      {/* The alternative route, named as one. */}
-      <Section id="docker" tone="raised">
-        <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: "center" }}>
-          <Grid size={{ xs: 12, md: 5 }}>
-            <Reveal>
-              <Eyebrow>{start.docker.eyebrow}</Eyebrow>
-              <Typography variant="h2" sx={{ fontSize: "clamp(1.875rem, 3.4vw, 2.5rem)", mb: 2 }}>
-                {start.docker.title}
-              </Typography>
-              <Typography variant="body1" sx={{ color: c.muted }}>
-                {start.docker.lede}
-              </Typography>
-            </Reveal>
-          </Grid>
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Reveal delay={80}>
-              <CodeBlock code={start.docker.code} />
-              <Typography variant="body2" sx={{ color: c.muted, mt: 1.5 }}>
-                {start.docker.after}
-              </Typography>
-            </Reveal>
-          </Grid>
-        </Grid>
-      </Section>
-
-      <Section title={start.docs.title}>
-        <Grid container spacing={2.5}>
-          {start.docs.links.map((d, i) => (
-            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={d.t}>
-              <Reveal delay={i * 60} sx={{ height: "100%" }}>
-                <Link
-                  href={d.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  underline="none"
-                  sx={{
-                    display: "block",
-                    height: "100%",
-                    p: 3,
-                    borderRadius: "16px",
-                    backgroundColor: c.card,
-                    border: `1px solid ${c.border}`,
-                    color: c.fg,
-                    transition: "border-color 160ms ease",
-                    "&:hover": { borderColor: c.blue },
-                  }}
-                >
-                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1, color: c.blue }}>
-                    <Typography variant="h5" component="h3" sx={{ color: c.blue }}>
-                      {d.t}
-                    </Typography>
-                    <ArrowOutwardIcon sx={{ fontSize: 18 }} />
-                  </Stack>
-                  <Typography variant="body2" sx={{ color: c.muted, fontWeight: 400 }}>
-                    {d.b}
-                  </Typography>
-                </Link>
-              </Reveal>
+      <Section>
+        <Accordion variant="outlined">
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ px: 2.5, py: 0.75 }}>
+            {/* The summary is already a heading, so this stays plain text inside it. */}
+            <Typography variant="h5" component="span">
+              {start.other.title}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ px: 2.5, pb: 3, pt: 0 }}>
+            <Grid container spacing={{ xs: 4, md: 5 }}>
+              <Grid size={{ xs: 12, md: 6 }} sx={{ minWidth: 0 }}>
+                <Typography component="p" sx={{ fontWeight: weight.label, mb: 1.5 }}>
+                  {start.other.byHand}
+                </Typography>
+                <Typography variant="body2" sx={{ color: c.muted, mb: 1.5 }}>
+                  {start.uv.title}. {start.uv.body}
+                </Typography>
+                <Stack spacing={1.5}>
+                  <CodeBlock code={start.uv.mac} label="macOS and Linux" />
+                  <CodeBlock code={start.uv.windows} label="Windows, in PowerShell" />
+                </Stack>
+                <Typography variant="body2" sx={{ color: c.muted, mt: 2.5, mb: 1.5 }}>
+                  {start.install.title}. {start.install.body}
+                </Typography>
+                <CodeBlock code={start.install.code} />
+              </Grid>
+              <Grid size={{ xs: 12, md: 6 }} sx={{ minWidth: 0 }}>
+                <Typography component="p" sx={{ fontWeight: weight.label, mb: 1.5 }}>
+                  {start.other.docker.title}
+                </Typography>
+                <Typography variant="body2" sx={{ color: c.muted, mb: 1.5 }}>
+                  {start.other.docker.lede}
+                </Typography>
+                <CodeBlock code={start.other.docker.code} />
+                <Typography variant="body2" sx={{ color: c.muted, mt: 1.5 }}>
+                  {start.other.docker.after}
+                </Typography>
+              </Grid>
             </Grid>
+          </AccordionDetails>
+        </Accordion>
+
+        <Stack direction="row" spacing={2.5} useFlexGap sx={{ mt: 3, flexWrap: "wrap", alignItems: "center" }}>
+          <Typography variant="body2" sx={{ color: c.muted }}>
+            {start.docs.label}
+          </Typography>
+          {start.docs.links.map((d) => (
+            <Link
+              key={d.t}
+              href={d.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="body2"
+              sx={{ color: c.blue, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: weight.label }}
+            >
+              {d.t}
+              <ArrowOutwardIcon sx={{ fontSize: 15 }} />
+            </Link>
           ))}
-        </Grid>
+        </Stack>
       </Section>
     </>
   );

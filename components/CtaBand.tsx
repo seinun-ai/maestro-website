@@ -4,17 +4,12 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import PlayIcon from "@mui/icons-material/PlayCircleOutlined";
-import GitHubMark from "./GitHubMark";
 import Highlight from "./Highlight";
 import CopyInstall from "./CopyInstall";
 import WorksWith from "./WorksWith";
-import { LinkButton } from "./NextMui";
 import { stage } from "@/lib/tokens";
 import { cta } from "@/content/site";
-
-const quietSx = { color: stage.muted, "&:hover": { color: stage.fg, backgroundColor: stage.tileHover } } as const;
 
 /**
  * The ending, back on the stage and built like the opening: the line to
@@ -38,19 +33,11 @@ export default function CtaBand() {
             <CopyInstall />
           </Box>
           <Box sx={{ mt: 1.5 }}>
-            <WorksWith onDark center chrome />
+            <WorksWith onDark center />
           </Box>
-          <Stack direction="row" spacing={0.5} useFlexGap sx={{ mt: 3, flexWrap: "wrap", justifyContent: "center" }}>
-            <Button href={cta.video.href} target="_blank" rel="noopener noreferrer" size="small" startIcon={<PlayIcon />} sx={quietSx}>
-              {cta.video.label}
-            </Button>
-            <Button href={cta.secondary.href} target="_blank" rel="noopener noreferrer" size="small" startIcon={<GitHubMark />} sx={quietSx}>
-              {cta.secondary.label}
-            </Button>
-            <LinkButton href={cta.privacy.href} size="small" endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />} sx={quietSx}>
-              {cta.privacy.label}
-            </LinkButton>
-          </Stack>
+          <Button href={cta.video.href} target="_blank" rel="noopener noreferrer" size="small" startIcon={<PlayIcon />} sx={{ mt: 2.5, color: stage.muted, "&:hover": { color: stage.fg, backgroundColor: stage.tileHover } }}>
+            {cta.video.label}
+          </Button>
         </Stack>
       </Container>
     </Box>

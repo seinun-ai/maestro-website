@@ -4,7 +4,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import ButtonBase from "@mui/material/ButtonBase";
 
 import { Mark } from "./WorksWith";
 import { stage, type Accent } from "@/lib/tokens";
@@ -13,43 +12,37 @@ import { useCases, worksWith } from "@/content/site";
 /** The stage's version of each area colour. */
 const tone: Record<Accent, string> = { violet: stage.violet, tangerine: stage.tangerine, teal: stage.teal, blue: stage.blue };
 
-// The four chat apps from the "works with" list; "Any MCP app" stays in the list only.
-const apps = worksWith.apps.filter((a) => a.mark !== "mcp");
+const apps = worksWith.apps;
 
 const reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /**
  * Use cases as a picture, not a list: one chat window on the stage, its tabs the marks
- * of the apps Maestro works with. The tabs take turns,
- * and a click picks one. The asks are the same in every app, which is the point.
+ * of the apps Maestro works with. They take turns on their own.
+ * The asks are the same in every app, which is the point.
  * Each reply carries its area's colour.
  */
 export default function ChatPicture() {
   const [active, setActive] = React.useState(0);
-  const [pinned, setPinned] = React.useState(false);
 
   React.useEffect(() => {
-    if (pinned || reduced()) return;
+    if (reduced()) return;
     const id = window.setInterval(() => setActive((i) => (i + 1) % apps.length), 2600);
     return () => window.clearInterval(id);
-  }, [pinned]);
+  }, []);
 
   return (
     <Box sx={{ borderRadius: "20px", overflow: "hidden", background: stage.background, border: `1px solid ${stage.line}`, color: stage.fg, boxShadow: "0 24px 60px -24px rgba(11, 17, 34, 0.55)" }}>
-      {/* The app tabs. */}
-      <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", px: 1.25, py: 1, borderBottom: `1px solid ${stage.line}`, overflowX: "auto" }} role="tablist" aria-label="Chat app">
+      {/* The apps, in turn: proof it works in the one you use, not a choice to make. */}
+      <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", px: 1.25, py: 1, borderBottom: `1px solid ${stage.line}`, overflowX: "auto" }}>
         {apps.map((app, i) => {
           const on = i === active;
           return (
-            <ButtonBase
+            <Box
               key={app.name}
-              role="tab"
-              aria-selected={on}
-              onClick={() => {
-                setActive(i);
-                setPinned(true);
-              }}
               sx={{
+                display: "inline-flex",
+                alignItems: "center",
                 gap: 0.875,
                 px: 1.25,
                 py: 0.75,
@@ -61,12 +54,11 @@ export default function ChatPicture() {
                 backgroundColor: on ? stage.tileHover : "transparent",
                 opacity: on ? 1 : 0.75,
                 transition: "background-color 240ms ease, opacity 240ms ease, color 240ms ease",
-                "&:hover": { opacity: 1, color: stage.fg },
               }}
             >
               <Mark mark={app.mark} size={18} />
               {app.name}
-            </ButtonBase>
+            </Box>
           );
         })}
         <Stack direction="row" spacing={0.75} sx={{ ml: "auto !important", pl: 1, alignItems: "center", flexShrink: 0 }}>

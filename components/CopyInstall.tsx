@@ -78,14 +78,34 @@ export default function CopyInstall({
         {copied ? copy.copied : copy.copy}
       </Button>
 
-      {/* What to do next, once it's copied; otherwise which system, and what it runs. */}
+      {/* What to do next, once it's copied; otherwise the system we picked, and what it runs. */}
       <Box aria-live="polite" sx={{ minHeight: 30, display: "flex", alignItems: "center" }}>
         {copied ? (
           <Typography variant="body2" sx={{ color: stage.green, fontWeight: 500 }}>
             {copy.then[os]}
           </Typography>
         ) : (
-          <Stack direction="row" spacing={0.25} sx={{ alignItems: "center", flexWrap: "wrap", justifyContent: items }}>
+          <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", flexWrap: "wrap", justifyContent: items }}>
+            {!open && (
+              <Typography variant="body2" sx={{ color: stage.muted }}>
+                {copy.forOs} {copy.tabs[os]}
+              </Typography>
+            )}
+            <Button
+              size="small"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              sx={{ minHeight: 26, px: 1, fontSize: "0.8125rem", whiteSpace: "nowrap", color: stage.blue, "&:hover": { backgroundColor: stage.tileHover } }}
+            >
+              {open ? copy.hide : copy.see}
+            </Button>
+          </Stack>
+        )}
+      </Box>
+
+      <Collapse in={open} sx={{ width: "100%", maxWidth: 680 }}>
+        <Box sx={{ borderRadius: "12px", border: `1px solid ${stage.line}`, backgroundColor: "rgba(0, 0, 0, 0.28)", overflow: "hidden", textAlign: "left" }}>
+          <Stack direction="row" spacing={0.25} sx={{ px: 1, py: 0.75, borderBottom: `1px solid ${stage.line}` }}>
             {(["mac", "win"] as const).map((key) => (
               <Button
                 key={key}
@@ -105,37 +125,22 @@ export default function CopyInstall({
                 {copy.tabs[key]}
               </Button>
             ))}
-            <Button
-              size="small"
-              onClick={() => setOpen((v) => !v)}
-              aria-expanded={open}
-              sx={{ minHeight: 26, px: 1.25, fontSize: "0.8125rem", whiteSpace: "nowrap", color: stage.blue, "&:hover": { backgroundColor: stage.tileHover } }}
-            >
-              {open ? copy.hide : copy.see}
-            </Button>
           </Stack>
-        )}
-      </Box>
-
-      <Collapse in={open} sx={{ width: "100%", maxWidth: 680 }}>
-        <Box
-          component="pre"
-          sx={{
-            m: 0,
-            px: 2,
-            py: 1.5,
-            overflowX: "auto",
-            textAlign: "left",
-            borderRadius: "12px",
-            border: `1px solid ${stage.line}`,
-            backgroundColor: "rgba(0, 0, 0, 0.28)",
-            fontFamily: "var(--font-mono), ui-monospace, monospace",
-            fontSize: "0.8125rem",
-            lineHeight: 1.75,
-            color: stage.fg,
-          }}
-        >
-          {lines.join("\n")}
+          <Box
+            component="pre"
+            sx={{
+              m: 0,
+              px: 2,
+              py: 1.5,
+              overflowX: "auto",
+              fontFamily: "var(--font-mono), ui-monospace, monospace",
+              fontSize: "0.8125rem",
+              lineHeight: 1.75,
+              color: stage.fg,
+            }}
+          >
+            {lines.join("\n")}
+          </Box>
         </Box>
       </Collapse>
     </Stack>
