@@ -55,7 +55,7 @@ export const site = {
     "Maestro tailors your resume to each job from your whole career history in under a minute. Every bullet is something you actually did. Free, open source, and it runs on your computer.",
   repo,
   // The release the copy was checked against. Bump it with the copy, not alone.
-  version: "0.11.0",
+  version: "0.13.0",
   privacyPolicy: `${blob}/PRIVACY.md`,
   security: `${blob}/SECURITY.md`,
   video: "https://www.youtube.com/watch?v=TvNTzPxPNnc",
