@@ -17,7 +17,7 @@ import PageHero from "@/components/PageHero";
 import Section from "@/components/Section";
 import Reveal from "@/components/Reveal";
 import GitHubMark from "@/components/GitHubMark";
-import { accent, c } from "@/lib/tokens";
+import { accent, c, stage } from "@/lib/tokens";
 import { privacy, site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -42,43 +42,34 @@ const card = {
 export default function PrivacyPage() {
   return (
     <>
-      <PageHero eyebrow={privacy.hero.eyebrow} title={privacy.hero.title} lede={privacy.hero.lede} />
-
-      <Section>
-        <Grid container spacing={3}>
-          {privacy.facts.map((f, i) => (
-            <Grid size={{ xs: 12, sm: 6 }} key={f.title}>
-              <Reveal delay={i * 70} sx={{ height: "100%" }}>
-                <Box sx={card}>
-                  <Box
-                    sx={{
-                      width: 44,
-                      height: 44,
-                      mb: 2,
-                      borderRadius: "12px",
-                      display: "grid",
-                      placeItems: "center",
-                      color: c.blue,
-                      backgroundColor: c.blueTint,
-                    }}
-                  >
+      {/* The four facts sit on the stage beside the headline, as lit tiles: the page's answer, first. */}
+      <PageHero
+        eyebrow={privacy.hero.eyebrow}
+        title={privacy.hero.title}
+        lede={privacy.hero.lede}
+        aside={
+          <Box component="ul" sx={{ listStyle: "none", m: 0, p: 0, display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 1.5 }}>
+            {privacy.facts.map((f, i) => (
+              <Box component="li" key={f.title} sx={{ borderRadius: "16px", border: `1px solid ${stage.line}`, backgroundColor: stage.tile, p: 2.25, minWidth: 0 }}>
+                <Stack direction="row" spacing={1.25} sx={{ alignItems: "center", mb: 1 }}>
+                  <Box sx={{ width: 32, height: 32, borderRadius: "10px", display: "grid", placeItems: "center", color: stage.blue, backgroundColor: stage.tileHover, flexShrink: 0, "& svg": { fontSize: 18 } }}>
                     {factIcons[i]}
                   </Box>
-                  <Typography variant="h3" component="h2" sx={{ mb: 1.5 }}>
+                  <Typography variant="h4" component="h2" sx={{ color: stage.fg, fontSize: "1.0625rem" }}>
                     {f.title}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: c.muted }}>
-                    {f.body}
-                  </Typography>
-                </Box>
-              </Reveal>
-            </Grid>
-          ))}
-        </Grid>
-      </Section>
+                </Stack>
+                <Typography variant="body2" sx={{ color: stage.muted, fontSize: "0.875rem" }}>
+                  {f.body}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        }
+      />
 
       {/* The trade: the most important block on the page, so it gets the loudest treatment. */}
-      <Box component="section" sx={{ py: { xs: 10, md: 14 }, backgroundColor: warn.tint, color: warn.ink }}>
+      <Box component="section" sx={{ py: { xs: 7, md: 9 }, backgroundColor: warn.tint, color: warn.ink }}>
         <Container>
           <Reveal>
             <Stack spacing={3} sx={{ maxWidth: 860 }}>

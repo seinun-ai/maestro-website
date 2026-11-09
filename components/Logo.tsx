@@ -9,7 +9,8 @@ import Typography from "@mui/material/Typography";
  * the wordmark is set as text in the site's typeface (Figtree), at the 500
  * label weight. The SVG lockups in public/brand keep their own drawn letters.
  */
-export default function Logo({ compact = false }: { compact?: boolean }) {
+/** `onDark` sets the second line for the stage; the wordmark takes the colour around it. */
+export default function Logo({ compact = false, onDark = false }: { compact?: boolean; onDark?: boolean }) {
   return (
     <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
       <Box
@@ -34,7 +35,7 @@ export default function Logo({ compact = false }: { compact?: boolean }) {
             letterSpacing: "0.13em",
             textTransform: "uppercase",
             lineHeight: 1.2,
-            color: "text.secondary",
+            color: onDark ? "var(--stage-muted)" : "text.secondary",
           }}
         >
           Career Studio

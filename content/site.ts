@@ -4,7 +4,8 @@
  * changes there, change it here. This is the only place any of them are written.
  *
  * The site is a short promo (owner's call, 2026-10-12): Home, Get started and
- * Privacy. Detail and how-to live on GitHub, and every teaser links there.
+ * Privacy. Detail and how-to live on GitHub, and every teaser links there. The
+ * resume tips page is on hold.
  *
  * Numbers: three headline figures only (under a minute, about $0.01, same
  * score every time). No tool count on the page (the MCP guide link has it), no
@@ -41,7 +42,7 @@
  * "not X but Y" scaffolding, no throat-clearing, no hype words.
  */
 
-import type { Accent } from "@/lib/tokens";
+import { area, type Accent } from "@/lib/tokens";
 
 const repo = "https://github.com/seinun-ai/maestro-career-studio";
 const blob = `${repo}/blob/main`;
@@ -84,7 +85,7 @@ export const docs = {
   contributing: `${blob}/CONTRIBUTING.md`,
 } as const;
 
-/** The site's three pages. The sitemap reads this. */
+/** The site's pages. The sitemap reads this. */
 export const pages = ["/", "/start", "/privacy"] as const;
 
 export const headerCta = { label: "Get started", href: "/start" } as const;
@@ -100,16 +101,90 @@ export const nav = [
 /* ----------------------------- hero ----------------------------- */
 
 export const hero = {
-  eyebrow: "Works with Claude, ChatGPT and Codex · free and open source",
+  eyebrow: "Free and open source · no account",
   title: "Stop rewriting your resume\nfor [every job].",
-  lede: "Maestro tailors it from your whole career history in under a minute, and every bullet is something you actually did. So when an interviewer asks about one, you already have the story.",
-  under: "Two commands to install on macOS, Linux and Windows. No account. Already pay for Claude or ChatGPT? It runs from there with no API key.",
-  primaryCta: { label: "Install in two commands", href: "/start" },
-  secondaryCta: { label: "Star on GitHub", href: repo },
+  lede: "Tailored from your whole career history in under a minute. Every bullet is something you actually did.",
   mediaAlt:
     "A pile of resume files such as resume_FINAL(3).docx becomes one career history, then a specialist resume for each role, company and country. One is matched to a job, with its match score going from 82.4 to 87.3, and the application form waits for you to press Submit.",
   mediaCaption:
     "A short animation made from real captures of the app. The person, the employers and the job are made up.",
+  // One button: it copies everything a new machine needs. Commands match `start`
+  // below, plus the PATH line, because a terminal can't find uv until it's reopened.
+  // Tested on a clean macOS home folder, 2026-11-08; the Windows lines are not yet tested.
+  install: {
+    copy: "Copy install command",
+    copied: "Copied",
+    then: {
+      mac: "Open a terminal, paste it and press Enter.",
+      win: "Open PowerShell, paste it and press Enter.",
+    },
+    tabs: { mac: "macOS and Linux", win: "Windows" },
+    see: "See what it runs",
+    hide: "Hide the commands",
+    path: {
+      mac: 'export PATH="$HOME/.local/bin:$PATH"',
+      win: '$env:Path = "$env:USERPROFILE\\.local\\bin;$env:Path"',
+    },
+  },
+  // The strip under the headline: the whole product in five pictures, in the colour code.
+  // The score pair is the one the site's real 0.12.0 captures show for the Woodgrove role.
+  score: { before: 79.0, after: 86.5 },
+  strip: [
+    { label: "Every old resume" },
+    { label: "One career history" },
+    { label: "A resume per kind of role" },
+    { label: "Matched to the job", note: "Sample: 79.0 → 86.5" },
+    { label: "You press Submit", art: "Submit" },
+  ],
+} as const;
+
+/* --------------------------- works with --------------------------- */
+
+/**
+ * The apps Maestro connects to, shown by their own marks.
+ * Each is true as of 0.12.0: `maestro connect` adds Maestro to
+ * Claude Desktop, Claude Code, Codex, Cursor and VS Code, and the ChatGPT desktop app
+ * picks it up through Codex. Any other MCP app can use the address by hand.
+ */
+export type BrandMark = "claude" | "openai" | "codex" | "cursor" | "mcp" | "chrome";
+
+export const worksWith = {
+  label: "Works with",
+  apps: [
+    { mark: "claude" as BrandMark, name: "Claude", detail: "Claude Desktop and Claude Code" },
+    { mark: "openai" as BrandMark, name: "ChatGPT", detail: "The ChatGPT desktop app, through Codex" },
+    { mark: "codex" as BrandMark, name: "Codex", detail: "Codex CLI and app" },
+    { mark: "cursor" as BrandMark, name: "Cursor", detail: "Cursor" },
+    { mark: "mcp" as BrandMark, name: "Any MCP app", detail: "Any app that speaks the Model Context Protocol" },
+  ],
+  chrome: { label: "Add the Companion to Chrome", href: site.companionStore },
+  // The footer's line: the marks are their owners', and Maestro is independent.
+  trademarks:
+    "Claude is a trademark of Anthropic, PBC. ChatGPT and Codex are trademarks of OpenAI. Cursor is a trademark of Anysphere, Inc. Chrome is a trademark of Google LLC. Maestro is independent and not affiliated with or endorsed by them.",
+} as const;
+
+/* ------------------------- feature pictures ------------------------- */
+
+/**
+ * The words inside the drawn pictures on the feature cards. One sample tailoring: the pair
+ * 79.0 to 86.5 is the one the site's real 0.12.0 captures show for the Woodgrove ML role;
+ * the person and the lines are made up, and the section's lede says so.
+ */
+export const studio = {
+  targets: [
+    { role: "Data Scientist", tag: "UK" },
+    { role: "ML Engineer", tag: "US" },
+    { role: "ML Engineer", tag: "Woodgrove" },
+  ],
+  asks: { before: 79.0, after: 86.5, q: "This job asks for Apache Spark. Have you used it?", yes: "Yes, add it", no: "No", saved: "Saved to your career history." },
+  diff: { del: "Worked on fraud models.", add: "Shipped a fraud model that cut false declines 18%.", src: "from your career history", keep: "Keep", undo: "Undo" },
+  templates: ["Template A", "Template B"],
+  companion: {
+    label: "The Companion",
+    fields: ["Name", "Email", "Resume attached", "Work authorization"],
+    submit: "Submit application",
+    note: "It stops here. You press Submit.",
+  },
 } as const;
 
 /* ---------------------------- premise ---------------------------- */
@@ -117,13 +192,15 @@ export const hero = {
 export const premise = {
   eyebrow: "The premise",
   title: "Your best bullet is stuck in [last month's copy].",
-  body: [
-    "One job asks for “data pipelines”, so you copy the file and change a few lines. The next wants “stakeholder communication”, so you copy again. Somewhere in the third copy an AI “makes it stronger” and rewrites a bullet you spent an evening getting right. Six applications later you have six resumes, and no idea which one still says what you meant.",
-    "Every tool I tried made a fresh document for every job, and documents drift. The AI ones drift faster, because every pass rephrases a bit more of you out of it.",
-    "Maestro pulls apart what you've been keeping in one file. What you did lives in one career history. What this employer should notice becomes a specialist resume, matched to the job in under a minute, with every change shown as a diff you accept or undo, like reviewing code. How it looks is a template, so a new look never touches a fact.",
-  ],
+  // One line under the title; the picture (the copies gathering) says the rest.
+  sub: "Six jobs, six copies, and no idea which one still says what you meant.",
   pull: "Your time should go into your career, not into maintaining copies of a document about your career.",
-  // Decoration beside the title, from the hero GIF's opening frame.
+  // The hero GIF's opening frame, as a button: a click gathers them into one history.
+  chipsHint: "Click the copies.",
+  chipsHintAgain: "Click to spread them out again.",
+  chipsLabel: "Gather the six resume copies into one career history",
+  chipsMerged: "Career history",
+  chipsMergedNote: "6 files, one history",
   chips: [
     "resume_v2.docx",
     "resume_FINAL(3).docx",
@@ -134,109 +211,95 @@ export const premise = {
   ],
 } as const;
 
+/* ---------------------------- beliefs ---------------------------- */
+
+/** Four lines under the premise. "Data stays on your machine" is left out on
+ * purpose: local is a means, not the belief (owner, 2026-10-16). */
+export type BeliefIcon = "source" | "yours" | "adds" | "limit";
+
+export const beliefs = {
+  eyebrow: "What Maestro believes",
+  items: [
+    { icon: "source" as BeliefIcon, t: "Show the source.", b: "Every line traces to something you approved." },
+    { icon: "yours" as BeliefIcon, t: "The last word is yours.", b: "You keep or undo every edit. You press Submit." },
+    { icon: "adds" as BeliefIcon, t: "Work that adds up.", b: "Fix a line once. Every future resume has it." },
+    { icon: "limit" as BeliefIcon, t: "Say the limit.", b: "The Match score isn't an employer's score." },
+  ],
+} as const;
+
 /* ------------------------- how it works ------------------------- */
 
-export type StepIcon = "record" | "specialist" | "match";
+export type StepIcon = "record" | "specialist" | "match" | "submit";
 
 export const howItWorks = {
   eyebrow: "How it works",
   title: "One record in. A [matched resume] out.",
+  // Four stations in the site's colour code (lib/tokens.ts `area`), one short line each.
   steps: [
-    {
-      accent: "violet" as Accent,
-      icon: "record" as StepIcon,
-      label: "Step 1",
-      title: "One career history",
-      body: "Drop in every resume you own. Maestro merges them into one record of what you actually did.",
-    },
-    {
-      accent: "tangerine" as Accent,
-      icon: "specialist" as StepIcon,
-      label: "Step 2",
-      title: "A specialist resume for every role, company and country",
-      body: "Keep a resume for each kind of role you go after, set to the role, a company and the countries it's for.",
-    },
-    {
-      accent: "teal" as Accent,
-      icon: "match" as StepIcon,
-      label: "Step 3",
-      title: "Matched to the job, every change a diff you accept or undo",
-      body: "Save the job, answer the gaps, tailor. Each edit shows as a diff you keep or undo.",
-    },
+    { accent: area.history, icon: "record" as StepIcon, label: "Career history", title: "Drop in every resume", body: "They merge into one record of what you did." },
+    { accent: area.resumes, icon: "specialist" as StepIcon, label: "Resumes", title: "One per kind of job", body: "Set to the role, a company and its countries." },
+    { accent: area.tailor, icon: "match" as StepIcon, label: "Tailor", title: "Match it to the posting", body: "Every change is a diff you keep or undo." },
+    { accent: area.apply, icon: "submit" as StepIcon, label: "Apply", title: "The form fills itself", body: "The Companion stops. You press Submit." },
   ],
 } as const;
 
 /* ------------------------- what you get ------------------------- */
 
-// The Health report teaser was cut on 2026-10-16: the use-cases prompt "Is my
-// resume ready to send?" now sells it, and five cards keep the page shorter.
-export type CardIcon = "target" | "score" | "diff" | "template" | "companion";
+// Drawn pictures since 2026-11-08: the real captures read too small on a card. The How it
+// works film still shows the real app.
+export type FeatureArtKind = "targets" | "asks" | "diff" | "templates" | "companion";
 
 export const capabilities = {
   eyebrow: "What you get",
   title: "From the first import to the [Submit button].",
-  lede: "Real captures from the app. Each one has the longer story on GitHub.",
+  lede: "Drawn from the app, with made-up data.",
   more: "More on GitHub",
   cards: [
     {
-      accent: "violet" as Accent,
-      icon: "target" as CardIcon,
-      pill: "Targets",
+      accent: area.resumes,
+      art: "targets" as FeatureArtKind,
+      artAlt: "Three resume pages fan out from one stack: Data Scientist for the UK, ML Engineer for the US, and ML Engineer for Woodgrove Bank.",
       title: "A specialist resume for each track",
-      body: "Keep one base resume per kind of role you go after. Give each a Target: the role, a company, the countries it may go to. A resume set for other countries isn't scored or recommended for a job somewhere else.",
-      image: "/media/base-gallery.png",
-      imageAlt: "Three base resumes in the app, grouped by role, each card in its own colour with a page preview, a health grade and its Target pill: Data Scientist (UK) for GB, ML Engineer (US) for the US, and ML Engineer for Woodgrove Bank",
+      body: "One per kind of role, set to its company and countries.",
       href: `${docs.using}#2-build-a-base-resume-per-career-track`,
     },
     {
-      accent: "tangerine" as Accent,
-      icon: "score" as CardIcon,
-      pill: "Match score",
+      accent: area.tailor,
+      art: "asks" as FeatureArtKind,
+      artAlt: "A Match score ring beside a question: this job asks for Apache Spark, have you used it? Yes is chosen, it's saved to the career history, and the score rises from 79.0 to 86.5.",
       title: "It asks instead of inventing",
-      body: "Every job is scored against your base resumes when you save it. The Match score shows what a job wants that your resume doesn't show yet. Maestro asks you about each gap. If it's true, it's saved for every future application. If it isn't, it stays a gap.",
-      image: "/media/job-score.png",
-      imageAlt: "A saved job's page with its four numbered steps, Job, Resume and gaps, Tailored resume and Apply, open on Resume and gaps: two base resumes as chips, both at 79.0, a note that one resume for another country wasn't scored, the Score breakdown open with five subscores and skills covered, and a Gap analysis done card: 9 gaps answered, 1 skipped",
+      body: "Each gap becomes a question. A true answer is saved for every future job.",
       href: `${docs.using}#3-save-the-job-then-close-the-gaps`,
     },
     {
-      accent: "teal" as Accent,
-      icon: "diff" as CardIcon,
-      pill: "Diffs",
+      accent: area.tailor,
+      art: "diff" as FeatureArtKind,
+      artAlt: "A resume line struck through in red with its rewrite in green below, marked as from your career history, with Keep and Undo.",
       title: "Every AI edit is a diff",
-      body: "Every change arrives as a diff, line by line, the way a developer reviews a code change before accepting it. Accept it or undo it.",
-      quote: "The AI fills in emphasis. It doesn't invent a new person.",
-      image: "/media/tailor-review.png",
-      imageAlt: "The same job's Tailored resume step: the Match score going from 79.0 to 86.5, three changes from the base resume, each shown struck through and rewritten with a Revert button and marked From your career history or You, then the PDF and its one-page preview",
+      body: "The AI fills in emphasis. It doesn't invent a new person.",
       href: `${docs.using}#how-it-works`,
     },
     {
-      accent: "violet" as Accent,
-      icon: "template" as CardIcon,
-      pill: "Templates",
+      accent: area.resumes,
+      art: "templates" as FeatureArtKind,
+      artAlt: "The same resume on two page layouts, with a switch between Template A and Template B.",
       title: "How many resume templates have you changed in your life?",
-      body: "One or two. Here it's a button. LaTeX and Typst PDFs are built on your computer, and Typst needs no TeX.",
-      quote: "Template change is not a decision of life anymore.",
-      image: "/media/base-resume.png",
-      imageAlt: "A base resume in the app, ML Engineer (US), with its colour square, health grade A and Template control in the toolbar, and the full one-page PDF preview beside the editor",
+      body: "Here it's a button. Template change is not a decision of life anymore.",
       href: `${docs.using}#templates-you-actually-own`,
     },
     {
-      accent: "tangerine" as Accent,
-      icon: "companion" as CardIcon,
-      pill: "The Companion",
+      accent: area.apply,
+      art: "companion" as FeatureArtKind,
+      artAlt: "The Companion's panel ticks off name, email, resume and work authorization. The cursor rests on Submit application, which is never pressed.",
       title: "It fills the form. You press Submit.",
-      body: "A Chrome side panel saves the job from the board you're on, picks your best-matching resume and fills the page you're on from your saved answers. Then it stops. Turn on full automation and Apply takes the job through its application: it fills a page, clicks Next, and stops on the review page. Submit is always your click.",
+      body: "A Chrome side panel saves the job, picks your best resume and fills the page. Then it stops.",
       install: { label: "Add to Chrome", href: site.companionStore },
-      image: "/media/extension.gif",
-      imageAlt: "The Companion beside a made-up employer's careers page: Add job saves and scores the job, a resume is picked, and Apply tailors it, fills two pages of the application, clicks Next after each, and stops on the review page with Ready to submit. The cursor rests on Submit application, which is never pressed",
       href: `${docs.using}#the-companion-browser-extension`,
     },
   ],
 } as const;
 
 /* ------------------------- use cases: your AI ------------------------- */
-
-export type VerbIcon = "extract" | "maintain" | "hunt" | "apply";
 
 /**
  * The core pitch since 2026-10-16: what you can ask your own assistant once it
@@ -259,76 +322,22 @@ export type VerbIcon = "extract" | "maintain" | "hunt" | "apply";
 export const useCases = {
   eyebrow: "Works with your AI",
   title: "Give your AI [your career].",
-  lede: "Connect Claude, Codex or the ChatGPT desktop app (through Codex), and your assistant gets your career history, your resumes and your jobs. It does the reading and writing, so no API key is needed. Then you just ask.",
-  groups: [
-    {
-      verb: "Extract",
-      accent: "violet" as Accent,
-      icon: "extract" as VerbIcon,
-      blurb: "Get the facts out of postings and old files.",
-      prompts: [
-        {
-          ask: "Here's a posting. Should I even apply?",
-          does: "It saves the job, scores your resumes against it, and flags knock-outs like visa or years of experience.",
-        },
-        {
-          ask: "Turn my old resumes and review notes into my career history.",
-          does: "Every bullet and note becomes a draft you approve.",
-        },
-      ],
-    },
-    {
-      verb: "Maintain",
-      accent: "tangerine" as Accent,
-      icon: "maintain" as VerbIcon,
-      blurb: "Keep your career history and resumes current.",
-      prompts: [
-        {
-          ask: "I shipped the fraud model this quarter. Add it.",
-          does: "A new bullet in your career history, as a draft you approve. Every resume can use it.",
-        },
-        {
-          ask: "Make me a resume for fintech roles in the UK.",
-          does: "A specialist resume built from your history, targeted to that role and country.",
-        },
-      ],
-    },
-    {
-      verb: "Hunt",
-      accent: "teal" as Accent,
-      icon: "hunt" as VerbIcon,
-      blurb: "Find roles that fit while you do something else.",
-      prompts: [
-        {
-          ask: "Every morning, find new roles that fit and file the good ones.",
-          does: "It files them to your Agent inbox. You queue or skip each one.",
-        },
-      ],
-    },
-    {
-      verb: "Apply",
-      accent: "blue" as Accent,
-      icon: "apply" as VerbIcon,
-      blurb: "Go from a saved job to a finished application.",
-      prompts: [
-        {
-          ask: "Tailor this one, walk me through the gaps, then make the PDF.",
-          does: "It asks about each gap instead of inventing, keeps every change as a diff you can undo, and renders the PDF.",
-        },
-        {
-          ask: "Fill the applications I queued. Show me each one before it goes.",
-          does: "It fills them in your browser. Nothing is submitted without your yes, unless you turn on full automation.",
-        },
-      ],
-    },
+  lede: "Connect once. Your assistant reads and writes, so no API key is needed. Then you just ask.",
+  // The picture: one chat window, four asks, each reply in its area's colour.
+  chat: [
+    { area: area.history, ask: "Turn my old resumes into one career history.", reply: "6 files in. Every bullet is a draft you approve." },
+    { area: area.tailor, ask: "Here's a posting. Should I even apply?", reply: "Saved and scored. Knock-outs like visa flagged." },
+    { area: area.resumes, ask: "Make me a resume for fintech roles in the UK.", reply: "A new specialist resume, set to the UK." },
+    { area: area.apply, ask: "Fill the applications I queued.", reply: "Filled. Each one waits for your yes." },
   ],
+  chatConnected: "Maestro connected",
   more: "Ask in your own words. These are only a start.",
   connect: {
     title: "Connect it once",
     code: "maestro connect",
     body: "Adds Maestro to Claude Desktop, Claude Code, Codex, Cursor or VS Code. No config file to write by hand.",
   },
-  attended: "By default, an apply run waits for your yes before each submit. Full automation, off by default, is explained in the questions below.",
+  attended: "By default, an apply run waits for your yes before each submit.",
   link: { label: "See every tool", href: docs.mcpGuide },
 } as const;
 
@@ -340,19 +349,19 @@ export const numbers = {
   items: [
     {
       figure: "Under a minute",
-      label: "to save a job and tailor your resume to it",
+      label: "to tailor a resume to a job",
       detail: "About 10 seconds on Gemini and about 40 on the OpenAI default, in our tests.",
       link: { label: "How we measured it", href: docs.models },
     },
     {
       figure: "About $0.01",
-      label: "per application on the OpenAI default",
+      label: "per application, no subscription",
       detail: "Under $0.03 on Gemini, and about $0.01 with Claude Haiku, in our tests.",
       link: { label: "How we measured it", href: docs.models },
     },
     {
-      figure: "Same score, every time",
-      label: "for the same resume and the same job",
+      figure: "Same score",
+      label: "every time, for the same resume and job",
       detail: "The Match score runs on fixed rules and a small model on your computer, with no AI service involved.",
       link: { label: "How the score works", href: docs.score },
     },
@@ -397,11 +406,9 @@ export const cta = {
   kicker: "The record is yours. Here, control is the whole point.",
   title: "Your career has one history.\nYour resume [should too].",
   // "Local", said once and simply. The detail is the Privacy page.
-  body: "Two commands to install. Free and open source. Your career history lives on your computer, not in someone else's cloud. No account.",
-  primary: { label: "Install in two commands", href: "/start" },
+  body: "Free and open source. No account. Your history stays on your computer.",
   secondary: { label: "Star on GitHub", href: repo },
   video: { label: "Watch the 37-second tour", href: site.video },
-  export: "Take it with you any time: your whole history exports to one career.md.",
   privacy: { label: "What leaves your computer, and when", href: "/privacy" },
 } as const;
 
@@ -410,7 +417,7 @@ export const cta = {
 export const start = {
   hero: {
     eyebrow: "Get started",
-    title: "[Two commands.] Then add what you want.",
+    title: "[One paste.] Then add what you want.",
     lede: "Install uv once, then install Maestro and start it. No Docker, no Git, no clone. It runs on macOS, Linux and Windows (x64).",
   },
   uv: {

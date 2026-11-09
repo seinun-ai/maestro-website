@@ -6,11 +6,11 @@ import Typography from "@mui/material/Typography";
 import type { SxProps, Theme } from "@mui/material/styles";
 import Reveal from "./Reveal";
 import Highlight from "./Highlight";
-import { c } from "@/lib/tokens";
+import { c, stage } from "@/lib/tokens";
 
-export function Eyebrow({ children }: { children: React.ReactNode }) {
+export function Eyebrow({ children, onDark = false }: { children: React.ReactNode; onDark?: boolean }) {
   return (
-    <Typography variant="overline" component="p" sx={{ color: c.blue, mb: 1.5, display: "block" }}>
+    <Typography variant="overline" component="p" sx={{ color: onDark ? "var(--stage-blue)" : c.blue, mb: 1.5, display: "block" }}>
       {children}
     </Typography>
   );
@@ -37,20 +37,23 @@ export default function Section({
   title?: string;
   lede?: React.ReactNode;
   align?: "left" | "center";
-  tone?: "default" | "raised";
+  /** "stage" puts the section on the dark navy desk, for an ending. */
+  tone?: "default" | "raised" | "stage";
   maxWidth?: number;
   children?: React.ReactNode;
   sx?: SxProps<Theme>;
 }) {
   const centered = align === "center";
+  const onDark = tone === "stage";
   return (
     <Box
       id={id}
       component="section"
       sx={[
         {
-          py: { xs: 10, md: 15 },
+          py: { xs: 7, md: 9 },
           ...(tone === "raised" ? { backgroundColor: c.card, borderBlock: `1px solid ${c.border}` } : null),
+          ...(onDark ? { background: stage.background, color: stage.fg } : null),
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}
@@ -62,21 +65,21 @@ export default function Section({
               spacing={2.5}
               sx={{
                 maxWidth,
-                mb: { xs: 6, md: 8 },
+                mb: { xs: 4, md: 5 },
                 mx: centered ? "auto" : 0,
                 textAlign: centered ? "center" : "left",
               }}
             >
               <Box>
-                {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+                {eyebrow && <Eyebrow onDark={onDark}>{eyebrow}</Eyebrow>}
                 {title && (
-                  <Typography variant="h2" component="h2">
-                    <Highlight text={title} />
+                  <Typography variant="h2" component="h2" sx={onDark ? { color: stage.fg } : undefined}>
+                    <Highlight text={title} onDark={onDark} />
                   </Typography>
                 )}
               </Box>
               {lede && (
-                <Typography variant="subtitle1" sx={{ color: c.muted }}>
+                <Typography variant="subtitle1" sx={{ color: onDark ? stage.muted : c.muted }}>
                   {lede}
                 </Typography>
               )}

@@ -12,8 +12,11 @@ import PlayIcon from "@mui/icons-material/PlayCircleOutlined";
 import PageHero from "@/components/PageHero";
 import Section, { Eyebrow } from "@/components/Section";
 import CodeBlock from "@/components/CodeBlock";
+import CopyInstall from "@/components/CopyInstall";
+import WorksWith from "@/components/WorksWith";
+import { ChromeMark } from "@/components/BrandMarks";
 import Reveal from "@/components/Reveal";
-import { accent, c, weight } from "@/lib/tokens";
+import { accent, c, stage, weight } from "@/lib/tokens";
 import { cta, start } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -47,9 +50,10 @@ function StepNumber({ n }: { n: number }) {
 export default function StartPage() {
   return (
     <>
-      <PageHero eyebrow={start.hero.eyebrow} title={start.hero.title} lede={start.hero.lede}>
+      {/* The commands sit on the stage beside the headline: copy once, paste, done. */}
+      <PageHero eyebrow={start.hero.eyebrow} title={start.hero.title} lede={start.hero.lede} aside={<CopyInstall align="left" defaultOpen />}>
         <Box>
-          <Button href={cta.video.href} target="_blank" rel="noopener noreferrer" startIcon={<PlayIcon />} sx={{ px: 0, color: c.blue }}>
+          <Button href={cta.video.href} target="_blank" rel="noopener noreferrer" startIcon={<PlayIcon />} sx={{ px: 0, color: stage.blue }}>
             {cta.video.label}
           </Button>
         </Box>
@@ -124,6 +128,9 @@ export default function StartPage() {
                 <Typography variant="h3" component="h2" sx={{ mb: 2 }}>
                   {start.connect.title}
                 </Typography>
+                <Box sx={{ mb: 2 }}>
+                  <WorksWith />
+                </Box>
                 <CodeBlock code={start.connect.code} />
                 <Typography variant="body2" sx={{ color: c.muted, mt: 1.5 }}>
                   {start.connect.body}
@@ -137,15 +144,18 @@ export default function StartPage() {
                 <Typography variant="body2" sx={{ color: c.muted, mb: 1.5 }}>
                   {start.companion.body}
                 </Typography>
-                <Link
+                {/* The store listing, with Chrome's own mark: a known shop is a trust signal. */}
+                <Button
                   href={start.companion.link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  sx={{ color: c.blue, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: weight.label }}
+                  variant="outlined"
+                  startIcon={<ChromeMark size={18} />}
+                  endIcon={<ArrowOutwardIcon sx={{ fontSize: 17 }} />}
+                  sx={{ borderColor: c.border, color: c.fg, fontWeight: weight.label, "&:hover": { borderColor: c.blue, backgroundColor: c.blueTint } }}
                 >
                   {start.companion.link.label}
-                  <ArrowOutwardIcon sx={{ fontSize: 17 }} />
-                </Link>
+                </Button>
               </Box>
             </Reveal>
           </Grid>

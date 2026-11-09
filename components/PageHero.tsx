@@ -1,50 +1,66 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Reveal from "./Reveal";
 import Highlight from "./Highlight";
 import { Eyebrow } from "./Section";
-import { c } from "@/lib/tokens";
+import { stage } from "@/lib/tokens";
 
-/** The opening band of an inner page: same type and wash as the home hero, smaller. */
+/**
+ * The opening band of an inner page, on the stage (the dark desk every page opens on).
+ * With an `aside`, the headline takes the left column and the page's working part (the
+ * checker, the install commands, the privacy facts) sits beside it as a lit tile, so a
+ * visitor lands on something to use, not on empty space.
+ */
 export default function PageHero({
   eyebrow,
   title,
   lede,
   children,
+  aside,
 }: {
   eyebrow: string;
   title: string;
   lede: string;
   children?: React.ReactNode;
+  aside?: React.ReactNode;
 }) {
+  const head = (
+    <Stack spacing={2.25} sx={{ maxWidth: 880 }}>
+      <Box>
+        <Eyebrow onDark>{eyebrow}</Eyebrow>
+        <Typography
+          variant="h1"
+          component="h1"
+          sx={{ color: stage.fg, fontSize: aside ? "clamp(2.125rem, 3.6vw, 3rem)" : "clamp(2.25rem, 4vw, 3.25rem)" }}
+        >
+          <Highlight text={title} onDark />
+        </Typography>
+      </Box>
+      <Typography variant="subtitle1" sx={{ color: stage.muted, maxWidth: 720 }}>
+        {lede}
+      </Typography>
+      {children}
+    </Stack>
+  );
   return (
-    <Box
-      component="section"
-      sx={{
-        pt: { xs: 7, md: 12 },
-        pb: { xs: 7, md: 10 },
-        borderBottom: `1px solid ${c.border}`,
-        backgroundImage: `radial-gradient(80% 90% at 12% -30%, ${c.blueTint} 0%, transparent 60%)`,
-      }}
-    >
+    <Box component="section" sx={{ pt: { xs: 5, md: 6 }, pb: { xs: 6, md: 8 }, background: stage.background, color: stage.fg }}>
       <Container>
-        <Reveal>
-          <Stack spacing={3} sx={{ maxWidth: 880 }}>
-            <Box>
-              <Eyebrow>{eyebrow}</Eyebrow>
-              <Typography variant="h1" component="h1" sx={{ fontSize: "clamp(2.5rem, 5.4vw, 4.25rem)" }}>
-                <Highlight text={title} />
-              </Typography>
-            </Box>
-            <Typography variant="subtitle1" sx={{ color: c.muted, maxWidth: 720 }}>
-              {lede}
-            </Typography>
-            {children}
-          </Stack>
-        </Reveal>
+        {aside ? (
+          <Grid container spacing={{ xs: 4, md: 6 }} sx={{ alignItems: "flex-start" }}>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <Reveal>{head}</Reveal>
+            </Grid>
+            <Grid size={{ xs: 12, md: 7 }} sx={{ minWidth: 0 }}>
+              {aside}
+            </Grid>
+          </Grid>
+        ) : (
+          <Reveal>{head}</Reveal>
+        )}
       </Container>
     </Box>
   );

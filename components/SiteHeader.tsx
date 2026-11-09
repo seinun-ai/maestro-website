@@ -19,14 +19,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import Logo from "./Logo";
 import GitHubMark from "./GitHubMark";
-import { c } from "@/lib/tokens";
+import { c, stage } from "@/lib/tokens";
 import { headerCta, nav, site } from "@/content/site";
 
+// The header is part of the stage: navy, light text, one blue button.
 const linkSx = {
   px: 1.5,
   fontWeight: 500,
-  color: c.muted,
-  "&:hover": { color: c.fg, backgroundColor: "action.hover" },
+  color: stage.muted,
+  "&:hover": { color: stage.fg, backgroundColor: stage.tileHover },
 } as const;
 
 export default function SiteHeader() {
@@ -52,16 +53,16 @@ export default function SiteHeader() {
         elevation={0}
         sx={{
           top: 0,
-          backgroundColor: raised ? c.bg : "transparent",
-          borderBottom: `1px solid ${raised ? c.border : "transparent"}`,
-          boxShadow: raised ? c.shadowFloat : "none",
+          backgroundColor: stage.bg,
+          borderBottom: `1px solid ${raised ? stage.line : "transparent"}`,
+          boxShadow: raised ? "0 10px 30px -18px rgba(0, 0, 0, 0.6)" : "none",
           transition: "background-color 200ms cubic-bezier(0.2, 0, 0, 1), box-shadow 200ms cubic-bezier(0.2, 0, 0, 1)",
         }}
       >
         <Container>
           <Toolbar disableGutters sx={{ minHeight: { xs: 62, md: 70 }, gap: 2 }}>
-            <Box component={NextLink} href="/" aria-label={`${site.name} home`} sx={{ textDecoration: "none", color: c.fg }}>
-              <Logo />
+            <Box component={NextLink} href="/" aria-label={`${site.name} home`} sx={{ textDecoration: "none", color: stage.fg }}>
+              <Logo onDark />
             </Box>
 
             <Box sx={{ flex: 1 }} />
@@ -74,7 +75,7 @@ export default function SiteHeader() {
                   href={item.href}
                   size="small"
                   aria-current={isActive(item.href) ? "page" : undefined}
-                  sx={{ ...linkSx, ...(isActive(item.href) ? { color: c.fg } : null) }}
+                  sx={{ ...linkSx, ...(isActive(item.href) ? { color: stage.fg } : null) }}
                 >
                   {item.label}
                 </Button>
@@ -98,13 +99,15 @@ export default function SiteHeader() {
                 variant="contained"
                 size="small"
                 aria-current={isActive(headerCta.href) ? "page" : undefined}
+                // The action colour, the same on every page and in both schemes.
+                sx={{ backgroundColor: stage.action, color: "#fff", "&:hover": { backgroundColor: stage.actionHover } }}
               >
                 {headerCta.label}
               </Button>
               <IconButton
                 onClick={() => setOpen(true)}
                 aria-label="Open navigation"
-                sx={{ display: { xs: "inline-flex", md: "none" }, border: `1px solid ${c.border}`, borderRadius: 2 }}
+                sx={{ display: { xs: "inline-flex", md: "none" }, color: stage.fg, border: `1px solid ${stage.line}`, borderRadius: 2 }}
                 size="small"
               >
                 <MenuIcon fontSize="small" />

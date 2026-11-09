@@ -2,15 +2,16 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { c } from "@/lib/tokens";
 
-/** The key phrase of a headline, in app blue. */
+/** The key phrase of a headline, in app blue (a lighter blue on the stage). */
 const keySx = { color: c.blue } as const;
+const keyOnDarkSx = { color: "var(--stage-blue)" } as const;
 
 /**
  * Renders headline copy from content/site.ts. `[phrase]` becomes the
  * highlighted key phrase and `\n` a line break on wide screens only, so a
  * phone wraps the line where it fits.
  */
-export default function Highlight({ text }: { text: string }) {
+export default function Highlight({ text, onDark = false }: { text: string; onDark?: boolean }) {
   return (
     <>
       {text.split("\n").map((line, li) => (
@@ -23,7 +24,7 @@ export default function Highlight({ text }: { text: string }) {
           )}
           {line.split(/(\[[^\]]+\])/).map((part, i) =>
             part.startsWith("[") && part.endsWith("]") ? (
-              <Box component="span" key={i} sx={keySx}>
+              <Box component="span" key={i} sx={onDark ? keyOnDarkSx : keySx}>
                 {part.slice(1, -1)}
               </Box>
             ) : (

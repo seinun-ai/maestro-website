@@ -26,6 +26,28 @@
   --c-code-fg: #e2e8f0;
   --c-code-muted: #94a3b8;
 
+  /* The stage: the dark desk every page opens on.
+     The same in both schemes, so it is set here only. Text on it is --stage-fg or --stage-muted;
+     the product sits on it as lit tiles. */
+  --stage-bg: #0b1122;
+  --stage-glow: #1d2f57;
+  --stage-fg: #eef2fb;
+  --stage-muted: #a6b1cd;
+  --stage-tile: rgba(255, 255, 255, 0.055);
+  --stage-tile-hover: rgba(255, 255, 255, 0.09);
+  --stage-line: rgba(255, 255, 255, 0.12);
+  --stage-blue: #8db4ff;
+  --stage-green: #5fd6a3;
+  --stage-red: #ff9ea4;
+  --stage-violet: #c3a6ff;
+  --stage-tangerine: #ffb27a;
+  --stage-teal: #5fd8d8;
+  /* The action colour on the stage: only the one primary button per screen is filled
+     with it, so the eye finds it first. White on it is 4.6:1. */
+  --stage-action: #2f6ee6;
+  --stage-action-hover: #3c7cf5;
+  --stage-action-glow: 0 0 0 1px rgba(141, 180, 255, 0.45), 0 10px 28px -6px rgba(47, 110, 230, 0.7);
+
   /* App blue: actions, links, and the one highlighted phrase per headline. */
   --c-blue: #1358bb;
   --c-blue-tint: #d1e3ff;
@@ -48,6 +70,8 @@
   --c-success: #0c6f4d;
   --c-success-tint: #c0f0d8;
   --c-success-ink: #08553a;
+  /* A removed line in a drawn diff. */
+  --c-del: #b42318;
 
   --c-navy: #0f172a;
   --c-shadow-frame: 0 1px 2px rgba(10, 10, 10, 0.06), 0 24px 60px -28px rgba(10, 10, 10, 0.28);
@@ -90,6 +114,7 @@
     --c-success: #7fdeb3;
     --c-success-tint: #0e4f37;
     --c-success-ink: #c0f0d8;
+    --c-del: #ff9ea4;
 
     --c-shadow-frame: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 60px -28px rgba(0, 0, 0, 0.8);
     --c-shadow-hero: 0 2px 6px rgba(0, 0, 0, 0.5), 0 40px 96px -36px rgba(134, 178, 247, 0.35);

@@ -5,6 +5,7 @@ import ThemeRegistry from "@/components/ThemeRegistry";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import SkipLink from "@/components/SkipLink";
+import ConsoleNote from "@/components/ConsoleNote";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -86,6 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </Box>
           <SiteFooter />
+          <ConsoleNote />
         </ThemeRegistry>
       </body>
     </html>

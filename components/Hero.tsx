@@ -3,90 +3,42 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ShotFrame from "./ShotFrame";
-import Reveal from "./Reveal";
 import Highlight from "./Highlight";
-import GitHubMark from "./GitHubMark";
-import { LinkButton } from "./NextMui";
-import { c } from "@/lib/tokens";
+import CopyInstall from "./CopyInstall";
+import ProductStrip from "./ProductStrip";
+import WorksWith from "./WorksWith";
+import { stage } from "@/lib/tokens";
 import { hero } from "@/content/site";
 
+/**
+ * The home hero, on the stage.
+ * One focal point, read top to bottom: the headline, one button that copies the install
+ * command, the marks of the apps it works with, then the whole product in five pictures.
+ */
 export default function Hero() {
   return (
-    <Box
-      component="section"
-      sx={{
-        position: "relative",
-        overflow: "hidden",
-        pt: { xs: 7, md: 12 },
-        pb: { xs: 10, md: 15 },
-        backgroundImage: `radial-gradient(70% 52% at 50% -8%, ${c.blueTint} 0%, transparent 70%)`,
-      }}
-    >
+    <Box component="section" sx={{ background: stage.background, color: stage.fg, pt: { xs: 5, md: 6 }, pb: { xs: 5, md: 6 } }}>
       <Container>
-        <Stack spacing={{ xs: 3, md: 3.5 }} sx={{ maxWidth: 1000, mx: "auto", textAlign: "center", alignItems: "center" }}>
-          <Reveal>
-            <Box
-              component="p"
-              sx={{
-                m: 0,
-                display: "inline-block",
-                px: { xs: 1.25, md: 1.75 },
-                py: 0.75,
-                borderRadius: 999,
-                border: `1px solid ${c.border}`,
-                backgroundColor: c.card,
-                color: c.muted,
-                fontSize: { xs: "0.75rem", md: "0.875rem" },
-                fontWeight: 500,
-              }}
-            >
-              {hero.eyebrow}
-            </Box>
-          </Reveal>
-          <Reveal delay={60}>
-            <Typography variant="h1" component="h1">
-              <Highlight text={hero.title} />
-            </Typography>
-          </Reveal>
-          <Reveal delay={120}>
-            <Typography variant="subtitle1" sx={{ color: c.muted, maxWidth: 720, mx: "auto" }}>
-              {hero.lede}
-            </Typography>
-          </Reveal>
-          <Reveal delay={180}>
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              spacing={1.5}
-              sx={{ justifyContent: "center", alignItems: { xs: "stretch", sm: "center" }, pt: 1 }}
-            >
-              <LinkButton href={hero.primaryCta.href} variant="contained" size="large" endIcon={<ArrowForwardIcon />}>
-                {hero.primaryCta.label}
-              </LinkButton>
-              <Button
-                href={hero.secondaryCta.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outlined"
-                size="large"
-                startIcon={<GitHubMark />}
-              >
-                {hero.secondaryCta.label}
-              </Button>
-            </Stack>
-          </Reveal>
-          <Reveal delay={210}>
-            <Typography variant="body2" sx={{ color: c.muted }}>
-              {hero.under}
-            </Typography>
-          </Reveal>
+        <Stack sx={{ alignItems: "center", textAlign: "center" }}>
+          <Typography variant="overline" component="p" sx={{ color: stage.blue }}>
+            {hero.eyebrow}
+          </Typography>
+          <Typography variant="h1" component="h1" sx={{ mt: 1.5, color: stage.fg, fontSize: "clamp(2.625rem, 5.2vw, 4.25rem)", lineHeight: 1.04 }}>
+            <Highlight text={hero.title} onDark />
+          </Typography>
+          <Typography variant="body1" sx={{ mt: 2, maxWidth: 820, color: stage.muted, fontSize: "1.125rem", textWrap: "balance" }}>
+            {hero.lede}
+          </Typography>
+          <Box sx={{ mt: 3, width: "100%" }}>
+            <CopyInstall />
+          </Box>
+          <Box sx={{ mt: 1.5 }}>
+            <WorksWith onDark center chrome />
+          </Box>
         </Stack>
-
-        <Reveal delay={240} sx={{ mt: { xs: 6, md: 9 }, maxWidth: 1120, mx: "auto" }}>
-          <ShotFrame src="/media/hero.mp4" alt={hero.mediaAlt} priority hero caption={hero.mediaCaption} />
-        </Reveal>
+        <Box sx={{ mt: { xs: 4, md: 4.5 } }}>
+          <ProductStrip />
+        </Box>
       </Container>
     </Box>
   );
