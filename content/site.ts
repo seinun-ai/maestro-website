@@ -33,8 +33,10 @@
  * product-wide "never auto-submits": an agent with Full automation can.
  *
  * Headline markup: one key phrase per title sits in [brackets]. <Highlight>
- * renders it in app blue on the tint band, as the hero GIF does, and a "\n"
- * is a line break on wide screens only. Brackets never reach the page.
+ * renders it in the marigold signal: as text on the dark stage, and as ink on a
+ * marigold band on light sections. A "\n" is a line break on wide screens only.
+ * Brackets never reach the page. In the numbers row only the cost figure carries
+ * them, so it is the one figure with the band.
  *
  * Voice: short sentences, concrete nouns, second person. NO EM DASHES in
  * rendered copy, ever (readers filter AI text by them, and the product scrubs
@@ -50,7 +52,7 @@ const blob = `${repo}/blob/main`;
 export const site = {
   name: "Maestro Career Studio",
   short: "Maestro CS",
-  tagline: "Stop rewriting your resume for every job",
+  tagline: "Give your job search a memory",
   description:
     "Maestro tailors your resume to each job from your whole career history in under a minute. Every bullet is something you actually did. Free, open source, and it runs on your computer.",
   repo,
@@ -99,8 +101,9 @@ export const nav = [
 
 export const hero = {
   eyebrow: "Free and open source · no account",
-  title: "Stop rewriting your resume\nfor [every job].",
-  lede: "Tailored from your whole career history in under a minute. Every bullet is something you actually did.",
+  title: "Give your job search\n[a memory].",
+  // The "\n" puts the tagline on its own line, so a glance gets it whole.
+  lede: "Automate everything between your career and the Submit button. You stay in the loop.\nA tailored resume in under a minute, and every bullet is something you actually did.",
   mediaAlt:
     "A pile of resume files such as resume_FINAL(3).docx becomes one career history, then a specialist resume for each role, company and country. One is matched to a job, with its match score going from 82.4 to 87.3, and the application form waits for you to press Submit.",
   mediaCaption:
@@ -342,7 +345,8 @@ export const numbers = {
       detail: "About 10 seconds on Gemini and about 40 on the OpenAI default, in our tests.",
     },
     {
-      figure: "About $0.01",
+      // The one figure with the signal band, so a skim lands on the price.
+      figure: "[About $0.01]",
       label: "per application, no subscription",
       detail: "Under $0.03 on Gemini, and about $0.01 with Claude Haiku, in our tests.",
     },
@@ -402,7 +406,7 @@ export const start = {
   hero: {
     eyebrow: "Get started",
     title: "[One paste.] Then you're in the app.",
-    lede: "No Docker, no Git, no clone. It runs on macOS, Linux and Windows (x64).",
+    lede: "Start with one resume. Grow into the whole studio. No Docker, no Git, no clone, on macOS, Linux and Windows (x64).",
   },
   // The one-paste commands read these too (components/CopyInstall.tsx).
   uv: {

@@ -10,7 +10,7 @@ import { stage, type Accent } from "@/lib/tokens";
 import { useCases, worksWith } from "@/content/site";
 
 /** The stage's version of each area colour. */
-const tone: Record<Accent, string> = { violet: stage.violet, tangerine: stage.tangerine, teal: stage.teal, blue: stage.blue };
+const tone: Record<Accent, string> = { violet: stage.violet, tangerine: stage.tangerine, teal: stage.teal, blue: stage.blue, marigold: stage.marigold };
 
 const apps = worksWith.apps;
 
@@ -32,7 +32,7 @@ export default function ChatPicture() {
   }, []);
 
   return (
-    <Box sx={{ borderRadius: "20px", overflow: "hidden", background: stage.background, border: `1px solid ${stage.line}`, color: stage.fg, boxShadow: "0 24px 60px -24px rgba(11, 17, 34, 0.55)" }}>
+    <Box sx={{ borderRadius: "20px", overflow: "hidden", background: stage.background, border: `1px solid ${stage.line}`, color: stage.fg, boxShadow: "0 24px 60px -24px rgba(12, 12, 15, 0.55)" }}>
       {/* The apps, in turn: proof it works in the one you use, not a choice to make. */}
       <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", px: 1.25, py: 1, borderBottom: `1px solid ${stage.line}`, overflowX: "auto" }}>
         {apps.map((app, i) => {

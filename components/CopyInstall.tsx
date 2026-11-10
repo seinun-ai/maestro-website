@@ -69,7 +69,8 @@ export default function CopyInstall({
           fontSize: "1.0625rem",
           fontWeight: 600,
           whiteSpace: "nowrap",
-          color: "#fff",
+          // Near-black on the marigold fill; white on the green "copied" fill.
+          color: copied ? "#fff" : stage.actionFg,
           backgroundColor: copied ? "#11865b" : stage.action,
           boxShadow: stage.actionGlow,
           "&:hover": { backgroundColor: copied ? "#11865b" : stage.actionHover },
@@ -95,7 +96,7 @@ export default function CopyInstall({
               size="small"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
-              sx={{ minHeight: 26, px: 1, fontSize: "0.8125rem", whiteSpace: "nowrap", color: stage.blue, "&:hover": { backgroundColor: stage.tileHover } }}
+              sx={{ minHeight: 26, px: 1, fontSize: "0.8125rem", whiteSpace: "nowrap", color: stage.muted, "&:hover": { color: stage.fg, backgroundColor: stage.tileHover } }}
             >
               {open ? copy.hide : copy.see}
             </Button>

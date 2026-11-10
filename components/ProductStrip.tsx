@@ -26,7 +26,8 @@ function Page({ color, sx, lines = 3, fill = "rgba(255, 255, 255, 0.07)" }: { co
   );
 }
 
-const tones = [stage.muted, stage.violet, stage.tangerine, stage.teal, stage.blue];
+/** Each tile's edge once lit, in the area colour code; Submit takes the signal. */
+const tones = [stage.muted, stage.violet, stage.blue, stage.teal, stage.signal];
 
 /**
  * The whole product in one line of five pictures, in the site's colour code. It lights
@@ -49,7 +50,7 @@ export default function ProductStrip() {
     <>
       <Page key="a" color={stage.muted} sx={{ transform: "translateX(-18px) rotate(-12deg)" }} />
       <Page key="b" color={stage.muted} sx={{ transform: "translateX(18px) rotate(11deg)" }} />
-      <Page key="c" color={stage.muted} sx={{ transform: "rotate(-2deg)" }} fill="#1a2440" />
+      <Page key="c" color={stage.muted} sx={{ transform: "rotate(-2deg)" }} fill="#1f1e22" />
     </>,
     // One career history: one page, on the two it replaced.
     <>
@@ -59,13 +60,13 @@ export default function ProductStrip() {
     </>,
     // A resume per role: a fan.
     <>
-      <Page key="a" color={stage.tangerine} sx={{ transformOrigin: "bottom center", transform: step >= 2 ? "translateX(-18px) rotate(-14deg)" : "none" }} />
-      <Page key="b" color={stage.tangerine} sx={{ transformOrigin: "bottom center", transform: step >= 2 ? "translateX(18px) rotate(14deg)" : "none" }} />
-      <Page key="c" color={stage.tangerine} fill="#3a2518" />
+      <Page key="a" color={stage.blue} sx={{ transformOrigin: "bottom center", transform: step >= 2 ? "translateX(-18px) rotate(-14deg)" : "none" }} />
+      <Page key="b" color={stage.blue} sx={{ transformOrigin: "bottom center", transform: step >= 2 ? "translateX(18px) rotate(14deg)" : "none" }} />
+      <Page key="c" color={stage.blue} fill="#1a2742" />
     </>,
     <ScoreRing key="r" value={score} size={64} stroke={6} color={stage.teal} track={stage.line} text={stage.fg} fontSize="0.9375rem" />,
     <Box key="s" sx={{ position: "relative" }}>
-      <Box sx={{ px: 1.75, py: 0.75, borderRadius: "9px", fontSize: "0.875rem", fontWeight: 600, color: "#fff", backgroundColor: stage.action }}>{hero.strip[4].art}</Box>
+      <Box sx={{ px: 1.75, py: 0.75, borderRadius: "9px", fontSize: "0.875rem", fontWeight: 600, color: stage.actionFg, backgroundColor: stage.action }}>{hero.strip[4].art}</Box>
       <Box sx={{ position: "absolute", right: -10, bottom: -14, opacity: step >= LAST ? 1 : 0, transform: step >= LAST ? "none" : "translate(26px, 22px)", transition: "opacity 300ms ease, transform 620ms cubic-bezier(0.2, 0.8, 0.2, 1)" }}>
         <CursorIcon sx={{ fontSize: 22, color: stage.fg, transform: "scaleX(-1)", display: "block" }} />
       </Box>

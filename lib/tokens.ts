@@ -11,33 +11,39 @@ export const c = {
   muted: "var(--c-muted)",
   border: "var(--c-border)",
   ring: "var(--c-ring)",
+  /** A neutral tint: icon tiles and step numbers. */
+  tint: "var(--c-tint)",
   blue: "var(--c-blue)",
   blueTint: "var(--c-blue-tint)",
   blueInk: "var(--c-blue-ink)",
+  /** The signal on light sections: a band (tint) with ink on it. Never text on light. */
+  signal: "var(--c-signal)",
+  signalTint: "var(--c-signal-tint)",
+  signalInk: "var(--c-signal-ink)",
   navy: "var(--c-navy)",
   shadowFrame: "var(--c-shadow-frame)",
   shadowHero: "var(--c-shadow-hero)",
   shadowFloat: "var(--c-shadow-float)",
 } as const;
 
-/** The three specialist colours from the hero GIF, plus app blue. */
-export type Accent = "violet" | "tangerine" | "teal" | "blue";
+/** The area colours. Tangerine stays defined but no area uses it now. */
+export type Accent = "violet" | "tangerine" | "teal" | "blue" | "marigold";
 
 /**
  * The colour code: each part of the product keeps one colour everywhere on the site
  * (the hero tiles, How it works, the feature cards, the chat), so a visitor learns it
  * once and reads the rest by colour. It follows the order a user meets them in.
- * Blue is also the action colour, because Apply is where the user acts.
+ * Apply is marigold, the site's one signal colour, because Apply is where the user acts.
  */
 export const area = {
   /** One career history: what you did. */
   history: "violet",
   /** Specialist resumes and their health: what you send. */
-  resumes: "tangerine",
+  resumes: "blue",
   /** The job, its Match score, its gaps and the diffs: matching. */
   tailor: "teal",
   /** The Companion and Submit: applying. */
-  apply: "blue",
+  apply: "marigold",
 } as const satisfies Record<string, Accent>;
 
 /** Status roles (the Privacy page). Same solid / tint / ink shape. */
@@ -69,13 +75,38 @@ export const stage = {
   violet: "var(--stage-violet)",
   tangerine: "var(--stage-tangerine)",
   teal: "var(--stage-teal)",
+  marigold: "var(--stage-marigold)",
+  /** The signal: highlighted headline words and thin edges. */
+  signal: "var(--stage-signal)",
   /** The primary action: filled buttons only, one per screen. */
   action: "var(--stage-action)",
   actionHover: "var(--stage-action-hover)",
+  /** Text and icons on the action fill. */
+  actionFg: "var(--stage-action-fg)",
   actionGlow: "var(--stage-action-glow)",
-  /** The desk itself: navy, lit from above. */
+  /** The desk itself: warm near-black, lit from above. */
   background: "radial-gradient(110% 80% at 50% -10%, var(--stage-glow) 0%, var(--stage-bg) 62%)",
 } as const;
+
+/**
+ * The top bar's height: 62px, and 70px from md up. The bar is sticky and transparent
+ * at the top, so each page's first stage section starts under it (see underBar).
+ */
+export const barHeight = { xs: 62, md: 70 } as const;
+
+/**
+ * For a page's first stage section: pull it up under the top bar so its light runs
+ * behind the bar, and add the bar's height to its top padding. `pt` is in spacing units.
+ */
+export function underBar(pt: { xs: number; md: number }) {
+  return {
+    mt: { xs: `-${barHeight.xs}px`, md: `-${barHeight.md}px` },
+    pt: { xs: `${barHeight.xs + pt.xs * 8}px`, md: `${barHeight.md + pt.md * 8}px` },
+  };
+}
+
+/** Inside a stage section, focus rings take the signal instead of ink. */
+export const stageScope = { "--c-ring": "var(--stage-signal)" } as const;
 
 /** The text face everywhere: Figtree, the owner's "Lavender Dusk" typeface. */
 export const sans = "var(--font-figtree), Figtree, system-ui, sans-serif";

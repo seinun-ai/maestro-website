@@ -10,6 +10,11 @@
  *
  * Rule: a specialist's solid colour is an edge, an outline or an icon. Text in
  * a specialist colour only ever sits on that specialist's own tint, as `-ink`.
+ *
+ * Marigold is the one signal colour, and it is rare on purpose: the highlighted
+ * phrase of a headline, the one filled button per screen, Submit, and the header
+ * button once scrolled. It is never text on a light background (it fails
+ * contrast there); on light sections it is a band with dark text on it.
  */
 :root {
   --c-bg: #f7f7f7;
@@ -18,7 +23,10 @@
   --c-fg: #0a0a0a;
   --c-muted: #656565;
   --c-border: #e5e5e5;
-  --c-ring: #4e77b8;
+  /* Focus rings: ink on light sections. Stage sections swap in the signal (stageScope). */
+  --c-ring: #0a0a0a;
+  /* A neutral tint: icon tiles and step numbers on light sections. */
+  --c-tint: #ebebeb;
 
   /* Command blocks: a terminal-dark surface so commands stand out from cards. */
   --c-code-bg: #0f172a;
@@ -26,13 +34,13 @@
   --c-code-fg: #e2e8f0;
   --c-code-muted: #94a3b8;
 
-  /* The stage: the dark desk every page opens on.
+  /* The stage: the dark desk every page opens on, warm near-black lit from above.
      The same in both schemes, so it is set here only. Text on it is --stage-fg or --stage-muted;
      the product sits on it as lit tiles. */
-  --stage-bg: #0b1122;
-  --stage-glow: #1d2f57;
-  --stage-fg: #eef2fb;
-  --stage-muted: #a6b1cd;
+  --stage-bg: #0c0c0f;
+  --stage-glow: #2e2612;
+  --stage-fg: #f6f3ec;
+  --stage-muted: #aaa69c;
   --stage-tile: rgba(255, 255, 255, 0.055);
   --stage-tile-hover: rgba(255, 255, 255, 0.09);
   --stage-line: rgba(255, 255, 255, 0.12);
@@ -42,13 +50,24 @@
   --stage-violet: #c3a6ff;
   --stage-tangerine: #ffb27a;
   --stage-teal: #5fd8d8;
+  --stage-marigold: #ffc94d;
+  /* The signal on the stage: highlighted headline words and thin edges (Submit's tile). */
+  --stage-signal: #ffc94d;
   /* The action colour on the stage: only the one primary button per screen is filled
-     with it, so the eye finds it first. White on it is 4.6:1. */
-  --stage-action: #2f6ee6;
-  --stage-action-hover: #3c7cf5;
-  --stage-action-glow: 0 0 0 1px rgba(141, 180, 255, 0.45), 0 10px 28px -6px rgba(47, 110, 230, 0.7);
+     with it, so the eye finds it first. Text and icons on it are --stage-action-fg,
+     near-black, about 11:1; white on marigold would fail. */
+  --stage-action: #ffb81f;
+  --stage-action-hover: #ffc640;
+  --stage-action-fg: #1a1300;
+  --stage-action-glow: 0 0 0 1px rgba(255, 201, 77, 0.45), 0 10px 28px -8px rgba(255, 184, 31, 0.55);
 
-  /* App blue: actions, links, and the one highlighted phrase per headline. */
+  /* The signal on light sections: a band (tint) behind a headline's key phrase, with
+     ink text on it. --c-signal is a fill only, never text on a light background. */
+  --c-signal: #ffb81f;
+  --c-signal-tint: #ffe08a;
+  --c-signal-ink: #17150f;
+
+  /* App blue: an area colour only (Resumes), never the action. */
   --c-blue: #1358bb;
   --c-blue-tint: #d1e3ff;
   --c-blue-ink: #053171;
@@ -62,6 +81,10 @@
   --c-teal: #0c9999;
   --c-teal-tint: #c9f5f4;
   --c-teal-ink: #015353;
+  /* Marigold as an area colour: Apply and Submit. The solid is an edge or an icon. */
+  --c-marigold: #c98a00;
+  --c-marigold-tint: #ffe9b0;
+  --c-marigold-ink: #4a3300;
 
   /* Status roles, from the app: the privacy trade-off and what the Companion skips. */
   --c-warning: #81520a;
@@ -75,7 +98,7 @@
 
   --c-navy: #0f172a;
   --c-shadow-frame: 0 1px 2px rgba(10, 10, 10, 0.06), 0 24px 60px -28px rgba(10, 10, 10, 0.28);
-  --c-shadow-hero: 0 2px 6px rgba(10, 10, 10, 0.06), 0 40px 96px -36px rgba(19, 88, 187, 0.45);
+  --c-shadow-hero: 0 2px 6px rgba(10, 10, 10, 0.06), 0 40px 96px -36px rgba(10, 10, 10, 0.4);
   --c-shadow-float: 0 1px 2px 0 rgba(0, 0, 0, 0.18), 0 2px 6px 2px rgba(0, 0, 0, 0.08);
 }
 
@@ -87,7 +110,8 @@
     --c-fg: #fafafa;
     --c-muted: #a8a8a8;
     --c-border: rgba(255, 255, 255, 0.1);
-    --c-ring: #86b2f7;
+    --c-ring: #fafafa;
+    --c-tint: #222222;
 
     --c-code-bg: #1e293b;
     --c-code-bar: #273449;
@@ -107,6 +131,13 @@
     --c-teal: #50bfbe;
     --c-teal-tint: #093b3b;
     --c-teal-ink: #c3efee;
+    --c-marigold: #ffc94d;
+    --c-marigold-tint: #3a2c08;
+    --c-marigold-ink: #ffe6a8;
+
+    --c-signal: #ffc94d;
+    --c-signal-tint: #3a2c08;
+    --c-signal-ink: #ffe6a8;
 
     --c-warning: #f5bb75;
     --c-warning-tint: #5b3a0c;
@@ -117,7 +148,7 @@
     --c-del: #ff9ea4;
 
     --c-shadow-frame: 0 1px 2px rgba(0, 0, 0, 0.5), 0 24px 60px -28px rgba(0, 0, 0, 0.8);
-    --c-shadow-hero: 0 2px 6px rgba(0, 0, 0, 0.5), 0 40px 96px -36px rgba(134, 178, 247, 0.35);
+    --c-shadow-hero: 0 2px 6px rgba(0, 0, 0, 0.5), 0 40px 96px -36px rgba(0, 0, 0, 0.8);
     --c-shadow-float: 0 1px 2px 0 rgba(0, 0, 0, 0.6), 0 2px 6px 2px rgba(0, 0, 0, 0.4);
   }
 }

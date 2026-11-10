@@ -1,10 +1,21 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { c } from "@/lib/tokens";
+import { c, stage } from "@/lib/tokens";
 
-/** The key phrase of a headline, in app blue (a lighter blue on the stage). */
-const keySx = { color: c.blue } as const;
-const keyOnDarkSx = { color: "var(--stage-blue)" } as const;
+/**
+ * The key phrase of a headline. On the stage it is the marigold signal as text; on a
+ * light section it is ink on a marigold band, because marigold text on light fails contrast.
+ */
+const keySx = {
+  color: c.signalInk,
+  backgroundColor: c.signalTint,
+  borderRadius: "0.12em",
+  px: "0.12em",
+  mx: "-0.04em",
+  boxDecorationBreak: "clone",
+  WebkitBoxDecorationBreak: "clone",
+} as const;
+const keyOnDarkSx = { color: stage.signal } as const;
 
 /**
  * Renders headline copy from content/site.ts. `[phrase]` becomes the

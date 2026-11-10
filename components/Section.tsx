@@ -6,11 +6,11 @@ import Typography from "@mui/material/Typography";
 import type { SxProps, Theme } from "@mui/material/styles";
 import Reveal from "./Reveal";
 import Highlight from "./Highlight";
-import { c, stage } from "@/lib/tokens";
+import { c, stage, stageScope } from "@/lib/tokens";
 
 export function Eyebrow({ children, onDark = false }: { children: React.ReactNode; onDark?: boolean }) {
   return (
-    <Typography variant="overline" component="p" sx={{ color: onDark ? "var(--stage-blue)" : c.blue, mb: 1.5, display: "block" }}>
+    <Typography variant="overline" component="p" sx={{ color: onDark ? stage.fg : c.fg, mb: 1.5, display: "block" }}>
       {children}
     </Typography>
   );
@@ -37,7 +37,7 @@ export default function Section({
   title?: string;
   lede?: React.ReactNode;
   align?: "left" | "center";
-  /** "stage" puts the section on the dark navy desk, for an ending. */
+  /** "stage" puts the section on the dark desk, for an ending. */
   tone?: "default" | "raised" | "stage";
   maxWidth?: number;
   children?: React.ReactNode;
@@ -53,7 +53,7 @@ export default function Section({
         {
           py: { xs: 7, md: 9 },
           ...(tone === "raised" ? { backgroundColor: c.card, borderBlock: `1px solid ${c.border}` } : null),
-          ...(onDark ? { background: stage.background, color: stage.fg } : null),
+          ...(onDark ? { background: stage.background, color: stage.fg, ...stageScope } : null),
         },
         ...(Array.isArray(sx) ? sx : [sx]),
       ]}

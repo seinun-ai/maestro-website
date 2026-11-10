@@ -19,10 +19,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import Logo from "./Logo";
 import GitHubMark from "./GitHubMark";
-import { c, stage } from "@/lib/tokens";
+import { barHeight, c, stage, stageScope } from "@/lib/tokens";
 import { headerCta, nav, site } from "@/content/site";
 
-// The header is part of the stage: navy, light text, one blue button.
+// The header is part of the stage: light text over the hero's own light at the top,
+// a frosted strip once scrolled. Its one button is quiet until then.
 const linkSx = {
   px: 1.5,
   fontWeight: 500,
@@ -53,14 +54,22 @@ export default function SiteHeader() {
         elevation={0}
         sx={{
           top: 0,
-          backgroundColor: stage.bg,
-          borderBottom: `1px solid ${raised ? stage.line : "transparent"}`,
-          boxShadow: raised ? "0 10px 30px -18px rgba(0, 0, 0, 0.6)" : "none",
+          // The theme gives every Paper a 1px border; here it would draw a light line under the
+          // bar and make it 2px taller than barHeight, leaving a strip of page above the hero.
+          border: 0,
+          ...stageScope,
+          // Transparent at the top: each page's first stage section runs up behind it
+          // (underBar in lib/tokens.ts). The hairline is an inset shadow, so the bar's
+          // height never changes.
+          backgroundColor: raised ? "rgba(12, 12, 15, 0.82)" : "transparent",
+          backdropFilter: raised ? "blur(16px)" : "none",
+          WebkitBackdropFilter: raised ? "blur(16px)" : "none",
+          boxShadow: raised ? `inset 0 -1px 0 ${stage.line}` : "none",
           transition: "background-color 200ms cubic-bezier(0.2, 0, 0, 1), box-shadow 200ms cubic-bezier(0.2, 0, 0, 1)",
         }}
       >
         <Container>
-          <Toolbar disableGutters sx={{ minHeight: { xs: 62, md: 70 }, gap: 2 }}>
+          <Toolbar disableGutters sx={{ minHeight: barHeight, gap: 2 }}>
             <Box component={NextLink} href="/" aria-label={`${site.name} home`} sx={{ textDecoration: "none", color: stage.fg }}>
               <Logo onDark />
             </Box>
@@ -96,11 +105,18 @@ export default function SiteHeader() {
               <Button
                 component={NextLink}
                 href={headerCta.href}
-                variant="contained"
+                variant="outlined"
                 size="small"
                 aria-current={isActive(headerCta.href) ? "page" : undefined}
-                // The action colour, the same on every page and in both schemes.
-                sx={{ backgroundColor: stage.action, color: "#fff", "&:hover": { backgroundColor: stage.actionHover } }}
+                // Quiet at the top, where the page's own button leads; filled with the
+                // action colour once the page scrolls. The same on every page and in both schemes.
+                sx={{
+                  border: "1px solid",
+                  transition: "background-color 200ms ease, border-color 200ms ease, color 200ms ease",
+                  ...(raised
+                    ? { backgroundColor: stage.action, borderColor: stage.action, color: stage.actionFg, "&:hover": { backgroundColor: stage.actionHover, borderColor: stage.actionHover } }
+                    : { backgroundColor: "transparent", borderColor: stage.line, color: stage.fg, "&:hover": { backgroundColor: stage.tileHover, borderColor: stage.line } }),
+                }}
               >
                 {headerCta.label}
               </Button>

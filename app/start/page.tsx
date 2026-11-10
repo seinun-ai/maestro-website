@@ -39,8 +39,8 @@ function StepNumber({ n }: { n: number }) {
         borderRadius: "50%",
         display: "grid",
         placeItems: "center",
-        color: c.blue,
-        backgroundColor: c.blueTint,
+        color: c.fg,
+        backgroundColor: c.tint,
         fontFamily: "var(--font-mono), monospace",
         fontWeight: 700,
         fontSize: "0.875rem",
@@ -63,7 +63,7 @@ export default function StartPage() {
       {/* The commands sit on the stage beside the headline: copy once, paste, done. */}
       <PageHero eyebrow={start.hero.eyebrow} title={start.hero.title} lede={start.hero.lede} aside={<CopyInstall align="left" defaultOpen />}>
         <Box>
-          <Button href={cta.video.href} target="_blank" rel="noopener noreferrer" startIcon={<PlayIcon />} sx={{ px: 0, color: stage.blue }}>
+          <Button href={cta.video.href} target="_blank" rel="noopener noreferrer" startIcon={<PlayIcon />} sx={{ px: 0, color: stage.muted, "&:hover": { color: stage.fg, backgroundColor: "transparent" } }}>
             {cta.video.label}
           </Button>
         </Box>
@@ -125,7 +125,7 @@ export default function StartPage() {
                   variant="outlined"
                   startIcon={<ChromeMark size={18} />}
                   endIcon={<ArrowOutwardIcon sx={{ fontSize: 17 }} />}
-                  sx={{ borderColor: c.border, color: c.fg, fontWeight: weight.label, "&:hover": { borderColor: c.blue, backgroundColor: c.blueTint } }}
+                  sx={{ borderColor: c.border, color: c.fg, fontWeight: weight.label, "&:hover": { borderColor: c.fg, backgroundColor: c.raised } }}
                 >
                   {start.companion.link.label}
                 </Button>
@@ -188,7 +188,8 @@ export default function StartPage() {
               target="_blank"
               rel="noopener noreferrer"
               variant="body2"
-              sx={{ color: c.blue, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: weight.label }}
+              underline="always"
+              sx={{ color: c.fg, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: weight.label, textUnderlineOffset: "0.2em" }}
             >
               {d.t}
               <ArrowOutwardIcon sx={{ fontSize: 15 }} />

@@ -3,7 +3,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 
-import { c } from "@/lib/tokens";
+import { accent, area, c } from "@/lib/tokens";
+
+/** The gathered chip is the career history, so it takes that area's colour. */
+const history = accent(area.history);
 
 /**
  * The premise's file chips, as one button: a click gathers the copies into a
@@ -44,7 +47,7 @@ export default function ChipCollapse({
           display: "block",
           position: "relative",
           borderRadius: "16px",
-          "&:focus-visible": { outline: `2px solid ${c.blue}`, outlineOffset: 6 },
+          "&:focus-visible": { outline: `2px solid ${c.ring}`, outlineOffset: 6 },
         }}
       >
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: { xs: 1, md: 1.5 } }}>
@@ -73,7 +76,7 @@ export default function ChipCollapse({
                   py: 0.5,
                   boxShadow: `3px 3px 0 ${c.border}`,
                   [motion]: { transition: "none" },
-                  "button:hover > div > &": { boxShadow: `3px 3px 0 ${c.blue}` },
+                  "button:hover > div > &": { boxShadow: `3px 3px 0 ${history.solid}` },
                 }}
               >
                 {chip.slice(0, dot)}
@@ -95,13 +98,13 @@ export default function ChipCollapse({
             alignItems: "baseline",
             gap: 1,
             fontWeight: 600,
-            color: c.blueInk,
-            backgroundColor: c.blueTint,
-            border: `1.5px solid ${c.blue}`,
+            color: history.ink,
+            backgroundColor: history.tint,
+            border: `1.5px solid ${history.solid}`,
             borderRadius: 999,
             px: 1.75,
             py: 0.6,
-            boxShadow: `3px 3px 0 ${c.blue}`,
+            boxShadow: `3px 3px 0 ${history.solid}`,
             opacity: gathered ? 1 : 0,
             transform: gathered ? "scale(1)" : "scale(0.6)",
             transformOrigin: "left center",

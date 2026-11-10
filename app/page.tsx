@@ -21,7 +21,7 @@ import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
 import StructuredData from "@/components/StructuredData";
 import { icons } from "@/components/icons";
-import { accent, c, display, weight } from "@/lib/tokens";
+import { accent, area, c, display, weight } from "@/lib/tokens";
 import {
   beliefs,
   capabilities,
@@ -32,14 +32,15 @@ import {
   useCases,
 } from "@/content/site";
 
-/** An external "read more" link, in the action colour. */
+/** An external "read more" link: ink, underlined. */
 function OutLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      sx={{ color: c.blue, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: weight.label }}
+      underline="always"
+      sx={{ color: c.fg, display: "inline-flex", alignItems: "center", gap: 0.5, fontWeight: weight.label, textUnderlineOffset: "0.2em" }}
     >
       {children}
       <ArrowOutwardIcon sx={{ fontSize: 17 }} />
@@ -114,7 +115,7 @@ export default function HomePage() {
                   <Stack direction="row" spacing={1.5} sx={{ alignItems: "flex-start" }}>
                     <Box
                       aria-hidden
-                      sx={{ flexShrink: 0, width: 40, height: 40, borderRadius: "12px", display: "grid", placeItems: "center", color: c.blueInk, backgroundColor: c.blueTint, "& svg": { fontSize: 21 } }}
+                      sx={{ flexShrink: 0, width: 40, height: 40, borderRadius: "12px", display: "grid", placeItems: "center", color: c.fg, backgroundColor: c.tint, "& svg": { fontSize: 21 } }}
                     >
                       {icons[b.icon]}
                     </Box>
@@ -140,7 +141,7 @@ export default function HomePage() {
           <Grid size={{ xs: 12, md: 5 }}>
             <Box component="ol" sx={{ listStyle: "none", m: 0, p: 0, position: "relative" }}>
               {/* The line that joins the stations. */}
-              <Box aria-hidden sx={{ position: "absolute", left: 23, top: 24, bottom: 24, width: 2, background: `linear-gradient(${accent("violet").solid}, ${accent("tangerine").solid}, ${accent("teal").solid}, ${accent("blue").solid})`, opacity: 0.5 }} />
+              <Box aria-hidden sx={{ position: "absolute", left: 23, top: 24, bottom: 24, width: 2, background: `linear-gradient(${howItWorks.steps.map((s) => accent(s.accent).solid).join(", ")})`, opacity: 0.5 }} />
               {howItWorks.steps.map((s, i) => {
                 const a = accent(s.accent);
                 return (
@@ -153,7 +154,7 @@ export default function HomePage() {
                         {icons[s.icon]}
                       </Box>
                       <Box sx={{ pt: 0.25 }}>
-                        <Typography component="p" sx={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.6875rem", letterSpacing: ".06em", textTransform: "uppercase", color: a.solid, fontWeight: 600 }}>
+                        <Typography component="p" sx={{ fontFamily: "var(--font-mono), monospace", fontSize: "0.6875rem", letterSpacing: ".06em", textTransform: "uppercase", color: a.ink, fontWeight: 600 }}>
                           {i + 1} · {s.label}
                         </Typography>
                         <Typography variant="h4" component="h3" sx={{ fontSize: "1.1875rem" }}>
@@ -171,7 +172,7 @@ export default function HomePage() {
           </Grid>
           <Grid size={{ xs: 12, md: 7 }} sx={{ minWidth: 0 }}>
             <Reveal delay={120}>
-              <ShotFrame src="/media/hero.mp4" alt={hero.mediaAlt} caption={hero.mediaCaption} />
+              <ShotFrame src="/media/hero.mp4" alt={hero.mediaAlt} caption={hero.mediaCaption} accent={area.history} />
             </Reveal>
           </Grid>
         </Grid>
@@ -203,7 +204,7 @@ export default function HomePage() {
                           rel="noopener noreferrer"
                           variant="outlined"
                           startIcon={<ChromeMark size={18} />}
-                          sx={{ borderColor: c.border, color: c.fg, "&:hover": { borderColor: c.blue, backgroundColor: c.blueTint } }}
+                          sx={{ borderColor: c.border, color: c.fg, "&:hover": { borderColor: c.fg, backgroundColor: c.raised } }}
                         >
                           {card.install.label}
                         </Button>

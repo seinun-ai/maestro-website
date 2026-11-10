@@ -9,7 +9,7 @@ import CursorIcon from "@mui/icons-material/NearMe";
 import { ChromeMark } from "./BrandMarks";
 import ScoreRing from "./ScoreRing";
 import { useRoll, useStepsOnView } from "./motion";
-import { accent, c, stage, type Accent } from "@/lib/tokens";
+import { accent, area, c, stage, type Accent } from "@/lib/tokens";
 import { studio, type FeatureArtKind } from "@/content/site";
 
 const show = (on: boolean, delay = 0) => ({
@@ -46,9 +46,9 @@ function Targets() {
   return (
     // Scaled on a 1024px screen, where the three-across card is narrower than the fan.
     <Box ref={ref} sx={{ position: "relative", width: "100%", height: 180, display: "grid", placeItems: "center", transform: { xs: "none", md: "scale(0.84)", lg: "none" } }}>
-      <ResumePage {...left} tone="tangerine" sx={{ transform: fan ? "translateX(-108px) rotate(-5deg)" : "none" }} />
-      <ResumePage {...right} tone="tangerine" sx={{ transform: fan ? "translateX(108px) rotate(5deg)" : "none" }} />
-      <ResumePage {...mid} tone="tangerine" sx={{ transform: fan ? "translateY(-6px)" : "none" }} />
+      <ResumePage {...left} tone={area.resumes} sx={{ transform: fan ? "translateX(-108px) rotate(-5deg)" : "none" }} />
+      <ResumePage {...right} tone={area.resumes} sx={{ transform: fan ? "translateX(108px) rotate(5deg)" : "none" }} />
+      <ResumePage {...mid} tone={area.resumes} sx={{ transform: fan ? "translateY(-6px)" : "none" }} />
     </Box>
   );
 }
@@ -65,7 +65,7 @@ function Asks() {
       <Box sx={{ ...panelSx, p: 1.5, flex: 1, minWidth: 0, borderRadius: "14px 14px 14px 4px" }}>
         <Box sx={{ fontSize: "0.875rem", fontWeight: 500, color: c.fg, lineHeight: 1.35 }}>{q}</Box>
         <Stack direction="row" spacing={0.75} sx={{ mt: 1, alignItems: "center" }}>
-          <Box sx={{ fontSize: "0.75rem", fontWeight: 600, px: 1, py: 0.375, borderRadius: "7px", whiteSpace: "nowrap", color: step >= 1 ? "#fff" : c.fg, backgroundColor: step >= 1 ? stage.action : "transparent", border: `1px solid ${step >= 1 ? stage.action : c.border}`, transition: "background-color 200ms ease" }}>{yes}</Box>
+          <Box sx={{ fontSize: "0.75rem", fontWeight: 600, px: 1, py: 0.375, borderRadius: "7px", whiteSpace: "nowrap", color: step >= 1 ? c.bg : c.fg, backgroundColor: step >= 1 ? c.fg : "transparent", border: `1px solid ${step >= 1 ? c.fg : c.border}`, transition: "background-color 200ms ease" }}>{yes}</Box>
           <Box sx={{ fontSize: "0.75rem", px: 1, py: 0.375, borderRadius: "7px", color: c.muted, border: `1px solid ${c.border}` }}>{no}</Box>
         </Stack>
         <Box sx={{ mt: 0.75, fontSize: "0.75rem", fontWeight: 500, color: accent("success").ink, ...show(step >= 2) }}>{saved}</Box>
@@ -100,13 +100,13 @@ function Diff() {
 
 /** A line of text on a drawn page; `strong` is the name at the top. */
 function Line({ w, strong = false }: { w: number; strong?: boolean }) {
-  return <Box sx={{ height: 4, borderRadius: 2, width: `${w}%`, backgroundColor: strong ? accent("tangerine").solid : c.border }} />;
+  return <Box sx={{ height: 4, borderRadius: 2, width: `${w}%`, backgroundColor: strong ? accent(area.resumes).solid : c.border }} />;
 }
 
 /** The same facts on two layouts. A button changes which one you get. */
 function Templates() {
   const { ref, step } = useStepsOnView(1, 900);
-  const a = accent("tangerine");
+  const a = accent(area.resumes);
   const pageSx = (on: boolean) => ({ ...panelSx, width: 118, height: 146, p: 1.25, display: "flex", gap: 0.75, opacity: on ? 1 : 0.5, outline: on ? `2px solid ${a.solid}` : "none", outlineOffset: 2, transition: "opacity 300ms ease" });
   return (
     <Stack ref={ref} spacing={1.25} sx={{ alignItems: "center" }}>
@@ -141,13 +141,13 @@ function Templates() {
 function Companion() {
   const { fields, submit, note, label } = studio.companion;
   const { ref, step } = useStepsOnView(fields.length + 1, 480);
-  const blue = accent("blue");
+  const apply = accent(area.apply);
   const done = step > fields.length;
   return (
     <Box ref={ref} sx={{ ...panelSx, width: "100%", maxWidth: 400, overflow: "hidden" }}>
       <Stack direction="row" spacing={0.875} sx={{ alignItems: "center", px: 1.5, py: 0.875, borderBottom: `1px solid ${c.border}` }}>
         <ChromeMark size={16} />
-        <Box sx={{ fontSize: "0.75rem", fontWeight: 600, color: blue.ink }}>{label}</Box>
+        <Box sx={{ fontSize: "0.75rem", fontWeight: 600, color: apply.ink }}>{label}</Box>
       </Stack>
       <Box sx={{ p: 1.5 }}>
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0.75 }}>
@@ -163,7 +163,7 @@ function Companion() {
         </Box>
         <Stack direction="row" spacing={2.5} sx={{ mt: 1.5, alignItems: "center" }}>
           <Box sx={{ position: "relative", flexShrink: 0 }}>
-            <Box sx={{ fontSize: "0.8125rem", fontWeight: 600, px: 1.5, py: 0.625, borderRadius: "8px", whiteSpace: "nowrap", color: "#fff", backgroundColor: stage.action }}>{submit}</Box>
+            <Box sx={{ fontSize: "0.8125rem", fontWeight: 600, px: 1.5, py: 0.625, borderRadius: "8px", whiteSpace: "nowrap", color: stage.actionFg, backgroundColor: stage.action }}>{submit}</Box>
             <Box aria-hidden sx={{ position: "absolute", right: -10, bottom: -12, ...show(done) }}>
               <CursorIcon sx={{ fontSize: 20, color: c.fg, transform: "scaleX(-1)", display: "block" }} />
             </Box>

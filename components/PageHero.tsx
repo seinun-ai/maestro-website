@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Reveal from "./Reveal";
 import Highlight from "./Highlight";
 import { Eyebrow } from "./Section";
-import { stage } from "@/lib/tokens";
+import { stage, stageScope, underBar } from "@/lib/tokens";
 
 /**
  * The opening band of an inner page, on the stage (the dark desk every page opens on).
@@ -47,7 +47,8 @@ export default function PageHero({
     </Stack>
   );
   return (
-    <Box component="section" sx={{ pt: { xs: 5, md: 6 }, pb: { xs: 6, md: 8 }, background: stage.background, color: stage.fg }}>
+    // It starts under the transparent top bar, so its light runs up behind the bar.
+    <Box component="section" sx={{ ...underBar({ xs: 5, md: 6 }), pb: { xs: 6, md: 8 }, background: stage.background, color: stage.fg, ...stageScope }}>
       <Container>
         {aside ? (
           <Grid container spacing={{ xs: 4, md: 6 }} sx={{ alignItems: "flex-start" }}>

@@ -8,7 +8,7 @@ import PlayIcon from "@mui/icons-material/PlayCircleOutlined";
 import Highlight from "./Highlight";
 import CopyInstall from "./CopyInstall";
 import WorksWith from "./WorksWith";
-import { stage } from "@/lib/tokens";
+import { stage, stageScope } from "@/lib/tokens";
 import { cta } from "@/content/site";
 
 /**
@@ -17,7 +17,7 @@ import { cta } from "@/content/site";
  */
 export default function CtaBand() {
   return (
-    <Box component="section" sx={{ background: stage.background, color: stage.fg, py: { xs: 7, md: 9 } }}>
+    <Box component="section" sx={{ background: stage.background, color: stage.fg, ...stageScope, py: { xs: 7, md: 9 } }}>
       <Container>
         <Stack sx={{ alignItems: "center", textAlign: "center" }}>
           <Typography component="p" variant="body1" sx={{ color: stage.muted, mb: 1.5 }}>

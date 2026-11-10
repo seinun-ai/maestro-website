@@ -8,9 +8,11 @@ import { c, display, sans, weight } from "./tokens";
  * theme (dark). With both schemes present MUI emits them as CSS variables
  * behind `prefers-color-scheme`, so there is no toggle and no flash. Colours
  * the site uses directly (accents, tints) live in app/globals.css instead.
+ * Primary is ink, not blue: blue is an area colour now, and the one action colour
+ * is the marigold on the stage (globals.css), so MUI's own buttons stay neutral.
  */
 const light = {
-  primary: { main: "#1358BB", contrastText: "#FAFAFA" },
+  primary: { main: "#0A0A0A", contrastText: "#FAFAFA" },
   secondary: { main: "#DEE7F5", contrastText: "#25364F" },
   warning: { main: "#81520A" },
   success: { main: "#0C6F4D" },
@@ -21,7 +23,7 @@ const light = {
 };
 
 const dark = {
-  primary: { main: "#86B2F7", contrastText: "#08172E" },
+  primary: { main: "#FAFAFA", contrastText: "#0A0A0A" },
   secondary: { main: "#2A3A52", contrastText: "#E3EAF5" },
   warning: { main: "#F3C27A" },
   success: { main: "#7FD6B0" },

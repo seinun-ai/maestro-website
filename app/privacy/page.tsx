@@ -52,7 +52,7 @@ export default function PrivacyPage() {
             {privacy.facts.map((f, i) => (
               <Box component="li" key={f.title} sx={{ borderRadius: "16px", border: `1px solid ${stage.line}`, backgroundColor: stage.tile, p: 2.25, minWidth: 0 }}>
                 <Stack direction="row" spacing={1.25} sx={{ alignItems: "center", mb: 1 }}>
-                  <Box sx={{ width: 32, height: 32, borderRadius: "10px", display: "grid", placeItems: "center", color: stage.blue, backgroundColor: stage.tileHover, flexShrink: 0, "& svg": { fontSize: 18 } }}>
+                  <Box sx={{ width: 32, height: 32, borderRadius: "10px", display: "grid", placeItems: "center", color: stage.fg, backgroundColor: stage.tileHover, flexShrink: 0, "& svg": { fontSize: 18 } }}>
                     {factIcons[i]}
                   </Box>
                   <Typography variant="h4" component="h2" sx={{ color: stage.fg, fontSize: "1.0625rem" }}>
