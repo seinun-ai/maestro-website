@@ -57,7 +57,7 @@ export const site = {
     "Maestro tailors your resume to each job from your whole career history in under a minute. Every bullet is something you actually did. Free, open source, and it runs on your computer.",
   repo,
   // The release the copy was checked against. Bump it with the copy, not alone.
-  version: "0.13.0",
+  version: "0.14.0",
   privacyPolicy: `${blob}/PRIVACY.md`,
   security: `${blob}/SECURITY.md`,
   video: "https://www.youtube.com/watch?v=TvNTzPxPNnc",
@@ -426,7 +426,7 @@ maestro start`,
     steps: [
       {
         t: "Add your AI.",
-        b: "Setup opens first and suggests an OpenAI key, at about $0.01 per application. Paste it and press Test. Already pay for Claude or ChatGPT? Skip it and connect that app below.",
+        b: "Setup opens first and suggests an OpenAI key, at about $0.01 per application. Paste it and press Save and continue. Already pay for Claude or ChatGPT? Skip it and connect that app below.",
       },
       {
         t: "Drop in your resumes.",
